@@ -2056,6 +2056,34 @@ input[type="checkbox"] {
 
   .brand-logo {
     height: 24px;
+    max-width: min(220px, 100%);
+  }
+
+  .masthead-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.4rem;
+  }
+
+  .masthead-tools {
+    width: 100%;
+    align-items: stretch;
+    padding-top: 0;
+    gap: 0.4rem;
+  }
+
+  .draw-clock.compact {
+    text-align: left;
+  }
+
+  .masthead-tools .segment {
+    width: 100%;
+  }
+
+  .masthead-tools .segment button {
+    flex: 1;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 
   .map-layout {
@@ -2074,6 +2102,38 @@ input[type="checkbox"] {
 
   .masthead {
     padding-bottom: 0.4rem;
+  }
+
+  .masthead-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.4rem;
+  }
+
+  .brand-logo {
+    height: 24px;
+    max-width: min(220px, 100%);
+  }
+
+  .masthead-tools {
+    width: 100%;
+    align-items: stretch;
+    padding-top: 0;
+    gap: 0.4rem;
+  }
+
+  .draw-clock.compact {
+    text-align: left;
+  }
+
+  .masthead-tools .segment {
+    width: 100%;
+  }
+
+  .masthead-tools .segment button {
+    flex: 1;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 
   .tabs {
@@ -2282,11 +2342,11 @@ input[type="checkbox"] {
   }
 
   .masthead-tools {
-    align-items: flex-end;
+    align-items: stretch;
   }
 
   .masthead-tools .segment {
-    width: auto;
+    width: 100%;
   }
 
   .map-toolbar {
