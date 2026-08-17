@@ -410,6 +410,16 @@ label {
   line-height: 1.4;
 }
 
+.why-lab {
+  margin: 0.85rem 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.why-lab a {
+  color: var(--green);
+}
+
 .benefit {
   display: flex;
   gap: 0.7rem;
@@ -936,6 +946,10 @@ button.primary:disabled {
   margin: 0.25rem 0 0;
   color: var(--muted);
   font-size: 0.88rem;
+}
+
+.gen-tag a {
+  color: var(--green);
 }
 
 .gen-go {
@@ -2023,6 +2037,10 @@ input[type="checkbox"] {
 .faq details p {
   margin: 0.45rem 0 0;
   color: var(--muted);
+}
+
+.faq details a {
+  color: var(--green);
 }
 
 @media (max-width: 800px) {

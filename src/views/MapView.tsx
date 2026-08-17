@@ -148,7 +148,7 @@ export function MapView({ game }: Props) {
           <strong>
             {latest
               ? `${latest.state} · ${formatDrawDate(latest.date)}`
-              : "—"}
+              : "None"}
           </strong>
         </article>
       </div>

@@ -1,5 +1,6 @@
 import { pad2 } from "../lib/picks";
 import { GAMES } from "../lib/prizes";
+import { barcodeWidths, playCode } from "../lib/slipImage";
 import type { GameId, Ticket } from "../types";
 
 type Props = {
@@ -8,25 +9,6 @@ type Props = {
   waiting?: boolean;
   drawLabel?: string | null;
 };
-
-function playCode(i: number): string {
-  if (i < 26) return String.fromCharCode(65 + i);
-  return String(i + 1);
-}
-
-function bars(seed: string): number[] {
-  let h = 2166136261;
-  for (let i = 0; i < seed.length; i++) {
-    h ^= seed.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return Array.from({ length: 48 }, (_, i) => {
-    h ^= h << 13;
-    h ^= h >>> 17;
-    h ^= h << 5;
-    return 1 + (Math.abs(h + i * 97) % 4);
-  });
-}
 
 function PowerballMark() {
   return (
@@ -97,7 +79,7 @@ export function LotteryTicket({
       </p>
 
       <div className="lotto-bar" aria-hidden="true">
-        {bars(seed).map((w, i) => (
+        {barcodeWidths(seed).map((w, i) => (
           <i key={i} style={{ width: `${w}px` }} />
         ))}
         <span>SAMPLE</span>

@@ -98,7 +98,7 @@ export function playAdvice(netEv: number): {
   }
   return {
     tone: "rare",
-    text: "Non-negative under these assumptions — and still a terrible way to invest. You almost always lose the stake. The model is a sketch, not a priced contract.",
+    text: "Non-negative under these assumptions, and still a terrible way to invest. You almost always lose the stake. The model is a sketch, not a priced contract.",
   };
 }
 

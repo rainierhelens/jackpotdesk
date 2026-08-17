@@ -10,7 +10,7 @@ const POINTS: Point[] = [
   },
   {
     label: "Fade the public",
-    text: "Birthdays, 1-2-3-4-5, and this window’s hot numbers hit just as often — then get shared. Uncrowded random tickets do not win more. They split less.",
+    text: "Birthdays, 1-2-3-4-5, and this window’s hot numbers hit just as often, then get shared. Uncrowded random tickets do not win more. They split less.",
   },
   {
     label: "Run the board",
@@ -34,6 +34,10 @@ export function WhyMethod() {
           </article>
         ))}
       </div>
+      <p className="why-lab">
+        <a href="/lottery-lab.html">Lottery Lab:</a> models cannot beat Quick
+        Pick. We fade crowded tickets instead.
+      </p>
     </section>
   );
 }

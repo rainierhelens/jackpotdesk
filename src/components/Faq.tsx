@@ -5,6 +5,18 @@ export function Faq() {
       a: "No. Every legal Powerball or Mega Millions combination has the same hit odds. This tool does not predict numbers.",
     },
     {
+      q: "Can ChatGPT or an AI model pick winning lottery numbers?",
+      a: (
+        <>
+          No. Language models predict the next word. Mixer balls do not follow a
+          prompt. Hit odds stay the published odds.{" "}
+          <a href="/lottery-lab.html">Lottery Lab</a> is the short version: we
+          asked the model; it cannot beat Quick Pick; here is an uncrowded slip
+          instead.
+        </>
+      ),
+    },
+    {
       q: "Then what is the benefit?",
       a: "Two things. First, it prices the drawing using cash value, tax, and split risk so you can skip a bad ticket. Second, it mints random tickets that avoid birthdays, sequences, last night’s whites, recent winners, hot/cold numbers, and repeats on the same slip so a jackpot is less likely to be shared.",
     },
@@ -26,7 +38,7 @@ export function Faq() {
     },
     {
       q: "Is the map a live feed of every lottery winner?",
-      a: "No. There is no public national feed of $4 prizes or exact stores. The map is jackpot tickets only — Powerball and Mega Millions — by the state where the ticket was sold, from public winner reports. It updates when this site does, not second-by-second.",
+      a: "No. There is no public national feed of $4 prizes or exact stores. The map is jackpot tickets only (Powerball and Mega Millions) by the state where the ticket was sold, from public winner reports. It updates when this site does, not second-by-second.",
     },
   ];
 

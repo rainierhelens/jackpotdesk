@@ -10,6 +10,7 @@ import { usePrefersReducedMotion } from "../lib/motion";
 import { DEFAULT_FILTERS, formatTicket, generateTickets } from "../lib/picks";
 import { GAMES } from "../lib/prizes";
 import { playPackOpen } from "../lib/sfx";
+import { saveSlipImage } from "../lib/slipImage";
 import type { Filters, GameId, Ticket } from "../types";
 import {
   FORMAT_START,
@@ -62,6 +63,7 @@ export function TicketsView({
   const [deal, setDeal] = useState(0);
   const [burst, setBurst] = useState(0);
   const [minting, setMinting] = useState(false);
+  const [saving, setSaving] = useState(false);
   const mintTimer = useRef<number>(0);
   const reducedMotion = usePrefersReducedMotion();
 
@@ -118,6 +120,22 @@ export function TicketsView({
     void navigator.clipboard.writeText(text);
   }
 
+  async function saveImage() {
+    if (saving || tickets.length === 0) return;
+    setSaving(true);
+    try {
+      await saveSlipImage({
+        game,
+        tickets,
+        drawLabel: ticketDrawLabel(nextDrawDate),
+      });
+    } catch {
+      // Share cancel is handled inside saveSlipImage.
+    } finally {
+      setSaving(false);
+    }
+  }
+
   return (
     <section className={`panel gen-panel is-${game}`}>
       <header className="gen-bar">
@@ -148,7 +166,8 @@ export function TicketsView({
       </header>
       <p className="gen-tag">
         Same hit odds as Quick Pick. Unique boards if you win. {spec.ticketCost}{" "}
-        a play.
+        a play.{" "}
+        <a href="/lottery-lab.html">AI cannot beat Quick Pick</a>.
       </p>
 
       <div className="gen-layout">
@@ -189,6 +208,14 @@ export function TicketsView({
                 </button>
                 <button type="button" onClick={() => window.print()}>
                   Print playslip
+                </button>
+                <button
+                  type="button"
+                  onClick={() => void saveImage()}
+                  disabled={saving}
+                  title="On iPhone, choose Save Image to add it to Photos"
+                >
+                  {saving ? "Saving…" : "Save image"}
                 </button>
                 <button
                   type="button"
@@ -236,7 +263,7 @@ export function TicketsView({
                       <Ball key={`last-${n}`} value={n} />
                     ))
                   ) : (
-                    <span className="fine">—</span>
+                    <span className="fine">None yet</span>
                   )}
                 </div>
               </article>
@@ -270,7 +297,7 @@ export function TicketsView({
                       </span>
                     </>
                   ) : (
-                    <span className="fine">—</span>
+                    <span className="fine">None</span>
                   )}
                 </div>
               </article>

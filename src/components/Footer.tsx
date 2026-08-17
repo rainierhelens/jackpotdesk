@@ -2,6 +2,7 @@ const TOOLS = [
   { href: "/expected-value.html", label: "Expected value" },
   { href: "/unique-tickets.html", label: "Unique tickets" },
   { href: "/office-pool.html", label: "Office pool" },
+  { href: "/lottery-lab.html", label: "Lottery Lab" },
 ] as const;
 
 const LINKS = [

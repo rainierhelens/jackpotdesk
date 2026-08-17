@@ -6,6 +6,7 @@ import { avoidWhites, frequencyStats } from "../lib/frequency";
 import { DEFAULT_FILTERS, formatTicket } from "../lib/picks";
 import { GAMES } from "../lib/prizes";
 import { scorePool } from "../lib/settle";
+import { saveSlipImage } from "../lib/slipImage";
 import {
   downloadPoolJson,
   parsePoolJson,
@@ -58,6 +59,7 @@ export function PoolView({
   const [win, setWin] = useState("");
   const [mintNote, setMintNote] = useState("");
   const [shareNote, setShareNote] = useState("");
+  const [saving, setSaving] = useState(false);
 
   const totals = useMemo(() => {
     const shares = pool.members.reduce((s, m) => s + Math.max(0, m.shares), 0);
@@ -111,6 +113,22 @@ export function PoolView({
     setShareNote("Link copied. Anyone who opens it loads this board in their browser.");
   }
 
+  async function saveImage() {
+    if (saving || pool.tickets.length === 0) return;
+    setSaving(true);
+    try {
+      await saveSlipImage({
+        game: pool.game,
+        tickets: pool.tickets,
+        drawLabel: pool.name || "POOL SLIP",
+      });
+    } catch {
+      // Share cancel is handled inside saveSlipImage.
+    } finally {
+      setSaving(false);
+    }
+  }
+
   function onImportFile(file: File | undefined) {
     if (!file) return;
     const reader = new FileReader();
@@ -155,7 +173,7 @@ export function PoolView({
           <p>
             More tickets as a group, unique numbers so you do not overlap, and a
             split rule written down before anyone plays. Odds per dollar do not
-            improve — fights after a hit do.
+            improve. Fights after a hit do.
           </p>
         </div>
       </div>
@@ -262,7 +280,7 @@ export function PoolView({
                   />
                 </td>
                 <td className="num" data-label="Owes">
-                  {m.paid ? "—" : moneyExact.format(owes)}
+                  {m.paid ? moneyExact.format(0) : moneyExact.format(owes)}
                 </td>
                 <td>
                   <button type="button" onClick={() => removeMember(m.id)}>
@@ -294,9 +312,19 @@ export function PoolView({
           Unique tickets into pool
         </button>
         {pool.tickets.length > 0 ? (
-          <button type="button" onClick={() => window.print()}>
-            Print playslip
-          </button>
+          <>
+            <button type="button" onClick={() => window.print()}>
+              Print playslip
+            </button>
+            <button
+              type="button"
+              onClick={() => void saveImage()}
+              disabled={saving}
+              title="On iPhone, choose Save Image to add it to Photos"
+            >
+              {saving ? "Saving…" : "Save image"}
+            </button>
+          </>
         ) : null}
       </div>
       {mintNote ? <p className="fine">{mintNote}</p> : null}
@@ -349,7 +377,7 @@ export function PoolView({
       {scored.length > 0 ? (
         <p className="fine">
           Pool prize from the last draw: {money.format(settledTotal)}
-          {settledTotal === 0 ? " — no winning tiers." : "."}
+          {settledTotal === 0 ? ". No winning tiers." : "."}
         </p>
       ) : null}
 

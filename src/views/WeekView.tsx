@@ -88,7 +88,7 @@ export function WeekView(props: Props) {
           <p>
             Know the real price of the {cost} before you buy. Unique tickets
             have a slightly better expected payout than birthday tickets because
-            they split less — hit chance stays the same.
+            they split less. Hit chance stays the same.
           </p>
         </div>
       </div>
@@ -211,7 +211,7 @@ export function WeekView(props: Props) {
             ? "Sit it out"
             : advice.tone === "entertain"
               ? "Entertainment only"
-              : "Rare — still not an investment"}
+              : "Rare, and still not an investment"}
         </strong>
         <p>{advice.text}</p>
         <p className="fine">
