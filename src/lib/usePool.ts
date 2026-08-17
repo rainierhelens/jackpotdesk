@@ -2,7 +2,7 @@ import type { Filters, GameId, Pool, Ticket } from "../types";
 import { comboKey, generateTickets } from "./picks";
 import { GAMES } from "./prizes";
 import { emptyPool, loadPool, savePool } from "./storage";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export function usePool() {
   const [pool, setPool] = useState<Pool>(() => loadPool() ?? emptyPool("powerball"));
@@ -72,6 +72,10 @@ export function usePool() {
     setPool(emptyPool(pool.game));
   }
 
+  const replacePool = useCallback((next: Pool) => {
+    setPool(next);
+  }, []);
+
   return {
     pool,
     setGame,
@@ -82,6 +86,7 @@ export function usePool() {
     addTickets,
     removeTicket,
     mintTickets,
+    replacePool,
     reset,
   };
 }

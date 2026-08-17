@@ -6,7 +6,7 @@ type Point = {
 const POINTS: Point[] = [
   {
     label: "Shop the line",
-    text: "Price the cash jackpot, tax, and split risk before you buy. Most weeks the $2 is a bad bet. This tab says so.",
+    text: "Price the cash jackpot, tax, and split risk before you buy. Most weeks the ticket is a bad bet. This tab says so.",
   },
   {
     label: "Fade the public",
@@ -21,7 +21,6 @@ const POINTS: Point[] = [
 export function WhyMethod() {
   return (
     <section className="why" aria-label="Why this method">
-      <p className="why-kicker">Why use this</p>
       <p className="why-lead">
         Same hit chance as Quick Pick. The edge is not predicting numbers. It is
         skipping crowded tickets and skipping drawings that are not worth the

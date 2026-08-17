@@ -14,10 +14,10 @@ export const GAMES: Record<GameId, GameSpec> = {
     id: "megamillions",
     label: "Mega Millions",
     whiteMax: 70,
-    extraMax: 25,
+    extraMax: 24,
     extraLabel: "Mega Ball",
-    ticketCost: 2,
-    jackpotOdds: 302_575_350,
+    ticketCost: 5,
+    jackpotOdds: 290_472_336,
   },
 };
 
@@ -35,15 +35,15 @@ export const PRIZE_TABLE: Record<GameId, PrizeTier[]> = {
     { label: "Powerball only", odds: 38.32, prize: 4, isJackpot: false },
   ],
   megamillions: [
-    { label: "5 + Mega Ball", odds: 302_575_350, prize: 0, isJackpot: true },
-    { label: "5", odds: 12_607_306, prize: 1_000_000, isJackpot: false },
-    { label: "4 + Mega Ball", odds: 931_001, prize: 10_000, isJackpot: false },
-    { label: "4", odds: 38_792, prize: 500, isJackpot: false },
-    { label: "3 + Mega Ball", odds: 14_547, prize: 200, isJackpot: false },
-    { label: "3", odds: 606, prize: 10, isJackpot: false },
-    { label: "2 + Mega Ball", odds: 693, prize: 10, isJackpot: false },
-    { label: "1 + Mega Ball", odds: 89, prize: 4, isJackpot: false },
-    { label: "Mega Ball only", odds: 37, prize: 2, isJackpot: false },
+    { label: "5 + Mega Ball", odds: 290_472_336, prize: 0, isJackpot: true },
+    { label: "5", odds: 12_629_232, prize: 1_000_000, isJackpot: false },
+    { label: "4 + Mega Ball", odds: 893_761, prize: 10_000, isJackpot: false },
+    { label: "4", odds: 38_859, prize: 500, isJackpot: false },
+    { label: "3 + Mega Ball", odds: 13_965, prize: 200, isJackpot: false },
+    { label: "3", odds: 607, prize: 10, isJackpot: false },
+    { label: "2 + Mega Ball", odds: 665, prize: 10, isJackpot: false },
+    { label: "1 + Mega Ball", odds: 86, prize: 4, isJackpot: false },
+    { label: "Mega Ball only", odds: 35, prize: 2, isJackpot: false },
   ],
 };
 

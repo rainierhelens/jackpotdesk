@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Accessibility | JackpotDesk</title>
+    <meta
+      name="description"
+      content="JackpotDesk accessibility: keyboard use, mobile layout, contrast, and how to report barriers."
+    />
+    <link rel="canonical" href="https://jackpotdesk.com/accessibility.html" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700&display=swap" />
+    <link rel="stylesheet" href="/legal.css" />
+  </head>
+  <body>
+    <main class="legal">
+      <a class="legal-brand" href="/"><img src="/logo.png" alt="JackpotDesk" width="220" height="31" /></a>
+      <nav class="legal-nav" aria-label="Site">
+        <a href="/about.html">About</a>
+        <a href="/how-to-play.html">How to play</a>
+        <a href="/refer.html">Refer a friend</a>
+        <a href="/responsible.html">Responsible gaming</a>
+        <a href="/accessibility.html" aria-current="page">Accessibility</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/privacy.html">Privacy</a>
+      </nav>
+      <p class="kicker">Access</p>
+      <h1>Accessibility</h1>
+      <p>
+        JackpotDesk should be usable with a keyboard, a phone, and assistive
+        technology. We have not claimed a full WCAG audit. If something blocks
+        you, we want the specific page and what you were trying to do.
+      </p>
+      <h2>What is in place</h2>
+      <ul>
+        <li>Semantic headings, labels on form fields, and a named primary nav.</li>
+        <li>FAQ uses native details/summary controls.</li>
+        <li>Map state tiles are keyboard-focusable buttons with text names.</li>
+        <li>Color is not the only signal on expected value (plus/minus amounts are labeled in text).</li>
+        <li>On a phone, primary tabs sit in a bottom bar with larger tap targets.</li>
+        <li>Form fields use 16px type so iOS does not zoom the page on focus.</li>
+      </ul>
+      <h2>Known limits</h2>
+      <p>
+        The US cartogram is an SVG of abbreviations. A screen reader gets each
+        state’s name and value, but the spatial layout is visual. Pool member
+        rows on a wide screen are a table; on a phone they stack as cards.
+      </p>
+      <h2>Report a barrier</h2>
+      <p>
+        Open an issue on the project’s GitHub repository and describe the page,
+        the device or assistive tech, and what failed. Legal pages on this site
+        are static HTML so they remain readable with JavaScript off.
+      </p>
+    </main>
+  </body>
+</html>

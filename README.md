@@ -38,28 +38,3 @@ At your registrar, point the domain at GitHub Pages:
 | CNAME | www | `<your-github-username>.github.io` |
 
 In the GitHub repo: **Settings → Pages → Custom domain** `jackpotdesk.com`, then enable **Enforce HTTPS** after DNS propagates (can take up to 24 hours).
-
-## Ads (AdSense)
-
-Slots are already on the page (top, mid, footer) and labeled Advertisement.
-
-1. Publish the site and add [privacy.html](https://jackpotdesk.com/privacy.html).
-2. Apply at [Google AdSense](https://www.google.com/adsense/).
-3. After approval, put your publisher ID and ad unit IDs in `src/config.ts`:
-
-```ts
-export const ADSENSE_CLIENT = "ca-pub-XXXXXXXXXXXXXXXX";
-export const ADSENSE_SLOTS = {
-  top: "1234567890",
-  mid: "1234567890",
-  footer: "1234567890",
-};
-```
-
-4. Uncomment and edit `public/ads.txt`:
-
-```
-google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
-```
-
-5. Commit and push. AdSense also needs the site to stay honest: do not claim the tool predicts winning numbers.

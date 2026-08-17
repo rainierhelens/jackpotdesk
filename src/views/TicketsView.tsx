@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Ball } from "../components/Ball";
 import { Playslip } from "../components/Playslip";
+import { PrintSlip } from "../components/PrintSlip";
 import { DEFAULT_FILTERS, formatTicket, generateTickets } from "../lib/picks";
 import { GAMES } from "../lib/prizes";
 import type { Filters, GameId, Ticket } from "../types";
@@ -54,7 +55,7 @@ export function TicketsView({
         <div>
           <p className="kicker">
             Unique tickets · {spec.label} · 5 from 1–{spec.whiteMax} +{" "}
-            {spec.extraLabel} 1–{spec.extraMax}
+            {spec.extraLabel} 1–{spec.extraMax} · {spec.ticketCost} a play
           </p>
           <h2>Build the slip</h2>
         </div>
@@ -160,7 +161,12 @@ export function TicketsView({
                   <Ball value={ticket.extra} extra />
                 </div>
                 {i === 0 ? (
-                  <Playslip whites={ticket.whites} whiteMax={spec.whiteMax} />
+                  <Playslip
+                    whites={ticket.whites}
+                    whiteMax={spec.whiteMax}
+                    extra={ticket.extra}
+                    extraMax={spec.extraMax}
+                  />
                 ) : null}
               </li>
             ))}
@@ -168,6 +174,9 @@ export function TicketsView({
           <div className="actions">
             <button type="button" onClick={copyAll}>
               Copy numbers
+            </button>
+            <button type="button" onClick={() => window.print()}>
+              Print playslip
             </button>
             <button
               type="button"
@@ -177,6 +186,7 @@ export function TicketsView({
               Add to pool
             </button>
           </div>
+          <PrintSlip game={game} tickets={tickets} title="Counter slip" />
         </>
       ) : null}
     </section>

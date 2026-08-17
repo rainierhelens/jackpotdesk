@@ -2,63 +2,70 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Privacy Policy | JackpotDesk</title>
-    <meta name="description" content="Privacy policy for JackpotDesk, a free lottery EV, unique-ticket, and pool tool." />
+    <meta
+      name="description"
+      content="Privacy policy for JackpotDesk. No account. Pool data stays in your browser. Last-draw and jackpot figures load from public lottery feeds."
+    />
     <link rel="canonical" href="https://jackpotdesk.com/privacy.html" />
-    <style>
-      body {
-        margin: 0;
-        font: 16px/1.5 Barlow, "Segoe UI", sans-serif;
-        background: #070b10;
-        color: #f4f7fb;
-      }
-      main {
-        max-width: 42rem;
-        margin: 0 auto;
-        padding: 2rem 1.1rem 4rem;
-      }
-      a { color: #3ddc84; }
-      h1 { font-family: "Barlow Condensed", sans-serif; text-transform: uppercase; }
-      p, li { color: #c5d0dc; }
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700&display=swap" />
+    <link rel="stylesheet" href="/legal.css" />
   </head>
   <body>
-    <main>
-      <p><a href="/">JackpotDesk</a></p>
-      <h1>Privacy Policy</h1>
-      <p>Last updated: August 16, 2026</p>
+    <main class="legal">
+      <a class="legal-brand" href="/"><img src="/logo.png" alt="JackpotDesk" width="220" height="31" /></a>
+      <nav class="legal-nav" aria-label="Site">
+        <a href="/about.html">About</a>
+        <a href="/how-to-play.html">How to play</a>
+        <a href="/refer.html">Refer a friend</a>
+        <a href="/responsible.html">Responsible gaming</a>
+        <a href="/accessibility.html">Accessibility</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/privacy.html" aria-current="page">Privacy</a>
+      </nav>
+      <p class="kicker">Legal</p>
+      <h1>Privacy policy</h1>
+      <p class="updated">Last updated: August 16, 2026</p>
       <p>
-        JackpotDesk is a free browser tool at jackpotdesk.com. We do not require an
-        account. Pool names, members, and tickets are stored in your browser
-        (localStorage) and are not sent to our servers.
+        JackpotDesk is a free browser tool at jackpotdesk.com. We do not require
+        an account. Pool names, members, and tickets are stored in your browser
+        (localStorage) and are not sent to JackpotDesk servers.
       </p>
-      <h2>Data we use</h2>
+      <h2>Data that stays on your device</h2>
       <ul>
-        <li>Official drawing history loaded in your browser from New York State Open Data.</li>
-        <li>Numbers you type (jackpot, tax, pool members). These stay on your device.</li>
+        <li>Pool name, members, shares, paid flags, and tickets.</li>
+        <li>Numbers you type (jackpot, tax, prize override).</li>
+        <li>Install-hint dismissal and similar UI flags.</li>
       </ul>
-      <h2>Advertising</h2>
+      <h2>Data loaded in the browser</h2>
+      <ul>
+        <li>Official drawing history from New York State Open Data.</li>
+        <li>Advertised jackpot and cash value from the California Lottery’s public draw feed (same national prize).</li>
+      </ul>
       <p>
-        We may show ads through Google AdSense. Google and its partners may use
-        cookies or similar technology to serve and measure ads. See
-        <a href="https://policies.google.com/privacy">Google’s privacy policy</a>
-        and
-        <a href="https://policies.google.com/technologies/ads">how Google uses ads data</a>.
-        You can opt out of personalized ads at
-        <a href="https://adssettings.google.com/">adssettings.google.com</a>.
+        Those third parties see a normal web request from your browser (IP address,
+        user agent). JackpotDesk does not receive a copy of your pool from those
+        calls.
       </p>
-      <h2>Analytics</h2>
+      <h2>Share links</h2>
+      <p>
+        If you copy a pool share link, the board is encoded in the URL. Anyone
+        you send it to can load that snapshot. Do not put secrets in member names.
+      </p>
+      <h2>Analytics and hosting</h2>
       <p>
         We do not currently load a first-party analytics product. GitHub Pages,
         which hosts this site, may collect standard server logs (IP address, user
         agent, timestamp) as part of operating the service.
       </p>
       <h2>Children</h2>
-      <p>This site is not directed at children under 13.</p>
+      <p>This site is not directed at children under 13, and lottery play has a higher legal age.</p>
       <h2>Contact</h2>
       <p>
         For privacy questions, open an issue on the project’s GitHub repository.
+        See also the <a href="/terms.html">terms of use</a>.
       </p>
     </main>
   </body>

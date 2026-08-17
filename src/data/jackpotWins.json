@@ -1,0 +1,3670 @@
+{
+  "asOf": "2026-08-16",
+  "note": "Public jackpot tickets by sale state. Not lower-tier prizes.",
+  "wins": [
+    {
+      "game": "powerball",
+      "date": "2026-08-12",
+      "advertised": 1040000000,
+      "shares": 1,
+      "state": "IL",
+      "city": "Quincy"
+    },
+    {
+      "game": "powerball",
+      "date": "2026-04-29",
+      "advertised": 143400000,
+      "shares": 2,
+      "state": "IN",
+      "city": "La Porte"
+    },
+    {
+      "game": "powerball",
+      "date": "2026-04-06",
+      "advertised": 230800000,
+      "shares": 1,
+      "state": "DE",
+      "city": "Middletown"
+    },
+    {
+      "game": "megamillions",
+      "date": "2026-03-17",
+      "advertised": 60000000,
+      "shares": 1,
+      "state": "OH",
+      "city": "Van Wert"
+    },
+    {
+      "game": "megamillions",
+      "date": "2026-03-10",
+      "advertised": 536000000,
+      "shares": 1,
+      "state": "IL",
+      "city": "iLottery"
+    },
+    {
+      "game": "powerball",
+      "date": "2026-03-02",
+      "advertised": 250800000,
+      "shares": 1,
+      "state": "AR",
+      "city": "Little Rock"
+    },
+    {
+      "game": "powerball",
+      "date": "2026-01-21",
+      "advertised": 209300000,
+      "shares": 1,
+      "state": "NC",
+      "city": "Roanoke Rapids"
+    },
+    {
+      "game": "powerball",
+      "date": "2025-12-24",
+      "advertised": 1817000000,
+      "shares": 1,
+      "state": "AR",
+      "city": "Cabot"
+    },
+    {
+      "game": "megamillions",
+      "date": "2025-12-02",
+      "advertised": 90000000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Union City"
+    },
+    {
+      "game": "megamillions",
+      "date": "2025-11-14",
+      "advertised": 980000000,
+      "shares": 1,
+      "state": "GA",
+      "city": "Newnan"
+    },
+    {
+      "game": "powerball",
+      "date": "2025-09-06",
+      "advertised": 1787000000,
+      "shares": 2,
+      "state": "TX",
+      "city": "Fredericksburg"
+    },
+    {
+      "game": "megamillions",
+      "date": "2025-06-27",
+      "advertised": 348000000,
+      "shares": 1,
+      "state": "VA",
+      "city": "Burgess"
+    },
+    {
+      "game": "powerball",
+      "date": "2025-05-31",
+      "advertised": 204500000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Arleta"
+    },
+    {
+      "game": "powerball",
+      "date": "2025-04-26",
+      "advertised": 167300000,
+      "shares": 1,
+      "state": "KY",
+      "city": "Georgetown"
+    },
+    {
+      "game": "megamillions",
+      "date": "2025-04-18",
+      "advertised": 112000000,
+      "shares": 1,
+      "state": "OH",
+      "city": "South Euclid"
+    },
+    {
+      "game": "powerball",
+      "date": "2025-03-29",
+      "advertised": 526500000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Anaheim"
+    },
+    {
+      "game": "megamillions",
+      "date": "2025-03-25",
+      "advertised": 349000000,
+      "shares": 1,
+      "state": "IL",
+      "city": "Cortland"
+    },
+    {
+      "game": "powerball",
+      "date": "2025-01-18",
+      "advertised": 328500000,
+      "shares": 1,
+      "state": "OR",
+      "city": "Beaverton"
+    },
+    {
+      "game": "megamillions",
+      "date": "2025-01-17",
+      "advertised": 112000000,
+      "shares": 1,
+      "state": "AZ",
+      "city": "Tempe"
+    },
+    {
+      "game": "megamillions",
+      "date": "2024-12-27",
+      "advertised": 1269000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Cottonwood"
+    },
+    {
+      "game": "powerball",
+      "date": "2024-12-07",
+      "advertised": 256000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Flushing"
+    },
+    {
+      "game": "powerball",
+      "date": "2024-10-23",
+      "advertised": 478200000,
+      "shares": 1,
+      "state": "GA",
+      "city": "Buford"
+    },
+    {
+      "game": "megamillions",
+      "date": "2024-09-10",
+      "advertised": 810000000,
+      "shares": 1,
+      "state": "TX",
+      "city": "Sugar Land"
+    },
+    {
+      "game": "powerball",
+      "date": "2024-08-19",
+      "advertised": 44300000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Dana Point"
+    },
+    {
+      "game": "powerball",
+      "date": "2024-08-12",
+      "advertised": 213800000,
+      "shares": 1,
+      "state": "PA",
+      "city": "Pittsburgh"
+    },
+    {
+      "game": "powerball",
+      "date": "2024-07-03",
+      "advertised": 139300000,
+      "shares": 1,
+      "state": "OH",
+      "city": "Huber Heights"
+    },
+    {
+      "game": "powerball",
+      "date": "2024-06-10",
+      "advertised": 221000000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Laurel Springs"
+    },
+    {
+      "game": "megamillions",
+      "date": "2024-06-04",
+      "advertised": 552000000,
+      "shares": 1,
+      "state": "IL",
+      "city": "iLottery"
+    },
+    {
+      "game": "powerball",
+      "date": "2024-05-06",
+      "advertised": 214900000,
+      "shares": 1,
+      "state": "FL",
+      "city": "Miami Shores"
+    },
+    {
+      "game": "powerball",
+      "date": "2024-04-08",
+      "advertised": 1326000000,
+      "shares": 1,
+      "state": "OR",
+      "city": "Portland"
+    },
+    {
+      "game": "megamillions",
+      "date": "2024-03-26",
+      "advertised": 1128000000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Neptune City"
+    },
+    {
+      "game": "powerball",
+      "date": "2024-01-01",
+      "advertised": 842400000,
+      "shares": 1,
+      "state": "MI",
+      "city": "Grand Blanc"
+    },
+    {
+      "game": "megamillions",
+      "date": "2023-12-08",
+      "advertised": 394000000,
+      "shares": 2,
+      "state": "CA",
+      "city": "Encino"
+    },
+    {
+      "game": "powerball",
+      "date": "2023-10-11",
+      "advertised": 1730000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Frazier Park"
+    },
+    {
+      "game": "megamillions",
+      "date": "2023-10-06",
+      "advertised": 361000000,
+      "shares": 1,
+      "state": "TX",
+      "city": "San Angelo"
+    },
+    {
+      "game": "megamillions",
+      "date": "2023-08-15",
+      "advertised": 39000000,
+      "shares": 1,
+      "state": "FL",
+      "city": "Jacksonville"
+    },
+    {
+      "game": "megamillions",
+      "date": "2023-08-08",
+      "advertised": 1602000000,
+      "shares": 1,
+      "state": "FL",
+      "city": "Neptune Beach"
+    },
+    {
+      "game": "powerball",
+      "date": "2023-07-19",
+      "advertised": 1080000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Los Angeles"
+    },
+    {
+      "game": "powerball",
+      "date": "2023-04-19",
+      "advertised": 252600000,
+      "shares": 1,
+      "state": "OH",
+      "city": "Macedonia"
+    },
+    {
+      "game": "megamillions",
+      "date": "2023-04-18",
+      "advertised": 20000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "East Syracuse"
+    },
+    {
+      "game": "megamillions",
+      "date": "2023-04-14",
+      "advertised": 476000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Queens"
+    },
+    {
+      "game": "powerball",
+      "date": "2023-03-04",
+      "advertised": 162600000,
+      "shares": 1,
+      "state": "VA",
+      "city": "Dublin"
+    },
+    {
+      "game": "powerball",
+      "date": "2023-02-06",
+      "advertised": 754600000,
+      "shares": 1,
+      "state": "WA",
+      "city": "Auburn"
+    },
+    {
+      "game": "megamillions",
+      "date": "2023-01-31",
+      "advertised": 31000000,
+      "shares": 1,
+      "state": "MA",
+      "city": "Woburn"
+    },
+    {
+      "game": "megamillions",
+      "date": "2023-01-24",
+      "advertised": 33000000,
+      "shares": 1,
+      "state": "MA",
+      "city": "Belchertown"
+    },
+    {
+      "game": "megamillions",
+      "date": "2023-01-17",
+      "advertised": 20000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "The Bronx"
+    },
+    {
+      "game": "megamillions",
+      "date": "2023-01-13",
+      "advertised": 1348000000,
+      "shares": 1,
+      "state": "ME",
+      "city": "Lebanon"
+    },
+    {
+      "game": "powerball",
+      "date": "2022-11-19",
+      "advertised": 92900000,
+      "shares": 1,
+      "state": "KS",
+      "city": "Overland Park"
+    },
+    {
+      "game": "powerball",
+      "date": "2022-11-07",
+      "advertised": 2040000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Altadena"
+    },
+    {
+      "game": "megamillions",
+      "date": "2022-10-14",
+      "advertised": 502000000,
+      "shares": 2,
+      "state": "FL",
+      "city": "Fort Myers"
+    },
+    {
+      "game": "powerball",
+      "date": "2022-08-03",
+      "advertised": 206900000,
+      "shares": 1,
+      "state": "PA",
+      "city": "New Stanton"
+    },
+    {
+      "game": "megamillions",
+      "date": "2022-07-29",
+      "advertised": 1337000000,
+      "shares": 1,
+      "state": "IL",
+      "city": "Des Plaines"
+    },
+    {
+      "game": "powerball",
+      "date": "2022-06-29",
+      "advertised": 366700000,
+      "shares": 1,
+      "state": "VT",
+      "city": "Middlebury"
+    },
+    {
+      "game": "powerball",
+      "date": "2022-04-27",
+      "advertised": 473100000,
+      "shares": 1,
+      "state": "AZ",
+      "city": "Gilbert"
+    },
+    {
+      "game": "megamillions",
+      "date": "2022-04-15",
+      "advertised": 20000000,
+      "shares": 1,
+      "state": "TN",
+      "city": "Pegram"
+    },
+    {
+      "game": "megamillions",
+      "date": "2022-04-12",
+      "advertised": 106000000,
+      "shares": 1,
+      "state": "MN",
+      "city": "Ramsey"
+    },
+    {
+      "game": "megamillions",
+      "date": "2022-03-08",
+      "advertised": 126000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Schenectady"
+    },
+    {
+      "game": "powerball",
+      "date": "2022-02-14",
+      "advertised": 185000000,
+      "shares": 1,
+      "state": "CT",
+      "city": "Cheshire"
+    },
+    {
+      "game": "megamillions",
+      "date": "2022-01-28",
+      "advertised": 426000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Woodland Hills"
+    },
+    {
+      "game": "powerball",
+      "date": "2022-01-05",
+      "advertised": 632600000,
+      "shares": 2,
+      "state": "CA",
+      "city": "Sacramento"
+    },
+    {
+      "game": "megamillions",
+      "date": "2021-10-22",
+      "advertised": 108000000,
+      "shares": 1,
+      "state": "AZ",
+      "city": "Lake Havasu City"
+    },
+    {
+      "game": "powerball",
+      "date": "2021-10-04",
+      "advertised": 699800000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Morro Bay"
+    },
+    {
+      "game": "megamillions",
+      "date": "2021-09-21",
+      "advertised": 431000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "New York"
+    },
+    {
+      "game": "megamillions",
+      "date": "2021-06-08",
+      "advertised": 56000000,
+      "shares": 1,
+      "state": "IL",
+      "city": "Crestwood"
+    },
+    {
+      "game": "powerball",
+      "date": "2021-06-05",
+      "advertised": 286000000,
+      "shares": 1,
+      "state": "FL",
+      "city": "Jacksonville"
+    },
+    {
+      "game": "megamillions",
+      "date": "2021-05-21",
+      "advertised": 516000000,
+      "shares": 1,
+      "state": "PA",
+      "city": "Levittown"
+    },
+    {
+      "game": "powerball",
+      "date": "2021-03-27",
+      "advertised": 235400000,
+      "shares": 1,
+      "state": "FL",
+      "city": "Lutz"
+    },
+    {
+      "game": "megamillions",
+      "date": "2021-02-16",
+      "advertised": 96000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Camden"
+    },
+    {
+      "game": "powerball",
+      "date": "2021-01-30",
+      "advertised": 33200000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Cedar Knolls"
+    },
+    {
+      "game": "powerball",
+      "date": "2021-01-23",
+      "advertised": 23200000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Clifton"
+    },
+    {
+      "game": "megamillions",
+      "date": "2021-01-22",
+      "advertised": 1050000000,
+      "shares": 1,
+      "state": "MI",
+      "city": "Novi"
+    },
+    {
+      "game": "powerball",
+      "date": "2021-01-20",
+      "advertised": 731100000,
+      "shares": 1,
+      "state": "MD",
+      "city": "Lonaconing"
+    },
+    {
+      "game": "powerball",
+      "date": "2020-09-16",
+      "advertised": 94800000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Malta"
+    },
+    {
+      "game": "megamillions",
+      "date": "2020-09-15",
+      "advertised": 120000000,
+      "shares": 1,
+      "state": "WI",
+      "city": "Mt Pleasant"
+    },
+    {
+      "game": "powerball",
+      "date": "2020-08-12",
+      "advertised": 168500000,
+      "shares": 1,
+      "state": "FL",
+      "city": "Boynton Beach"
+    },
+    {
+      "game": "megamillions",
+      "date": "2020-07-31",
+      "advertised": 22000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Eastvale"
+    },
+    {
+      "game": "megamillions",
+      "date": "2020-07-24",
+      "advertised": 123000000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Bayonne"
+    },
+    {
+      "game": "powerball",
+      "date": "2020-06-10",
+      "advertised": 22000000,
+      "shares": 1,
+      "state": "WI",
+      "city": "Menomonie"
+    },
+    {
+      "game": "megamillions",
+      "date": "2020-06-09",
+      "advertised": 414000000,
+      "shares": 1,
+      "state": "AZ",
+      "city": "Glendale"
+    },
+    {
+      "game": "powerball",
+      "date": "2020-06-03",
+      "advertised": 136000000,
+      "shares": 1,
+      "state": "WV",
+      "city": "Hinton"
+    },
+    {
+      "game": "powerball",
+      "date": "2020-04-08",
+      "advertised": 190000000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Piscataway"
+    },
+    {
+      "game": "powerball",
+      "date": "2020-02-12",
+      "advertised": 70000000,
+      "shares": 1,
+      "state": "MI",
+      "city": "Pontiac"
+    },
+    {
+      "game": "megamillions",
+      "date": "2020-02-11",
+      "advertised": 202000000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Edison"
+    },
+    {
+      "game": "powerball",
+      "date": "2020-01-29",
+      "advertised": 396900000,
+      "shares": 1,
+      "state": "FL",
+      "city": "Bonita Springs"
+    },
+    {
+      "game": "megamillions",
+      "date": "2019-12-17",
+      "advertised": 375000000,
+      "shares": 1,
+      "state": "OH",
+      "city": "Mentor"
+    },
+    {
+      "game": "powerball",
+      "date": "2019-11-02",
+      "advertised": 150000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Floriston"
+    },
+    {
+      "game": "megamillions",
+      "date": "2019-09-24",
+      "advertised": 225000000,
+      "shares": 1,
+      "state": "TX",
+      "city": "2004 N. Lakeline Blvd. Cedar Park"
+    },
+    {
+      "game": "powerball",
+      "date": "2019-09-21",
+      "advertised": 80000000,
+      "shares": 1,
+      "state": "MI",
+      "city": "Suttons Bay"
+    },
+    {
+      "game": "powerball",
+      "date": "2019-09-04",
+      "advertised": 80000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Derby"
+    },
+    {
+      "game": "powerball",
+      "date": "2019-08-17",
+      "advertised": 148000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Merrick"
+    },
+    {
+      "game": "megamillions",
+      "date": "2019-07-23",
+      "advertised": 168000000,
+      "shares": 1,
+      "state": "NH",
+      "city": "Exeter"
+    },
+    {
+      "game": "powerball",
+      "date": "2019-07-13",
+      "advertised": 198000000,
+      "shares": 1,
+      "state": "TN",
+      "city": "Hendersonville"
+    },
+    {
+      "game": "megamillions",
+      "date": "2019-06-07",
+      "advertised": 522000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Seal Beach"
+    },
+    {
+      "game": "powerball",
+      "date": "2019-06-01",
+      "advertised": 344600000,
+      "shares": 1,
+      "state": "NC",
+      "city": "Hope Mills"
+    },
+    {
+      "game": "powerball",
+      "date": "2019-03-27",
+      "advertised": 768410000,
+      "shares": 1,
+      "state": "WI",
+      "city": "New Berlin"
+    },
+    {
+      "game": "megamillions",
+      "date": "2019-03-12",
+      "advertised": 50000000,
+      "shares": 1,
+      "state": "MO",
+      "city": "Kansas City"
+    },
+    {
+      "game": "megamillions",
+      "date": "2019-03-01",
+      "advertised": 273000000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Phillipsburg"
+    },
+    {
+      "game": "megamillions",
+      "date": "2019-01-01",
+      "advertised": 437000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Glen Head"
+    },
+    {
+      "game": "powerball",
+      "date": "2018-12-26",
+      "advertised": 298300000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Brooklyn"
+    },
+    {
+      "game": "powerball",
+      "date": "2018-10-27",
+      "advertised": 687800000,
+      "shares": 2,
+      "state": "NY",
+      "city": "New York"
+    },
+    {
+      "game": "megamillions",
+      "date": "2018-10-23",
+      "advertised": 1537000000,
+      "shares": 1,
+      "state": "SC",
+      "city": "Simpsonville"
+    },
+    {
+      "game": "powerball",
+      "date": "2018-08-11",
+      "advertised": 245600000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Staten Island"
+    },
+    {
+      "game": "megamillions",
+      "date": "2018-07-24",
+      "advertised": 543000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "San Jose"
+    },
+    {
+      "game": "powerball",
+      "date": "2018-06-20",
+      "advertised": 150400000,
+      "shares": 1,
+      "state": "OR",
+      "city": "Salem"
+    },
+    {
+      "game": "powerball",
+      "date": "2018-05-19",
+      "advertised": 315300000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Hackensack"
+    },
+    {
+      "game": "megamillions",
+      "date": "2018-05-04",
+      "advertised": 142000000,
+      "shares": 1,
+      "state": "OH",
+      "city": "Moraine"
+    },
+    {
+      "game": "megamillions",
+      "date": "2018-03-30",
+      "advertised": 533000000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Riverdale"
+    },
+    {
+      "game": "powerball",
+      "date": "2018-03-24",
+      "advertised": 55900000,
+      "shares": 1,
+      "state": "LA",
+      "city": "Lafayette"
+    },
+    {
+      "game": "powerball",
+      "date": "2018-03-17",
+      "advertised": 456700000,
+      "shares": 1,
+      "state": "PA",
+      "city": "Manheim"
+    },
+    {
+      "game": "powerball",
+      "date": "2018-01-06",
+      "advertised": 559700000,
+      "shares": 1,
+      "state": "NH",
+      "city": "Merrimack"
+    },
+    {
+      "game": "megamillions",
+      "date": "2018-01-05",
+      "advertised": 451000000,
+      "shares": 1,
+      "state": "FL",
+      "city": "Port Richey"
+    },
+    {
+      "game": "powerball",
+      "date": "2017-10-25",
+      "advertised": 191100000,
+      "shares": 1,
+      "state": "LA",
+      "city": "Eunice"
+    },
+    {
+      "game": "megamillions",
+      "date": "2017-10-13",
+      "advertised": 42000000,
+      "shares": 2,
+      "state": "MI",
+      "city": "Waterford"
+    },
+    {
+      "game": "powerball",
+      "date": "2017-09-16",
+      "advertised": 133200000,
+      "shares": 1,
+      "state": "CO",
+      "city": "Grand Junction"
+    },
+    {
+      "game": "powerball",
+      "date": "2017-08-23",
+      "advertised": 758700000,
+      "shares": 1,
+      "state": "MA",
+      "city": "Watertown"
+    },
+    {
+      "game": "megamillions",
+      "date": "2017-08-11",
+      "advertised": 393000000,
+      "shares": 1,
+      "state": "IL",
+      "city": "Palos Heights"
+    },
+    {
+      "game": "powerball",
+      "date": "2017-06-10",
+      "advertised": 447000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Sun City"
+    },
+    {
+      "game": "megamillions",
+      "date": "2017-04-28",
+      "advertised": 61000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Laguna Hills"
+    },
+    {
+      "game": "powerball",
+      "date": "2017-04-01",
+      "advertised": 60000000,
+      "shares": 1,
+      "state": "AZ",
+      "city": "Littlefield"
+    },
+    {
+      "game": "megamillions",
+      "date": "2017-03-31",
+      "advertised": 177000000,
+      "shares": 1,
+      "state": "AR",
+      "city": "Stuttgart"
+    },
+    {
+      "game": "powerball",
+      "date": "2017-03-22",
+      "advertised": 156000000,
+      "shares": 1,
+      "state": "WI",
+      "city": "Pewaukee"
+    },
+    {
+      "game": "powerball",
+      "date": "2017-02-22",
+      "advertised": 435300000,
+      "shares": 1,
+      "state": "IN",
+      "city": "Lafayette"
+    },
+    {
+      "game": "megamillions",
+      "date": "2017-01-27",
+      "advertised": 191000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Nipton"
+    },
+    {
+      "game": "powerball",
+      "date": "2016-12-17",
+      "advertised": 121600000,
+      "shares": 1,
+      "state": "DE",
+      "city": "Selbyville"
+    },
+    {
+      "game": "powerball",
+      "date": "2016-11-26",
+      "advertised": 420900000,
+      "shares": 1,
+      "state": "TN",
+      "city": "Lafayette"
+    },
+    {
+      "game": "megamillions",
+      "date": "2016-11-18",
+      "advertised": 83000000,
+      "shares": 1,
+      "state": "GA",
+      "city": "Marietta"
+    },
+    {
+      "game": "megamillions",
+      "date": "2016-10-11",
+      "advertised": 49000000,
+      "shares": 1,
+      "state": "TX",
+      "city": "Balch Springs"
+    },
+    {
+      "game": "powerball",
+      "date": "2016-09-17",
+      "advertised": 246000000,
+      "shares": 1,
+      "state": "GA",
+      "city": "Brookhaven"
+    },
+    {
+      "game": "megamillions",
+      "date": "2016-09-16",
+      "advertised": 134000000,
+      "shares": 1,
+      "state": "IL",
+      "city": "Tuscola"
+    },
+    {
+      "game": "powerball",
+      "date": "2016-07-30",
+      "advertised": 487000000,
+      "shares": 1,
+      "state": "NH",
+      "city": "Raymond"
+    },
+    {
+      "game": "megamillions",
+      "date": "2016-07-22",
+      "advertised": 15000000,
+      "shares": 2,
+      "state": "VA",
+      "city": "Gainesville"
+    },
+    {
+      "game": "megamillions",
+      "date": "2016-07-19",
+      "advertised": 25000000,
+      "shares": 1,
+      "state": "WA",
+      "city": "South Seattle"
+    },
+    {
+      "game": "megamillions",
+      "date": "2016-07-08",
+      "advertised": 540000000,
+      "shares": 1,
+      "state": "IN",
+      "city": "Cambridge City"
+    },
+    {
+      "game": "powerball",
+      "date": "2016-05-07",
+      "advertised": 284000000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Trenton"
+    },
+    {
+      "game": "megamillions",
+      "date": "2016-03-08",
+      "advertised": 157000000,
+      "shares": 1,
+      "state": "WA",
+      "city": "Seattle"
+    },
+    {
+      "game": "powerball",
+      "date": "2016-03-02",
+      "advertised": 291400000,
+      "shares": 1,
+      "state": "FL",
+      "city": "Marathon"
+    },
+    {
+      "game": "powerball",
+      "date": "2016-01-13",
+      "advertised": 1580000000,
+      "shares": 3,
+      "state": "CA",
+      "city": "Chino Hills"
+    },
+    {
+      "game": "megamillions",
+      "date": "2016-01-08",
+      "advertised": 169000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Staten Island"
+    },
+    {
+      "game": "megamillions",
+      "date": "2015-11-13",
+      "advertised": 202000000,
+      "shares": 1,
+      "state": "OH",
+      "city": "Westerville"
+    },
+    {
+      "game": "powerball",
+      "date": "2015-11-04",
+      "advertised": 144000000,
+      "shares": 1,
+      "state": "TN",
+      "city": "Antioch"
+    },
+    {
+      "game": "powerball",
+      "date": "2015-09-30",
+      "advertised": 310000000,
+      "shares": 1,
+      "state": "MI",
+      "city": "Three Rivers"
+    },
+    {
+      "game": "megamillions",
+      "date": "2015-09-11",
+      "advertised": 106000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Yonkers"
+    },
+    {
+      "game": "powerball",
+      "date": "2015-08-01",
+      "advertised": 110000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Los Angeles"
+    },
+    {
+      "game": "megamillions",
+      "date": "2015-07-31",
+      "advertised": 25000000,
+      "shares": 1,
+      "state": "MO",
+      "city": "Noel"
+    },
+    {
+      "game": "megamillions",
+      "date": "2015-07-21",
+      "advertised": 153000000,
+      "shares": 1,
+      "state": "PA",
+      "city": "Milton"
+    },
+    {
+      "game": "powerball",
+      "date": "2015-07-04",
+      "advertised": 70000000,
+      "shares": 1,
+      "state": "MO",
+      "city": "St. Louis"
+    },
+    {
+      "game": "powerball",
+      "date": "2015-06-20",
+      "advertised": 80000000,
+      "shares": 1,
+      "state": "FL",
+      "city": "Plantation"
+    },
+    {
+      "game": "powerball",
+      "date": "2015-06-03",
+      "advertised": 188900000,
+      "shares": 1,
+      "state": "AZ",
+      "city": "Glendale"
+    },
+    {
+      "game": "megamillions",
+      "date": "2015-06-02",
+      "advertised": 262000000,
+      "shares": 1,
+      "state": "IL",
+      "city": "Blue Island"
+    },
+    {
+      "game": "powerball",
+      "date": "2015-04-18",
+      "advertised": 50000000,
+      "shares": 1,
+      "state": "PR",
+      "city": "Puerto Rico"
+    },
+    {
+      "game": "powerball",
+      "date": "2015-04-11",
+      "advertised": 80000000,
+      "shares": 1,
+      "state": "FL",
+      "city": "McDavid"
+    },
+    {
+      "game": "powerball",
+      "date": "2015-03-25",
+      "advertised": 40000000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Teaneck"
+    },
+    {
+      "game": "megamillions",
+      "date": "2015-03-24",
+      "advertised": 58000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "New York"
+    },
+    {
+      "game": "powerball",
+      "date": "2015-03-21",
+      "advertised": 50000000,
+      "shares": 1,
+      "state": "TN",
+      "city": "Harriman"
+    },
+    {
+      "game": "powerball",
+      "date": "2015-03-14",
+      "advertised": 136000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Staten Island"
+    },
+    {
+      "game": "megamillions",
+      "date": "2015-02-27",
+      "advertised": 127000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "South Fallsburg"
+    },
+    {
+      "game": "powerball",
+      "date": "2015-02-11",
+      "advertised": 564000000,
+      "shares": 3,
+      "state": "PR",
+      "city": "Shell"
+    },
+    {
+      "game": "megamillions",
+      "date": "2015-01-16",
+      "advertised": 265000000,
+      "shares": 1,
+      "state": "IL",
+      "city": "Glendale Heights"
+    },
+    {
+      "game": "powerball",
+      "date": "2014-11-29",
+      "advertised": 90000000,
+      "shares": 1,
+      "state": "WA",
+      "city": "Auburn"
+    },
+    {
+      "game": "powerball",
+      "date": "2014-11-08",
+      "advertised": 202600000,
+      "shares": 1,
+      "state": "MO",
+      "city": "St Louis"
+    },
+    {
+      "game": "megamillions",
+      "date": "2014-11-04",
+      "advertised": 326000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Middletown"
+    },
+    {
+      "game": "powerball",
+      "date": "2014-09-24",
+      "advertised": 228000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "San Mateo"
+    },
+    {
+      "game": "megamillions",
+      "date": "2014-08-22",
+      "advertised": 180000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Calimesa"
+    },
+    {
+      "game": "powerball",
+      "date": "2014-08-09",
+      "advertised": 90000000,
+      "shares": 1,
+      "state": "CO",
+      "city": "Rifle"
+    },
+    {
+      "game": "powerball",
+      "date": "2014-07-19",
+      "advertised": 60000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Fontana"
+    },
+    {
+      "game": "powerball",
+      "date": "2014-07-09",
+      "advertised": 124900000,
+      "shares": 1,
+      "state": "OH",
+      "city": "Conneaut"
+    },
+    {
+      "game": "megamillions",
+      "date": "2014-06-27",
+      "advertised": 33000000,
+      "shares": 1,
+      "state": "TX",
+      "city": "Moulton"
+    },
+    {
+      "game": "megamillions",
+      "date": "2014-06-13",
+      "advertised": 66000000,
+      "shares": 1,
+      "state": "MI",
+      "city": "Mount Clemens"
+    },
+    {
+      "game": "powerball",
+      "date": "2014-06-11",
+      "advertised": 259000000,
+      "shares": 1,
+      "state": "TN",
+      "city": "Knoxville"
+    },
+    {
+      "game": "megamillions",
+      "date": "2014-05-20",
+      "advertised": 149000000,
+      "shares": 1,
+      "state": "PA",
+      "city": "McKeesport"
+    },
+    {
+      "game": "powerball",
+      "date": "2014-04-23",
+      "advertised": 150000000,
+      "shares": 1,
+      "state": "FL",
+      "city": "Naples"
+    },
+    {
+      "game": "megamillions",
+      "date": "2014-04-04",
+      "advertised": 30000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Los Angeles"
+    },
+    {
+      "game": "megamillions",
+      "date": "2014-03-25",
+      "advertised": 20000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Coram"
+    },
+    {
+      "game": "powerball",
+      "date": "2014-03-22",
+      "advertised": 96500000,
+      "shares": 1,
+      "state": "MO",
+      "city": "Bridgeton"
+    },
+    {
+      "game": "megamillions",
+      "date": "2014-03-18",
+      "advertised": 414000000,
+      "shares": 2,
+      "state": "MD",
+      "city": "La Plata"
+    },
+    {
+      "game": "powerball",
+      "date": "2014-03-01",
+      "advertised": 60000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "McClellan Park"
+    },
+    {
+      "game": "powerball",
+      "date": "2014-02-19",
+      "advertised": 425000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Milpitas"
+    },
+    {
+      "game": "megamillions",
+      "date": "2014-01-03",
+      "advertised": 61000000,
+      "shares": 1,
+      "state": "TN",
+      "city": "Nashville"
+    },
+    {
+      "game": "powerball",
+      "date": "2013-12-25",
+      "advertised": 71500000,
+      "shares": 1,
+      "state": "MO",
+      "city": "Kansas City"
+    },
+    {
+      "game": "megamillions",
+      "date": "2013-12-17",
+      "advertised": 648000000,
+      "shares": 2,
+      "state": "CA",
+      "city": "San Jose"
+    },
+    {
+      "game": "powerball",
+      "date": "2013-12-11",
+      "advertised": 122900000,
+      "shares": 2,
+      "state": "NE",
+      "city": "Gretna"
+    },
+    {
+      "game": "powerball",
+      "date": "2013-11-16",
+      "advertised": 130300000,
+      "shares": 1,
+      "state": "NY",
+      "city": "New York"
+    },
+    {
+      "game": "powerball",
+      "date": "2013-10-23",
+      "advertised": 216000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Fresno"
+    },
+    {
+      "game": "megamillions",
+      "date": "2013-10-01",
+      "advertised": 189000000,
+      "shares": 1,
+      "state": "MD",
+      "city": "Severn"
+    },
+    {
+      "game": "powerball",
+      "date": "2013-09-18",
+      "advertised": 399400000,
+      "shares": 1,
+      "state": "SC",
+      "city": "Lexington"
+    },
+    {
+      "game": "powerball",
+      "date": "2013-08-07",
+      "advertised": 448000000,
+      "shares": 3,
+      "state": "NJ",
+      "city": "Dayton"
+    },
+    {
+      "game": "megamillions",
+      "date": "2013-07-26",
+      "advertised": 19000000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Kearny"
+    },
+    {
+      "game": "megamillions",
+      "date": "2013-07-16",
+      "advertised": 20000000,
+      "shares": 1,
+      "state": "TX",
+      "city": "Houston"
+    },
+    {
+      "game": "megamillions",
+      "date": "2013-07-05",
+      "advertised": 80000000,
+      "shares": 1,
+      "state": "MI",
+      "city": "Troy"
+    },
+    {
+      "game": "powerball",
+      "date": "2013-06-22",
+      "advertised": 131500000,
+      "shares": 1,
+      "state": "PA",
+      "city": "Philadelphia"
+    },
+    {
+      "game": "megamillions",
+      "date": "2013-05-31",
+      "advertised": 30000000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Buena"
+    },
+    {
+      "game": "powerball",
+      "date": "2013-05-29",
+      "advertised": 40000000,
+      "shares": 1,
+      "state": "TX",
+      "city": "Bells"
+    },
+    {
+      "game": "powerball",
+      "date": "2013-05-25",
+      "advertised": 50000000,
+      "shares": 3,
+      "state": "DE",
+      "city": "Rehoboth Beach"
+    },
+    {
+      "game": "powerball",
+      "date": "2013-05-18",
+      "advertised": 590500000,
+      "shares": 1,
+      "state": "FL",
+      "city": "Zephyrhills"
+    },
+    {
+      "game": "megamillions",
+      "date": "2013-05-17",
+      "advertised": 198000000,
+      "shares": 2,
+      "state": "NJ",
+      "city": "Tinton Falls"
+    },
+    {
+      "game": "powerball",
+      "date": "2013-03-30",
+      "advertised": 50000000,
+      "shares": 1,
+      "state": "IL",
+      "city": "Freeport"
+    },
+    {
+      "game": "powerball",
+      "date": "2013-03-23",
+      "advertised": 338300000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Passaic"
+    },
+    {
+      "game": "megamillions",
+      "date": "2013-03-12",
+      "advertised": 41000000,
+      "shares": 1,
+      "state": "OH",
+      "city": "Westlake"
+    },
+    {
+      "game": "megamillions",
+      "date": "2013-02-19",
+      "advertised": 26000000,
+      "shares": 1,
+      "state": "MD",
+      "city": "Mount Airy"
+    },
+    {
+      "game": "powerball",
+      "date": "2013-02-06",
+      "advertised": 217000000,
+      "shares": 1,
+      "state": "VA",
+      "city": "Richmond"
+    },
+    {
+      "game": "megamillions",
+      "date": "2013-02-05",
+      "advertised": 19000000,
+      "shares": 1,
+      "state": "MI",
+      "city": "Houghton"
+    },
+    {
+      "game": "megamillions",
+      "date": "2013-01-25",
+      "advertised": 89000000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Orange"
+    },
+    {
+      "game": "powerball",
+      "date": "2012-12-26",
+      "advertised": 50000000,
+      "shares": 1,
+      "state": "FL",
+      "city": "Saint Petersburg"
+    },
+    {
+      "game": "powerball",
+      "date": "2012-12-19",
+      "advertised": 50000000,
+      "shares": 1,
+      "state": "KS",
+      "city": "Shawnee"
+    },
+    {
+      "game": "megamillions",
+      "date": "2012-12-14",
+      "advertised": 35000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Bellflower"
+    },
+    {
+      "game": "powerball",
+      "date": "2012-12-12",
+      "advertised": 50000000,
+      "shares": 1,
+      "state": "MA",
+      "city": "Lexington"
+    },
+    {
+      "game": "powerball",
+      "date": "2012-12-05",
+      "advertised": 50000000,
+      "shares": 1,
+      "state": "PA",
+      "city": "Fairless Hills"
+    },
+    {
+      "game": "powerball",
+      "date": "2012-11-28",
+      "advertised": 587500000,
+      "shares": 2,
+      "state": "MO",
+      "city": "Dearborn"
+    },
+    {
+      "game": "megamillions",
+      "date": "2012-11-27",
+      "advertised": 50000000,
+      "shares": 1,
+      "state": "GA",
+      "city": "Thomasville"
+    },
+    {
+      "game": "megamillions",
+      "date": "2012-11-02",
+      "advertised": 33000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Mineola"
+    },
+    {
+      "game": "megamillions",
+      "date": "2012-10-16",
+      "advertised": 61000000,
+      "shares": 2,
+      "state": "MA",
+      "city": "Hyannis"
+    },
+    {
+      "game": "powerball",
+      "date": "2012-10-03",
+      "advertised": 50000000,
+      "shares": 1,
+      "state": "DE",
+      "city": "Wilmington"
+    },
+    {
+      "game": "powerball",
+      "date": "2012-09-26",
+      "advertised": 120000000,
+      "shares": 1,
+      "state": "IA",
+      "city": "Bondurant"
+    },
+    {
+      "game": "megamillions",
+      "date": "2012-09-18",
+      "advertised": 14000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "New York"
+    },
+    {
+      "game": "megamillions",
+      "date": "2012-09-11",
+      "advertised": 120000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Riverside"
+    },
+    {
+      "game": "powerball",
+      "date": "2012-08-15",
+      "advertised": 337000000,
+      "shares": 1,
+      "state": "MI",
+      "city": "Lapeer"
+    },
+    {
+      "game": "megamillions",
+      "date": "2012-07-27",
+      "advertised": 52000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Fremont"
+    },
+    {
+      "game": "megamillions",
+      "date": "2012-07-03",
+      "advertised": 85000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Staten Island"
+    },
+    {
+      "game": "powerball",
+      "date": "2012-06-13",
+      "advertised": 241000000,
+      "shares": 1,
+      "state": "IA",
+      "city": "Cedar Rapids"
+    },
+    {
+      "game": "megamillions",
+      "date": "2012-05-29",
+      "advertised": 32000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Pomona"
+    },
+    {
+      "game": "megamillions",
+      "date": "2012-05-15",
+      "advertised": 25000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Los Angeles"
+    },
+    {
+      "game": "megamillions",
+      "date": "2012-05-04",
+      "advertised": 118000000,
+      "shares": 1,
+      "state": "IL",
+      "city": "Glenwood"
+    },
+    {
+      "game": "powerball",
+      "date": "2012-04-25",
+      "advertised": 172700000,
+      "shares": 1,
+      "state": "PA",
+      "city": "Philadelphia"
+    },
+    {
+      "game": "megamillions",
+      "date": "2012-03-30",
+      "advertised": 656000000,
+      "shares": 3,
+      "state": "MD",
+      "city": "Baltimore"
+    },
+    {
+      "game": "powerball",
+      "date": "2012-03-21",
+      "advertised": 70000000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Little Silver"
+    },
+    {
+      "game": "powerball",
+      "date": "2012-03-07",
+      "advertised": 60000000,
+      "shares": 1,
+      "state": "RI",
+      "city": "Smithfield"
+    },
+    {
+      "game": "powerball",
+      "date": "2012-02-25",
+      "advertised": 70000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Hartsdale"
+    },
+    {
+      "game": "powerball",
+      "date": "2012-02-11",
+      "advertised": 336400000,
+      "shares": 1,
+      "state": "RI",
+      "city": "Newport"
+    },
+    {
+      "game": "megamillions",
+      "date": "2012-01-24",
+      "advertised": 72000000,
+      "shares": 1,
+      "state": "GA",
+      "city": "Atlanta"
+    },
+    {
+      "game": "megamillions",
+      "date": "2011-12-27",
+      "advertised": 208000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Middle Island"
+    },
+    {
+      "game": "powerball",
+      "date": "2011-12-24",
+      "advertised": 128800000,
+      "shares": 1,
+      "state": "MD",
+      "city": "Elkton"
+    },
+    {
+      "game": "powerball",
+      "date": "2011-11-19",
+      "advertised": 59900000,
+      "shares": 1,
+      "state": "PA",
+      "city": "Exeter"
+    },
+    {
+      "game": "powerball",
+      "date": "2011-11-02",
+      "advertised": 254200000,
+      "shares": 1,
+      "state": "CT",
+      "city": "Stamford"
+    },
+    {
+      "game": "megamillions",
+      "date": "2011-11-01",
+      "advertised": 78000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Paso Robles"
+    },
+    {
+      "game": "megamillions",
+      "date": "2011-09-30",
+      "advertised": 114000000,
+      "shares": 2,
+      "state": "CA",
+      "city": "Los Angeles"
+    },
+    {
+      "game": "powerball",
+      "date": "2011-09-14",
+      "advertised": 25000000,
+      "shares": 1,
+      "state": "GA",
+      "city": "Decatur"
+    },
+    {
+      "game": "powerball",
+      "date": "2011-09-07",
+      "advertised": 108800000,
+      "shares": 1,
+      "state": "MD",
+      "city": "Abingdon"
+    },
+    {
+      "game": "megamillions",
+      "date": "2011-08-19",
+      "advertised": 32000000,
+      "shares": 1,
+      "state": "MA",
+      "city": "Dorchester"
+    },
+    {
+      "game": "powerball",
+      "date": "2011-08-10",
+      "advertised": 228900000,
+      "shares": 1,
+      "state": "MN",
+      "city": "Lakeville"
+    },
+    {
+      "game": "megamillions",
+      "date": "2011-08-05",
+      "advertised": 99000000,
+      "shares": 1,
+      "state": "OH",
+      "city": "Jefferson"
+    },
+    {
+      "game": "megamillions",
+      "date": "2011-07-01",
+      "advertised": 107000000,
+      "shares": 1,
+      "state": "VA",
+      "city": "Herndon"
+    },
+    {
+      "game": "powerball",
+      "date": "2011-06-29",
+      "advertised": 77100000,
+      "shares": 1,
+      "state": "GA",
+      "city": "Tallapoosa"
+    },
+    {
+      "game": "powerball",
+      "date": "2011-06-08",
+      "advertised": 25600000,
+      "shares": 1,
+      "state": "MA",
+      "city": "Fall River"
+    },
+    {
+      "game": "powerball",
+      "date": "2011-06-01",
+      "advertised": 201900000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Lindenhurst"
+    },
+    {
+      "game": "megamillions",
+      "date": "2011-05-27",
+      "advertised": 35000000,
+      "shares": 1,
+      "state": "TX",
+      "city": "Granbury"
+    },
+    {
+      "game": "megamillions",
+      "date": "2011-05-13",
+      "advertised": 27000000,
+      "shares": 1,
+      "state": "MI",
+      "city": "Kalamazoo"
+    },
+    {
+      "game": "megamillions",
+      "date": "2011-05-03",
+      "advertised": 51000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Bakersfield"
+    },
+    {
+      "game": "powerball",
+      "date": "2011-04-23",
+      "advertised": 74000000,
+      "shares": 1,
+      "state": "IN",
+      "city": "Merrillville"
+    },
+    {
+      "game": "megamillions",
+      "date": "2011-04-15",
+      "advertised": 72000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Staten Island"
+    },
+    {
+      "game": "powerball",
+      "date": "2011-04-06",
+      "advertised": 221000000,
+      "shares": 1,
+      "state": "IN",
+      "city": "Clarksville"
+    },
+    {
+      "game": "megamillions",
+      "date": "2011-03-25",
+      "advertised": 319000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Albany"
+    },
+    {
+      "game": "powerball",
+      "date": "2011-02-26",
+      "advertised": 184000000,
+      "shares": 1,
+      "state": "FL",
+      "city": "Kissimmee"
+    },
+    {
+      "game": "megamillions",
+      "date": "2011-02-01",
+      "advertised": 93000000,
+      "shares": 2,
+      "state": "MI",
+      "city": "Belleville"
+    },
+    {
+      "game": "powerball",
+      "date": "2011-01-22",
+      "advertised": 122100000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Catskill"
+    },
+    {
+      "game": "megamillions",
+      "date": "2011-01-04",
+      "advertised": 380000000,
+      "shares": 2,
+      "state": "ID",
+      "city": "Post Falls"
+    },
+    {
+      "game": "powerball",
+      "date": "2010-12-25",
+      "advertised": 48800000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Saratoga Springs"
+    },
+    {
+      "game": "powerball",
+      "date": "2010-12-11",
+      "advertised": 37500000,
+      "shares": 2,
+      "state": "KY",
+      "city": "Louisville"
+    },
+    {
+      "game": "powerball",
+      "date": "2010-12-01",
+      "advertised": 95300000,
+      "shares": 1,
+      "state": "AZ",
+      "city": "Fort Mohave"
+    },
+    {
+      "game": "megamillions",
+      "date": "2010-11-09",
+      "advertised": 25000000,
+      "shares": 1,
+      "state": "OH",
+      "city": "Cleveland"
+    },
+    {
+      "game": "powerball",
+      "date": "2010-11-06",
+      "advertised": 128600000,
+      "shares": 1,
+      "state": "MI",
+      "city": "Highland Park"
+    },
+    {
+      "game": "megamillions",
+      "date": "2010-10-29",
+      "advertised": 141000000,
+      "shares": 1,
+      "state": "MI",
+      "city": "Gladstone"
+    },
+    {
+      "game": "powerball",
+      "date": "2010-10-06",
+      "advertised": 61500000,
+      "shares": 1,
+      "state": "FL",
+      "city": "Bradenton"
+    },
+    {
+      "game": "powerball",
+      "date": "2010-09-18",
+      "advertised": 116000000,
+      "shares": 1,
+      "state": "GA",
+      "city": "Mableton"
+    },
+    {
+      "game": "megamillions",
+      "date": "2010-09-17",
+      "advertised": 54000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "772 Sutter Ave Brooklyn"
+    },
+    {
+      "game": "megamillions",
+      "date": "2010-08-27",
+      "advertised": 133000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Morro Bay"
+    },
+    {
+      "game": "powerball",
+      "date": "2010-08-21",
+      "advertised": 79000000,
+      "shares": 1,
+      "state": "WV",
+      "city": "Martinsburg"
+    },
+    {
+      "game": "powerball",
+      "date": "2010-07-31",
+      "advertised": 85700000,
+      "shares": 1,
+      "state": "LA",
+      "city": "Baton Rouge"
+    },
+    {
+      "game": "megamillions",
+      "date": "2010-07-16",
+      "advertised": 64000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Los Angeles"
+    },
+    {
+      "game": "powerball",
+      "date": "2010-07-10",
+      "advertised": 73900000,
+      "shares": 1,
+      "state": "FL",
+      "city": "Royal Palm Beach"
+    },
+    {
+      "game": "powerball",
+      "date": "2010-06-23",
+      "advertised": 97000000,
+      "shares": 2,
+      "state": "OH",
+      "city": "Curtice"
+    },
+    {
+      "game": "megamillions",
+      "date": "2010-06-22",
+      "advertised": 26000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Syracuse"
+    },
+    {
+      "game": "megamillions",
+      "date": "2010-06-11",
+      "advertised": 36000000,
+      "shares": 1,
+      "state": "MI",
+      "city": "Kalamazoo"
+    },
+    {
+      "game": "powerball",
+      "date": "2010-06-02",
+      "advertised": 261600000,
+      "shares": 1,
+      "state": "OH",
+      "city": "Sunbury"
+    },
+    {
+      "game": "megamillions",
+      "date": "2010-05-28",
+      "advertised": 12000000,
+      "shares": 1,
+      "state": "NC",
+      "city": "Greensboro"
+    },
+    {
+      "game": "megamillions",
+      "date": "2010-05-25",
+      "advertised": 64000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "BROOKLYN"
+    },
+    {
+      "game": "megamillions",
+      "date": "2010-05-04",
+      "advertised": 266000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Pico Rivera"
+    },
+    {
+      "game": "powerball",
+      "date": "2010-04-21",
+      "advertised": 258500000,
+      "shares": 1,
+      "state": "MO",
+      "city": "Marshall"
+    },
+    {
+      "game": "powerball",
+      "date": "2010-03-13",
+      "advertised": 211700000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Morris Plains"
+    },
+    {
+      "game": "megamillions",
+      "date": "2010-03-12",
+      "advertised": 20000000,
+      "shares": 1,
+      "state": "IL",
+      "city": "Hennepin"
+    },
+    {
+      "game": "megamillions",
+      "date": "2010-03-05",
+      "advertised": 134000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Long Beach"
+    },
+    {
+      "game": "powerball",
+      "date": "2010-02-06",
+      "advertised": 141400000,
+      "shares": 1,
+      "state": "NC",
+      "city": "Asheville"
+    },
+    {
+      "game": "megamillions",
+      "date": "2010-01-29",
+      "advertised": 144000000,
+      "shares": 1,
+      "state": "TX",
+      "city": "Katy"
+    },
+    {
+      "game": "powerball",
+      "date": "2010-01-02",
+      "advertised": 25000000,
+      "shares": 1,
+      "state": "AR",
+      "city": "Mayflower"
+    },
+    {
+      "game": "powerball",
+      "date": "2009-12-26",
+      "advertised": 128600000,
+      "shares": 1,
+      "state": "KY",
+      "city": "Georgetown"
+    },
+    {
+      "game": "megamillions",
+      "date": "2009-12-22",
+      "advertised": 165000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Rocky Point"
+    },
+    {
+      "game": "powerball",
+      "date": "2009-11-21",
+      "advertised": 32800000,
+      "shares": 1,
+      "state": "OK",
+      "city": "Kiowa"
+    },
+    {
+      "game": "powerball",
+      "date": "2009-11-11",
+      "advertised": 96600000,
+      "shares": 1,
+      "state": "KS",
+      "city": "Great Bend"
+    },
+    {
+      "game": "megamillions",
+      "date": "2009-11-10",
+      "advertised": 77000000,
+      "shares": 2,
+      "state": "CA",
+      "city": "S San Francisco"
+    },
+    {
+      "game": "megamillions",
+      "date": "2009-10-16",
+      "advertised": 200000000,
+      "shares": 1,
+      "state": "VA",
+      "city": "Shenandoah"
+    },
+    {
+      "game": "powerball",
+      "date": "2009-10-14",
+      "advertised": 31400000,
+      "shares": 1,
+      "state": "WI",
+      "city": "Marinette"
+    },
+    {
+      "game": "powerball",
+      "date": "2009-10-03",
+      "advertised": 189000000,
+      "shares": 1,
+      "state": "FL",
+      "city": "Orlando"
+    },
+    {
+      "game": "megamillions",
+      "date": "2009-09-01",
+      "advertised": 12000000,
+      "shares": 1,
+      "state": "GA",
+      "city": "Newnan"
+    },
+    {
+      "game": "megamillions",
+      "date": "2009-08-28",
+      "advertised": 336000000,
+      "shares": 2,
+      "state": "CA",
+      "city": "San Gabriel"
+    },
+    {
+      "game": "powerball",
+      "date": "2009-08-19",
+      "advertised": 259900000,
+      "shares": 1,
+      "state": "SC",
+      "city": "Columbia"
+    },
+    {
+      "game": "megamillions",
+      "date": "2009-07-07",
+      "advertised": 133000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Queens"
+    },
+    {
+      "game": "powerball",
+      "date": "2009-06-27",
+      "advertised": 25000000,
+      "shares": 1,
+      "state": "CT",
+      "city": "West Hartford"
+    },
+    {
+      "game": "powerball",
+      "date": "2009-06-20",
+      "advertised": 88100000,
+      "shares": 1,
+      "state": "NC",
+      "city": "Kings Mountain"
+    },
+    {
+      "game": "megamillions",
+      "date": "2009-05-29",
+      "advertised": 35000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Syracuse"
+    },
+    {
+      "game": "powerball",
+      "date": "2009-05-27",
+      "advertised": 232100000,
+      "shares": 1,
+      "state": "SD",
+      "city": "Winner"
+    },
+    {
+      "game": "megamillions",
+      "date": "2009-05-15",
+      "advertised": 19000000,
+      "shares": 2,
+      "state": "VA",
+      "city": "Front Royal"
+    },
+    {
+      "game": "megamillions",
+      "date": "2009-05-01",
+      "advertised": 227000000,
+      "shares": 3,
+      "state": "CA",
+      "city": "Mill Valley"
+    },
+    {
+      "game": "powerball",
+      "date": "2009-04-08",
+      "advertised": 144000000,
+      "shares": 1,
+      "state": "DC",
+      "city": "Washington"
+    },
+    {
+      "game": "megamillions",
+      "date": "2009-03-13",
+      "advertised": 26000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Wyandanch"
+    },
+    {
+      "game": "megamillions",
+      "date": "2009-03-03",
+      "advertised": 216000000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Toms River"
+    },
+    {
+      "game": "powerball",
+      "date": "2009-02-28",
+      "advertised": 174400000,
+      "shares": 2,
+      "state": "PA",
+      "city": "Plymouth Meeting"
+    },
+    {
+      "game": "powerball",
+      "date": "2009-01-17",
+      "advertised": 163200000,
+      "shares": 1,
+      "state": "IN",
+      "city": "Lawrenceburg"
+    },
+    {
+      "game": "megamillions",
+      "date": "2009-01-13",
+      "advertised": 22000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "North Bellmore"
+    },
+    {
+      "game": "megamillions",
+      "date": "2009-01-02",
+      "advertised": 47000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "San Diego"
+    },
+    {
+      "game": "megamillions",
+      "date": "2008-12-12",
+      "advertised": 207000000,
+      "shares": 1,
+      "state": "OH",
+      "city": "Piqua"
+    },
+    {
+      "game": "powerball",
+      "date": "2008-11-22",
+      "advertised": 57600000,
+      "shares": 1,
+      "state": "IN",
+      "city": "Indianapolis"
+    },
+    {
+      "game": "powerball",
+      "date": "2008-10-29",
+      "advertised": 58600000,
+      "shares": 1,
+      "state": "PA",
+      "city": "York"
+    },
+    {
+      "game": "megamillions",
+      "date": "2008-10-21",
+      "advertised": 42000000,
+      "shares": 1,
+      "state": "GA",
+      "city": "located at 2515 Gold Mine Road in Dallas"
+    },
+    {
+      "game": "powerball",
+      "date": "2008-10-04",
+      "advertised": 20000000,
+      "shares": 1,
+      "state": "PA",
+      "city": "Lansdowne"
+    },
+    {
+      "game": "megamillions",
+      "date": "2008-10-03",
+      "advertised": 42000000,
+      "shares": 1,
+      "state": "MI",
+      "city": "Stoney Creek Party Shoppe in Washington"
+    },
+    {
+      "game": "powerball",
+      "date": "2008-09-27",
+      "advertised": 206000000,
+      "shares": 1,
+      "state": "NM",
+      "city": "Roswell"
+    },
+    {
+      "game": "megamillions",
+      "date": "2008-09-16",
+      "advertised": 15000000,
+      "shares": 1,
+      "state": "OH",
+      "city": "South Webster"
+    },
+    {
+      "game": "megamillions",
+      "date": "2008-09-09",
+      "advertised": 24000000,
+      "shares": 1,
+      "state": "MD",
+      "city": "Baltimore"
+    },
+    {
+      "game": "megamillions",
+      "date": "2008-08-29",
+      "advertised": 133000000,
+      "shares": 1,
+      "state": "GA",
+      "city": "1450 Veterans Memorial Parkway in Mableton"
+    },
+    {
+      "game": "powerball",
+      "date": "2008-08-02",
+      "advertised": 86300000,
+      "shares": 1,
+      "state": "PA",
+      "city": "Willow Street"
+    },
+    {
+      "game": "megamillions",
+      "date": "2008-07-22",
+      "advertised": 126000000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "City of Newark"
+    },
+    {
+      "game": "powerball",
+      "date": "2008-07-02",
+      "advertised": 84900000,
+      "shares": 1,
+      "state": "OK",
+      "city": "Altus"
+    },
+    {
+      "game": "megamillions",
+      "date": "2008-06-13",
+      "advertised": 57000000,
+      "shares": 1,
+      "state": "MI",
+      "city": "Comstock Park"
+    },
+    {
+      "game": "powerball",
+      "date": "2008-05-31",
+      "advertised": 34100000,
+      "shares": 1,
+      "state": "LA",
+      "city": "Gretna"
+    },
+    {
+      "game": "megamillions",
+      "date": "2008-05-23",
+      "advertised": 17000000,
+      "shares": 2,
+      "state": "NY",
+      "city": "New Windsor"
+    },
+    {
+      "game": "powerball",
+      "date": "2008-05-17",
+      "advertised": 35300000,
+      "shares": 1,
+      "state": "SC",
+      "city": "West Columbia"
+    },
+    {
+      "game": "powerball",
+      "date": "2008-05-03",
+      "advertised": 180100000,
+      "shares": 1,
+      "state": "MN",
+      "city": "Faribault"
+    },
+    {
+      "game": "megamillions",
+      "date": "2008-04-01",
+      "advertised": 136000000,
+      "shares": 1,
+      "state": "MI",
+      "city": "Redford"
+    },
+    {
+      "game": "powerball",
+      "date": "2008-03-15",
+      "advertised": 276300000,
+      "shares": 1,
+      "state": "WV",
+      "city": "Westover"
+    },
+    {
+      "game": "megamillions",
+      "date": "2008-02-22",
+      "advertised": 275000000,
+      "shares": 1,
+      "state": "GA",
+      "city": "Highway 80 and Metter Road in Portal"
+    },
+    {
+      "game": "powerball",
+      "date": "2008-01-16",
+      "advertised": 97000000,
+      "shares": 1,
+      "state": "LA",
+      "city": "Metairie"
+    },
+    {
+      "game": "megamillions",
+      "date": "2008-01-01",
+      "advertised": 33000000,
+      "shares": 1,
+      "state": "TX",
+      "city": "Fort Worth"
+    },
+    {
+      "game": "megamillions",
+      "date": "2007-12-18",
+      "advertised": 163000000,
+      "shares": 2,
+      "state": "IL",
+      "city": "Streamwood"
+    },
+    {
+      "game": "powerball",
+      "date": "2007-12-12",
+      "advertised": 33600000,
+      "shares": 1,
+      "state": "KY",
+      "city": "Shepherdsville"
+    },
+    {
+      "game": "powerball",
+      "date": "2007-11-28",
+      "advertised": 151900000,
+      "shares": 1,
+      "state": "RI",
+      "city": "Warren"
+    },
+    {
+      "game": "megamillions",
+      "date": "2007-11-02",
+      "advertised": 75000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Mahopac Falls"
+    },
+    {
+      "game": "powerball",
+      "date": "2007-10-10",
+      "advertised": 20000000,
+      "shares": 1,
+      "state": "CO",
+      "city": "Westminster"
+    },
+    {
+      "game": "megamillions",
+      "date": "2007-10-05",
+      "advertised": 27000000,
+      "shares": 1,
+      "state": "MD",
+      "city": "Essex"
+    },
+    {
+      "game": "powerball",
+      "date": "2007-10-03",
+      "advertised": 15000000,
+      "shares": 1,
+      "state": "CT",
+      "city": "Ashford"
+    },
+    {
+      "game": "powerball",
+      "date": "2007-09-29",
+      "advertised": 15000000,
+      "shares": 1,
+      "state": "LA",
+      "city": "Chauvin"
+    },
+    {
+      "game": "powerball",
+      "date": "2007-09-26",
+      "advertised": 61500000,
+      "shares": 1,
+      "state": "KY",
+      "city": "Bardstown"
+    },
+    {
+      "game": "megamillions",
+      "date": "2007-09-25",
+      "advertised": 12000000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Totowa"
+    },
+    {
+      "game": "megamillions",
+      "date": "2007-09-21",
+      "advertised": 61000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Studio City"
+    },
+    {
+      "game": "powerball",
+      "date": "2007-09-05",
+      "advertised": 29100000,
+      "shares": 1,
+      "state": "WI",
+      "city": "De Pere"
+    },
+    {
+      "game": "megamillions",
+      "date": "2007-08-31",
+      "advertised": 330000000,
+      "shares": 4,
+      "state": "NJ",
+      "city": "Villas"
+    },
+    {
+      "game": "powerball",
+      "date": "2007-08-25",
+      "advertised": 314300000,
+      "shares": 1,
+      "state": "IN",
+      "city": "Richmond"
+    },
+    {
+      "game": "megamillions",
+      "date": "2007-07-06",
+      "advertised": 128000000,
+      "shares": 1,
+      "state": "TX",
+      "city": "Dallas"
+    },
+    {
+      "game": "powerball",
+      "date": "2007-06-27",
+      "advertised": 105800000,
+      "shares": 1,
+      "state": "OK",
+      "city": "Roland"
+    },
+    {
+      "game": "megamillions",
+      "date": "2007-05-29",
+      "advertised": 44000000,
+      "shares": 1,
+      "state": "VA",
+      "city": "Richmond"
+    },
+    {
+      "game": "powerball",
+      "date": "2007-05-23",
+      "advertised": 62800000,
+      "shares": 1,
+      "state": "NM",
+      "city": "Chama"
+    },
+    {
+      "game": "megamillions",
+      "date": "2007-05-11",
+      "advertised": 113000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Hawthorne"
+    },
+    {
+      "game": "powerball",
+      "date": "2007-04-28",
+      "advertised": 67000000,
+      "shares": 1,
+      "state": "NH",
+      "city": "Plymouth"
+    },
+    {
+      "game": "megamillions",
+      "date": "2007-04-06",
+      "advertised": 105000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Astoria"
+    },
+    {
+      "game": "powerball",
+      "date": "2007-04-04",
+      "advertised": 15000000,
+      "shares": 1,
+      "state": "SC",
+      "city": "Florence"
+    },
+    {
+      "game": "powerball",
+      "date": "2007-03-31",
+      "advertised": 40700000,
+      "shares": 1,
+      "state": "WI",
+      "city": "Stoughton"
+    },
+    {
+      "game": "powerball",
+      "date": "2007-03-17",
+      "advertised": 182700000,
+      "shares": 1,
+      "state": "OR",
+      "city": "Milwaukie"
+    },
+    {
+      "game": "megamillions",
+      "date": "2007-03-06",
+      "advertised": 390000000,
+      "shares": 2,
+      "state": "GA",
+      "city": "Dalton"
+    },
+    {
+      "game": "powerball",
+      "date": "2007-01-27",
+      "advertised": 15000000,
+      "shares": 1,
+      "state": "AZ",
+      "city": "Phoenix"
+    },
+    {
+      "game": "powerball",
+      "date": "2007-01-24",
+      "advertised": 254000000,
+      "shares": 1,
+      "state": "MO",
+      "city": "St Louis"
+    },
+    {
+      "game": "megamillions",
+      "date": "2007-01-09",
+      "advertised": 125000000,
+      "shares": 1,
+      "state": "TX",
+      "city": "Amarillo"
+    },
+    {
+      "game": "megamillions",
+      "date": "2006-12-01",
+      "advertised": 40000000,
+      "shares": 1,
+      "state": "OH",
+      "city": "Columbus"
+    },
+    {
+      "game": "powerball",
+      "date": "2006-11-29",
+      "advertised": 74500000,
+      "shares": 1,
+      "state": "NC",
+      "city": "Halifax"
+    },
+    {
+      "game": "megamillions",
+      "date": "2006-11-14",
+      "advertised": 75000000,
+      "shares": 1,
+      "state": "MI",
+      "city": "Canton"
+    },
+    {
+      "game": "powerball",
+      "date": "2006-11-01",
+      "advertised": 94100000,
+      "shares": 2,
+      "state": "AZ",
+      "city": "Phoenix"
+    },
+    {
+      "game": "megamillions",
+      "date": "2006-10-17",
+      "advertised": 55000000,
+      "shares": 1,
+      "state": "WA",
+      "city": "North Bend"
+    },
+    {
+      "game": "powerball",
+      "date": "2006-09-30",
+      "advertised": 15000000,
+      "shares": 1,
+      "state": "LA",
+      "city": "Cut Off"
+    },
+    {
+      "game": "powerball",
+      "date": "2006-09-27",
+      "advertised": 15000000,
+      "shares": 1,
+      "state": "KS",
+      "city": "Topeka"
+    },
+    {
+      "game": "powerball",
+      "date": "2006-09-23",
+      "advertised": 200800000,
+      "shares": 1,
+      "state": "IA",
+      "city": "Fort Dodge"
+    },
+    {
+      "game": "megamillions",
+      "date": "2006-09-19",
+      "advertised": 12000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Bronx"
+    },
+    {
+      "game": "megamillions",
+      "date": "2006-09-15",
+      "advertised": 163000000,
+      "shares": 1,
+      "state": "GA",
+      "city": "Bainbridge"
+    },
+    {
+      "game": "powerball",
+      "date": "2006-08-05",
+      "advertised": 208600000,
+      "shares": 1,
+      "state": "WI",
+      "city": "Fond Du Lac"
+    },
+    {
+      "game": "megamillions",
+      "date": "2006-08-01",
+      "advertised": 31000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Astoria"
+    },
+    {
+      "game": "megamillions",
+      "date": "2006-06-27",
+      "advertised": 24000000,
+      "shares": 1,
+      "state": "OH",
+      "city": "Genoa"
+    },
+    {
+      "game": "powerball",
+      "date": "2006-06-17",
+      "advertised": 101800000,
+      "shares": 1,
+      "state": "OK",
+      "city": "Broken Arrow"
+    },
+    {
+      "game": "megamillions",
+      "date": "2006-06-16",
+      "advertised": 35000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "La Quinta"
+    },
+    {
+      "game": "megamillions",
+      "date": "2006-06-02",
+      "advertised": 47000000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "New Brunswick"
+    },
+    {
+      "game": "powerball",
+      "date": "2006-05-17",
+      "advertised": 116800000,
+      "shares": 1,
+      "state": "SD",
+      "city": "Pierre"
+    },
+    {
+      "game": "megamillions",
+      "date": "2006-05-16",
+      "advertised": 94000000,
+      "shares": 1,
+      "state": "TX",
+      "city": "El Paso"
+    },
+    {
+      "game": "megamillions",
+      "date": "2006-04-18",
+      "advertised": 265000000,
+      "shares": 1,
+      "state": "OH",
+      "city": "Cincinnati"
+    },
+    {
+      "game": "powerball",
+      "date": "2006-04-12",
+      "advertised": 224200000,
+      "shares": 1,
+      "state": "MO",
+      "city": "St Louis"
+    },
+    {
+      "game": "megamillions",
+      "date": "2006-02-28",
+      "advertised": 270000000,
+      "shares": 1,
+      "state": "OH",
+      "city": "Lyons"
+    },
+    {
+      "game": "powerball",
+      "date": "2006-02-18",
+      "advertised": 365000000,
+      "shares": 1,
+      "state": "NE",
+      "city": "Lincoln"
+    },
+    {
+      "game": "megamillions",
+      "date": "2006-01-06",
+      "advertised": 15000000,
+      "shares": 1,
+      "state": "OH",
+      "city": "Norwalk"
+    },
+    {
+      "game": "megamillions",
+      "date": "2005-12-30",
+      "advertised": 88000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Montebello"
+    },
+    {
+      "game": "powerball",
+      "date": "2005-12-14",
+      "advertised": 113200000,
+      "shares": 1,
+      "state": "IA",
+      "city": "Des Moines"
+    },
+    {
+      "game": "megamillions",
+      "date": "2005-11-29",
+      "advertised": 35000000,
+      "shares": 2,
+      "state": "CA",
+      "city": "Wilmington"
+    },
+    {
+      "game": "megamillions",
+      "date": "2005-11-15",
+      "advertised": 315000000,
+      "shares": 1,
+      "state": "CA",
+      "city": "Anaheim"
+    },
+    {
+      "game": "powerball",
+      "date": "2005-11-02",
+      "advertised": 36000000,
+      "shares": 1,
+      "state": "MO",
+      "city": "Raytown"
+    },
+    {
+      "game": "powerball",
+      "date": "2005-10-19",
+      "advertised": 340000000,
+      "shares": 1,
+      "state": "OR",
+      "city": "Jacksonville"
+    },
+    {
+      "game": "megamillions",
+      "date": "2005-09-16",
+      "advertised": 258000000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Rutherford"
+    },
+    {
+      "game": "powerball",
+      "date": "2005-08-10",
+      "advertised": 93400000,
+      "shares": 1,
+      "state": "NM",
+      "city": "Albuquerque"
+    },
+    {
+      "game": "megamillions",
+      "date": "2005-07-22",
+      "advertised": 170000000,
+      "shares": 1,
+      "state": "OH",
+      "city": "Painesville"
+    },
+    {
+      "game": "powerball",
+      "date": "2005-06-29",
+      "advertised": 10000000,
+      "shares": 1,
+      "state": "WV",
+      "city": "Charles Town"
+    },
+    {
+      "game": "powerball",
+      "date": "2005-06-25",
+      "advertised": 59500000,
+      "shares": 1,
+      "state": "CT",
+      "city": "Seymour"
+    },
+    {
+      "game": "megamillions",
+      "date": "2005-06-03",
+      "advertised": 106000000,
+      "shares": 1,
+      "state": "OH",
+      "city": "Cleveland"
+    },
+    {
+      "game": "powerball",
+      "date": "2005-05-28",
+      "advertised": 220300000,
+      "shares": 1,
+      "state": "ID",
+      "city": "Boise"
+    },
+    {
+      "game": "megamillions",
+      "date": "2005-04-22",
+      "advertised": 208000000,
+      "shares": 1,
+      "state": "MI",
+      "city": "Port Huron"
+    },
+    {
+      "game": "powerball",
+      "date": "2005-03-30",
+      "advertised": 25500000,
+      "shares": 1,
+      "state": "TN",
+      "city": "South Pittsburg"
+    },
+    {
+      "game": "powerball",
+      "date": "2005-03-16",
+      "advertised": 18700000,
+      "shares": 1,
+      "state": "PA",
+      "city": "Warrendale"
+    },
+    {
+      "game": "powerball",
+      "date": "2005-03-05",
+      "advertised": 19900000,
+      "shares": 1,
+      "state": "IN",
+      "city": "Elwood"
+    },
+    {
+      "game": "megamillions",
+      "date": "2005-03-01",
+      "advertised": 115000000,
+      "shares": 1,
+      "state": "TX",
+      "city": "Rowlett"
+    },
+    {
+      "game": "powerball",
+      "date": "2005-02-23",
+      "advertised": 18700000,
+      "shares": 1,
+      "state": "ID",
+      "city": "Boise"
+    },
+    {
+      "game": "powerball",
+      "date": "2005-02-12",
+      "advertised": 40600000,
+      "shares": 1,
+      "state": "LA",
+      "city": "Baton Rouge"
+    },
+    {
+      "game": "powerball",
+      "date": "2005-01-22",
+      "advertised": 26400000,
+      "shares": 1,
+      "state": "PA",
+      "city": "Pittsburgh"
+    },
+    {
+      "game": "megamillions",
+      "date": "2005-01-18",
+      "advertised": 131000000,
+      "shares": 1,
+      "state": "GA",
+      "city": "Washington"
+    },
+    {
+      "game": "powerball",
+      "date": "2005-01-08",
+      "advertised": 36800000,
+      "shares": 1,
+      "state": "WI",
+      "city": "Thiensville"
+    },
+    {
+      "game": "powerball",
+      "date": "2004-12-22",
+      "advertised": 30900000,
+      "shares": 3,
+      "state": "AZ",
+      "city": "Mesa"
+    },
+    {
+      "game": "powerball",
+      "date": "2004-12-08",
+      "advertised": 171400000,
+      "shares": 1,
+      "state": "PA",
+      "city": "New Castle"
+    },
+    {
+      "game": "megamillions",
+      "date": "2004-12-03",
+      "advertised": 25000000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Paterson"
+    },
+    {
+      "game": "megamillions",
+      "date": "2004-11-19",
+      "advertised": 149000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "New York"
+    },
+    {
+      "game": "powerball",
+      "date": "2004-10-16",
+      "advertised": 14400000,
+      "shares": 1,
+      "state": "IA",
+      "city": "Carter Lake"
+    },
+    {
+      "game": "powerball",
+      "date": "2004-10-09",
+      "advertised": 214700000,
+      "shares": 1,
+      "state": "DE",
+      "city": "Blades"
+    },
+    {
+      "game": "megamillions",
+      "date": "2004-10-01",
+      "advertised": 106000000,
+      "shares": 1,
+      "state": "TX",
+      "city": "Carrollton"
+    },
+    {
+      "game": "megamillions",
+      "date": "2004-08-20",
+      "advertised": 52000000,
+      "shares": 1,
+      "state": "OH",
+      "city": "Cleveland"
+    },
+    {
+      "game": "powerball",
+      "date": "2004-08-14",
+      "advertised": 98700000,
+      "shares": 1,
+      "state": "MN",
+      "city": "Eden Prairie"
+    },
+    {
+      "game": "megamillions",
+      "date": "2004-07-27",
+      "advertised": 10000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Staten Island"
+    },
+    {
+      "game": "megamillions",
+      "date": "2004-07-23",
+      "advertised": 47000000,
+      "shares": 1,
+      "state": "MI",
+      "city": "Pullman"
+    },
+    {
+      "game": "powerball",
+      "date": "2004-07-07",
+      "advertised": 21100000,
+      "shares": 1,
+      "state": "MN",
+      "city": "North St Paul"
+    },
+    {
+      "game": "megamillions",
+      "date": "2004-07-02",
+      "advertised": 294000000,
+      "shares": 1,
+      "state": "MA",
+      "city": "Lowell"
+    },
+    {
+      "game": "powerball",
+      "date": "2004-06-26",
+      "advertised": 65800000,
+      "shares": 1,
+      "state": "SC",
+      "city": "Townville"
+    },
+    {
+      "game": "powerball",
+      "date": "2004-05-29",
+      "advertised": 52000000,
+      "shares": 1,
+      "state": "PA",
+      "city": "Philadelphia"
+    },
+    {
+      "game": "powerball",
+      "date": "2004-05-08",
+      "advertised": 213200000,
+      "shares": 1,
+      "state": "PA",
+      "city": "Washington Crossing"
+    },
+    {
+      "game": "megamillions",
+      "date": "2004-05-07",
+      "advertised": 67000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Oceanside"
+    },
+    {
+      "game": "megamillions",
+      "date": "2004-04-09",
+      "advertised": 109000000,
+      "shares": 1,
+      "state": "MD",
+      "city": "Kensington"
+    },
+    {
+      "game": "powerball",
+      "date": "2004-03-13",
+      "advertised": 89000000,
+      "shares": 1,
+      "state": "IN",
+      "city": "Salem"
+    },
+    {
+      "game": "megamillions",
+      "date": "2004-03-02",
+      "advertised": 21000000,
+      "shares": 1,
+      "state": "OH",
+      "city": "Dayton"
+    },
+    {
+      "game": "megamillions",
+      "date": "2004-02-20",
+      "advertised": 239000000,
+      "shares": 1,
+      "state": "VA",
+      "city": "Stephens City"
+    },
+    {
+      "game": "powerball",
+      "date": "2004-02-04",
+      "advertised": 85500000,
+      "shares": 1,
+      "state": "NH",
+      "city": "Portsmouth"
+    },
+    {
+      "game": "powerball",
+      "date": "2003-12-31",
+      "advertised": 221500000,
+      "shares": 2,
+      "state": "SC",
+      "city": "Clover"
+    },
+    {
+      "game": "megamillions",
+      "date": "2003-12-30",
+      "advertised": 162000000,
+      "shares": 1,
+      "state": "OH",
+      "city": "Cleveland"
+    },
+    {
+      "game": "megamillions",
+      "date": "2003-11-11",
+      "advertised": 70000000,
+      "shares": 3,
+      "state": "GA",
+      "city": "Roswell"
+    },
+    {
+      "game": "powerball",
+      "date": "2003-11-05",
+      "advertised": 12800000,
+      "shares": 1,
+      "state": "IN",
+      "city": "Muncie"
+    },
+    {
+      "game": "powerball",
+      "date": "2003-10-29",
+      "advertised": 10000000,
+      "shares": 1,
+      "state": "IN",
+      "city": "Indianapolis"
+    },
+    {
+      "game": "powerball",
+      "date": "2003-10-25",
+      "advertised": 190900000,
+      "shares": 2,
+      "state": "IN",
+      "city": "Washington"
+    },
+    {
+      "game": "megamillions",
+      "date": "2003-10-07",
+      "advertised": 12000000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Neptune"
+    },
+    {
+      "game": "megamillions",
+      "date": "2003-09-30",
+      "advertised": 150000000,
+      "shares": 1,
+      "state": "GA",
+      "city": "Fitzgerald"
+    },
+    {
+      "game": "powerball",
+      "date": "2003-08-30",
+      "advertised": 135000000,
+      "shares": 1,
+      "state": "NH",
+      "city": "Center Conway"
+    },
+    {
+      "game": "megamillions",
+      "date": "2003-08-08",
+      "advertised": 50000000,
+      "shares": 1,
+      "state": "GA",
+      "city": "Savannah"
+    },
+    {
+      "game": "powerball",
+      "date": "2003-07-16",
+      "advertised": 13500000,
+      "shares": 1,
+      "state": "KY",
+      "city": "Shepherdsville"
+    },
+    {
+      "game": "megamillions",
+      "date": "2003-07-11",
+      "advertised": 34000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Uniondale"
+    },
+    {
+      "game": "powerball",
+      "date": "2003-07-09",
+      "advertised": 261300000,
+      "shares": 2,
+      "state": "MO",
+      "city": "Hermann"
+    },
+    {
+      "game": "megamillions",
+      "date": "2003-06-20",
+      "advertised": 183000000,
+      "shares": 1,
+      "state": "MD",
+      "city": "Baltimore"
+    },
+    {
+      "game": "powerball",
+      "date": "2003-05-07",
+      "advertised": 88700000,
+      "shares": 1,
+      "state": "SC",
+      "city": "Fort Mill"
+    },
+    {
+      "game": "megamillions",
+      "date": "2003-04-25",
+      "advertised": 46000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Brooklyn"
+    },
+    {
+      "game": "megamillions",
+      "date": "2003-03-28",
+      "advertised": 20000000,
+      "shares": 1,
+      "state": "MD",
+      "city": "Randallstown"
+    },
+    {
+      "game": "powerball",
+      "date": "2003-03-26",
+      "advertised": 62400000,
+      "shares": 1,
+      "state": "WV",
+      "city": "Bluefield"
+    },
+    {
+      "game": "megamillions",
+      "date": "2003-03-14",
+      "advertised": 43000000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Englewood"
+    },
+    {
+      "game": "megamillions",
+      "date": "2003-02-18",
+      "advertised": 12000000,
+      "shares": 1,
+      "state": "GA",
+      "city": "Rising Fawn"
+    },
+    {
+      "game": "megamillions",
+      "date": "2003-02-11",
+      "advertised": 128000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Brooklyn"
+    },
+    {
+      "game": "powerball",
+      "date": "2003-02-01",
+      "advertised": 101000000,
+      "shares": 2,
+      "state": "IN",
+      "city": "Zionsville"
+    },
+    {
+      "game": "megamillions",
+      "date": "2002-12-24",
+      "advertised": 68000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Brooklyn"
+    },
+    {
+      "game": "megamillions",
+      "date": "2002-11-19",
+      "advertised": 16000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "Middle Village"
+    },
+    {
+      "game": "megamillions",
+      "date": "2002-11-08",
+      "advertised": 93000000,
+      "shares": 1,
+      "state": "WA",
+      "city": "Hoquiam"
+    },
+    {
+      "game": "megamillions",
+      "date": "2002-10-16",
+      "advertised": 165000000,
+      "shares": 1,
+      "state": "NJ",
+      "city": "Cliffside Park"
+    },
+    {
+      "game": "megamillions",
+      "date": "2002-09-27",
+      "advertised": 37000000,
+      "shares": 1,
+      "state": "IL",
+      "city": "Mount Prospect"
+    },
+    {
+      "game": "megamillions",
+      "date": "2002-09-06",
+      "advertised": 17000000,
+      "shares": 1,
+      "state": "MI",
+      "city": "Kentwood"
+    },
+    {
+      "game": "megamillions",
+      "date": "2002-08-27",
+      "advertised": 108000000,
+      "shares": 1,
+      "state": "NY",
+      "city": "New York"
+    },
+    {
+      "game": "megamillions",
+      "date": "2002-05-24",
+      "advertised": 12000000,
+      "shares": 1,
+      "state": "IL",
+      "city": "Chicago"
+    },
+    {
+      "game": "megamillions",
+      "date": "2002-05-17",
+      "advertised": 28000000,
+      "shares": 1,
+      "state": "IL",
+      "city": "Chicago"
+    }
+  ]
+}

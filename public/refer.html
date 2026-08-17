@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Refer a friend | JackpotDesk</title>
+    <meta
+      name="description"
+      content="Share JackpotDesk. No account, no referral bonus — the tool is free. Send jackpotdesk.com."
+    />
+    <link rel="canonical" href="https://jackpotdesk.com/refer.html" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700&display=swap" />
+    <link rel="stylesheet" href="/legal.css" />
+  </head>
+  <body>
+    <main class="legal">
+      <a class="legal-brand" href="/"><img src="/logo.png" alt="JackpotDesk" width="220" height="31" /></a>
+      <nav class="legal-nav" aria-label="Site">
+        <a href="/about.html">About</a>
+        <a href="/how-to-play.html">How to play</a>
+        <a href="/refer.html" aria-current="page">Refer a friend</a>
+        <a href="/responsible.html">Responsible gaming</a>
+        <a href="/accessibility.html">Accessibility</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/privacy.html">Privacy</a>
+      </nav>
+      <p class="kicker">Share</p>
+      <h1>Refer a friend</h1>
+      <p>
+        There is no referral payout, promo code, or cut of anyone’s tickets.
+        JackpotDesk is free. Send the site if it is useful.
+      </p>
+      <p>
+        Link: <a href="https://jackpotdesk.com/">https://jackpotdesk.com/</a>
+      </p>
+      <p>
+        <button type="button" id="copy-link" style="font:inherit;font-weight:700;color:#09090b;background:#fafafa;border:0;border-radius:0.75rem;padding:0.65rem 1rem;min-height:2.75rem;cursor:pointer">
+          Copy site link
+        </button>
+      </p>
+      <h2>What they get</h2>
+      <p>
+        The same desk you use: this week’s line, unique tickets, map, and a pool
+        that lives in their browser. Nothing is synced to a JackpotDesk account
+        because there is not one.
+      </p>
+      <h2>Sharing a pool is different</h2>
+      <p>
+        If you already have a syndicate board, use Copy share link on the Pool
+        tab. That URL carries members and tickets for that pool only. It is not a
+        referral. Whoever opens it loads the board in their own browser.
+      </p>
+      <script>
+        document.getElementById("copy-link").addEventListener("click", async function () {
+          var url = "https://jackpotdesk.com/";
+          try {
+            await navigator.clipboard.writeText(url);
+            this.textContent = "Copied";
+          } catch (err) {
+            window.prompt("Copy this link", url);
+          }
+        });
+      </script>
+    </main>
+  </body>
+</html>
