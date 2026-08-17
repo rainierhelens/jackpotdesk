@@ -40,7 +40,7 @@ type Tab = "week" | "map" | "tickets" | "pool" | "why";
 export default function App() {
   const poolApi = usePool();
   const replacePool = poolApi.replacePool;
-  const [tab, setTab] = useState<Tab>("week");
+  const [tab, setTab] = useState<Tab>("tickets");
   const [advertised, setAdvertised] = useState("");
   const [cash, setCash] = useState("");
   const [sold, setSold] = useState("");
@@ -203,8 +203,8 @@ export default function App() {
               </a>
             </h1>
             <p className="tag">
-              Same hit odds as Quick Pick. Better ticket if you actually win.
-              A line on whether this drawing is even worth the stake.
+              Same hit odds as Quick Pick. Build an uncrowded slip, then decide
+              if this drawing is even worth the stake.
             </p>
           </div>
           <div className="masthead-tools">
@@ -222,20 +222,20 @@ export default function App() {
       <nav className="tabs" aria-label="Primary">
           <button
             type="button"
+            className={tab === "tickets" ? "on" : ""}
+            onClick={() => setTab("tickets")}
+          >
+            <img src={iconTickets} alt="" className="tab-icon wide" />
+            Tickets
+          </button>
+          <button
+            type="button"
             className={tab === "week" ? "on" : ""}
             onClick={() => setTab("week")}
           >
             <img src={iconWeek} alt="" className="tab-icon" />
             <span className="tab-full">This week</span>
             <span className="tab-short">Week</span>
-          </button>
-          <button
-            type="button"
-            className={tab === "tickets" ? "on" : ""}
-            onClick={() => setTab("tickets")}
-          >
-            <img src={iconTickets} alt="" className="tab-icon wide" />
-            Tickets
           </button>
           <button
             type="button"
@@ -305,6 +305,7 @@ export default function App() {
           asOf={asOf}
           winnerError={winnerError}
           exclude={exclude}
+          nextDrawDate={nextDrawDate}
           onAddToPool={onAddToPool}
         />
       ) : null}

@@ -64,7 +64,8 @@ export function usePool() {
   ): { added: number; rejected: number } {
     const spec = GAMES[pool.game];
     const exclude = new Set(pool.tickets.map((t) => comboKey(t.whites)));
-    const result = generateTickets(spec, count, filters, past, exclude, avoid);
+    const taken = new Set(pool.tickets.flatMap((t) => t.whites));
+    const result = generateTickets(spec, count, filters, past, exclude, avoid, taken);
     addTickets(result.tickets);
     return { added: result.tickets.length, rejected: result.rejected };
   }

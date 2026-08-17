@@ -8,6 +8,8 @@ export type Filters = {
   visual: boolean;
   hot: boolean;
   cold: boolean;
+  lastDraw: boolean;
+  uniqueSlip: boolean;
 };
 
 export type Ticket = {

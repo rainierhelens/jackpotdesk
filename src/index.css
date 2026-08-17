@@ -756,7 +756,15 @@ h3 {
 
 @media (prefers-reduced-motion: reduce) {
   .ball-drop,
-  .ticket-list.drop-in .playslip-wrap {
+  .ticket-list.drop-in .playslip-wrap,
+  .foil-stage,
+  .foil-card,
+  button.primary.minting,
+  .foil-deal .playslip-wrap,
+  .pack-shell.is-opening,
+  .pack-flash,
+  .pack-rays,
+  .pack-bit {
     animation: none;
   }
 }
@@ -768,6 +776,660 @@ h3 {
   to {
     opacity: 1;
   }
+}
+
+@property --px {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 42;
+}
+
+@property --py {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 38;
+}
+
+button.primary.minting {
+  background: var(--gold);
+  color: var(--bg);
+  border-color: var(--gold);
+  animation: mint-pulse 0.7s ease infinite;
+}
+
+button.primary:disabled {
+  cursor: wait;
+}
+
+@keyframes mint-pulse {
+  50% {
+    box-shadow: 0 0 0 7px #f1fd0e00;
+  }
+}
+
+.foil-mint {
+  display: flex;
+  justify-content: flex-start;
+  width: min(22.5rem, 100%);
+  position: relative;
+  z-index: 2;
+}
+
+.foil-hero {
+  width: 100%;
+}
+
+.foil-stage {
+  animation: foil-deal-in 0.45s ease both;
+}
+
+@keyframes foil-deal-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.6rem) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.foil-card {
+  --px: 42;
+  --py: 38;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.foil-card.is-ticket {
+  min-height: unset;
+  padding: 0;
+  border-radius: 0.28rem;
+  border: 1px solid #cbbfb4;
+  color: #161616;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      transparent 0 2px,
+      rgb(40 24 16 / 0.035) 2px 3px
+    ),
+    linear-gradient(180deg, #fffaf4 0%, #f3ebe3 100%);
+  box-shadow:
+    0 14px 32px #00000059,
+    inset 0 1px 0 #ffffffcc;
+}
+
+.foil-css,
+.foil-glare,
+.foil-shader {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.foil-shader {
+  width: 100%;
+  height: 100%;
+  mix-blend-mode: overlay;
+  opacity: 0.42;
+  -webkit-mask-image: linear-gradient(#000 0 42%, transparent 92%);
+  mask-image: linear-gradient(#000 0 42%, transparent 92%);
+}
+
+.foil-css {
+  opacity: 0.28;
+  mix-blend-mode: overlay;
+  background-image: repeating-linear-gradient(
+    115deg,
+    rgb(225 24 55 / 0.35) 0%,
+    rgb(255 255 255 / 0.2) 10%,
+    rgb(225 24 55 / 0.28) 20%,
+    rgb(255 210 80 / 0.22) 30%,
+    rgb(225 24 55 / 0.35) 40%
+  );
+  background-size: 220% 220%;
+  background-position: calc(var(--px) * 1.2%) calc(var(--py) * 1.1%);
+}
+
+.foil-card.is-megamillions .foil-css {
+  background-image: repeating-linear-gradient(
+    115deg,
+    rgb(246 197 26 / 0.4) 0%,
+    rgb(255 255 255 / 0.22) 10%,
+    rgb(0 51 160 / 0.28) 20%,
+    rgb(246 197 26 / 0.32) 30%,
+    rgb(0 51 160 / 0.22) 40%
+  );
+}
+
+.foil-glare {
+  background: radial-gradient(
+    farthest-corner circle at calc(var(--px) * 1%) calc(var(--py) * 1%),
+    rgb(255 255 255 / 0.5) 0%,
+    rgb(255 255 255 / 0.08) 28%,
+    transparent 62%
+  );
+  mix-blend-mode: overlay;
+}
+
+.foil-body {
+  position: relative;
+  z-index: 1;
+}
+
+.panel.gen-panel {
+  overflow: visible;
+  padding: 0.9rem 1rem 1rem;
+}
+
+.gen-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.gen-tag {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.gen-go {
+  min-width: 9.5rem;
+  font-size: 0.95rem;
+}
+
+.gen-panel.is-powerball .gen-go.minting {
+  background: #e31837;
+  color: #fff;
+  border-color: #e31837;
+}
+
+.gen-panel.is-megamillions .gen-go.minting {
+  background: #f6c51a;
+  color: #0b1f4a;
+  border-color: #f6c51a;
+}
+
+.gen-layout {
+  display: grid;
+  grid-template-columns: minmax(16rem, 22.5rem) minmax(0, 1fr);
+  gap: 0.9rem 1.1rem;
+  align-items: start;
+  margin-top: 0.7rem;
+}
+
+.gen-left {
+  min-width: 0;
+}
+
+.gen-arena {
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  min-height: 0;
+  margin: 0;
+  padding: 0.15rem 0 0.35rem;
+}
+
+.gen-kept {
+  text-align: left;
+  margin: 0.45rem 0 0.4rem;
+}
+
+.gen-actions {
+  justify-content: flex-start;
+  margin: 0 0 0.65rem;
+}
+
+.gen-side {
+  min-width: 0;
+}
+
+.gen-side .fine {
+  margin: 0 0 0.5rem;
+}
+
+.gen-side .temp-board {
+  grid-template-columns: 1fr;
+  gap: 0.4rem;
+  margin: 0;
+}
+
+.gen-side .temp-card {
+  padding: 0.55rem 0.65rem;
+}
+
+.gen-side .temp-card .fine {
+  margin: 0 0 0.4rem;
+  font-size: 0.78rem;
+}
+
+.gen-side .filters {
+  grid-template-columns: 1fr;
+  gap: 0.28rem;
+  margin: 0.5rem 0 0;
+}
+
+.gen-side .filters label {
+  padding: 0.4rem 0.55rem;
+  font-size: 0.84rem;
+}
+
+.gen-side .temp-note {
+  margin-top: 0.5rem;
+  padding: 0.55rem 0.65rem;
+  font-size: 0.75rem;
+}
+
+.pack-fx {
+  pointer-events: none;
+  position: absolute;
+  inset: -8%;
+  z-index: 4;
+  overflow: visible;
+}
+
+.pack-flash {
+  position: absolute;
+  inset: 18% 22%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0%, transparent 70%);
+  animation: pack-flash 0.55s ease-out both;
+}
+
+.pack-fx.is-powerball .pack-flash {
+  background: radial-gradient(circle, #fff 0%, #e31837 42%, transparent 70%);
+}
+
+.pack-fx.is-megamillions .pack-flash {
+  background: radial-gradient(circle, #fff 0%, #f6c51a 40%, transparent 70%);
+}
+
+@keyframes pack-flash {
+  from {
+    opacity: 0.95;
+    transform: scale(0.2);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+}
+
+.pack-rays {
+  position: absolute;
+  inset: 8%;
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgb(255 255 255 / 0.16) 0 8deg,
+    transparent 8deg 22deg
+  );
+  -webkit-mask-image: radial-gradient(circle, #000 0 28%, transparent 68%);
+  mask-image: radial-gradient(circle, #000 0 28%, transparent 68%);
+  animation: pack-spin 1.2s linear both;
+  opacity: 0.85;
+}
+
+@keyframes pack-spin {
+  from {
+    transform: scale(0.4) rotate(0deg);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(1.35) rotate(48deg);
+    opacity: 0;
+  }
+}
+
+.pack-bit {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin: -0.28rem;
+  background: #fff;
+  animation: pack-bit 0.95s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.pack-fx.is-powerball .pack-bit {
+  background: #e31837;
+}
+
+.pack-fx.is-powerball .pack-bit:nth-child(odd) {
+  background: #fff;
+}
+
+.pack-fx.is-megamillions .pack-bit {
+  background: #f6c51a;
+}
+
+.pack-fx.is-megamillions .pack-bit:nth-child(3n) {
+  background: #0033a0;
+}
+
+.pack-bit-bar {
+  width: 1.15rem;
+  height: 0.22rem;
+  border-radius: 1px;
+}
+
+.pack-bit-star {
+  width: 0.7rem;
+  height: 0.7rem;
+  clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  background: #fff;
+}
+
+@keyframes pack-bit {
+  from {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(0.15);
+    opacity: 0;
+  }
+}
+
+button.pack-shell {
+  font: inherit;
+  text-align: inherit;
+}
+
+.pack-shell {
+  display: block;
+  width: 100%;
+  min-height: 17.75rem;
+  border-radius: 0.28rem;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 14px 32px #00000073;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+}
+
+.pack-shell.is-powerball {
+  background:
+    radial-gradient(circle at 50% 28%, #ff5a6e 0%, transparent 42%),
+    linear-gradient(160deg, #7a1020 0%, #e31837 48%, #4a0a12 100%);
+  border: 2px solid #ffd0d6;
+}
+
+.pack-shell.is-megamillions {
+  background:
+    radial-gradient(circle at 50% 28%, #ffe37a 0%, transparent 42%),
+    linear-gradient(160deg, #0b1f4a 0%, #0033a0 48%, #081433 100%);
+  border: 2px solid #f6c51a;
+}
+
+.pack-face {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1.2rem;
+}
+
+.pack-kicker {
+  margin: 0;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: rgb(255 255 255 / 0.72);
+}
+
+.pack-title {
+  margin: 0.35rem 0 0;
+  font-family: var(--display);
+  font-size: 2rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  line-height: 0.95;
+}
+
+.pack-shell.is-megamillions .pack-title {
+  color: #f6c51a;
+}
+
+.pack-hint {
+  margin: 1.1rem 0 0;
+  color: rgb(255 255 255 / 0.78);
+  font-weight: 600;
+}
+
+.pack-shell.is-opening {
+  animation: pack-open 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes pack-open {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(0.92);
+    opacity: 0.4;
+  }
+}
+
+.lotto-slip {
+  padding: 0.7rem 0.75rem 0.65rem;
+  font-family: var(--mono);
+  color: #161616;
+}
+
+.lotto-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 0.5rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 2px solid currentColor;
+}
+
+.lotto-slip.is-powerball .lotto-head {
+  color: #e31837;
+  border-bottom-color: #e31837;
+}
+
+.lotto-slip.is-megamillions .lotto-head {
+  color: #0033a0;
+  border-bottom-color: #f6c51a;
+}
+
+.game-mark {
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.pb-mark {
+  display: flex;
+  align-items: center;
+  font-size: 1.15rem;
+  color: #e31837;
+}
+
+.pb-o {
+  width: 0.92rem;
+  height: 0.92rem;
+  margin: 0 0.08rem;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 30%, #fff 0 18%, transparent 19%),
+    #e31837;
+  box-shadow: inset 0 -2px 0 #9f1024;
+  flex: none;
+}
+
+.mm-mark {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.28rem;
+  font-size: 0.78rem;
+}
+
+.mm-stars {
+  color: #e31837;
+  letter-spacing: 0.08em;
+}
+
+.mm-mega {
+  color: #f6c51a;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.mm-millions {
+  color: #0033a0;
+  font-size: 0.92rem;
+  letter-spacing: 0.08em;
+}
+
+.lotto-draw {
+  margin: 0;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #161616;
+  text-align: right;
+}
+
+.lotto-wait {
+  margin: 1.4rem 0;
+  text-align: center;
+  font-weight: 700;
+}
+
+.lotto-boards {
+  list-style: none;
+  margin: 0.55rem 0 0.35rem;
+  padding: 0;
+  display: grid;
+  gap: 0.28rem;
+}
+
+.lotto-boards li {
+  display: grid;
+  grid-template-columns: 1.1rem 1fr auto;
+  gap: 0.35rem;
+  align-items: center;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.lotto-code {
+  color: #666;
+}
+
+.lotto-whites {
+  display: flex;
+  gap: 0.38rem;
+  letter-spacing: 0.02em;
+}
+
+.lotto-extra {
+  display: flex;
+  align-items: baseline;
+  gap: 0.28rem;
+  min-width: 3.4rem;
+  justify-content: flex-end;
+}
+
+.lotto-extra em {
+  font-style: normal;
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+}
+
+.lotto-slip.is-powerball .lotto-extra {
+  color: #e31837;
+}
+
+.lotto-slip.is-megamillions .lotto-extra {
+  color: #b8860b;
+}
+
+.lotto-slip.is-megamillions .lotto-extra em {
+  color: #0033a0;
+}
+
+.lotto-price {
+  margin: 0.45rem 0 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.lotto-price span {
+  padding: 0.05rem 0.28rem;
+  border: 1px solid #161616;
+}
+
+.lotto-bar {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  height: 2.4rem;
+  gap: 1px;
+  padding: 0.2rem 0;
+  margin: 0.15rem 0 0.25rem;
+  overflow: hidden;
+}
+
+.lotto-bar i {
+  display: block;
+  background: #161616;
+  height: 100%;
+  flex: none;
+}
+
+.lotto-bar span {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.28em;
+  color: #e31837;
+  background: rgb(255 250 244 / 0.08);
+  mix-blend-mode: multiply;
+}
+
+.lotto-slip.is-megamillions .lotto-bar span {
+  color: #0033a0;
+}
+
+.lotto-serial {
+  margin: 0;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+}
+
+.lotto-void {
+  margin: 0.35rem 0 0;
+  font-size: 0.58rem;
+  line-height: 1.35;
+  color: #5c534c;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .temp-board {
@@ -1559,6 +2221,23 @@ input[type="checkbox"] {
 
   .filters label {
     min-height: 2.75rem;
+  }
+
+  .gen-arena {
+    min-height: 0;
+    padding: 0;
+  }
+
+  .gen-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .gen-go {
+    min-width: 0;
+  }
+
+  .gen-side .filters label {
+    min-height: 0;
   }
 }
 

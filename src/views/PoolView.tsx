@@ -82,8 +82,13 @@ export function PoolView({
   const splitBase = totals.paidShares > 0 ? totals.paidShares : totals.shares;
 
   const avoid = useMemo(
-    () => avoidWhites(DEFAULT_FILTERS, frequencyStats(draws, spec.whiteMax)),
-    [draws, spec.whiteMax],
+    () =>
+      avoidWhites(
+        DEFAULT_FILTERS,
+        frequencyStats(draws, spec.whiteMax),
+        latest?.whites ?? [],
+      ),
+    [draws, spec.whiteMax, latest],
   );
 
   function mint() {

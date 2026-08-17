@@ -119,10 +119,14 @@ export function frequencyStats(
 }
 
 export function avoidWhites(
-  filters: Pick<Filters, "hot" | "cold">,
+  filters: Pick<Filters, "hot" | "cold" | "lastDraw">,
   stats: FrequencyStats | null,
+  lastWhites: number[] = [],
 ): Set<number> {
   const skip = new Set<number>();
+  if (filters.lastDraw) {
+    for (const n of lastWhites) skip.add(n);
+  }
   if (!stats) return skip;
   if (filters.hot) {
     for (const n of stats.hot) skip.add(n);

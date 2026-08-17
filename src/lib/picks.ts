@@ -8,6 +8,8 @@ export const DEFAULT_FILTERS: Filters = {
   visual: true,
   hot: true,
   cold: true,
+  lastDraw: true,
+  uniqueSlip: true,
 };
 
 export function comboKey(whites: number[]): string {
@@ -144,9 +146,11 @@ export function generateTickets(
   past: Set<string>,
   exclude: Set<string> = new Set(),
   avoid: Set<number> = new Set(),
+  takenWhites: Set<number> = new Set(),
 ): { tickets: Ticket[]; attempts: number; rejected: number } {
   const tickets: Ticket[] = [];
   const used = new Set(exclude);
+  const usedWhites = filters.uniqueSlip ? new Set(takenWhites) : new Set<number>();
   let attempts = 0;
   let rejected = 0;
   const maxAttempts = 20_000;
@@ -159,11 +163,18 @@ export function generateTickets(
       rejected += 1;
       continue;
     }
+    if (filters.uniqueSlip && whites.some((n) => usedWhites.has(n))) {
+      rejected += 1;
+      continue;
+    }
     if (rejectReasons(whites, filters, past, avoid).length > 0) {
       rejected += 1;
       continue;
     }
     used.add(key);
+    if (filters.uniqueSlip) {
+      for (const n of whites) usedWhites.add(n);
+    }
     tickets.push({
       id: newId(),
       whites,

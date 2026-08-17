@@ -1,11 +1,15 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Ball } from "../components/Ball";
+import { FoilCard } from "../components/FoilCard";
+import { LotteryTicket } from "../components/LotteryTicket";
+import { PackFx, PackShell } from "../components/PackFx";
 import { Playslip } from "../components/Playslip";
 import { PrintSlip } from "../components/PrintSlip";
-import artSlip from "../images/Build-The-Slip.jpg";
 import { avoidWhites, frequencyStats } from "../lib/frequency";
+import { usePrefersReducedMotion } from "../lib/motion";
 import { DEFAULT_FILTERS, formatTicket, generateTickets } from "../lib/picks";
 import { GAMES } from "../lib/prizes";
+import { playPackOpen } from "../lib/sfx";
 import type { Filters, GameId, Ticket } from "../types";
 import {
   FORMAT_START,
@@ -20,12 +24,23 @@ type Props = {
   asOf: string | null;
   winnerError: string | null;
   exclude: Set<string>;
+  nextDrawDate: string | null;
   onAddToPool: (tickets: Ticket[]) => void;
 };
 
 function daysLabel(days: number): string {
   if (days <= 0) return "last draw";
   return `${days} day${days === 1 ? "" : "s"}`;
+}
+
+function ticketDrawLabel(iso: string | null): string | null {
+  if (!iso) return null;
+  const [y, m, d] = iso.split("-");
+  const wk = new Intl.DateTimeFormat("en-US", {
+    weekday: "short",
+    timeZone: "UTC",
+  }).format(new Date(`${iso}T12:00:00Z`));
+  return `${wk.toUpperCase()} ${m}/${d}/${y.slice(2)}`;
 }
 
 export function TicketsView({
@@ -35,6 +50,7 @@ export function TicketsView({
   asOf,
   winnerError,
   exclude,
+  nextDrawDate,
   onAddToPool,
 }: Props) {
   const spec = GAMES[game];
@@ -44,28 +60,56 @@ export function TicketsView({
   const [rejected, setRejected] = useState(0);
   const [attempts, setAttempts] = useState(0);
   const [deal, setDeal] = useState(0);
+  const [burst, setBurst] = useState(0);
+  const [minting, setMinting] = useState(false);
+  const mintTimer = useRef<number>(0);
+  const reducedMotion = usePrefersReducedMotion();
 
+  const lastWhites = draws[0]?.whites;
   const stats = useMemo(
     () => frequencyStats(draws, spec.whiteMax),
     [draws, spec.whiteMax],
   );
   const avoid = useMemo(
-    () => avoidWhites(filters, stats),
-    [filters, stats],
+    () => avoidWhites(filters, stats, lastWhites ?? []),
+    [filters, stats, lastWhites],
   );
 
   function toggle(key: keyof Filters) {
     setFilters((prev) => ({ ...prev, [key]: !prev[key] }));
   }
 
-  function generate() {
-    const n = Math.min(50, Math.max(1, Number(count) || 1));
-    const result = generateTickets(spec, n, filters, past, exclude, avoid);
+  function dealTickets(result: {
+    tickets: Ticket[];
+    rejected: number;
+    attempts: number;
+  }) {
     setTickets(result.tickets);
     setRejected(result.rejected);
     setAttempts(result.attempts);
     setDeal((d) => d + 1);
   }
+
+  function generate() {
+    const n = Math.min(50, Math.max(1, Number(count) || 1));
+    const result = generateTickets(spec, n, filters, past, exclude, avoid);
+    window.clearTimeout(mintTimer.current);
+    if (reducedMotion) {
+      setMinting(false);
+      dealTickets(result);
+      return;
+    }
+    setBurst((n) => n + 1);
+    playPackOpen(game);
+    setMinting(true);
+    setTickets([]);
+    mintTimer.current = window.setTimeout(() => {
+      dealTickets(result);
+      setMinting(false);
+    }, 1080);
+  }
+
+  useEffect(() => () => window.clearTimeout(mintTimer.current), []);
 
   function copyAll() {
     const text = tickets
@@ -75,21 +119,15 @@ export function TicketsView({
   }
 
   return (
-    <section className="panel">
-      <div className="panel-wash" aria-hidden="true">
-        <img src={artSlip} alt="" />
-      </div>
-      <header className="panel-head">
+    <section className={`panel gen-panel is-${game}`}>
+      <header className="gen-bar">
         <div>
-          <p className="kicker">
-            Unique tickets · {spec.label} · 5 from 1–{spec.whiteMax} +{" "}
-            {spec.extraLabel} 1–{spec.extraMax} · {spec.ticketCost} a play
-          </p>
+          <p className="kicker">{spec.label}</p>
           <h2>Build the slip</h2>
         </div>
         <div className="actions">
           <label className="inline">
-            Count
+            Boards
             <input
               className="narrow"
               value={count}
@@ -97,213 +135,233 @@ export function TicketsView({
               inputMode="numeric"
             />
           </label>
-          <button type="button" className="primary" onClick={generate}>
-            Generate
+          <button
+            type="button"
+            className={`primary gen-go${minting ? " minting" : ""}`}
+            onClick={generate}
+            disabled={minting}
+            aria-busy={minting}
+          >
+            {minting ? "Opening…" : "Generate Now"}
           </button>
         </div>
       </header>
-
-      <div className="benefit">
-        <div>
-          <strong>Benefit</strong>
-          <p>
-            If this slip hits the jackpot, you are less likely to split it with
-            birthday players and pattern tickets. The chance it hits is identical
-            to Quick Pick.
-          </p>
-        </div>
-      </div>
-
-      <p className="lede">
-        Each set is a uniform random draw. Tickets that look like birthdays,
-        sequences, playslip lines, the last {RECENT_WINNER_LIMIT} official{" "}
-        {spec.label} winners, or that use this matrix’s recently drawn, longest
-        gap, or overdue whites are thrown out and redrawn. This does not change
-        jackpot odds.
+      <p className="gen-tag">
+        Same hit odds as Quick Pick. Unique boards if you win. {spec.ticketCost}{" "}
+        a play.
       </p>
 
-      {winnerError ? (
-        <p className="warn">
-          {winnerError}. Previous-winner and hot/cold filters are skipped until
-          the feed loads.
-        </p>
-      ) : (
-        <p className="fine">
-          Recent-winner filter: last {past.size} official white sets
-          {asOf ? ` through ${asOf}` : ""}. Hot/cold from{" "}
-          {stats
-            ? `${stats.window.toLocaleString("en-US")} current-format drawings since ${FORMAT_START[game]}`
-            : "the current matrix"}
-          . Source: NY Open Data.
-        </p>
-      )}
-
-      {stats ? (
-        <div className="temp-board">
-          <article className="temp-card">
-            <h3>Hot</h3>
-            <p className="fine">
-              Smallest gaps — drawn most recently. The public chases these.
-            </p>
-            <div className="ticket-row">
-              {stats.hot.map((n) => (
-                <Ball key={`hot-${n}`} value={n} tone="hot" />
-              ))}
-            </div>
-          </article>
-          <article className="temp-card">
-            <h3>Cold</h3>
-            <p className="fine">
-              Largest gaps — missing the longest. Still random, just less
-              fashionable.
-            </p>
-            <div className="ticket-row">
-              {stats.cold.map((n) => (
-                <Ball key={`cold-${n}`} value={n} tone="cold" />
-              ))}
-            </div>
-          </article>
-          <article className="temp-card">
-            <h3>Most overdue</h3>
-            <p className="fine">
-              Above-median frequency, missing 30+ days. Common, then quiet.
-            </p>
-            <div className="ticket-row">
-              {stats.overdue ? (
-                <>
-                  <Ball value={stats.overdue.n} tone="overdue" />
-                  <span className="temp-meta">
-                    {daysLabel(stats.overdue.days)}
-                  </span>
-                </>
-              ) : (
-                <span className="fine">—</span>
-              )}
-            </div>
-          </article>
-          <p className="fine temp-note">
-            Past results do not predict the next drawing. We skip these whites so
-            you are less likely to share a hit, not so you hit more often.
-          </p>
-        </div>
-      ) : null}
-
-      <div className="filters">
-        <label>
-          <input
-            type="checkbox"
-            checked={filters.birthday}
-            onChange={() => toggle("birthday")}
-          />
-          All five whites in 1–31
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={filters.sequence}
-            onChange={() => toggle("sequence")}
-          />
-          Straight runs / 4+ consecutives
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={filters.multiples}
-            onChange={() => toggle("multiples")}
-          />
-          Multiples patterns
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={filters.visual}
-            onChange={() => toggle("visual")}
-          />
-          Playslip row / column / diagonal
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={filters.previous}
-            onChange={() => toggle("previous")}
-          />
-          Recent official winners
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={filters.hot}
-            onChange={() => toggle("hot")}
-            disabled={!stats}
-          />
-          Recently drawn (hot)
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={filters.cold}
-            onChange={() => toggle("cold")}
-            disabled={!stats}
-          />
-          Long gaps and overdue
-        </label>
-      </div>
-
-      {tickets.length > 0 ? (
-        <>
-          <p className="fine">
-            Kept {tickets.length} after {attempts.toLocaleString("en-US")} draws
-            ({rejected} crowded or duplicate skipped).
-          </p>
-          <ol key={deal} className="ticket-list drop-in">
-            {tickets.map((ticket, i) => (
-              <li key={ticket.id}>
-                <div className="ticket-row">
-                  <span className="idx">{i + 1}</span>
-                  {ticket.whites.map((n, bi) => (
-                    <Ball
-                      key={`${ticket.id}-${n}`}
-                      value={n}
-                      drop
-                      delay={`${i * 0.08 + bi * 0.045}s`}
-                    />
-                  ))}
-                  <Ball
-                    value={ticket.extra}
-                    extra
-                    drop
-                    delay={`${i * 0.08 + 0.28}s`}
+      <div className="gen-layout">
+        <div className="gen-left">
+          <div className={`gen-arena is-${game}${minting ? " is-minting" : ""}`}>
+            <PackFx game={game} burst={burst} />
+            {minting ? (
+              <div className="foil-mint">
+                <PackShell game={game} opening />
+              </div>
+            ) : tickets.length > 0 ? (
+              <div key={deal} className="foil-mint">
+                <FoilCard shader game={game} className="foil-hero">
+                  <LotteryTicket
+                    game={game}
+                    tickets={tickets}
+                    drawLabel={ticketDrawLabel(nextDrawDate)}
                   />
-                </div>
-                {i === 0 ? (
-                  <Playslip
-                    whites={ticket.whites}
-                    whiteMax={spec.whiteMax}
-                    extra={ticket.extra}
-                    extraMax={spec.extraMax}
-                  />
-                ) : null}
-              </li>
-            ))}
-          </ol>
-          <div className="actions">
-            <button type="button" onClick={copyAll}>
-              Copy numbers
-            </button>
-            <button type="button" onClick={() => window.print()}>
-              Print playslip
-            </button>
-            <button
-              type="button"
-              className="primary"
-              onClick={() => onAddToPool(tickets)}
-            >
-              Add to pool
-            </button>
+                </FoilCard>
+              </div>
+            ) : (
+              <div className="foil-mint">
+                <PackShell game={game} onOpen={generate} />
+              </div>
+            )}
           </div>
-          <PrintSlip game={game} tickets={tickets} title="Counter slip" />
-        </>
-      ) : null}
+
+          {tickets.length > 0 && !minting ? (
+            <>
+              <p className="fine gen-kept">
+                Kept {tickets.length} after{" "}
+                {attempts.toLocaleString("en-US")} draws ({rejected} crowded or
+                duplicate skipped).
+              </p>
+              <div className="actions gen-actions">
+                <button type="button" onClick={copyAll}>
+                  Copy numbers
+                </button>
+                <button type="button" onClick={() => window.print()}>
+                  Print playslip
+                </button>
+                <button
+                  type="button"
+                  className="primary"
+                  onClick={() => onAddToPool(tickets)}
+                >
+                  Add to pool
+                </button>
+              </div>
+              {tickets[0] ? (
+                <Playslip
+                  whites={tickets[0].whites}
+                  whiteMax={spec.whiteMax}
+                  extra={tickets[0].extra}
+                  extraMax={spec.extraMax}
+                />
+              ) : null}
+              <PrintSlip game={game} tickets={tickets} title="Counter slip" />
+            </>
+          ) : null}
+        </div>
+
+        <aside className="gen-side">
+          {winnerError ? (
+            <p className="warn">
+              {winnerError}. Previous-winner and hot/cold filters are skipped
+              until the feed loads.
+            </p>
+          ) : (
+            <p className="fine">
+              Fade crowded public tickets. Hot/cold from{" "}
+              {stats
+                ? `${stats.window.toLocaleString("en-US")} drawings since ${FORMAT_START[game]}`
+                : "this matrix"}
+              {asOf ? ` through ${asOf}` : ""}. Source: NY Open Data.
+            </p>
+          )}
+          {stats ? (
+            <div className="temp-board">
+              <article className="temp-card">
+                <h3>Last draw</h3>
+                <p className="fine">People replay these whites.</p>
+                <div className="ticket-row">
+                  {lastWhites && lastWhites.length > 0 ? (
+                    lastWhites.map((n) => (
+                      <Ball key={`last-${n}`} value={n} />
+                    ))
+                  ) : (
+                    <span className="fine">—</span>
+                  )}
+                </div>
+              </article>
+              <article className="temp-card">
+                <h3>Hot</h3>
+                <p className="fine">Recently drawn. The public chases these.</p>
+                <div className="ticket-row">
+                  {stats.hot.map((n) => (
+                    <Ball key={`hot-${n}`} value={n} tone="hot" />
+                  ))}
+                </div>
+              </article>
+              <article className="temp-card">
+                <h3>Cold</h3>
+                <p className="fine">Longest gaps. Still random.</p>
+                <div className="ticket-row">
+                  {stats.cold.map((n) => (
+                    <Ball key={`cold-${n}`} value={n} tone="cold" />
+                  ))}
+                </div>
+              </article>
+              <article className="temp-card">
+                <h3>Most overdue</h3>
+                <p className="fine">Above-median frequency, missing 30+ days.</p>
+                <div className="ticket-row">
+                  {stats.overdue ? (
+                    <>
+                      <Ball value={stats.overdue.n} tone="overdue" />
+                      <span className="temp-meta">
+                        {daysLabel(stats.overdue.days)}
+                      </span>
+                    </>
+                  ) : (
+                    <span className="fine">—</span>
+                  )}
+                </div>
+              </article>
+            </div>
+          ) : null}
+          <div className="filters">
+            <label>
+              <input
+                type="checkbox"
+                checked={filters.uniqueSlip}
+                onChange={() => toggle("uniqueSlip")}
+              />
+              No repeated whites on this slip
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={filters.lastDraw}
+                onChange={() => toggle("lastDraw")}
+                disabled={!lastWhites?.length}
+              />
+              Last drawing’s whites
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={filters.birthday}
+                onChange={() => toggle("birthday")}
+              />
+              All five whites in 1–31
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={filters.sequence}
+                onChange={() => toggle("sequence")}
+              />
+              Straight runs / 4+ consecutives
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={filters.multiples}
+                onChange={() => toggle("multiples")}
+              />
+              Multiples patterns
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={filters.visual}
+                onChange={() => toggle("visual")}
+              />
+              Playslip row / column / diagonal
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={filters.previous}
+                onChange={() => toggle("previous")}
+              />
+              Recent official winners
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={filters.hot}
+                onChange={() => toggle("hot")}
+                disabled={!stats}
+              />
+              Recently drawn (hot)
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={filters.cold}
+                onChange={() => toggle("cold")}
+                disabled={!stats}
+              />
+              Long gaps and overdue
+            </label>
+          </div>
+          <p className="fine temp-note">
+            Past results do not predict the next drawing. We skip these so you
+            are less likely to share a hit, not so you hit more often. Last{" "}
+            {RECENT_WINNER_LIMIT} official white sets
+            {past.size ? ` (${past.size} loaded)` : ""}.
+          </p>
+        </aside>
+      </div>
     </section>
   );
 }

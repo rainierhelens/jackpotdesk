@@ -6,9 +6,9 @@ declare global {
 }
 
 const TAB_PATH: Record<string, { title: string; path: string }> = {
+  tickets: { title: "Build the slip", path: "/tickets" },
   week: { title: "This week", path: "/week" },
   map: { title: "Map", path: "/map" },
-  tickets: { title: "Tickets", path: "/tickets" },
   pool: { title: "Pool", path: "/pool" },
   why: { title: "Why this", path: "/why" },
 };
