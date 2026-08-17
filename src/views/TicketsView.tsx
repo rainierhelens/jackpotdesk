@@ -206,7 +206,6 @@ export function TicketsView({
                   extraMax={spec.extraMax}
                 />
               ) : null}
-              <PrintSlip game={game} tickets={tickets} title="Counter slip" />
             </>
           ) : null}
         </div>
@@ -362,6 +361,9 @@ export function TicketsView({
           </p>
         </aside>
       </div>
+      {tickets.length > 0 && !minting ? (
+        <PrintSlip game={game} tickets={tickets} title="Counter slip" />
+      ) : null}
     </section>
   );
 }
