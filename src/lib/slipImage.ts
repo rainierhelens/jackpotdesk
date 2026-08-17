@@ -107,7 +107,8 @@ function renderSlipPng(opts: SlipImage): Promise<Blob> {
   const headerH = 64;
   const priceH = 36;
   const barH = 76;
-  const footH = 88;
+  const creditH = 56;
+  const footH = 96;
   const h =
     pad +
     headerH +
@@ -116,6 +117,7 @@ function renderSlipPng(opts: SlipImage): Promise<Blob> {
     priceH +
     barH +
     footH +
+    creditH +
     pad;
 
   const canvas = document.createElement("canvas");
@@ -134,9 +136,20 @@ function renderSlipPng(opts: SlipImage): Promise<Blob> {
   ctx.fillRect(0, 0, w, h);
 
   ctx.fillStyle = "rgba(40, 24, 16, 0.035)";
-  for (let y = 0; y < h; y += 6) {
-    ctx.fillRect(0, y + 4, w, 2);
+  for (let yScan = 0; yScan < h; yScan += 6) {
+    ctx.fillRect(0, yScan + 4, w, 2);
   }
+
+  ctx.save();
+  ctx.globalAlpha = 0.07;
+  ctx.fillStyle = INK;
+  ctx.font = `800 54px ${FONT}`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.translate(w / 2, h / 2 - 20);
+  ctx.rotate(-0.28);
+  ctx.fillText("jackpotdesk.com", 0, 0);
+  ctx.restore();
 
   ctx.strokeStyle = "#cbbfb4";
   ctx.lineWidth = 2;
@@ -256,6 +269,16 @@ function renderSlipPng(opts: SlipImage): Promise<Blob> {
     w - pad * 2,
     18,
   );
+
+  ctx.fillStyle = pb ? PB : MM_NAVY;
+  ctx.fillRect(0, h - creditH, w, creditH);
+  ctx.fillStyle = PAPER;
+  ctx.font = `800 22px ${FONT}`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText("jackpotdesk.com", w / 2, h - creditH / 2);
+  ctx.textAlign = "left";
+  ctx.textBaseline = "alphabetic";
 
   return new Promise((resolve, reject) => {
     canvas.toBlob((blob) => {
