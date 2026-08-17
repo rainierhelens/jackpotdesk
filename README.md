@@ -1,6 +1,6 @@
 # JackpotDesk
 
-Live site: [https://jackpotdesk.com](https://jackpotdesk.com)
+Live site: [https://www.jackpotdesk.com](https://www.jackpotdesk.com)
 
 Free Powerball and Mega Millions desk:
 
@@ -19,7 +19,7 @@ npm run dev
 
 ## GitHub Pages + custom domain
 
-The site deploys from `main` via `.github/workflows/deploy.yml`. `public/CNAME` is set to `jackpotdesk.com`.
+The site deploys from `main` via `.github/workflows/deploy.yml`. `public/CNAME` is set to `www.jackpotdesk.com` so the canonical host is www. GitHub redirects the apex to www.
 
 At your registrar, point the domain at GitHub Pages:
 
@@ -37,4 +37,4 @@ At your registrar, point the domain at GitHub Pages:
 | AAAA | @ | 2606:50c0:8003::153 |
 | CNAME | www | `<your-github-username>.github.io` |
 
-In the GitHub repo: **Settings → Pages → Custom domain** `jackpotdesk.com`, then enable **Enforce HTTPS** after DNS propagates (can take up to 24 hours).
+In the GitHub repo: **Settings → Pages → Custom domain** `www.jackpotdesk.com`, then enable **Enforce HTTPS** after DNS propagates (can take up to 24 hours). Keep the apex A records so `jackpotdesk.com` can redirect to www.

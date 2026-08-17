@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://jackpotdesk.com/sitemap.xml
+Sitemap: https://www.jackpotdesk.com/sitemap.xml
