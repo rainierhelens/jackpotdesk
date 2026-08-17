@@ -1,4 +1,5 @@
 import type { GameId, Member, Pool, Ticket } from "../types";
+import { newId } from "./picks";
 import { emptyPool } from "./storage";
 
 const HASH_PREFIX = "#p=";
@@ -30,7 +31,7 @@ export function parsePoolJson(raw: unknown): Pool | null {
     const m = row as Record<string, unknown>;
     const shares = Number(m.shares);
     members.push({
-      id: typeof m.id === "string" && m.id ? m.id : crypto.randomUUID(),
+      id: typeof m.id === "string" && m.id ? m.id : newId(),
       name: typeof m.name === "string" ? m.name : "",
       shares: Number.isFinite(shares) ? Math.max(0, shares) : 1,
       paid: Boolean(m.paid),
@@ -45,7 +46,7 @@ export function parsePoolJson(raw: unknown): Pool | null {
     const extra = Number(t.extra);
     if (whites.length !== 5 || !Number.isFinite(extra)) return null;
     tickets.push({
-      id: typeof t.id === "string" && t.id ? t.id : crypto.randomUUID(),
+      id: typeof t.id === "string" && t.id ? t.id : newId(),
       whites,
       extra,
     });

@@ -1,5 +1,5 @@
 import type { Filters, GameId, Pool, Ticket } from "../types";
-import { comboKey, generateTickets } from "./picks";
+import { comboKey, generateTickets, newId } from "./picks";
 import { GAMES } from "./prizes";
 import { emptyPool, loadPool, savePool } from "./storage";
 import { useCallback, useEffect, useState } from "react";
@@ -26,7 +26,7 @@ export function usePool() {
       ...prev,
       members: [
         ...prev.members,
-        { id: crypto.randomUUID(), name: "", shares: 1, paid: false },
+        { id: newId(), name: "", shares: 1, paid: false },
       ],
     }));
   }
