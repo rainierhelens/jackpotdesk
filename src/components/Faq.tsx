@@ -25,10 +25,6 @@ export function Faq() {
       a: "On the Pool tab, copy the share link or download JSON. The link stores the board in the URL. Nothing is uploaded to JackpotDesk. Whoever opens it loads the members and tickets in their own browser.",
     },
     {
-      q: "Can I add JackpotDesk to my phone?",
-      a: "Yes. On iPhone: Share, then Add to Home Screen. On Android Chrome, use Install when it appears. It opens full-screen. Your pool stays in that browser on that device — it is not synced to the cloud.",
-    },
-    {
       q: "Is the map a live feed of every lottery winner?",
       a: "No. There is no public national feed of $4 prizes or exact stores. The map is jackpot tickets only — Powerball and Mega Millions — by the state where the ticket was sold, from public winner reports. It updates when this site does, not second-by-second.",
     },

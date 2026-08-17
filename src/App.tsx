@@ -4,8 +4,6 @@ import { DrawCountdown } from "./components/DrawCountdown";
 import { Faq } from "./components/Faq";
 import { Footer } from "./components/Footer";
 import { GameSwitch } from "./components/GameSwitch";
-import { InstallHint } from "./components/InstallHint";
-import { SlipField } from "./components/SlipField";
 import { WhyMethod } from "./components/WhyMethod";
 import { parseMoney } from "./lib/ev";
 import { trackTab } from "./lib/analytics";
@@ -184,10 +182,6 @@ export default function App() {
   }
 
   return (
-    <>
-      {tab === "week" || tab === "tickets" ? (
-        <SlipField game={game} draws={draws} />
-      ) : null}
     <div className="shell">
       <header className="masthead">
         <div className="masthead-row">
@@ -269,8 +263,6 @@ export default function App() {
             <span className="tab-short">Why</span>
           </button>
         </nav>
-
-      <InstallHint />
 
       <main>
 
@@ -354,6 +346,5 @@ export default function App() {
 
       <Footer />
     </div>
-    </>
   );
 }
