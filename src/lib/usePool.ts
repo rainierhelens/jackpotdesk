@@ -60,10 +60,11 @@ export function usePool() {
     count: number,
     filters: Filters,
     past: Set<string>,
+    avoid: Set<number> = new Set(),
   ): { added: number; rejected: number } {
     const spec = GAMES[pool.game];
     const exclude = new Set(pool.tickets.map((t) => comboKey(t.whites)));
-    const result = generateTickets(spec, count, filters, past, exclude);
+    const result = generateTickets(spec, count, filters, past, exclude, avoid);
     addTickets(result.tickets);
     return { added: result.tickets.length, rejected: result.rejected };
   }

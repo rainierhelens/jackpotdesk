@@ -10,7 +10,7 @@ const POINTS: Point[] = [
   },
   {
     label: "Fade the public",
-    text: "Birthdays and 1-2-3-4-5 hit just as often — then get shared. Uncrowded random tickets do not win more. They split less.",
+    text: "Birthdays, 1-2-3-4-5, and this window’s hot numbers hit just as often — then get shared. Uncrowded random tickets do not win more. They split less.",
   },
   {
     label: "Run the board",

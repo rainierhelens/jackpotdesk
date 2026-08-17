@@ -5,8 +5,10 @@ import { Faq } from "./components/Faq";
 import { Footer } from "./components/Footer";
 import { GameSwitch } from "./components/GameSwitch";
 import { InstallHint } from "./components/InstallHint";
+import { SlipField } from "./components/SlipField";
 import { WhyMethod } from "./components/WhyMethod";
 import { parseMoney } from "./lib/ev";
+import { trackTab } from "./lib/analytics";
 import {
   amountField,
   estimateTicketsSold,
@@ -49,6 +51,7 @@ export default function App() {
   const [stateId, setStateId] = useState("custom");
   const [humanShare, setHumanShare] = useState("20");
   const [past, setPast] = useState<Set<string>>(new Set());
+  const [draws, setDraws] = useState<OfficialDraw[]>([]);
   const [asOf, setAsOf] = useState<string | null>(null);
   const [latest, setLatest] = useState<OfficialDraw | null>(null);
   const [winnerError, setWinnerError] = useState<string | null>(null);
@@ -58,6 +61,10 @@ export default function App() {
   const [shareNotice, setShareNotice] = useState<string | null>(null);
 
   const game = poolApi.pool.game;
+
+  useEffect(() => {
+    trackTab(tab);
+  }, [tab]);
 
   useEffect(() => {
     const shared = readPoolFromLocation();
@@ -88,12 +95,14 @@ export default function App() {
       .then((result) => {
         if (cancelled) return;
         setPast(result.keys);
+        setDraws(result.draws);
         setAsOf(result.asOf);
         setLatest(result.latest);
       })
       .catch((err: unknown) => {
         if (cancelled) return;
         setPast(new Set());
+        setDraws([]);
         setAsOf(null);
         setLatest(null);
         setWinnerError(err instanceof Error ? err.message : "Winner feed failed");
@@ -175,6 +184,10 @@ export default function App() {
   }
 
   return (
+    <>
+      {tab === "week" || tab === "tickets" ? (
+        <SlipField game={game} draws={draws} />
+      ) : null}
     <div className="shell">
       <header className="masthead">
         <div className="masthead-row">
@@ -210,7 +223,9 @@ export default function App() {
             <GameSwitch game={game} onGame={onGame} />
           </div>
         </div>
-        <nav className="tabs" aria-label="Primary">
+      </header>
+
+      <nav className="tabs" aria-label="Primary">
           <button
             type="button"
             className={tab === "week" ? "on" : ""}
@@ -254,7 +269,6 @@ export default function App() {
             <span className="tab-short">Why</span>
           </button>
         </nav>
-      </header>
 
       <InstallHint />
 
@@ -281,6 +295,10 @@ export default function App() {
           onState={setState}
           onStateId={setStateId}
           onHumanShare={setHumanShare}
+          onBuildSlip={() => {
+            setTab("tickets");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
         />
       ) : null}
 
@@ -291,6 +309,7 @@ export default function App() {
           key={game}
           game={game}
           past={past}
+          draws={draws}
           asOf={asOf}
           winnerError={winnerError}
           exclude={exclude}
@@ -302,6 +321,7 @@ export default function App() {
         <PoolView
           pool={poolApi.pool}
           past={past}
+          draws={draws}
           latest={latest}
           jackpotCash={parseMoney(cash)}
           shareNotice={shareNotice}
@@ -334,5 +354,6 @@ export default function App() {
 
       <Footer />
     </div>
+    </>
   );
 }

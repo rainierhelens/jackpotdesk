@@ -1,6 +1,7 @@
 import { Ball } from "../components/Ball";
 import { DrawCountdown } from "../components/DrawCountdown";
 import { MarketBoard } from "../components/MarketBoard";
+import artWeek from "../images/This-Week.jpg";
 import type { GameId } from "../types";
 import {
   computeEv,
@@ -34,6 +35,7 @@ type Props = {
   onState: (v: string) => void;
   onStateId: (v: string) => void;
   onHumanShare: (v: string) => void;
+  onBuildSlip: () => void;
 };
 
 function toInputs(props: Props): EvInputs {
@@ -65,6 +67,9 @@ export function WeekView(props: Props) {
 
   return (
     <section className="panel">
+      <div className="panel-wash" aria-hidden="true">
+        <img src={artWeek} alt="" />
+      </div>
       <header className="panel-head">
         <div>
           <p className="kicker">This drawing · {spec.label}</p>
@@ -216,6 +221,12 @@ export function WeekView(props: Props) {
           win.
         </p>
       </aside>
+
+      <div className="week-next">
+        <button type="button" className="primary" onClick={props.onBuildSlip}>
+          Build the slip
+        </button>
+      </div>
     </section>
   );
 }

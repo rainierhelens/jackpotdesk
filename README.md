@@ -5,7 +5,7 @@ Live site: [https://jackpotdesk.com](https://jackpotdesk.com)
 Free Powerball and Mega Millions desk:
 
 1. **This week** — expected value using cash jackpot, tax, and split risk.
-2. **Tickets** — random picks that skip birthdays, sequences, and recent winners.
+2. **Tickets** — random picks that skip birthdays, sequences, recent winners, and this matrix’s recently drawn, long-gap, and overdue whites.
 3. **Pool** — members, shares, and payout splits in this browser.
 
 This does **not** raise the chance of winning. Hit odds match Quick Pick. The benefit is fewer jackpot splits and a pass on bad drawings.

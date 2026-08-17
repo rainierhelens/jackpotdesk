@@ -6,7 +6,7 @@ export function Faq() {
     },
     {
       q: "Then what is the benefit?",
-      a: "Two things. First, it prices the drawing using cash value, tax, and split risk so you can skip a bad ticket. Second, it mints random tickets that avoid birthdays, sequences, and recent winners so a jackpot is less likely to be shared.",
+      a: "Two things. First, it prices the drawing using cash value, tax, and split risk so you can skip a bad ticket. Second, it mints random tickets that avoid birthdays, sequences, recent winners, and this matrix’s recently drawn, long-gap, and overdue whites so a jackpot is less likely to be shared.",
     },
     {
       q: "Is this the same as Quick Pick?",

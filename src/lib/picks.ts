@@ -6,6 +6,8 @@ export const DEFAULT_FILTERS: Filters = {
   multiples: true,
   previous: true,
   visual: true,
+  hot: true,
+  cold: true,
 };
 
 export function comboKey(whites: number[]): string {
@@ -102,6 +104,7 @@ export function rejectReasons(
   whites: number[],
   filters: Filters,
   past: Set<string>,
+  avoid: Set<number> = new Set(),
 ): string[] {
   const reasons: string[] = [];
   if (filters.birthday && whites.every((n) => n <= 31)) reasons.push("birthday");
@@ -113,6 +116,7 @@ export function rejectReasons(
   }
   if (filters.previous && past.has(comboKey(whites))) reasons.push("previous");
   if (filters.visual && isVisualLine(whites)) reasons.push("visual");
+  if (avoid.size > 0 && whites.some((n) => avoid.has(n))) reasons.push("temperature");
   return reasons;
 }
 
@@ -122,6 +126,7 @@ export function generateTickets(
   filters: Filters,
   past: Set<string>,
   exclude: Set<string> = new Set(),
+  avoid: Set<number> = new Set(),
 ): { tickets: Ticket[]; attempts: number; rejected: number } {
   const tickets: Ticket[] = [];
   const used = new Set(exclude);
@@ -137,7 +142,7 @@ export function generateTickets(
       rejected += 1;
       continue;
     }
-    if (rejectReasons(whites, filters, past).length > 0) {
+    if (rejectReasons(whites, filters, past, avoid).length > 0) {
       rejected += 1;
       continue;
     }

@@ -19,9 +19,12 @@ export function Footer() {
         ))}
       </nav>
       <p className="footer-note">
-        JackpotDesk does not improve your chance of winning. Not financial, tax,
-        or gambling advice. Must be of legal lottery age in your jurisdiction.
+        Educational and informational only. Not a lottery, and we do not sell
+        tickets. JackpotDesk does not improve your chance of winning. Past
+        results do not predict future outcomes. Not financial, tax, or gambling
+        advice. Must be of legal lottery age in your jurisdiction.
       </p>
+      <p className="footer-copy">© 2026 JackpotDesk</p>
     </footer>
   );
 }

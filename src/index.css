@@ -138,9 +138,24 @@ label {
 }
 
 .shell {
+  position: relative;
+  z-index: 1;
   max-width: 1080px;
   margin: 0 auto;
   padding: 0 max(1.1rem, var(--safe-left)) 4rem max(1.1rem, var(--safe-right));
+}
+
+.slip-field {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.slip-field canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .masthead {
@@ -150,7 +165,7 @@ label {
   background: color-mix(in srgb, var(--bg) 88%, transparent);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--line);
-  margin: 0 calc(-1 * max(1.1rem, var(--safe-left))) 0.9rem
+  margin: 0 calc(-1 * max(1.1rem, var(--safe-left))) 0
     calc(-1 * max(1.1rem, var(--safe-right)));
   padding: max(0.35rem, var(--safe-top)) max(1.1rem, var(--safe-right)) 0.55rem
     max(1.1rem, var(--safe-left));
@@ -302,7 +317,7 @@ label {
 .tabs {
   display: flex;
   gap: 0.35rem;
-  margin: 0.55rem 0 0;
+  margin: 0.45rem 0 0.9rem;
   overflow: auto;
   scrollbar-width: none;
 }
@@ -467,10 +482,45 @@ label {
 }
 
 .panel {
+  position: relative;
+  overflow: hidden;
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 1.15rem 1.15rem 1.35rem;
+}
+
+.panel-wash {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: min(38rem, 92%);
+  height: 16.5rem;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.panel-wash img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left top;
+  opacity: 0.42;
+}
+
+.panel-wash::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(105deg, transparent 22%, color-mix(in srgb, var(--card) 28%, transparent) 52%, var(--card) 86%),
+    linear-gradient(180deg, transparent 40%, var(--card) 96%);
+}
+
+.panel > :not(.panel-wash) {
+  position: relative;
+  z-index: 1;
 }
 
 .panel-head {
@@ -605,6 +655,12 @@ h3 {
   font-family: var(--mono);
 }
 
+.week-next {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.15rem;
+}
+
 .advice {
   border-radius: var(--radius);
   padding: 0.8rem 0.95rem;
@@ -704,6 +760,104 @@ h3 {
 
 .ball-hit {
   box-shadow: 0 0 0 2px var(--green);
+}
+
+.ball-hot {
+  background: #c2410c;
+  border-color: #ea580c;
+  color: #fff;
+}
+
+.ball-cold {
+  background: #1d4ed8;
+  border-color: #2563eb;
+  color: #fff;
+}
+
+.ball-overdue {
+  background: #6d28d9;
+  border-color: #7c3aed;
+  color: #fff;
+}
+
+@keyframes ball-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-1.35rem) scale(0.86);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.ball-drop {
+  animation: ball-drop 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.ticket-list.drop-in .playslip-wrap {
+  animation: slip-fade 0.45s ease 0.42s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ball-drop,
+  .ticket-list.drop-in .playslip-wrap {
+    animation: none;
+  }
+}
+
+@keyframes slip-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.temp-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin: 1rem 0 0.25rem;
+}
+
+.temp-card {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.75rem 0.85rem;
+}
+
+.temp-card h3 {
+  margin: 0 0 0.25rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.temp-card .fine {
+  margin: 0 0 0.55rem;
+}
+
+.temp-card .ticket-row {
+  min-height: 2.35rem;
+}
+
+.temp-meta {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+}
+
+.temp-note {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 0.65rem 0.75rem;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
 }
 
 .last-draw {
@@ -1206,6 +1360,12 @@ h3 {
   max-width: 46rem;
 }
 
+.footer-copy {
+  margin: 0.65rem 0 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
 .faq {
   background: var(--card);
   border: 1px solid var(--line);
@@ -1329,6 +1489,14 @@ input[type="checkbox"] {
     padding-bottom: calc(5.75rem + var(--safe-bottom));
   }
 
+  .week-next {
+    justify-content: stretch;
+  }
+
+  .week-next .primary {
+    width: 100%;
+  }
+
   .footer-btn {
     flex: 1 1 calc(50% - 0.5rem);
   }
@@ -1440,7 +1608,8 @@ input[type="checkbox"] {
   .form-grid,
   .market-grid,
   .map-stats,
-  .map-layout {
+  .map-layout,
+  .temp-board {
     grid-template-columns: 1fr;
   }
 
@@ -1498,6 +1667,7 @@ input[type="checkbox"] {
   .install-hint,
   .faq,
   .site-footer,
+  .slip-field,
   .panel > *:not(.print-sheet) {
     display: none !important;
   }

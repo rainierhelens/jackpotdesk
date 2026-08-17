@@ -2,6 +2,7 @@ import { useMemo, useRef, useState } from "react";
 import { Ball } from "../components/Ball";
 import { PrintSlip } from "../components/PrintSlip";
 import { money, moneyExact, parseMoney } from "../lib/ev";
+import { avoidWhites, frequencyStats } from "../lib/frequency";
 import { DEFAULT_FILTERS, formatTicket } from "../lib/picks";
 import { GAMES } from "../lib/prizes";
 import { scorePool } from "../lib/settle";
@@ -16,6 +17,7 @@ import type { OfficialDraw } from "../lib/winners";
 type Props = {
   pool: Pool;
   past: Set<string>;
+  draws: OfficialDraw[];
   latest: OfficialDraw | null;
   jackpotCash: number;
   shareNotice: string | null;
@@ -28,6 +30,7 @@ type Props = {
     count: number,
     filters: Filters,
     past: Set<string>,
+    avoid?: Set<number>,
   ) => { added: number; rejected: number };
   replacePool: (pool: Pool) => void;
   reset: () => void;
@@ -36,6 +39,7 @@ type Props = {
 export function PoolView({
   pool,
   past,
+  draws,
   latest,
   jackpotCash,
   shareNotice,
@@ -77,9 +81,14 @@ export function PoolView({
   const prizeTotal = override > 0 ? override : settledTotal;
   const splitBase = totals.paidShares > 0 ? totals.paidShares : totals.shares;
 
+  const avoid = useMemo(
+    () => avoidWhites(DEFAULT_FILTERS, frequencyStats(draws, spec.whiteMax)),
+    [draws, spec.whiteMax],
+  );
+
   function mint() {
     const n = Math.min(100, Math.max(1, Number(mintCount) || 1));
-    const result = mintTickets(n, DEFAULT_FILTERS, past);
+    const result = mintTickets(n, DEFAULT_FILTERS, past, avoid);
     setMintNote(
       result.added === n
         ? `Added ${result.added} unique tickets.`

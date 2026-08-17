@@ -6,6 +6,8 @@ export type Filters = {
   multiples: boolean;
   previous: boolean;
   visual: boolean;
+  hot: boolean;
+  cold: boolean;
 };
 
 export type Ticket = {
