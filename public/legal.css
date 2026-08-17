@@ -62,6 +62,12 @@ body {
   color: var(--ink);
 }
 
+.legal-nav + .legal-nav {
+  margin-top: -1.75rem;
+  border-top: none;
+  padding-top: 0;
+}
+
 .kicker {
   margin: 0;
   color: var(--gold);

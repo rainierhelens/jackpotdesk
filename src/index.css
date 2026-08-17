@@ -1286,6 +1286,10 @@ h3 {
   gap: 0.5rem;
 }
 
+.footer-links + .footer-links {
+  margin-top: 0.5rem;
+}
+
 .footer-btn {
   display: inline-flex;
   align-items: center;

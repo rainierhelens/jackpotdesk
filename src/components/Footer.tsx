@@ -1,3 +1,9 @@
+const TOOLS = [
+  { href: "/expected-value.html", label: "Expected value" },
+  { href: "/unique-tickets.html", label: "Unique tickets" },
+  { href: "/office-pool.html", label: "Office pool" },
+] as const;
+
 const LINKS = [
   { href: "/about.html", label: "About JackpotDesk" },
   { href: "/how-to-play.html", label: "How to play" },
@@ -11,6 +17,13 @@ const LINKS = [
 export function Footer() {
   return (
     <footer className="site-footer">
+      <nav className="footer-links" aria-label="Tools">
+        {TOOLS.map((link) => (
+          <a key={link.href} className="footer-btn" href={link.href}>
+            {link.label}
+          </a>
+        ))}
+      </nav>
       <nav className="footer-links" aria-label="Site">
         {LINKS.map((link) => (
           <a key={link.href} className="footer-btn" href={link.href}>
