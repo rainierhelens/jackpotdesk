@@ -50,7 +50,7 @@ export const WA_GAMES: Record<WaGameId, WaGameSpec> = {
     ticketCost: 1,
     jackpotOdds: 10_626,
     extraLabel: null,
-    note: "4 of 24. $1. Top prize is a fixed $10,000 — it does not roll like Hit 5 or Lotto.",
+    note: "4 of 24. $1. Top prize is a fixed $10,000. It does not roll like Hit 5 or Lotto.",
   },
   cashpop: {
     id: "cashpop",
@@ -61,7 +61,7 @@ export const WA_GAMES: Record<WaGameId, WaGameSpec> = {
     ticketCost: 5,
     jackpotOdds: 15,
     extraLabel: null,
-    note: "Each POP is $5. One number from 1–15 is drawn. The $25–$500 prize is printed at the register — Desk cannot mint prizes. Count is budget, not odds.",
+    note: "Each POP is $5. One number from 1–15 is drawn. The $25–$500 prize is printed at the register. Desk cannot mint prizes. Count is budget, not odds.",
     minCount: 1,
     maxCount: 15,
   },

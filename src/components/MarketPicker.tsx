@@ -203,7 +203,7 @@ export function MarketPicker({
                 <Row
                   key={id}
                   name={GAMES[id].label}
-                  value={quote ? formatCompact(quote.advertised) : "——"}
+                  value={quote ? formatCompact(quote.advertised) : "··"}
                   flash={quote?.advertised ?? 0}
                   sub={
                     netEv !== null ? (
@@ -212,7 +212,7 @@ export function MarketPicker({
                         {moneyExact.format(netEv)} EV
                       </span>
                     ) : (
-                      "EV —"
+                      "EV"
                     )
                   }
                   active={desk === "national" && game === id}

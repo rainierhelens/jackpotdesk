@@ -117,7 +117,7 @@ function FlowBar({ report }: { report: PoolReport }) {
       key: stage.key,
       width: Math.max(stage.share * 100, 0.45),
       hue: stageHue(i),
-      title: `${stage.label} — ${fmt(stage.removed)} (${pctLabel(stage.share)})`,
+      title: `${stage.label}: ${fmt(stage.removed)} (${pctLabel(stage.share)})`,
     });
   }
   return (
@@ -136,7 +136,7 @@ function FlowBar({ report }: { report: PoolReport }) {
       ))}
       <span
         className="pool-flow-keep"
-        title={`Your pool — ${fmt(report.survivors)} (${pctLabel(report.keptShare)})`}
+        title={`Your pool: ${fmt(report.survivors)} (${pctLabel(report.keptShare)})`}
       />
     </div>
   );
@@ -271,7 +271,7 @@ export function NumberPool({
         <StageLadder stages={report.stages} approx={approx} />
       ) : (
         <p className="fine pool-stage-note">
-          No fades are on — the pool is the whole space.
+          No fades are on. The pool is the whole space.
         </p>
       )}
 
@@ -303,7 +303,7 @@ export function NumberPool({
       {heat ? (
         <p className="fine pool-heat-note">
           <span className="pool-heat-swatch is-red" /> over-picked ·{" "}
-          <span className="pool-heat-swatch is-green" /> under-picked — pick
+          <span className="pool-heat-swatch is-green" /> under-picked. Pick
           rates fit from {heatSource ?? "official winner counts"}, refreshed
           daily.
         </p>

@@ -74,8 +74,8 @@ export function PatternReport({
       <p className="fine crowd-note">
         Scores weigh number frequency, common pairs, recent heat, and the
         odd/even, high/low, and sum shapes of {model.draws.toLocaleString("en-US")}{" "}
-        past drawings ({source}). These patterns describe the past only —
-        every combination is exactly as likely as any other. Entertainment,
+        past drawings ({source}). These patterns describe the past only.
+        Every combination is exactly as likely as any other. Entertainment,
         not prediction.
       </p>
     </section>

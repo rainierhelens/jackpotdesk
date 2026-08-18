@@ -18,7 +18,7 @@ export function Faq() {
     },
     {
       q: "Then what is the benefit?",
-      a: "The Ladder ranks scanned boards by how well they match official history — a scored replay of the past, not a forecast. It also prices the drawing using cash value, tax, and split risk, and can mint uncrowded tickets so a jackpot is less likely to be shared. Hit odds stay the published odds.",
+      a: "The Ladder ranks scanned boards by how well they match official history. It is a scored replay of the past, not a forecast. It also prices the drawing using cash value, tax, and split risk, and can mint uncrowded tickets so a jackpot is less likely to be shared. Hit odds stay the published odds.",
     },
     {
       q: "Is this the same as Quick Pick?",
@@ -42,7 +42,7 @@ export function Faq() {
     },
     {
       q: "Is the map a live feed of every lottery winner?",
-      a: "No. The US board is Powerball and Mega Millions jackpot tickets by the state where they were sold. That list refreshes from a Cloudflare Worker that caches public jackpot-location pages; if the feed is down, the last baked copy in the site is used. It is still jackpot tickets only — not every $4 winner. The Washington board’s store list is the Lottery’s 2023–2025 top stores for tickets worth $1,000 or more, all games mixed, and that mix is not live. Powerball / Mega Millions on that board are jackpot tickets sold in Washington, by city. Hit 5 and Lotto are published cashpot / jackpot tickets with a named store — not every drawing, and not a split of the $1,000+ mix. Busy stores sell more tickets. Neither board is store-lucky or a forecast.",
+      a: "No. The US board is Powerball and Mega Millions jackpot tickets by the state where they were sold. That list refreshes from a Cloudflare Worker that caches public jackpot-location pages; if the feed is down, the last baked copy in the site is used. It is still jackpot tickets only, not every $4 winner. The Washington board’s store list is the Lottery’s 2023–2025 top stores for tickets worth $1,000 or more, all games mixed, and that mix is not live. Powerball / Mega Millions on that board are jackpot tickets sold in Washington, by city. Hit 5 and Lotto are published cashpot / jackpot tickets with a named store. That is not every drawing, and not a split of the $1,000+ mix. Busy stores sell more tickets. Neither board is store-lucky or a forecast.",
     },
   ];
 

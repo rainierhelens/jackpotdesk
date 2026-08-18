@@ -70,7 +70,7 @@ function NationalTick({
       <span className="tick-label">{spec.label}</span>
       <span className="tick-value">
         <FlashNum value={quote?.advertised ?? 0}>
-          {quote ? formatCompact(quote.advertised) : "——"}
+          {quote ? formatCompact(quote.advertised) : "··"}
         </FlashNum>
       </span>
       <span className="tick-sub">
@@ -80,7 +80,7 @@ function NationalTick({
             {moneyExact.format(netEv)} EV
           </span>
         ) : (
-          <span className="tick-ev">EV —</span>
+          <span className="tick-ev">EV</span>
         )}
         <span className={`tick-clock urgent-${urgency}`}>{clock}</span>
       </span>

@@ -72,7 +72,7 @@ export function PatternLadder({
       </div>
       <p className="fine ladder-lead">
         Every board below is ranked by pattern score against{" "}
-        {model.draws.toLocaleString("en-US")} past drawings ({source}) — number
+        {model.draws.toLocaleString("en-US")} past drawings ({source}): number
         frequency, common pairs, recent heat, and winning shapes. Rank #1 is
         the strongest match to the past, <b>not</b> the board most likely to
         be drawn next. No such board exists: every combination keeps identical
@@ -97,7 +97,7 @@ export function PatternLadder({
                   {reading ? (
                     <span
                       className={`crowd-chip ${crowdTone(reading.index)}`}
-                      title={`Expected co-winner index — less crowded than ${reading.beats}% of boards`}
+                      title={`Expected co-winner index. Less crowded than ${reading.beats}% of boards.`}
                     >
                       {reading.index.toFixed(2)}× CROWD
                     </span>
@@ -130,7 +130,7 @@ export function PatternLadder({
       {atEnd ? (
         <div className="ladder-end">
           <p>
-            End of the free ladder — the top {LADDER_DEPTH} of{" "}
+            End of the free ladder: the top {LADDER_DEPTH} of{" "}
             {ladder.scanned.toLocaleString("en-US")} scanned boards. The full
             field is reserved for a future desk tier.
           </p>

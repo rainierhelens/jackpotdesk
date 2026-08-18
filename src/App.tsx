@@ -292,8 +292,7 @@ export default function App() {
             </h1>
             <p className="tag">
               The Ladder ranks every scanned board against measured history.
-              Same hit odds as Quick Pick. The ranking gets sharper as new
-              official draws land.
+              Same hit odds as Quick Pick.
             </p>
           </div>
           <div className="masthead-tools">

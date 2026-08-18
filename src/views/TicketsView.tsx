@@ -324,11 +324,11 @@ export function TicketsView({
       </header>
       <p className="gen-tag">
         {mode === "ladder"
-          ? "The ladder ranks the scanned field by pattern score, best first — a scored replay of the past, not a forecast. Every board keeps identical hit odds. "
+          ? "The ladder ranks the scanned field by pattern score, best first. It is a scored replay of the past, not a forecast. Every board keeps identical hit odds. "
           : mode === "pattern"
-            ? "Pattern lab leans into historical frequencies, pairs, and winning shapes — statistical pattern exploration for entertainment. Past frequency does not change future odds; same hit odds as Quick Pick. "
+            ? "Pattern lab leans into historical frequencies, pairs, and winning shapes. Statistical pattern exploration for entertainment. Past frequency does not change future odds; same hit odds as Quick Pick. "
             : mode === "desk"
-              ? "Desk pick mines the measured pick rates for the least-crowded boards in the game — same hit odds, smallest expected split if you hit. "
+              ? "Desk pick mines the measured pick rates for the least-crowded boards in the game. Same hit odds, smallest expected split if you hit. "
               : "Same hit odds as Quick Pick. Unique boards if you win. "}
         {spec.ticketCost} a play.{" "}
         <a href="/lottery-lab.html">AI cannot beat Quick Pick</a>.

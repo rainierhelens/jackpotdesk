@@ -117,7 +117,7 @@ export function WaValue({
         <p className="kicker">Match 4</p>
         <p>
           Top prize is a fixed $10,000 (1 in 10,626). It does not roll. Pattern
-          and last-draw fades still matter for splits. Birthday fade is off —
+          and last-draw fades still matter for splits. Birthday fade is off;
           the field is 1–24.
         </p>
         <WaFeedLine feed={feed} asOf={asOf} />
@@ -130,7 +130,7 @@ export function WaValue({
       <p className="kicker">Cash Pop</p>
       <p>
         $5 per POP. One number from 1–15 is drawn. The prize is printed at the
-        register ($25–$500) — Desk cannot mint it. More POPs is more budget,
+        register ($25–$500). Desk cannot mint it. More POPs is more budget,
         not better odds. We fade 1, 7, 11, 13, and 15.
       </p>
       <WaFeedLine feed={feed} asOf={asOf} />
