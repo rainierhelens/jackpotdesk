@@ -178,8 +178,14 @@ export function TicketsView({
   }
 
   function pickMode(next: MintMode) {
+    if (next === mode) return;
     setMode(next);
     savePref("mintMode", next);
+    window.clearTimeout(mintTimer.current);
+    setMinting(false);
+    setTickets([]);
+    setRejected(0);
+    setAttempts(0);
   }
 
   function generate() {

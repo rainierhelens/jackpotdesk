@@ -2902,7 +2902,8 @@ input[type="checkbox"] {
     padding: 0;
   }
 
-  .gen-layout {
+  .gen-layout,
+  .gen-layout.is-ladder {
     grid-template-columns: 1fr;
   }
 
@@ -3632,9 +3633,12 @@ input[type="checkbox"] {
   gap: 0.9rem;
 }
 
-/* Ladder mode needs room for a full ticket tile plus row padding. */
-.gen-layout.is-ladder {
-  grid-template-columns: minmax(16rem, 25.5rem) minmax(0, 1fr);
+/* Ladder mode needs room for a full ticket tile plus row padding.
+   Desktop only: the 720px stack already sets .gen-layout to one column. */
+@media (min-width: 721px) {
+  .gen-layout.is-ladder {
+    grid-template-columns: minmax(16rem, 25.5rem) minmax(0, 1fr);
+  }
 }
 
 .ladder-row {
@@ -3772,6 +3776,22 @@ input[type="checkbox"] {
 
 .ladder-end p.fine {
   color: var(--muted);
+}
+
+@media (max-width: 720px) {
+  .ladder-row {
+    justify-items: center;
+  }
+
+  .ladder-tile,
+  .ladder-data {
+    width: 100%;
+    max-width: 22.5rem;
+  }
+
+  .ladder-chips {
+    justify-content: center;
+  }
 }
 
 .crowd-beats {
