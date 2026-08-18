@@ -1,6 +1,6 @@
-import type { Pick3Way, WaFilters } from "../types";
+import type { WaFilters } from "../types";
 import { comboKey, newId, sampleCombo } from "./picks";
-import { CASH_POP_CROWDED, WA_AREA_CODES, type WaGameSpec } from "./waGames";
+import { CASH_POP_CROWDED, type WaGameSpec } from "./waGames";
 
 export type WaPlay = {
   id: string;
@@ -18,43 +18,10 @@ export const DEFAULT_WA_FILTERS: WaFilters = {
   lastDraw: true,
   hot: true,
   cold: true,
-  areaCodes: true,
-  dates: true,
-  doubles: true,
-  decade: true,
-  lowHalf: true,
   luckyPops: true,
 };
 
-const AREA = new Set(WA_AREA_CODES);
 const LUCKY_POP = new Set(CASH_POP_CROWDED);
-const DAYS_IN_MONTH = [0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-function randInt(maxExclusive: number): number {
-  if (maxExclusive <= 0) return 0;
-  if (typeof crypto !== "undefined" && typeof crypto.getRandomValues === "function") {
-    const limit = Math.floor(0x100000000 / maxExclusive) * maxExclusive;
-    const buf = new Uint32Array(1);
-    let x = 0;
-    do {
-      crypto.getRandomValues(buf);
-      x = buf[0];
-    } while (x >= limit);
-    return x % maxExclusive;
-  }
-  return Math.floor(Math.random() * maxExclusive);
-}
-
-function sampleDigits(): number[] {
-  return [randInt(10), randInt(10), randInt(10)];
-}
-
-function playKey(numbers: number[], kind: string, box = false): string {
-  if (kind === "digits") {
-    return box ? [...numbers].sort((a, b) => a - b).join("") : numbers.join("");
-  }
-  return comboKey(numbers);
-}
 
 function longestConsecutive(sorted: number[]): number {
   let best = 1;
@@ -118,33 +85,6 @@ function isVisualLine(numbers: number[], cols = 10): boolean {
   );
 }
 
-function oneDecade(numbers: number[]): boolean {
-  if (numbers.length < 2) return false;
-  const decade = rowOf(numbers[0]);
-  return numbers.every((n) => rowOf(n) === decade);
-}
-
-function pick3Run(digits: number[]): boolean {
-  const [a, b, c] = digits;
-  if (a === b && b === c) return true;
-  if (b === a + 1 && c === b + 1) return true;
-  if (b === a - 1 && c === b - 1) return true;
-  if (a === 1 && b === 2 && c === 3) return true;
-  if (a === 7 && b === 8 && c === 9) return true;
-  return false;
-}
-
-function pick3Date(digits: number[]): boolean {
-  const [a, b, c] = digits;
-  const n = a * 100 + b * 10 + c;
-  if (n <= 31) return true;
-  if (a >= 1 && a <= 9) {
-    const day = b * 10 + c;
-    return day >= 1 && day <= DAYS_IN_MONTH[a];
-  }
-  return false;
-}
-
 /** First fade that rejects this play, or null if it survives every fade. */
 export function waRejectReason(
   numbers: number[],
@@ -152,24 +92,14 @@ export function waRejectReason(
   filters: WaFilters,
   past: Set<string>,
   avoid: Set<number>,
-  pick3Way: Pick3Way,
 ): string | null {
-  const kind = spec.kind;
   const sorted = [...numbers].sort((a, b) => a - b);
-  const key = playKey(numbers, kind, pick3Way === "box");
+  const key = comboKey(numbers);
 
   if (filters.previous && past.has(key)) return "previous";
   if (avoid.size > 0 && numbers.some((n) => avoid.has(n))) return "temperature";
 
-  if (kind === "digits") {
-    if (filters.sequence && pick3Run(numbers)) return "sequence";
-    if (filters.doubles && new Set(numbers).size < 3) return "doubles";
-    if (filters.areaCodes && AREA.has(numbers.join(""))) return "areaCodes";
-    if (filters.dates && pick3Date(numbers)) return "dates";
-    return null;
-  }
-
-  if (kind === "cashpop") {
+  if (spec.kind === "cashpop") {
     if (filters.luckyPops && numbers.some((n) => LUCKY_POP.has(n))) {
       return "luckyPops";
     }
@@ -187,14 +117,12 @@ export function waRejectReason(
   if (filters.highBall && spec.id === "hit5" && !numbers.some((n) => n >= 32)) {
     return "highBall";
   }
-  if (filters.sequence) {
-    const runNeed = kind === "keno" ? (numbers.length >= 4 ? 3 : 2) : 4;
-    if (
-      numbers.length >= runNeed &&
-      (longestConsecutive(sorted) >= runNeed || isArithmetic(sorted))
-    ) {
-      return "sequence";
-    }
+  if (
+    filters.sequence &&
+    numbers.length >= 4 &&
+    (longestConsecutive(sorted) >= 4 || isArithmetic(sorted))
+  ) {
+    return "sequence";
   }
   if (
     filters.multiples &&
@@ -204,12 +132,6 @@ export function waRejectReason(
     return "multiples";
   }
   if (filters.visual && isVisualLine(numbers)) return "visual";
-  if (kind === "keno") {
-    if (filters.decade && oneDecade(numbers)) return "decade";
-    if (filters.lowHalf && numbers.length >= 2 && numbers.every((n) => n <= 40)) {
-      return "lowHalf";
-    }
-  }
   return null;
 }
 
@@ -219,9 +141,8 @@ export function rejectWaPlay(
   filters: WaFilters,
   past: Set<string>,
   avoid: Set<number>,
-  pick3Way: Pick3Way,
 ): boolean {
-  return waRejectReason(numbers, spec, filters, past, avoid, pick3Way) !== null;
+  return waRejectReason(numbers, spec, filters, past, avoid) !== null;
 }
 
 export function generateWaPlays(
@@ -231,7 +152,6 @@ export function generateWaPlays(
   filters: WaFilters,
   past: Set<string>,
   avoid: Set<number> = new Set(),
-  pick3Way: Pick3Way = "straight",
 ): { tickets: WaPlay[]; attempts: number; rejected: number } {
   const tickets: WaPlay[] = [];
   const used = new Set<string>();
@@ -242,15 +162,13 @@ export function generateWaPlays(
   const pairSize = spec.pairSize ?? 1;
   const want =
     pairSize > 1 ? Math.max(pairSize, count + (count % pairSize)) : count;
-  const kind = spec.kind;
-  let slipUnique = filters.uniqueSlip && kind !== "digits";
+  let slipUnique = filters.uniqueSlip;
 
   const takeOne = (pairLock: Set<number>): WaPlay | null => {
     while (attempts < maxAttempts) {
       attempts += 1;
-      const numbers =
-        kind === "digits" ? sampleDigits() : sampleCombo(spec.whiteMax, whiteCount);
-      const key = playKey(numbers, kind, pick3Way === "box");
+      const numbers = sampleCombo(spec.whiteMax, whiteCount);
+      const key = comboKey(numbers);
       if (used.has(key)) {
         rejected += 1;
         continue;
@@ -263,7 +181,7 @@ export function generateWaPlays(
         rejected += 1;
         continue;
       }
-      if (rejectWaPlay(numbers, spec, filters, past, avoid, pick3Way)) {
+      if (rejectWaPlay(numbers, spec, filters, past, avoid)) {
         rejected += 1;
         continue;
       }
@@ -312,21 +230,15 @@ export function generateWaPlays(
   return { tickets, attempts, rejected };
 }
 
-export function waSlipCost(
-  spec: WaGameSpec,
-  tickets: WaPlay[],
-  stake = 1,
-): number {
+export function waSlipCost(spec: WaGameSpec, tickets: WaPlay[]): number {
   const n = Math.max(tickets.length, 1);
   if (spec.id === "lotto") return spec.ticketCost * Math.ceil(n / (spec.pairSize ?? 2));
-  if (spec.id === "keno") return stake * n;
   if (spec.id === "cashpop") {
     return spec.ticketCost * tickets.reduce((sum, t) => sum + t.numbers.length, 0);
   }
   return spec.ticketCost * n;
 }
 
-export function formatWaPlay(numbers: number[], kind: string): string {
-  if (kind === "digits") return numbers.join("");
+export function formatWaPlay(numbers: number[]): string {
   return numbers.map((n) => String(n).padStart(2, "0")).join(" · ");
 }

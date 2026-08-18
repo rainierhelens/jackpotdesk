@@ -1,5 +1,5 @@
 import { nationalPool, waPool } from "./comboPool";
-import type { Filters, GameSpec, Pick3Way, WaFilters } from "../types";
+import type { Filters, GameSpec, WaFilters } from "../types";
 import type { WaGameSpec } from "./waGames";
 
 export type PoolRequest =
@@ -17,7 +17,6 @@ export type PoolRequest =
       filters: WaFilters;
       past: Set<string>;
       avoid: Set<number>;
-      pick3Way: Pick3Way;
     };
 
 type Envelope = PoolRequest & { id: number };
@@ -27,13 +26,6 @@ self.onmessage = (event: MessageEvent<Envelope>) => {
   const report =
     msg.kind === "national"
       ? nationalPool(msg.spec, msg.filters, msg.past, msg.avoid)
-      : waPool(
-          msg.spec,
-          msg.whiteCount,
-          msg.filters,
-          msg.past,
-          msg.avoid,
-          msg.pick3Way,
-        );
+      : waPool(msg.spec, msg.whiteCount, msg.filters, msg.past, msg.avoid);
   self.postMessage({ id: msg.id, report });
 };

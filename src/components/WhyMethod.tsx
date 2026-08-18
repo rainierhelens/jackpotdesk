@@ -5,6 +5,14 @@ type Point = {
 
 const POINTS: Point[] = [
   {
+    label: "Climb the ladder",
+    text: "The Ladder ranks scanned boards by how well they match official history — frequency, pairs, recent heat, and winning shapes. Rank #1 is the strongest fit to the past, not a forecast. Same hit odds as Quick Pick.",
+  },
+  {
+    label: "Measure the crowd",
+    text: "We fit pick rates from official per-tier winner counts, refreshed daily. That is what powers the number heat, the co-winner index, and Desk pick — measured data, not vibes.",
+  },
+  {
     label: "Shop the line",
     text: "Price the cash jackpot, tax, and split risk before you buy. Most weeks the ticket is a bad bet. This tab says so.",
   },
@@ -22,9 +30,10 @@ export function WhyMethod() {
   return (
     <section className="why" aria-label="Why this method">
       <p className="why-lead">
-        Same hit chance as Quick Pick. The edge is not predicting numbers. It is
-        skipping crowded tickets and skipping drawings that are not worth the
-        stake.
+        Same hit chance as Quick Pick. The product is The Ladder: a scored
+        replay of the past, best first — a free experiment, not a forecast.
+        Winner-count archives are append-only, so the ranking compounds as new
+        official draws land. We do not predict the next drawing.
       </p>
       <div className="why-grid">
         {POINTS.map((point) => (
@@ -36,7 +45,7 @@ export function WhyMethod() {
       </div>
       <p className="why-lab">
         <a href="/lottery-lab.html">Lottery Lab:</a> models cannot beat Quick
-        Pick. We fade crowded tickets instead.
+        Pick. The Ladder ranks the past. It does not change the odds.
       </p>
     </section>
   );

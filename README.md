@@ -2,13 +2,15 @@
 
 Live site: [https://www.jackpotdesk.com](https://www.jackpotdesk.com)
 
-Free Powerball and Mega Millions desk:
+The product is **The Ladder**: a ranked feed of boards scored against official draw history (frequency, pairs, recent heat, winning shapes). Same hit odds as Quick Pick. The ranking re-scores when new official draws land; winner-count archives are append-only, so the models compound.
+
+Secondary tools:
 
 1. **This week:** expected value using cash jackpot, tax, and split risk.
-2. **Tickets:** random picks that skip birthdays, sequences, recent winners, and this matrix’s recently drawn, long-gap, and overdue whites.
+2. **Tickets modes:** Ladder (default), Pattern lab, Desk pick (least-crowded), Quick mint (fade crowded public tickets).
 3. **Pool:** members, shares, and payout splits in this browser.
 
-This does **not** raise the chance of winning. Hit odds match Quick Pick. The benefit is fewer jackpot splits and a pass on bad drawings.
+This does **not** raise the chance of winning. Hit odds match Quick Pick. The live site is a free experiment; how we might charge later is in [`docs/BUSINESS.md`](docs/BUSINESS.md). Engines and data jobs: [`docs/`](docs/).
 
 ## Local
 

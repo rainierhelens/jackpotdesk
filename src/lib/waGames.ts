@@ -1,6 +1,6 @@
 import type { WaGameId } from "../types";
 
-export type WaGameKind = "matrix" | "digits" | "keno" | "cashpop";
+export type WaGameKind = "matrix" | "cashpop";
 
 export type WaGameSpec = {
   id: WaGameId;
@@ -14,8 +14,6 @@ export type WaGameSpec = {
   note: string;
   minCount?: number;
   maxCount?: number;
-  minStake?: number;
-  maxStake?: number;
   pairSize?: number;
 };
 
@@ -54,32 +52,6 @@ export const WA_GAMES: Record<WaGameId, WaGameSpec> = {
     extraLabel: null,
     note: "4 of 24. $1. Top prize is a fixed $10,000 — it does not roll like Hit 5 or Lotto.",
   },
-  pick3: {
-    id: "pick3",
-    label: "Pick 3",
-    kind: "digits",
-    whiteMax: 9,
-    whiteCount: 3,
-    ticketCost: 1,
-    jackpotOdds: 1_000,
-    extraLabel: null,
-    note: "Three digits 0–9. Straight is 1 in 1,000. Box pays any order and a smaller prize. This mints digits; you mark Straight or Box at the counter.",
-  },
-  keno: {
-    id: "keno",
-    label: "Daily Keno",
-    kind: "keno",
-    whiteMax: 80,
-    whiteCount: 4,
-    ticketCost: 1,
-    jackpotOdds: 326_163,
-    extraLabel: null,
-    note: "Pick 1–10 spots from 80. Twenty numbers are drawn. Stake is $1–$20. Spot count is the EV lever, not luck.",
-    minCount: 1,
-    maxCount: 10,
-    minStake: 1,
-    maxStake: 20,
-  },
   cashpop: {
     id: "cashpop",
     label: "Cash Pop",
@@ -95,15 +67,6 @@ export const WA_GAMES: Record<WaGameId, WaGameSpec> = {
   },
 };
 
-export const WA_GAME_ORDER: WaGameId[] = [
-  "hit5",
-  "lotto",
-  "match4",
-  "pick3",
-  "keno",
-  "cashpop",
-];
+export const WA_GAME_ORDER: WaGameId[] = ["hit5", "lotto", "match4", "cashpop"];
 
 export const CASH_POP_CROWDED = [1, 7, 11, 13, 15];
-
-export const WA_AREA_CODES = ["206", "253", "360", "425", "509", "564"];

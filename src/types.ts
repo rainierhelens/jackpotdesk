@@ -2,13 +2,7 @@ export type GameId = "powerball" | "megamillions";
 
 export type DeskId = "national" | "washington";
 
-export type WaGameId =
-  | "hit5"
-  | "lotto"
-  | "match4"
-  | "pick3"
-  | "keno"
-  | "cashpop";
+export type WaGameId = "hit5" | "lotto" | "match4" | "cashpop";
 
 export type Filters = {
   birthday: boolean;
@@ -22,8 +16,6 @@ export type Filters = {
   uniqueSlip: boolean;
 };
 
-export type Pick3Way = "straight" | "box";
-
 /** Washington slip fades. Same hit odds; skip crowded public tickets. */
 export type WaFilters = {
   uniqueSlip: boolean;
@@ -36,11 +28,6 @@ export type WaFilters = {
   lastDraw: boolean;
   hot: boolean;
   cold: boolean;
-  areaCodes: boolean;
-  dates: boolean;
-  doubles: boolean;
-  decade: boolean;
-  lowHalf: boolean;
   luckyPops: boolean;
 };
 

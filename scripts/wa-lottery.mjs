@@ -32,6 +32,27 @@ function isoDate(label) {
   return new Date(Date.UTC(+m[3], MONTHS[m[1]], +m[2])).toISOString().slice(0, 10);
 }
 
+function drawKey(row) {
+  return `${row.date}|${row.numbers.join(",")}`;
+}
+
+/** Union fresh scrape rows with any prior archive. Newest first. */
+export function mergeDraws(fresh, previous = []) {
+  const seen = new Set();
+  const out = [];
+  for (const row of [...fresh, ...previous]) {
+    if (!row?.date || !Array.isArray(row.numbers) || row.numbers.length === 0) {
+      continue;
+    }
+    const key = drawKey(row);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push({ date: row.date, numbers: row.numbers });
+  }
+  out.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+  return out;
+}
+
 export function parseDraws(html) {
   const blocks = html.split('class="table-viewport-small"');
   const draws = [];
@@ -87,14 +108,17 @@ export function isWaBook(data) {
 
 export async function scrapeWaLottery(previous = {}) {
   const prevPrizes = previous.prizes ?? {};
+  const prevDraws = previous.draws ?? {};
   const draws = {};
   for (const [id, slug] of WA_GAMES) {
     const url = `https://walottery.com/winningnumbers/pastdrawings.aspx?gamename=${slug}&unittype=day&unitcount=180`;
     const html = await fetchHtml(url);
-    draws[id] = parseDraws(html);
-    if (draws[id].length < 10) {
-      throw new Error(`${id}: expected at least 10 drawings, got ${draws[id].length}`);
+    const fresh = parseDraws(html);
+    if (fresh.length < 10) {
+      throw new Error(`${id}: expected at least 10 drawings, got ${fresh.length}`);
     }
+    // walottery.com only serves 180 days. Keep every draw we have already seen.
+    draws[id] = mergeDraws(fresh, prevDraws[id] ?? []);
   }
 
   const hit5Html = await fetchHtml("https://walottery.com/JackpotGames/Hit5.aspx");

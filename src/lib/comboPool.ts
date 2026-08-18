@@ -1,4 +1,4 @@
-import type { Filters, Pick3Way, WaFilters } from "../types";
+import type { Filters, WaFilters } from "../types";
 import type { GameSpec } from "../types";
 import { rejectReasons, sampleCombo } from "./picks";
 import { combinations } from "./prizes";
@@ -44,14 +44,6 @@ function eachCombo(
     if (i < 0) return;
     combo[i] += 1;
     for (let j = i + 1; j < k; j++) combo[j] = combo[j - 1] + 1;
-  }
-}
-
-function eachDigits(cb: (combo: number[]) => void): void {
-  for (let a = 0; a <= 9; a++) {
-    for (let b = 0; b <= 9; b++) {
-      for (let c = 0; c <= 9; c++) cb([a, b, c]);
-    }
   }
 }
 
@@ -143,46 +135,23 @@ const WA_ORDER = [
   "previous",
   "temperature",
   "sequence",
-  "doubles",
-  "areaCodes",
-  "dates",
   "luckyPops",
   "birthday",
   "highBall",
   "multiples",
   "visual",
-  "decade",
-  "lowHalf",
 ];
 
-function waLabels(spec: WaGameSpec): Record<string, string> {
-  return {
-    previous: "Past winning draws",
-    temperature:
-      spec.kind === "digits"
-        ? "Last night’s digits"
-        : "Hot, cold, overdue, last-draw numbers",
-    sequence:
-      spec.kind === "digits"
-        ? "Triples / straight runs"
-        : spec.kind === "keno"
-          ? "Consecutive clusters"
-          : "Straight runs / 4+ consecutive",
-    doubles: "Doubles (any two digits match)",
-    areaCodes: "WA area codes",
-    dates: "Dates and years",
-    luckyPops: "Lucky POPs (1, 7, 11, 13, 15)",
-    birthday: "All numbers in 1–31",
-    highBall: "No high ball 32–42",
-    multiples: "Multiples patterns",
-    visual:
-      spec.kind === "keno"
-        ? "One column on the 80-card"
-        : "Playslip row / column / diagonal",
-    decade: "One decade / one row",
-    lowHalf: "All spots in 1–40",
-  };
-}
+const WA_LABELS: Record<string, string> = {
+  previous: "Past winning draws",
+  temperature: "Hot, cold, overdue, last-draw numbers",
+  sequence: "Straight runs / 4+ consecutive",
+  luckyPops: "Lucky POPs (1, 7, 11, 13, 15)",
+  birthday: "All numbers in 1–31",
+  highBall: "No high ball 32–42",
+  multiples: "Multiples patterns",
+  visual: "Playslip row / column / diagonal",
+};
 
 export function waPool(
   spec: WaGameSpec,
@@ -190,22 +159,16 @@ export function waPool(
   filters: WaFilters,
   past: Set<string>,
   avoid: Set<number>,
-  pick3Way: Pick3Way,
 ): PoolReport {
-  const labels = waLabels(spec);
   const firstReason = (numbers: number[]) =>
-    waRejectReason(numbers, spec, filters, past, avoid, pick3Way);
-
-  if (spec.kind === "digits") {
-    return tally(1_000, WA_ORDER, labels, firstReason, eachDigits, () => []);
-  }
+    waRejectReason(numbers, spec, filters, past, avoid);
 
   const total = combinations(spec.whiteMax, whiteCount);
   const enumerate =
     total > 0 && total <= EXACT_LIMIT
       ? (cb: (combo: number[]) => void) => eachCombo(spec.whiteMax, whiteCount, cb)
       : null;
-  return tally(total, WA_ORDER, labels, firstReason, enumerate, () =>
+  return tally(total, WA_ORDER, WA_LABELS, firstReason, enumerate, () =>
     sampleCombo(spec.whiteMax, whiteCount),
   );
 }

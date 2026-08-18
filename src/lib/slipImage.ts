@@ -1,6 +1,6 @@
 import { pad2 } from "./picks";
 import { GAMES } from "./prizes";
-import type { GameId, Pick3Way, Ticket, WaGameId } from "../types";
+import type { GameId, Ticket, WaGameId } from "../types";
 import { WA_GAMES } from "./waGames";
 import { waSlipCost, type WaPlay } from "./waPicks";
 
@@ -70,8 +70,6 @@ export async function saveSlipImage(opts: SlipImage): Promise<"shared" | "downlo
 type WaSlipImage = {
   game: WaGameId;
   tickets: WaPlay[];
-  stake?: number;
-  pick3Way?: Pick3Way;
   drawLabel?: string | null;
 };
 
@@ -328,17 +326,15 @@ function renderSlipPng(opts: SlipImage): Promise<Blob> {
   });
 }
 
-function waPlayLine(numbers: number[], kind: string): string {
-  if (kind === "digits") return numbers.join("");
+function waPlayLine(numbers: number[]): string {
   return numbers.map((n) => String(n).padStart(2, "0")).join("  ");
 }
 
 function renderWaSlipPng(opts: WaSlipImage): Promise<Blob> {
   const spec = WA_GAMES[opts.game];
-  const stake = opts.stake ?? spec.minStake ?? 1;
   const seed = opts.tickets.map((t) => t.id).join("") || spec.id;
   const serial = `JD-WA-${seed.replace(/-/g, "").slice(0, 10).toUpperCase()}`;
-  const total = waSlipCost(spec, opts.tickets, stake);
+  const total = waSlipCost(spec, opts.tickets);
   const draw = opts.drawLabel ? `DRAW ${opts.drawLabel}` : "NEXT DRAW";
   const accent = PB;
 
@@ -354,7 +350,7 @@ function renderWaSlipPng(opts: WaSlipImage): Promise<Blob> {
   const numMax = w - pad * 2 - 40;
   const rowHs = opts.tickets.map((ticket) => {
     measure.font = `700 24px ${FONT}`;
-    const line = waPlayLine(ticket.numbers, spec.kind);
+    const line = waPlayLine(ticket.numbers);
     return measure.measureText(line).width > numMax ? 66 : 44;
   });
   const rowsH = rowHs.reduce((sum, n) => sum + n, 0);
@@ -427,12 +423,12 @@ function renderWaSlipPng(opts: WaSlipImage): Promise<Blob> {
     ctx.fillText(playCode(i), pad, y + 24);
 
     ctx.fillStyle = INK;
-    const line = waPlayLine(ticket.numbers, spec.kind);
+    const line = waPlayLine(ticket.numbers);
     if (rowH > 44) {
       ctx.font = `700 18px ${FONT}`;
       const mid = Math.ceil(ticket.numbers.length / 2);
-      const top = waPlayLine(ticket.numbers.slice(0, mid), spec.kind);
-      const bot = waPlayLine(ticket.numbers.slice(mid), spec.kind);
+      const top = waPlayLine(ticket.numbers.slice(0, mid));
+      const bot = waPlayLine(ticket.numbers.slice(mid));
       ctx.fillText(top, pad + 36, y + 22);
       ctx.fillText(bot, pad + 36, y + 46);
     } else {
@@ -448,15 +444,11 @@ function renderWaSlipPng(opts: WaSlipImage): Promise<Blob> {
   const priceW = ctx.measureText(`$${total.toFixed(2)} `).width;
   ctx.font = `700 16px ${FONT}`;
   const extra =
-    spec.id === "pick3"
-      ? (opts.pick3Way === "box" ? "BOX" : "STRAIGHT")
-      : spec.id === "keno"
-        ? `STAKE $${stake}`
-        : spec.id === "cashpop"
-          ? "$5 / POP"
-          : spec.id === "lotto"
-            ? "$1 / PAIR"
-            : "WA";
+    spec.id === "cashpop"
+      ? "$5 / POP"
+      : spec.id === "lotto"
+        ? "$1 / PAIR"
+        : "WA";
   ctx.fillText(extra, pad + priceW + 8, y + 18);
 
   y += priceH;

@@ -110,13 +110,19 @@ function validBook(kind, book) {
   return kind === "map" ? isJackpotBook(book) : isWaBook(book);
 }
 
-async function refreshWa(origin, previousJson) {
-  let previous = {};
+async function cachedWaBook(origin) {
+  if (last.wa && validBook("wa", last.wa)) return last.wa;
+  const hit = await readCache(origin, "wa");
+  if (!hit) return {};
   try {
-    previous = previousJson ? JSON.parse(previousJson) : {};
+    return await hit.json();
   } catch {
-    previous = {};
+    return {};
   }
+}
+
+async function refreshWa(origin) {
+  const previous = await cachedWaBook(origin);
   const book = await scrapeWaLottery(previous);
   await writeCache(origin, "wa", book);
   return book;

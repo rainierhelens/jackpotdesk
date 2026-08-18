@@ -125,34 +125,6 @@ export function WaValue({
     );
   }
 
-  if (game === "pick3") {
-    return (
-      <section className="wa-value">
-        <p className="kicker">Pick 3</p>
-        <p>
-          No rolling jackpot. Straight is 1 in 1,000. Box is any order and a
-          smaller prize. We fade area codes, dates, doubles, and last night’s
-          digits so a hit is less likely to be shared.
-        </p>
-        <WaFeedLine feed={feed} asOf={asOf} />
-      </section>
-    );
-  }
-
-  if (game === "keno") {
-    return (
-      <section className="wa-value">
-        <p className="kicker">Daily Keno</p>
-        <p>
-          No rolling jackpot. Spot count and stake ($1–$20) change expected
-          value, not hit luck. We fade last night’s 20, consecutive clusters,
-          one decade, the 1–40 half, and a single column on the 80-card.
-        </p>
-        <WaFeedLine feed={feed} asOf={asOf} />
-      </section>
-    );
-  }
-
   return (
     <section className="wa-value">
       <p className="kicker">Cash Pop</p>

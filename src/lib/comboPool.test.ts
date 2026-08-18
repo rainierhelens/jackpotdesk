@@ -30,51 +30,25 @@ describe("combinations", () => {
   });
 });
 
-describe("waPool exact counting (Pick 3)", () => {
-  it("keeps all 1,000 straights with every fade off", () => {
-    const report = waPool(WA_GAMES.pick3, 3, WA_OFF, NO_PAST, NO_AVOID, "straight");
+describe("waPool exact counting (Match 4)", () => {
+  it("enumerates the full 10,626 boards", () => {
+    const report = waPool(WA_GAMES.match4, 4, WA_OFF, NO_PAST, NO_AVOID);
     expect(report.exact).toBe(true);
-    expect(report.total).toBe(1_000);
-    expect(report.survivors).toBe(1_000);
-    expect(report.keptShare).toBe(1);
-  });
-
-  it("removes exactly the 280 straights with a repeated digit when doubles is on", () => {
-    const report = waPool(
-      WA_GAMES.pick3,
-      3,
-      { ...WA_OFF, doubles: true },
-      NO_PAST,
-      NO_AVOID,
-      "straight",
-    );
-    // Straights with all digits distinct: 10 * 9 * 8 = 720.
-    expect(report.exact).toBe(true);
-    expect(report.survivors).toBe(720);
-    expect(report.total - report.survivors).toBe(280);
+    expect(report.total).toBe(10_626);
+    expect(report.survivors).toBe(10_626);
   });
 
   it("never lets stage removals exceed the total space", () => {
     const report = waPool(
-      WA_GAMES.pick3,
-      3,
+      WA_GAMES.match4,
+      4,
       DEFAULT_WA_FILTERS,
       NO_PAST,
       NO_AVOID,
-      "straight",
     );
     const removed = report.stages.reduce((sum, s) => sum + s.removed, 0);
     expect(removed).toBe(report.total - report.survivors);
     expect(report.survivors).toBeGreaterThan(0);
-  });
-});
-
-describe("waPool exact counting (Match 4)", () => {
-  it("enumerates the full 10,626 boards", () => {
-    const report = waPool(WA_GAMES.match4, 4, WA_OFF, NO_PAST, NO_AVOID, "straight");
-    expect(report.exact).toBe(true);
-    expect(report.total).toBe(10_626);
-    expect(report.survivors).toBe(10_626);
   });
 });
 

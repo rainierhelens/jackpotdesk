@@ -171,8 +171,6 @@ export function MarketPicker({
       sub: `CASH ${formatCompact(book.prizes.lotto.cash)} · M·W·S`,
     },
     match4: { value: "$10K", sub: "FIXED TOP · DAILY" },
-    pick3: { value: "$500", sub: "$1 STRAIGHT · DAILY" },
-    keno: { value: "$100K", sub: "10-SPOT MAX · DAILY" },
     cashpop: { value: "$25–500", sub: "PRINTED PER $5 POP" },
   };
 

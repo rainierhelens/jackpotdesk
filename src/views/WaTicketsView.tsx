@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Ball } from "../components/Ball";
+import { WaCrowdIndex } from "../components/CrowdIndex";
 import { FoilCard } from "../components/FoilCard";
 import { NumberPool, type PoolFade } from "../components/NumberPool";
 import { PackFx, PackShell } from "../components/PackFx";
@@ -8,6 +9,14 @@ import { WaSlip } from "../components/WaSlip";
 import { FeedMark } from "../components/FeedMark";
 import { WaValue } from "../components/WaValue";
 import { usePrefersReducedMotion } from "../lib/motion";
+import { buildPatternModel, patternPickTickets } from "../lib/patternLab";
+import { PatternLadder } from "../components/PatternLadder";
+import { PatternReport } from "../components/PatternReport";
+import {
+  deskPickWaPlays,
+  waCrowdReading,
+  waPopularityModel,
+} from "../lib/popularity";
 import { loadPref, savePref } from "../lib/prefs";
 import { playPackOpen } from "../lib/sfx";
 import { usePoolReport } from "../lib/usePoolReport";
@@ -27,7 +36,9 @@ import {
   waSlipCost,
   type WaPlay,
 } from "../lib/waPicks";
-import type { Pick3Way, WaFilters, WaGameId } from "../types";
+import type { WaFilters, WaGameId } from "../types";
+
+type MintMode = "quick" | "desk" | "pattern" | "ladder";
 
 type Props = {
   game: WaGameId;
@@ -46,8 +57,10 @@ export function WaTicketsView({ game }: Props) {
   const prizes = book.prizes;
   const [count, setCount] = useState(spec.pairSize ? "6" : "5");
   const [spotCount, setSpotCount] = useState(spec.whiteCount);
-  const [stake, setStake] = useState(spec.minStake ?? 1);
-  const [pick3Way, setPick3Way] = useState<Pick3Way>("straight");
+  const [mode, setMode] = useState<MintMode>(() =>
+    loadPref<MintMode>("mintMode", "ladder"),
+  );
+  const [dealtMode, setDealtMode] = useState<MintMode>("quick");
   const [filters, setFilters] = useState<WaFilters>(() => ({
     ...DEFAULT_WA_FILTERS,
     ...loadPref<Partial<WaFilters>>("filters.wa", {}),
@@ -83,33 +96,23 @@ export function WaTicketsView({ game }: Props) {
   const draws = useMemo(() => waDrawsFor(spec.id, book), [spec.id, book]);
   const latest = useMemo(() => waLatest(spec.id, book), [spec.id, book]);
   const lastNumbers = latest?.numbers ?? NO_NUMBERS;
-  const past = useMemo(() => {
-    if (spec.kind !== "digits") return waPastKeys(spec.id, false, book);
-    const keys = new Set<string>();
-    for (const draw of waDrawsFor(spec.id, book)) {
-      keys.add(
-        pick3Way === "box"
-          ? [...draw.numbers].sort((a, b) => a - b).join("")
-          : draw.numbers.join(""),
-      );
-    }
-    return keys;
-  }, [spec.id, spec.kind, pick3Way, book]);
-  const minN = spec.kind === "digits" ? 0 : 1;
+  const past = useMemo(() => waPastKeys(spec.id, book), [spec.id, book]);
   const stats = useMemo(
-    () => waFrequency(draws, minN, spec.kind === "digits" ? 9 : spec.whiteMax),
-    [draws, minN, spec.kind, spec.whiteMax],
+    () => waFrequency(draws, 1, spec.whiteMax),
+    [draws, spec.whiteMax],
   );
-  const avoid = useMemo(() => {
-    if (spec.kind === "digits") {
-      return waAvoid(
-        { ...filters, hot: false, cold: false },
-        stats,
-        filters.lastDraw ? lastNumbers : [],
-      );
-    }
-    return waAvoid(filters, stats, lastNumbers);
-  }, [filters, stats, lastNumbers, spec.kind]);
+  const avoid = useMemo(
+    () => waAvoid(filters, stats, lastNumbers),
+    [filters, stats, lastNumbers],
+  );
+  const patternModel = useMemo(
+    () =>
+      buildPatternModel(
+        draws.map((d) => ({ numbers: d.numbers })),
+        spec.whiteMax,
+      ),
+    [draws, spec.whiteMax],
+  );
 
   const effectiveFilters = useMemo(() => {
     if (spec.id === "match4") {
@@ -127,9 +130,8 @@ export function WaTicketsView({ game }: Props) {
       filters: effectiveFilters,
       past,
       avoid,
-      pick3Way,
     }),
-    [spec, whiteCount, effectiveFilters, past, avoid, pick3Way],
+    [spec, whiteCount, effectiveFilters, past, avoid],
   );
   const poolReport = usePoolReport(poolRequest);
 
@@ -146,7 +148,7 @@ export function WaTicketsView({ game }: Props) {
         numbers: lastNumbers,
       });
     }
-    if (spec.kind !== "digits" && stats) {
+    if (stats) {
       if (filters.hot) {
         fades.push({
           key: "hot",
@@ -182,51 +184,38 @@ export function WaTicketsView({ game }: Props) {
     }
     return fades;
   }, [filters, stats, lastNumbers, spec.kind]);
-  const poolNoun =
-    spec.kind === "digits"
-      ? "straight plays"
-      : spec.kind === "keno"
-        ? "spot sets"
-        : spec.kind === "cashpop"
-          ? "POP picks"
-          : "boards";
+  const poolNoun = spec.kind === "cashpop" ? "POP picks" : "boards";
   const poolOdds =
     spec.kind === "matrix"
       ? `1 in ${spec.jackpotOdds.toLocaleString("en-US")} for the top prize`
-      : spec.kind === "digits" && pick3Way === "straight"
-        ? "1 in 1,000 straight"
-        : null;
+      : null;
 
   const asOf = book.asOf;
   const showBirthday = spec.kind === "matrix" && spec.whiteMax > 31 && spec.id !== "hit5";
   const showHighBall = spec.id === "hit5";
-  const showMatrixPatterns = spec.kind !== "digits" && spec.kind !== "cashpop";
+  const showMatrixPatterns = spec.kind !== "cashpop";
 
   const visibleFadeKeys: (keyof WaFilters)[] = [
-    ...(spec.kind !== "digits" ? (["uniqueSlip"] as const) : []),
+    "uniqueSlip",
     "lastDraw",
     ...(showHighBall ? (["highBall"] as const) : []),
     ...(showBirthday ? (["birthday"] as const) : []),
     "sequence",
-    ...(spec.kind === "digits"
-      ? (["doubles", "areaCodes", "dates"] as const)
-      : []),
     ...(showMatrixPatterns ? (["multiples", "visual"] as const) : []),
-    ...(spec.kind === "keno" ? (["decade", "lowHalf"] as const) : []),
     ...(spec.kind === "cashpop" ? (["luckyPops"] as const) : []),
     ...(spec.kind !== "cashpop" ? (["previous"] as const) : []),
-    ...(spec.kind !== "digits" ? (["hot", "cold"] as const) : []),
+    "hot",
+    "cold",
   ];
   const fadesOn = visibleFadeKeys.filter((key) => filters[key]).length;
 
   useEffect(() => {
     setSpotCount(spec.whiteCount);
-    setStake(spec.minStake ?? 1);
     setCount(spec.pairSize ? "6" : spec.kind === "cashpop" ? "3" : "5");
     setTickets([]);
     setMinting(false);
     window.clearTimeout(mintTimer.current);
-  }, [spec.id, spec.whiteCount, spec.pairSize, spec.kind, spec.minStake]);
+  }, [spec.id, spec.whiteCount, spec.pairSize, spec.kind]);
 
   useEffect(() => {
     if (prizeDirty) return;
@@ -252,6 +241,11 @@ export function WaTicketsView({ game }: Props) {
     setDeal((d) => d + 1);
   }
 
+  function pickMode(next: MintMode) {
+    setMode(next);
+    savePref("mintMode", next);
+  }
+
   function generate() {
     const raw = Math.min(50, Math.max(1, Number(count) || 1));
     const n =
@@ -260,15 +254,41 @@ export function WaTicketsView({ game }: Props) {
         : spec.pairSize
           ? raw + (raw % spec.pairSize)
           : raw;
-    const result = generateWaPlays(
-      spec,
-      whiteCount,
-      n,
-      effectiveFilters,
-      past,
-      avoid,
-      pick3Way,
-    );
+    let result: { tickets: WaPlay[]; attempts: number; rejected: number };
+    let dealt: MintMode = "quick";
+    if (mode === "pattern" && patternModel) {
+      const lab = patternPickTickets(
+        patternModel,
+        whiteCount,
+        n,
+        spec.pairSize ?? 1,
+      );
+      result = {
+        tickets: lab.tickets.map((t) => ({ id: t.id, numbers: t.numbers })),
+        attempts: lab.scanned,
+        rejected: 0,
+      };
+      dealt = "pattern";
+    } else {
+      const desk =
+        mode === "desk"
+          ? deskPickWaPlays(spec, whiteCount, n, effectiveFilters, past, avoid)
+          : null;
+      if (desk) {
+        result = { tickets: desk.tickets, attempts: desk.scanned, rejected: 0 };
+        dealt = "desk";
+      } else {
+        result = generateWaPlays(
+          spec,
+          whiteCount,
+          n,
+          effectiveFilters,
+          past,
+          avoid,
+        );
+      }
+    }
+    setDealtMode(dealt);
     window.clearTimeout(mintTimer.current);
     if (reducedMotion) {
       setMinting(false);
@@ -286,9 +306,7 @@ export function WaTicketsView({ game }: Props) {
   }
 
   function copyAll() {
-    const text = tickets
-      .map((t) => formatWaPlay(t.numbers, spec.kind))
-      .join("\n");
+    const text = tickets.map((t) => formatWaPlay(t.numbers)).join("\n");
     void navigator.clipboard.writeText(text);
   }
 
@@ -299,8 +317,6 @@ export function WaTicketsView({ game }: Props) {
       await saveWaSlipImage({
         game: spec.id,
         tickets,
-        stake,
-        pick3Way,
         drawLabel: latest?.date ?? asOf,
       });
     } catch {
@@ -311,11 +327,9 @@ export function WaTicketsView({ game }: Props) {
   }
 
   const filterNote =
-    spec.kind === "digits"
-      ? "Fade area codes, dates, doubles, and last night. Straight odds stay 1 in 1,000."
-      : spec.kind === "cashpop"
-        ? "Fade 1, 7, 11, 13, 15 and last night’s POP. Same 1-in-15 hit odds per number."
-        : "Fade crowded public tickets. Same hit odds as Quick Pick.";
+    spec.kind === "cashpop"
+      ? "Fade 1, 7, 11, 13, 15 and last night’s POP. Same 1-in-15 hit odds per number."
+      : "Fade crowded public tickets. Same hit odds as Quick Pick.";
 
   return (
     <section className={`panel gen-panel is-wa is-${spec.id}`}>
@@ -343,77 +357,116 @@ export function WaTicketsView({ game }: Props) {
       <header className="gen-bar">
         <div>
           <p className="kicker">Washington · {spec.label}</p>
-          <h2>Build the slip</h2>
+          <h2>{mode === "ladder" ? "The Ladder" : "Build the slip"}</h2>
         </div>
         <div className="actions">
-          {spec.minCount != null ? (
-            <label className="inline">
-              {spec.kind === "keno" ? "Spots" : "POPs"}
-              <input
-                className="narrow"
-                value={spotCount}
-                onChange={(e) =>
-                  setSpotCount(Number(e.target.value) || spec.whiteCount)
-                }
-                inputMode="numeric"
-              />
-            </label>
-          ) : null}
-          {spec.minStake != null ? (
-            <label className="inline">
-              Stake $
-              <input
-                className="narrow"
-                value={stake}
-                onChange={(e) => {
-                  const v = Number(e.target.value) || 1;
-                  setStake(
-                    Math.min(spec.maxStake ?? 20, Math.max(spec.minStake ?? 1, v)),
-                  );
-                }}
-                inputMode="numeric"
-              />
-            </label>
-          ) : null}
-          {spec.kind === "digits" ? (
-            <label className="inline">
-              Play
-              <select
-                value={pick3Way}
-                onChange={(e) => setPick3Way(e.target.value as Pick3Way)}
+          {waPopularityModel(spec.id) || patternModel ? (
+            <div className="mode-switch" role="group" aria-label="Mint mode">
+              {patternModel ? (
+                <button
+                  type="button"
+                  className={mode === "ladder" ? "is-on" : ""}
+                  onClick={() => pickMode("ladder")}
+                >
+                  Ladder
+                </button>
+              ) : null}
+              {patternModel ? (
+                <button
+                  type="button"
+                  className={mode === "pattern" ? "is-on" : ""}
+                  onClick={() => pickMode("pattern")}
+                >
+                  Pattern lab
+                </button>
+              ) : null}
+              {waPopularityModel(spec.id) ? (
+                <button
+                  type="button"
+                  className={mode === "desk" ? "is-on" : ""}
+                  onClick={() => pickMode("desk")}
+                >
+                  Desk pick
+                </button>
+              ) : null}
+              <button
+                type="button"
+                className={mode === "quick" ? "is-on" : ""}
+                onClick={() => pickMode("quick")}
               >
-                <option value="straight">Straight</option>
-                <option value="box">Box</option>
-              </select>
-            </label>
+                Quick mint
+              </button>
+            </div>
           ) : null}
-          <label className="inline">
-            {spec.pairSize ? "Plays" : spec.kind === "cashpop" ? "Tickets" : "Boards"}
-            <input
-              className="narrow"
-              value={count}
-              onChange={(e) => setCount(e.target.value)}
-              inputMode="numeric"
-            />
-          </label>
-          <button
-            type="button"
-            className={`primary gen-go${minting ? " minting" : ""}`}
-            onClick={generate}
-            disabled={minting}
-            aria-busy={minting}
-          >
-            {minting ? "Opening…" : "Generate Now"}
-          </button>
+          {mode !== "ladder" ? (
+            <>
+              {spec.minCount != null ? (
+                <label className="inline">
+                  POPs
+                  <input
+                    className="narrow"
+                    value={spotCount}
+                    onChange={(e) =>
+                      setSpotCount(Number(e.target.value) || spec.whiteCount)
+                    }
+                    inputMode="numeric"
+                  />
+                </label>
+              ) : null}
+              <label className="inline">
+                {spec.pairSize ? "Plays" : spec.kind === "cashpop" ? "Tickets" : "Boards"}
+                <input
+                  className="narrow"
+                  value={count}
+                  onChange={(e) => setCount(e.target.value)}
+                  inputMode="numeric"
+                />
+              </label>
+              <button
+                type="button"
+                className={`primary gen-go${minting ? " minting" : ""}`}
+                onClick={generate}
+                disabled={minting}
+                aria-busy={minting}
+              >
+                {minting ? "Opening…" : "Generate Now"}
+              </button>
+            </>
+          ) : null}
         </div>
       </header>
       <p className="gen-tag">
-        {spec.note} Same hit odds as Quick Pick.{" "}
+        {mode === "ladder"
+          ? "The ladder ranks the scanned field by pattern score, best first — a scored replay of the past, not a forecast. Every board keeps identical hit odds. "
+          : mode === "pattern"
+            ? "Pattern lab leans into historical frequencies, pairs, and winning shapes — statistical pattern exploration for entertainment. Past frequency does not change future odds; same hit odds as Quick Pick. "
+            : mode === "desk"
+              ? "Desk pick mines the measured pick rates for the least-crowded boards in the game — same hit odds, smallest expected split if you hit. "
+              : `${spec.note} Same hit odds as Quick Pick. `}
         <a href="/lottery-lab.html">AI cannot beat Quick Pick</a>.
       </p>
 
-      <div className="gen-layout">
+      <div className={`gen-layout${mode === "ladder" ? " is-ladder" : ""}`}>
         <div className="gen-left">
+          {mode === "ladder" && patternModel ? (
+            <PatternLadder
+              model={patternModel}
+              size={whiteCount}
+              source="Washington’s Lottery"
+              renderTile={(entry) => (
+                <FoilCard game={spec.id}>
+                  <WaSlip
+                    spec={spec}
+                    tickets={[
+                      { id: `ladder-${entry.rank}`, numbers: entry.numbers },
+                    ]}
+                  />
+                </FoilCard>
+              )}
+              crowd={(entry) => waCrowdReading(spec.id, entry.numbers)}
+            />
+          ) : (
+            <>
           <div
             className={`gen-arena is-${spec.id}${minting ? " is-minting" : ""}`}
           >
@@ -425,12 +478,7 @@ export function WaTicketsView({ game }: Props) {
             ) : tickets.length > 0 ? (
               <div key={deal} className="foil-mint">
                 <FoilCard shader game={spec.id} className="foil-hero">
-                  <WaSlip
-                    spec={spec}
-                    tickets={tickets}
-                    stake={stake}
-                    pick3Way={pick3Way}
-                  />
+                  <WaSlip spec={spec} tickets={tickets} />
                 </FoilCard>
               </div>
             ) : (
@@ -447,11 +495,14 @@ export function WaTicketsView({ game }: Props) {
           {tickets.length > 0 && !minting ? (
             <>
               <p className="fine gen-kept">
-                Kept {tickets.length} after {attempts.toLocaleString("en-US")}{" "}
-                draws ({rejected} crowded or duplicate skipped)
+                {dealtMode === "pattern"
+                  ? `Pattern lab · scored ${attempts.toLocaleString("en-US")} candidates, kept the ${tickets.length} highest-weighted`
+                  : dealtMode === "desk"
+                    ? `Desk pick · scanned ${attempts.toLocaleString("en-US")} boards that cleared the fades and kept the ${tickets.length} least-crowded`
+                    : `Kept ${tickets.length} after ${attempts.toLocaleString("en-US")} draws (${rejected} crowded or duplicate skipped)`}
                 {spec.pairSize
                   ? ` · ${Math.ceil(tickets.length / spec.pairSize)} dollars at the counter`
-                  : ` · $${waSlipCost(spec, tickets, stake).toFixed(0)}`}
+                  : ` · $${waSlipCost(spec, tickets).toFixed(0)}`}
                 .
               </p>
               <div className="actions gen-actions">
@@ -470,7 +521,20 @@ export function WaTicketsView({ game }: Props) {
                   {saving ? "Saving…" : "Save image"}
                 </button>
               </div>
-              {tickets[0] && spec.kind !== "digits" ? (
+              {dealtMode === "pattern" ? (
+                <PatternReport
+                  model={patternModel}
+                  tickets={tickets}
+                  labelFor={
+                    spec.kind === "cashpop"
+                      ? (i) => `POP ${i + 1}`
+                      : undefined
+                  }
+                  source="Washington’s Lottery"
+                />
+              ) : null}
+              <WaCrowdIndex spec={spec} tickets={tickets} />
+              {tickets[0] ? (
                 <Playslip
                   whites={tickets[0].numbers}
                   whiteMax={spec.whiteMax}
@@ -478,17 +542,21 @@ export function WaTicketsView({ game }: Props) {
               ) : null}
             </>
           ) : null}
+            </>
+          )}
         </div>
 
         <aside className="gen-side">
           {poolReport ? (
             <NumberPool
-              min={spec.kind === "digits" ? 0 : 1}
-              max={spec.kind === "digits" ? 9 : spec.whiteMax}
+              min={1}
+              max={spec.whiteMax}
               report={poolReport}
               fades={poolFades}
               noun={poolNoun}
               oddsText={poolOdds}
+              heat={waPopularityModel(spec.id)?.white ?? null}
+              heatSource="Washington winner counts"
             />
           ) : null}
 
@@ -509,18 +577,16 @@ export function WaTicketsView({ game }: Props) {
             </summary>
             <div className="fold-body">
               <div className="filters">
-                {spec.kind !== "digits" ? (
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={filters.uniqueSlip}
-                      onChange={() => toggle("uniqueSlip")}
-                    />
-                    {spec.pairSize
-                      ? "No shared numbers on each $1 pair"
-                      : "No repeated numbers on this slip"}
-                  </label>
-                ) : null}
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={filters.uniqueSlip}
+                    onChange={() => toggle("uniqueSlip")}
+                  />
+                  {spec.pairSize
+                    ? "No shared numbers on each $1 pair"
+                    : "No repeated numbers on this slip"}
+                </label>
                 <label>
                   <input
                     type="checkbox"
@@ -556,40 +622,8 @@ export function WaTicketsView({ game }: Props) {
                     checked={filters.sequence}
                     onChange={() => toggle("sequence")}
                   />
-                  {spec.kind === "digits"
-                    ? "Triples / straight runs"
-                    : spec.kind === "keno"
-                      ? "Consecutive clusters"
-                      : "Straight runs / 4+ consecutives"}
+                  Straight runs / 4+ consecutives
                 </label>
-                {spec.kind === "digits" ? (
-                  <>
-                    <label>
-                      <input
-                        type="checkbox"
-                        checked={filters.doubles}
-                        onChange={() => toggle("doubles")}
-                      />
-                      Doubles (any two the same)
-                    </label>
-                    <label>
-                      <input
-                        type="checkbox"
-                        checked={filters.areaCodes}
-                        onChange={() => toggle("areaCodes")}
-                      />
-                      WA area codes (206 / 253 / 360 / 425 / 509 / 564)
-                    </label>
-                    <label>
-                      <input
-                        type="checkbox"
-                        checked={filters.dates}
-                        onChange={() => toggle("dates")}
-                      />
-                      Dates and years
-                    </label>
-                  </>
-                ) : null}
                 {showMatrixPatterns ? (
                   <>
                     <label>
@@ -606,29 +640,7 @@ export function WaTicketsView({ game }: Props) {
                         checked={filters.visual}
                         onChange={() => toggle("visual")}
                       />
-                      {spec.kind === "keno"
-                        ? "One column on the 80-card"
-                        : "Playslip row / column / diagonal"}
-                    </label>
-                  </>
-                ) : null}
-                {spec.kind === "keno" ? (
-                  <>
-                    <label>
-                      <input
-                        type="checkbox"
-                        checked={filters.decade}
-                        onChange={() => toggle("decade")}
-                      />
-                      One decade / one row
-                    </label>
-                    <label>
-                      <input
-                        type="checkbox"
-                        checked={filters.lowHalf}
-                        onChange={() => toggle("lowHalf")}
-                      />
-                      All in 1–40
+                      Playslip row / column / diagonal
                     </label>
                   </>
                 ) : null}
@@ -652,28 +664,24 @@ export function WaTicketsView({ game }: Props) {
                     Recent official winners
                   </label>
                 ) : null}
-                {spec.kind !== "digits" ? (
-                  <>
-                    <label>
-                      <input
-                        type="checkbox"
-                        checked={filters.hot}
-                        onChange={() => toggle("hot")}
-                        disabled={!stats}
-                      />
-                      Recently drawn (hot)
-                    </label>
-                    <label>
-                      <input
-                        type="checkbox"
-                        checked={filters.cold}
-                        onChange={() => toggle("cold")}
-                        disabled={!stats}
-                      />
-                      Long gaps and overdue
-                    </label>
-                  </>
-                ) : null}
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={filters.hot}
+                    onChange={() => toggle("hot")}
+                    disabled={!stats}
+                  />
+                  Recently drawn (hot)
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={filters.cold}
+                    onChange={() => toggle("cold")}
+                    disabled={!stats}
+                  />
+                  Long gaps and overdue
+                </label>
               </div>
               <p className="fine temp-note">
                 Past results do not predict the next drawing. We skip crowded
@@ -697,9 +705,7 @@ export function WaTicketsView({ game }: Props) {
               <summary>
                 <span className="fold-title">Crowd board</span>
                 <span className="fold-meta">
-                  {spec.kind !== "digits" && stats
-                    ? "last · hot · cold · overdue"
-                    : "last draw"}
+                  {stats ? "last · hot · cold · overdue" : "last draw"}
                 </span>
               </summary>
               <div className="fold-body">
@@ -718,7 +724,7 @@ export function WaTicketsView({ game }: Props) {
                   ))}
                 </div>
               </article>
-              {stats && spec.kind !== "digits" ? (
+              {stats ? (
                 <>
                   <article className="temp-card">
                     <h3>Hot</h3>
@@ -769,24 +775,18 @@ export function WaTicketsView({ game }: Props) {
             <h1>Counter slip</h1>
             <p>
               Mark these boards at the counter. {tickets.length} play
-              {tickets.length === 1 ? "" : "s"}
-              {spec.kind === "digits" ? ` · ${pick3Way}` : ""} · $
-              {waSlipCost(spec, tickets, stake).toFixed(2)}. Same hit odds as
-              Quick Pick.
+              {tickets.length === 1 ? "" : "s"} · $
+              {waSlipCost(spec, tickets).toFixed(2)}. Same hit odds as Quick
+              Pick.
             </p>
           </header>
           <ol>
             {tickets.map((ticket, i) => (
               <li key={ticket.id}>
                 <p>
-                  Play {i + 1}: {formatWaPlay(ticket.numbers, spec.kind)}
+                  Play {i + 1}: {formatWaPlay(ticket.numbers)}
                 </p>
-                {spec.kind !== "digits" ? (
-                  <Playslip
-                    whites={ticket.numbers}
-                    whiteMax={spec.whiteMax}
-                  />
-                ) : null}
+                <Playslip whites={ticket.numbers} whiteMax={spec.whiteMax} />
               </li>
             ))}
           </ol>

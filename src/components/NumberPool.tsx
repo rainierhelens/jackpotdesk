@@ -22,6 +22,8 @@ type Props = {
   note?: string | null;
   /** Popularity weight per number (index 0 = number `min`); 1 = random rate. */
   heat?: number[] | null;
+  /** Where the heat weights come from, e.g. "California winner counts". */
+  heatSource?: string;
 };
 
 /** Warm removal ramp: cuts read warm, the surviving pool reads green. */
@@ -188,6 +190,7 @@ export function NumberPool({
   oddsText,
   note,
   heat,
+  heatSource,
 }: Props) {
   const reducedMotion = usePrefersReducedMotion();
   const survivors = useAnimatedNumber(report.survivors, !reducedMotion);
@@ -301,7 +304,8 @@ export function NumberPool({
         <p className="fine pool-heat-note">
           <span className="pool-heat-swatch is-red" /> over-picked ·{" "}
           <span className="pool-heat-swatch is-green" /> under-picked — pick
-          rates fit from California winner counts, refreshed daily.
+          rates fit from {heatSource ?? "official winner counts"}, refreshed
+          daily.
         </p>
       ) : null}
 

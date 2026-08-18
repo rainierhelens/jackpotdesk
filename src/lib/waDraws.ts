@@ -20,14 +20,9 @@ export type WaBook = {
   };
 };
 
-const GAMES: WaGameId[] = [
-  "hit5",
-  "lotto",
-  "match4",
-  "pick3",
-  "keno",
-  "cashpop",
-];
+// The live feed may carry extra games (e.g. pick3, keno); we only validate
+// and read the ones the desk actually offers.
+const GAMES: WaGameId[] = ["hit5", "lotto", "match4", "cashpop"];
 
 const baked = bakedFile as WaBook;
 
@@ -67,22 +62,45 @@ export function waPrizes(book: WaBook = baked): WaBook["prizes"] {
   return book.prizes;
 }
 
+const unionCache = new WeakMap<WaBook, Map<WaGameId, WaDraw[]>>();
+
+/**
+ * Draws for a game, newest first. The live feed only carries a rolling 180
+ * days (the Worker's backup cron re-scrapes that window), while the baked
+ * book is built from the append-only archive and keeps deepening — so we
+ * union the two and history can only ever grow.
+ */
 export function waDrawsFor(game: WaGameId, book: WaBook = baked): WaDraw[] {
-  return book.draws[game] ?? [];
+  const fresh = book.draws[game] ?? [];
+  if (book === baked) return fresh;
+  let byGame = unionCache.get(book);
+  if (!byGame) {
+    byGame = new Map();
+    unionCache.set(book, byGame);
+  }
+  const cached = byGame.get(game);
+  if (cached) return cached;
+  const seen = new Set(fresh.map((d) => `${d.date}|${d.numbers.join(",")}`));
+  const merged = [...fresh];
+  for (const draw of baked.draws[game] ?? []) {
+    const key = `${draw.date}|${draw.numbers.join(",")}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    merged.push(draw);
+  }
+  merged.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+  byGame.set(game, merged);
+  return merged;
 }
 
 export function waLatest(game: WaGameId, book: WaBook = baked): WaDraw | null {
   return waDrawsFor(game, book)[0] ?? null;
 }
 
-export function waPastKeys(
-  game: WaGameId,
-  orderedDigits = false,
-  book: WaBook = baked,
-): Set<string> {
+export function waPastKeys(game: WaGameId, book: WaBook = baked): Set<string> {
   const keys = new Set<string>();
   for (const draw of waDrawsFor(game, book)) {
-    keys.add(orderedDigits ? draw.numbers.join("") : comboKey(draw.numbers));
+    keys.add(comboKey(draw.numbers));
   }
   return keys;
 }

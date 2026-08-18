@@ -7,30 +7,18 @@ type Props = {
   spec: WaGameSpec;
   tickets: WaPlay[];
   waiting?: boolean;
-  stake?: number;
-  pick3Way?: "straight" | "box";
 };
 
-export function WaSlip({
-  spec,
-  tickets,
-  waiting = false,
-  stake = 1,
-  pick3Way = "straight",
-}: Props) {
+export function WaSlip({ spec, tickets, waiting = false }: Props) {
   const seed = tickets.map((t) => t.id).join("") || spec.id;
   const serial = `JD-WA-${seed.replace(/-/g, "").slice(0, 10).toUpperCase()}`;
-  const total = waSlipCost(spec, tickets, stake);
+  const total = waSlipCost(spec, tickets);
   const extra =
     spec.id === "lotto"
       ? ` · ${Math.ceil(tickets.length / 2)} dollar${tickets.length > 2 ? "s" : ""} at the counter`
-      : spec.id === "keno"
-        ? ` · $${stake} a board`
-        : spec.id === "cashpop"
-          ? " · $5 a POP"
-          : spec.id === "pick3"
-            ? ` · ${pick3Way}`
-            : "";
+      : spec.id === "cashpop"
+        ? " · $5 a POP"
+        : "";
 
   return (
     <article className={`lotto-slip is-wa is-${spec.id}`}>
@@ -48,9 +36,7 @@ export function WaSlip({
               <span className="lotto-code">{playCode(i)}</span>
               <span className="lotto-whites">
                 {ticket.numbers.map((n, idx) => (
-                  <span key={`${ticket.id}-${idx}`}>
-                    {spec.kind === "digits" ? String(n) : pad2(n)}
-                  </span>
+                  <span key={`${ticket.id}-${idx}`}>{pad2(n)}</span>
                 ))}
               </span>
             </li>

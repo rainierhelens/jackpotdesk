@@ -11,7 +11,14 @@ import { PrintSlip } from "../components/PrintSlip";
 import { avoidWhites, frequencyStats } from "../lib/frequency";
 import { usePrefersReducedMotion } from "../lib/motion";
 import { DEFAULT_FILTERS, formatTicket, generateTickets } from "../lib/picks";
-import { popularityModel } from "../lib/popularity";
+import { buildPatternModel, patternPickTickets } from "../lib/patternLab";
+import { PatternLadder } from "../components/PatternLadder";
+import { PatternReport } from "../components/PatternReport";
+import {
+  crowdReading,
+  deskPickTickets,
+  popularityModel,
+} from "../lib/popularity";
 import { loadPref, savePref } from "../lib/prefs";
 import { usePoolReport } from "../lib/usePoolReport";
 import { GAMES } from "../lib/prizes";
@@ -23,6 +30,8 @@ import {
   RECENT_WINNER_LIMIT,
   type OfficialDraw,
 } from "../lib/winners";
+
+type MintMode = "quick" | "desk" | "pattern" | "ladder";
 
 type Props = {
   game: GameId;
@@ -62,6 +71,10 @@ export function TicketsView({
 }: Props) {
   const spec = GAMES[game];
   const [count, setCount] = useState("5");
+  const [mode, setMode] = useState<MintMode>(() =>
+    loadPref<MintMode>("mintMode", "ladder"),
+  );
+  const [dealtMode, setDealtMode] = useState<MintMode>("quick");
   const [filters, setFilters] = useState<Filters>(() => ({
     ...DEFAULT_FILTERS,
     ...loadPref<Partial<Filters>>("filters.national", {}),
@@ -86,6 +99,15 @@ export function TicketsView({
   const stats = useMemo(
     () => frequencyStats(draws, spec.whiteMax),
     [draws, spec.whiteMax],
+  );
+  const patternModel = useMemo(
+    () =>
+      buildPatternModel(
+        draws.map((d) => ({ numbers: d.whites, extra: d.extra })),
+        spec.whiteMax,
+        spec.extraMax,
+      ),
+    [draws, spec.whiteMax, spec.extraMax],
   );
   const avoid = useMemo(
     () => avoidWhites(filters, stats, lastWhites ?? []),
@@ -155,9 +177,40 @@ export function TicketsView({
     setDeal((d) => d + 1);
   }
 
+  function pickMode(next: MintMode) {
+    setMode(next);
+    savePref("mintMode", next);
+  }
+
   function generate() {
     const n = Math.min(50, Math.max(1, Number(count) || 1));
-    const result = generateTickets(spec, n, filters, past, exclude, avoid);
+    let result: { tickets: Ticket[]; attempts: number; rejected: number };
+    let dealt: MintMode = "quick";
+    if (mode === "pattern" && patternModel) {
+      const lab = patternPickTickets(patternModel, 5, n);
+      result = {
+        tickets: lab.tickets.map((t) => ({
+          id: t.id,
+          whites: t.numbers,
+          extra: t.extra ?? 1 + Math.floor(Math.random() * spec.extraMax),
+        })),
+        attempts: lab.scanned,
+        rejected: 0,
+      };
+      dealt = "pattern";
+    } else {
+      const desk =
+        mode === "desk"
+          ? deskPickTickets(game, n, filters, past, exclude, avoid)
+          : null;
+      if (desk) {
+        result = { tickets: desk.tickets, attempts: desk.scanned, rejected: 0 };
+        dealt = "desk";
+      } else {
+        result = generateTickets(spec, n, filters, past, exclude, avoid);
+      }
+    }
+    setDealtMode(dealt);
     window.clearTimeout(mintTimer.current);
     if (reducedMotion) {
       setMinting(false);
@@ -204,37 +257,111 @@ export function TicketsView({
       <header className="gen-bar">
         <div>
           <p className="kicker">{spec.label}</p>
-          <h2>Build the slip</h2>
+          <h2>{mode === "ladder" ? "The Ladder" : "Build the slip"}</h2>
         </div>
         <div className="actions">
-          <label className="inline">
-            Boards
-            <input
-              className="narrow"
-              value={count}
-              onChange={(e) => setCount(e.target.value)}
-              inputMode="numeric"
-            />
-          </label>
-          <button
-            type="button"
-            className={`primary gen-go${minting ? " minting" : ""}`}
-            onClick={generate}
-            disabled={minting}
-            aria-busy={minting}
-          >
-            {minting ? "Opening…" : "Generate Now"}
-          </button>
+          {popularityModel(game) || patternModel ? (
+            <div className="mode-switch" role="group" aria-label="Mint mode">
+              {patternModel ? (
+                <button
+                  type="button"
+                  className={mode === "ladder" ? "is-on" : ""}
+                  onClick={() => pickMode("ladder")}
+                >
+                  Ladder
+                </button>
+              ) : null}
+              {patternModel ? (
+                <button
+                  type="button"
+                  className={mode === "pattern" ? "is-on" : ""}
+                  onClick={() => pickMode("pattern")}
+                >
+                  Pattern lab
+                </button>
+              ) : null}
+              {popularityModel(game) ? (
+                <button
+                  type="button"
+                  className={mode === "desk" ? "is-on" : ""}
+                  onClick={() => pickMode("desk")}
+                >
+                  Desk pick
+                </button>
+              ) : null}
+              <button
+                type="button"
+                className={mode === "quick" ? "is-on" : ""}
+                onClick={() => pickMode("quick")}
+              >
+                Quick mint
+              </button>
+            </div>
+          ) : null}
+          {mode !== "ladder" ? (
+            <>
+              <label className="inline">
+                Boards
+                <input
+                  className="narrow"
+                  value={count}
+                  onChange={(e) => setCount(e.target.value)}
+                  inputMode="numeric"
+                />
+              </label>
+              <button
+                type="button"
+                className={`primary gen-go${minting ? " minting" : ""}`}
+                onClick={generate}
+                disabled={minting}
+                aria-busy={minting}
+              >
+                {minting ? "Opening…" : "Generate Now"}
+              </button>
+            </>
+          ) : null}
         </div>
       </header>
       <p className="gen-tag">
-        Same hit odds as Quick Pick. Unique boards if you win. {spec.ticketCost}{" "}
-        a play.{" "}
+        {mode === "ladder"
+          ? "The ladder ranks the scanned field by pattern score, best first — a scored replay of the past, not a forecast. Every board keeps identical hit odds. "
+          : mode === "pattern"
+            ? "Pattern lab leans into historical frequencies, pairs, and winning shapes — statistical pattern exploration for entertainment. Past frequency does not change future odds; same hit odds as Quick Pick. "
+            : mode === "desk"
+              ? "Desk pick mines the measured pick rates for the least-crowded boards in the game — same hit odds, smallest expected split if you hit. "
+              : "Same hit odds as Quick Pick. Unique boards if you win. "}
+        {spec.ticketCost} a play.{" "}
         <a href="/lottery-lab.html">AI cannot beat Quick Pick</a>.
       </p>
 
-      <div className="gen-layout">
+      <div className={`gen-layout${mode === "ladder" ? " is-ladder" : ""}`}>
         <div className="gen-left">
+          {mode === "ladder" && patternModel ? (
+            <PatternLadder
+              model={patternModel}
+              size={5}
+              source="NY Open Data"
+              renderTile={(entry) => (
+                <FoilCard game={game}>
+                  <LotteryTicket
+                    game={game}
+                    tickets={[
+                      {
+                        id: `ladder-${entry.rank}`,
+                        whites: entry.numbers,
+                        extra: entry.extra ?? 1,
+                      },
+                    ]}
+                    drawLabel={ticketDrawLabel(nextDrawDate)}
+                  />
+                </FoilCard>
+              )}
+              crowd={(entry) =>
+                crowdReading(game, entry.numbers, entry.extra ?? 1)
+              }
+            />
+          ) : (
+            <>
           <div className={`gen-arena is-${game}${minting ? " is-minting" : ""}`}>
             <PackFx game={game} burst={burst} />
             {minting ? (
@@ -261,9 +388,11 @@ export function TicketsView({
           {tickets.length > 0 && !minting ? (
             <>
               <p className="fine gen-kept">
-                Kept {tickets.length} after{" "}
-                {attempts.toLocaleString("en-US")} draws ({rejected} crowded or
-                duplicate skipped).
+                {dealtMode === "pattern"
+                  ? `Pattern lab · scored ${attempts.toLocaleString("en-US")} candidates, kept the ${tickets.length} highest-weighted. Hit odds unchanged.`
+                  : dealtMode === "desk"
+                    ? `Desk pick · scanned ${attempts.toLocaleString("en-US")} boards that cleared the fades and kept the ${tickets.length} least-crowded. Hit odds unchanged.`
+                    : `Kept ${tickets.length} after ${attempts.toLocaleString("en-US")} draws (${rejected} crowded or duplicate skipped).`}
               </p>
               <div className="actions gen-actions">
                 <button type="button" onClick={copyAll}>
@@ -288,6 +417,17 @@ export function TicketsView({
                   Add to pool
                 </button>
               </div>
+              {dealtMode === "pattern" ? (
+                <PatternReport
+                  model={patternModel}
+                  tickets={tickets.map((t) => ({
+                    id: t.id,
+                    numbers: t.whites,
+                    extra: t.extra,
+                  }))}
+                  source="NY Open Data"
+                />
+              ) : null}
               <CrowdIndex game={game} tickets={tickets} />
               {tickets[0] ? (
                 <Playslip
@@ -299,6 +439,8 @@ export function TicketsView({
               ) : null}
             </>
           ) : null}
+            </>
+          )}
         </div>
 
         <aside className="gen-side">
@@ -319,6 +461,7 @@ export function TicketsView({
               oddsText={`1 in ${spec.jackpotOdds.toLocaleString("en-US")} for the jackpot`}
               note={`White balls only; no fade touches the ${spec.extraLabel}.`}
               heat={popularityModel(game)?.white ?? null}
+              heatSource="California winner counts"
             />
           ) : null}
 

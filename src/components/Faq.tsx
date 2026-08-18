@@ -18,7 +18,7 @@ export function Faq() {
     },
     {
       q: "Then what is the benefit?",
-      a: "Two things. First, it prices the drawing using cash value, tax, and split risk so you can skip a bad ticket. Second, it mints random tickets that avoid birthdays, sequences, last night’s whites, recent winners, hot/cold numbers, and repeats on the same slip so a jackpot is less likely to be shared.",
+      a: "The Ladder ranks scanned boards by how well they match official history — a scored replay of the past, not a forecast. It also prices the drawing using cash value, tax, and split risk, and can mint uncrowded tickets so a jackpot is less likely to be shared. Hit odds stay the published odds.",
     },
     {
       q: "Is this the same as Quick Pick?",

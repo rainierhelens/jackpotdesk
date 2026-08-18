@@ -84,9 +84,11 @@ export default function App() {
   const [desk, setDesk] = useState<DeskId>(
     boot.desk ?? loadPref<DeskId>("desk", "national"),
   );
-  const [waGame, setWaGame] = useState<WaGameId>(
-    boot.wa ?? loadPref<WaGameId>("waGame", "hit5"),
-  );
+  const [waGame, setWaGame] = useState<WaGameId>(() => {
+    const stored = loadPref<WaGameId>("waGame", "hit5");
+    // Stale prefs may hold retired games (pick3, keno).
+    return boot.wa ?? (WA_GAME_ORDER.includes(stored) ? stored : "hit5");
+  });
   const [advertised, setAdvertised] = useState("");
   const [cash, setCash] = useState("");
   const [sold, setSold] = useState("");
@@ -289,8 +291,9 @@ export default function App() {
               </a>
             </h1>
             <p className="tag">
-              Same hit odds as Quick Pick. Build an uncrowded slip, then decide
-              if this drawing is even worth the stake.
+              The Ladder ranks every scanned board against measured history.
+              Same hit odds as Quick Pick. The ranking gets sharper as new
+              official draws land.
             </p>
           </div>
           <div className="masthead-tools">
