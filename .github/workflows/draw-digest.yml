@@ -1,0 +1,32 @@
+name: Draw-night digest
+
+# Private email for the operator. One recipient, stored only in repo secrets.
+# 17:00 UTC is 10:00 a.m. Pacific: after morning archives, before evening draws.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 17 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: draw-digest
+  cancel-in-progress: false
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build and send digest
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          DIGEST_TO_EMAIL: ${{ secrets.DIGEST_TO_EMAIL }}
+          DIGEST_FROM: ${{ secrets.DIGEST_FROM }}
+        run: npm run digest

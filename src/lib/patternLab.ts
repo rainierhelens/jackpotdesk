@@ -384,12 +384,6 @@ export type PatternTicket = {
   extra: number | null;
 };
 
-export type PatternPickResult = {
-  tickets: PatternTicket[];
-  /** Candidate boards scored to build the ranking. */
-  scanned: number;
-};
-
 const PATTERN_TARGET = 4_000;
 const PATTERN_ATTEMPTS = 16_000;
 
@@ -452,6 +446,22 @@ function blendWeights(model: PatternModel): number[] {
   );
 }
 
+export type PatternPickOpts = {
+  /** Hard veto: faded / crowded-looking boards never enter the ranking. */
+  reject?: (numbers: number[]) => boolean;
+  /** No repeated whites across the whole slip. */
+  uniqueSlip?: boolean;
+  exclude?: Set<string>;
+};
+
+export type PatternPickResult = {
+  tickets: PatternTicket[];
+  /** Candidate boards scored to build the ranking. */
+  scanned: number;
+  /** Boards dropped by reject() while scanning. */
+  rejected: number;
+};
+
 /**
  * Generate tickets that maximize the pattern score with controlled
  * randomness: candidates are sampled with frequency-weighted numbers,
@@ -463,18 +473,26 @@ export function patternPickTickets(
   size: number,
   count: number,
   pairSize = 1,
+  opts: PatternPickOpts = {},
 ): PatternPickResult {
   const blend = blendWeights(model);
+  const reject = opts.reject;
+  const exclude = opts.exclude ?? new Set<string>();
 
   const seen = new Set<string>();
   const candidates: RankedCandidate[] = [];
   let scanned = 0;
+  let rejected = 0;
   while (candidates.length < PATTERN_TARGET && scanned < PATTERN_ATTEMPTS) {
     scanned += 1;
     const numbers = weightedCombo(blend, size);
     const key = comboKey(numbers);
-    if (seen.has(key)) continue;
+    if (seen.has(key) || exclude.has(key)) continue;
     seen.add(key);
+    if (reject?.(numbers)) {
+      rejected += 1;
+      continue;
+    }
     candidates.push({ numbers, score: rawScore(model, numbers, null).raw });
   }
   // drawFromRanking takes from the front; highest pattern score first.
@@ -483,14 +501,22 @@ export function patternPickTickets(
   const want =
     pairSize > 1 ? Math.max(pairSize, count + (count % pairSize)) : count;
   const pairLock = new Set<number>();
+  const slipLock = new Set<number>();
   let inPair = 0;
-  const eligible = (numbers: number[]) =>
-    !numbers.some((n) => pairLock.has(n));
+  const eligible = (numbers: number[]) => {
+    if (reject?.(numbers)) return false;
+    if (numbers.some((n) => pairLock.has(n))) return false;
+    if (opts.uniqueSlip && numbers.some((n) => slipLock.has(n))) return false;
+    return true;
+  };
   const take = (numbers: number[]) => {
     if (pairSize > 1) {
       inPair = (inPair + 1) % pairSize;
       if (inPair === 0) pairLock.clear();
       else for (const n of numbers) pairLock.add(n);
+    }
+    if (opts.uniqueSlip) {
+      for (const n of numbers) slipLock.add(n);
     }
   };
 
@@ -506,6 +532,7 @@ export function patternPickTickets(
       extra: model.specialFreq ? weightedSpecial(model.specialFreq) : null,
     })),
     scanned,
+    rejected,
   };
 }
 

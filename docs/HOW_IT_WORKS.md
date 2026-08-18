@@ -1,6 +1,6 @@
 # How JackpotDesk works
 
-Read this before changing mint modes, ticket generation, or product copy. Claims we may and may not make are in [CLAIMS.md](CLAIMS.md). Data jobs and model math are in [DATA_AND_MODELS.md](DATA_AND_MODELS.md). How we ship and later charge is in [BUSINESS.md](BUSINESS.md).
+Read this before changing mint modes, ticket generation, or product copy. Claims we may and may not make are in [CLAIMS.md](CLAIMS.md). Data jobs and model math are in [DATA_AND_MODELS.md](DATA_AND_MODELS.md). How we ship and later charge is in [BUSINESS.md](BUSINESS.md). Visual language and the em-dash rule are in [STYLE.md](STYLE.md). The operator email is in [DIGEST.md](DIGEST.md).
 
 ## Premise
 
@@ -27,6 +27,7 @@ Default persisted pref is `mintMode = "ladder"` ([`src/views/TicketsView.tsx`](.
 ### Pattern lab
 
 - Same pattern model, but jittered: sample ~4,000 candidates, take a random window near the top so two mints are not identical frequency dumps.
+- Optional **Apply fades** toggle (`pattern.applyFades`): hard-veto last-draw, hot, cold, and the other fade criteria, then keep the highest-scoring survivors. History is a score, then a veto. It does not raise hit odds.
 - Per-ticket [`PatternReport`](../src/components/PatternReport.tsx). Co-winner index stays visible underneath.
 - Entertainment mint, not the ranked field.
 
@@ -43,10 +44,11 @@ Default persisted pref is `mintMode = "ladder"` ([`src/views/TicketsView.tsx`](.
 
 ## Secondary tools
 
-- **This week** — cash jackpot, tax, split risk, expected value. Does not pick numbers.
-- **Map** — public jackpot tickets by sale state.
-- **Pool** — members, shares, payouts in this browser.
-- **Why this** — method copy. Keep it aligned with [CLAIMS.md](CLAIMS.md).
+- **This week**: cash jackpot, tax, split risk, expected value. Does not pick numbers.
+- **Map**: public jackpot tickets by sale state.
+- **Pool**: members, shares, payouts in this browser.
+- **Why this**: method copy. Keep it aligned with [CLAIMS.md](CLAIMS.md).
+- **Private digest**: daily operator email of Ladder #1–#3 plus the EV call. Not a public list. See [DIGEST.md](DIGEST.md).
 
 ## Games
 

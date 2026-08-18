@@ -30,6 +30,7 @@ Goals:
 1. See if people open The Ladder on draw nights and screenshot #1.
 2. Keep archives appending (popularity Action + WA union). Every week live is more history.
 3. Do not take payment, accounts, or refunds yet.
+4. Private digest is live for the operator only ([DIGEST.md](DIGEST.md)). No public signup.
 
 Copy on the site stays entertainment / same-odds. Optional later: a one-line “free experiment” note on Why this — do not add a fake “coming soon / subscribe” gate.
 
@@ -105,3 +106,4 @@ Phase 1 adds: pass starts, night-pass on jackpot spikes, refunds, “#1 missed�
 ## Decision log
 
 - **2026-08:** Premise is The Ladder, honest-hero. Monetize ranked-field access, not prediction. Live site ships ungated as an experiment. This plan is the next document; payments are not in this pass.
+- **2026-08:** Operator is subscriber #1 on a private Resend digest. Public email list waits for Phase 1.

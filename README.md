@@ -10,7 +10,7 @@ Secondary tools:
 2. **Tickets modes:** Ladder (default), Pattern lab, Desk pick (least-crowded), Quick mint (fade crowded public tickets).
 3. **Pool:** members, shares, and payout splits in this browser.
 
-This does **not** raise the chance of winning. Hit odds match Quick Pick. The live site is a free experiment; how we might charge later is in [`docs/BUSINESS.md`](docs/BUSINESS.md). Engines and data jobs: [`docs/`](docs/).
+This does **not** raise the chance of winning. Hit odds match Quick Pick. The live site is a free experiment; how we might charge later is in [`docs/BUSINESS.md`](docs/BUSINESS.md). How it looks and how copy is written: [`docs/STYLE.md`](docs/STYLE.md). Engines, claims, and the private digest: [`docs/`](docs/).
 
 ## Local
 

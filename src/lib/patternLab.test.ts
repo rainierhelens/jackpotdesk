@@ -104,6 +104,15 @@ describe("pattern generation", () => {
     }
   });
 
+  it("honors a fade veto and still returns legal boards", () => {
+    const { tickets, rejected } = patternPickTickets(model, 3, 5, 1, {
+      reject: (nums) => nums.includes(1),
+    });
+    expect(tickets.length).toBe(5);
+    expect(rejected).toBeGreaterThan(0);
+    expect(tickets.every((t) => !t.numbers.includes(1))).toBe(true);
+  });
+
   it("averages above the random-ticket baseline", () => {
     const { tickets } = patternPickTickets(model, 3, 5);
     const avg =

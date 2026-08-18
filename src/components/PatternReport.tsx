@@ -16,9 +16,37 @@ function pointsTone(points: number): string {
   return "is-green";
 }
 
+/** Toggle + copy for scoring history, then vetoing faded boards. */
+export function PatternFadesToggle({
+  on,
+  onToggle,
+}: {
+  on: boolean;
+  onToggle: (next: boolean) => void;
+}) {
+  return (
+    <div className="pattern-mix">
+      <label>
+        <input
+          type="checkbox"
+          checked={on}
+          onChange={(e) => onToggle(e.target.checked)}
+        />
+        Apply fades
+      </label>
+      <p className="fine">
+        Off: highest-weighted echo of official history. On: same score, then
+        drop last-draw, hot, cold, and obvious shapes from the fade list on
+        the right. History is a score, then a veto. It does not make numbers
+        more likely next time. Same hit odds either way.
+      </p>
+    </div>
+  );
+}
+
 /**
  * Per-ticket pattern scores and plain-language why-lines. Purely
- * descriptive of past drawings — the footer says so out loud.
+ * descriptive of past drawings. The footer says so out loud.
  */
 export function PatternReport({
   model,

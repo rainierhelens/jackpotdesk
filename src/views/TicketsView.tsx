@@ -10,10 +10,15 @@ import { Playslip } from "../components/Playslip";
 import { PrintSlip } from "../components/PrintSlip";
 import { avoidWhites, frequencyStats } from "../lib/frequency";
 import { usePrefersReducedMotion } from "../lib/motion";
-import { DEFAULT_FILTERS, formatTicket, generateTickets } from "../lib/picks";
+import {
+  DEFAULT_FILTERS,
+  formatTicket,
+  generateTickets,
+  rejectReasons,
+} from "../lib/picks";
 import { buildPatternModel, patternPickTickets } from "../lib/patternLab";
 import { PatternLadder } from "../components/PatternLadder";
-import { PatternReport } from "../components/PatternReport";
+import { PatternFadesToggle, PatternReport } from "../components/PatternReport";
 import {
   crowdReading,
   deskPickTickets,
@@ -84,6 +89,9 @@ export function TicketsView({
   );
   const [crowdOpen, setCrowdOpen] = useState(() =>
     loadPref("fold.crowd", false),
+  );
+  const [patternFades, setPatternFades] = useState(() =>
+    loadPref("pattern.applyFades", false),
   );
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [rejected, setRejected] = useState(0);
@@ -193,7 +201,13 @@ export function TicketsView({
     let result: { tickets: Ticket[]; attempts: number; rejected: number };
     let dealt: MintMode = "quick";
     if (mode === "pattern" && patternModel) {
-      const lab = patternPickTickets(patternModel, 5, n);
+      const lab = patternPickTickets(patternModel, 5, n, 1, {
+        reject: patternFades
+          ? (nums) => rejectReasons(nums, filters, past, avoid).length > 0
+          : undefined,
+        uniqueSlip: patternFades ? filters.uniqueSlip : false,
+        exclude,
+      });
       result = {
         tickets: lab.tickets.map((t) => ({
           id: t.id,
@@ -201,7 +215,7 @@ export function TicketsView({
           extra: t.extra ?? 1 + Math.floor(Math.random() * spec.extraMax),
         })),
         attempts: lab.scanned,
-        rejected: 0,
+        rejected: lab.rejected,
       };
       dealt = "pattern";
     } else {
@@ -267,41 +281,50 @@ export function TicketsView({
         </div>
         <div className="actions">
           {popularityModel(game) || patternModel ? (
-            <div className="mode-switch" role="group" aria-label="Mint mode">
-              {patternModel ? (
-                <button
-                  type="button"
-                  className={mode === "ladder" ? "is-on" : ""}
-                  onClick={() => pickMode("ladder")}
-                >
-                  Ladder
-                </button>
-              ) : null}
-              {patternModel ? (
-                <button
-                  type="button"
-                  className={mode === "pattern" ? "is-on" : ""}
-                  onClick={() => pickMode("pattern")}
-                >
-                  Pattern lab
-                </button>
-              ) : null}
-              {popularityModel(game) ? (
-                <button
-                  type="button"
-                  className={mode === "desk" ? "is-on" : ""}
-                  onClick={() => pickMode("desk")}
-                >
-                  Desk pick
-                </button>
-              ) : null}
-              <button
-                type="button"
-                className={mode === "quick" ? "is-on" : ""}
-                onClick={() => pickMode("quick")}
+            <div className="mode-picker">
+              <p className="mode-picker-label" id="ticket-modes">
+                Modes
+              </p>
+              <div
+                className="mode-switch"
+                role="group"
+                aria-labelledby="ticket-modes"
               >
-                Quick mint
-              </button>
+                {patternModel ? (
+                  <button
+                    type="button"
+                    className={mode === "ladder" ? "is-on" : ""}
+                    onClick={() => pickMode("ladder")}
+                  >
+                    Ladder
+                  </button>
+                ) : null}
+                {patternModel ? (
+                  <button
+                    type="button"
+                    className={mode === "pattern" ? "is-on" : ""}
+                    onClick={() => pickMode("pattern")}
+                  >
+                    Pattern lab
+                  </button>
+                ) : null}
+                {popularityModel(game) ? (
+                  <button
+                    type="button"
+                    className={mode === "desk" ? "is-on" : ""}
+                    onClick={() => pickMode("desk")}
+                  >
+                    Desk pick
+                  </button>
+                ) : null}
+                <button
+                  type="button"
+                  className={mode === "quick" ? "is-on" : ""}
+                  onClick={() => pickMode("quick")}
+                >
+                  Quick mint
+                </button>
+              </div>
             </div>
           ) : null}
           {mode !== "ladder" ? (
@@ -330,15 +353,26 @@ export function TicketsView({
       </header>
       <p className="gen-tag">
         {mode === "ladder"
-          ? "The ladder ranks the scanned field by pattern score, best first. It is a scored replay of the past, not a forecast. Every board keeps identical hit odds. "
+          ? "Ranks official history, best first. "
           : mode === "pattern"
-            ? "Pattern lab leans into historical frequencies, pairs, and winning shapes. Statistical pattern exploration for entertainment. Past frequency does not change future odds; same hit odds as Quick Pick. "
+            ? patternFades
+              ? "Historical shape, minus last-draw, hot, cold, and obvious looks. Entertainment. "
+              : "Echo of the past. Entertainment. "
             : mode === "desk"
-              ? "Desk pick mines the measured pick rates for the least-crowded boards in the game. Same hit odds, smallest expected split if you hit. "
-              : "Same hit odds as Quick Pick. Unique boards if you win. "}
-        {spec.ticketCost} a play.{" "}
+              ? "Smaller split if you hit. "
+              : "Random boards. Fades veto last-draw, hot, cold, and obvious shapes. No ranking. "}
+        Same hit odds as Quick Pick. {spec.ticketCost} a play.{" "}
         <a href="/lottery-lab.html">AI cannot beat Quick Pick</a>.
       </p>
+      {mode === "pattern" ? (
+        <PatternFadesToggle
+          on={patternFades}
+          onToggle={(next) => {
+            setPatternFades(next);
+            savePref("pattern.applyFades", next);
+          }}
+        />
+      ) : null}
 
       <div className={`gen-layout${mode === "ladder" ? " is-ladder" : ""}`}>
         <div className="gen-left">
@@ -395,7 +429,11 @@ export function TicketsView({
             <>
               <p className="fine gen-kept">
                 {dealtMode === "pattern"
-                  ? `Pattern lab · scored ${attempts.toLocaleString("en-US")} candidates, kept the ${tickets.length} highest-weighted. Hit odds unchanged.`
+                  ? `Pattern lab · scored ${attempts.toLocaleString("en-US")} candidates${
+                      rejected > 0
+                        ? `, vetoed ${rejected.toLocaleString("en-US")} faded boards`
+                        : ""
+                    }, kept the ${tickets.length} highest-weighted. Hit odds unchanged.`
                   : dealtMode === "desk"
                     ? `Desk pick · scanned ${attempts.toLocaleString("en-US")} boards that cleared the fades and kept the ${tickets.length} least-crowded. Hit odds unchanged.`
                     : `Kept ${tickets.length} after ${attempts.toLocaleString("en-US")} draws (${rejected} crowded or duplicate skipped).`}

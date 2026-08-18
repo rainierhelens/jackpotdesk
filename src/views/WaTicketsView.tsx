@@ -11,7 +11,7 @@ import { WaValue } from "../components/WaValue";
 import { usePrefersReducedMotion } from "../lib/motion";
 import { buildPatternModel, patternPickTickets } from "../lib/patternLab";
 import { PatternLadder } from "../components/PatternLadder";
-import { PatternReport } from "../components/PatternReport";
+import { PatternFadesToggle, PatternReport } from "../components/PatternReport";
 import {
   deskPickWaPlays,
   waCrowdReading,
@@ -33,6 +33,7 @@ import {
   DEFAULT_WA_FILTERS,
   formatWaPlay,
   generateWaPlays,
+  waRejectReason,
   waSlipCost,
   type WaPlay,
 } from "../lib/waPicks";
@@ -70,6 +71,9 @@ export function WaTicketsView({ game }: Props) {
   );
   const [crowdOpen, setCrowdOpen] = useState(() =>
     loadPref("fold.crowd", false),
+  );
+  const [patternFades, setPatternFades] = useState(() =>
+    loadPref("pattern.applyFades", false),
   );
   const [tickets, setTickets] = useState<WaPlay[]>([]);
   const [rejected, setRejected] = useState(0);
@@ -268,11 +272,24 @@ export function WaTicketsView({ game }: Props) {
         whiteCount,
         n,
         spec.pairSize ?? 1,
+        {
+          reject: patternFades
+            ? (nums) =>
+                waRejectReason(
+                  nums,
+                  spec,
+                  effectiveFilters,
+                  past,
+                  avoid,
+                ) != null
+            : undefined,
+          uniqueSlip: patternFades ? effectiveFilters.uniqueSlip : false,
+        },
       );
       result = {
         tickets: lab.tickets.map((t) => ({ id: t.id, numbers: t.numbers })),
         attempts: lab.scanned,
-        rejected: 0,
+        rejected: lab.rejected,
       };
       dealt = "pattern";
     } else {
@@ -367,41 +384,50 @@ export function WaTicketsView({ game }: Props) {
         </div>
         <div className="actions">
           {waPopularityModel(spec.id) || patternModel ? (
-            <div className="mode-switch" role="group" aria-label="Mint mode">
-              {patternModel ? (
-                <button
-                  type="button"
-                  className={mode === "ladder" ? "is-on" : ""}
-                  onClick={() => pickMode("ladder")}
-                >
-                  Ladder
-                </button>
-              ) : null}
-              {patternModel ? (
-                <button
-                  type="button"
-                  className={mode === "pattern" ? "is-on" : ""}
-                  onClick={() => pickMode("pattern")}
-                >
-                  Pattern lab
-                </button>
-              ) : null}
-              {waPopularityModel(spec.id) ? (
-                <button
-                  type="button"
-                  className={mode === "desk" ? "is-on" : ""}
-                  onClick={() => pickMode("desk")}
-                >
-                  Desk pick
-                </button>
-              ) : null}
-              <button
-                type="button"
-                className={mode === "quick" ? "is-on" : ""}
-                onClick={() => pickMode("quick")}
+            <div className="mode-picker">
+              <p className="mode-picker-label" id="wa-ticket-modes">
+                Modes
+              </p>
+              <div
+                className="mode-switch"
+                role="group"
+                aria-labelledby="wa-ticket-modes"
               >
-                Quick mint
-              </button>
+                {patternModel ? (
+                  <button
+                    type="button"
+                    className={mode === "ladder" ? "is-on" : ""}
+                    onClick={() => pickMode("ladder")}
+                  >
+                    Ladder
+                  </button>
+                ) : null}
+                {patternModel ? (
+                  <button
+                    type="button"
+                    className={mode === "pattern" ? "is-on" : ""}
+                    onClick={() => pickMode("pattern")}
+                  >
+                    Pattern lab
+                  </button>
+                ) : null}
+                {waPopularityModel(spec.id) ? (
+                  <button
+                    type="button"
+                    className={mode === "desk" ? "is-on" : ""}
+                    onClick={() => pickMode("desk")}
+                  >
+                    Desk pick
+                  </button>
+                ) : null}
+                <button
+                  type="button"
+                  className={mode === "quick" ? "is-on" : ""}
+                  onClick={() => pickMode("quick")}
+                >
+                  Quick mint
+                </button>
+              </div>
             </div>
           ) : null}
           {mode !== "ladder" ? (
@@ -443,14 +469,26 @@ export function WaTicketsView({ game }: Props) {
       </header>
       <p className="gen-tag">
         {mode === "ladder"
-          ? "The ladder ranks the scanned field by pattern score, best first. It is a scored replay of the past, not a forecast. Every board keeps identical hit odds. "
+          ? "Ranks official history, best first. "
           : mode === "pattern"
-            ? "Pattern lab leans into historical frequencies, pairs, and winning shapes. Statistical pattern exploration for entertainment. Past frequency does not change future odds; same hit odds as Quick Pick. "
+            ? patternFades
+              ? "Historical shape, minus last-draw, hot, cold, and obvious looks. Entertainment. "
+              : "Echo of the past. Entertainment. "
             : mode === "desk"
-              ? "Desk pick mines the measured pick rates for the least-crowded boards in the game. Same hit odds, smallest expected split if you hit. "
-              : `${spec.note} Same hit odds as Quick Pick. `}
+              ? "Smaller split if you hit. "
+              : "Random boards. Fades veto last-draw, hot, cold, and obvious shapes. No ranking. "}
+        Same hit odds as Quick Pick.{" "}
         <a href="/lottery-lab.html">AI cannot beat Quick Pick</a>.
       </p>
+      {mode === "pattern" ? (
+        <PatternFadesToggle
+          on={patternFades}
+          onToggle={(next) => {
+            setPatternFades(next);
+            savePref("pattern.applyFades", next);
+          }}
+        />
+      ) : null}
 
       <div className={`gen-layout${mode === "ladder" ? " is-ladder" : ""}`}>
         <div className="gen-left">
@@ -502,7 +540,11 @@ export function WaTicketsView({ game }: Props) {
             <>
               <p className="fine gen-kept">
                 {dealtMode === "pattern"
-                  ? `Pattern lab · scored ${attempts.toLocaleString("en-US")} candidates, kept the ${tickets.length} highest-weighted`
+                  ? `Pattern lab · scored ${attempts.toLocaleString("en-US")} candidates${
+                      rejected > 0
+                        ? `, vetoed ${rejected.toLocaleString("en-US")} faded boards`
+                        : ""
+                    }, kept the ${tickets.length} highest-weighted`
                   : dealtMode === "desk"
                     ? `Desk pick · scanned ${attempts.toLocaleString("en-US")} boards that cleared the fades and kept the ${tickets.length} least-crowded`
                     : `Kept ${tickets.length} after ${attempts.toLocaleString("en-US")} draws (${rejected} crowded or duplicate skipped)`}

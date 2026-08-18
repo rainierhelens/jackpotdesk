@@ -1,6 +1,6 @@
 # Claims
 
-Read this before changing masthead, SEO, Why this, Ladder copy, or a paywall. The consumer claim is **honest-hero**: The Ladder is the product; it does not predict the next drawing.
+Read this before changing masthead, SEO, Why this, Ladder copy, a paywall, or the digest email. Visual language and the em-dash rule are in [STYLE.md](STYLE.md). The consumer claim is **honest-hero**: The Ladder is the product; it does not predict the next drawing.
 
 ## Allowed
 
