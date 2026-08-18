@@ -31,6 +31,9 @@ jobs:
       - name: Bake Washington draws and jackpots
         run: npm run bake:wa
         continue-on-error: true
+      - name: Bake US jackpot map
+        run: npm run bake:map
+        continue-on-error: true
       - name: Push WA feed to Cloudflare Worker
         env:
           WA_FEED_SECRET: ${{ secrets.WA_FEED_SECRET }}
@@ -44,6 +47,21 @@ jobs:
             -H "Authorization: Bearer $WA_FEED_SECRET" \
             -H "Content-Type: application/json" \
             --data-binary @src/data/waDraws.json
+        continue-on-error: true
+      - name: Push jackpot map to Cloudflare Worker
+        env:
+          WA_FEED_SECRET: ${{ secrets.WA_FEED_SECRET }}
+          WA_DRAWS_URL: ${{ secrets.WA_DRAWS_URL }}
+        run: |
+          if [ -z "$WA_FEED_SECRET" ] || [ -z "$WA_DRAWS_URL" ]; then
+            echo "Skipping map push (set repo secrets WA_DRAWS_URL and WA_FEED_SECRET)"
+            exit 0
+          fi
+          MAP_URL="${WA_DRAWS_URL%/wa-draws}/jackpot-wins"
+          curl -fsS -X PUT "$MAP_URL" \
+            -H "Authorization: Bearer $WA_FEED_SECRET" \
+            -H "Content-Type: application/json" \
+            --data-binary @src/data/jackpotWins.json
         continue-on-error: true
       - run: npm run build
       - uses: actions/upload-pages-artifact@v5

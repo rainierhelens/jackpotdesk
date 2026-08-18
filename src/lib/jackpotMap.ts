@@ -20,17 +20,50 @@ export type StateHeat = {
   lastDate: string | null;
 };
 
+export type JackpotBook = {
+  asOf: string;
+  fetchedAt?: string;
+  source?: string;
+  note?: string;
+  wins: JackpotWin[];
+};
+
 export const JACKPOT_AS_OF = book.asOf;
 
 export const JACKPOT_WINS = book.wins as JackpotWin[];
+
+export function parseJackpotBook(raw: unknown): JackpotBook | null {
+  if (!raw || typeof raw !== "object") return null;
+  const data = raw as JackpotBook;
+  if (!Array.isArray(data.wins) || data.wins.length < 40) return null;
+  if (typeof data.asOf !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(data.asOf)) {
+    return null;
+  }
+  for (const row of data.wins) {
+    if (!row || typeof row !== "object") return null;
+    if (row.game !== "powerball" && row.game !== "megamillions") return null;
+    if (typeof row.date !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(row.date)) {
+      return null;
+    }
+    if (typeof row.advertised !== "number" || row.advertised < 1_000_000) {
+      return null;
+    }
+    if (typeof row.shares !== "number" || row.shares < 1) return null;
+    if (typeof row.state !== "string" || row.state.length !== 2) return null;
+  }
+  return data;
+}
 
 export function ticketShare(win: JackpotWin): number {
   return win.advertised / Math.max(1, win.shares);
 }
 
-export function dataYearSpan(asOf = JACKPOT_AS_OF): number {
+export function dataYearSpan(
+  wins: JackpotWin[] = JACKPOT_WINS,
+  asOf = JACKPOT_AS_OF,
+): number {
   let oldest = asOf;
-  for (const w of JACKPOT_WINS) {
+  for (const w of wins) {
     if (w.date < oldest) oldest = w.date;
   }
   return Math.max(
@@ -42,9 +75,10 @@ export function dataYearSpan(asOf = JACKPOT_AS_OF): number {
 export function oldestYearShown(
   yearsShown: number,
   asOf = JACKPOT_AS_OF,
+  wins: JackpotWin[] = JACKPOT_WINS,
 ): number {
   const latest = Number(asOf.slice(0, 4));
-  const n = Math.min(Math.max(1, yearsShown), dataYearSpan(asOf));
+  const n = Math.min(Math.max(1, yearsShown), dataYearSpan(wins, asOf));
   return latest - n + 1;
 }
 
@@ -53,8 +87,9 @@ export function filterWins(
   game: GameFilter,
   yearsShown: number,
   advertised?: { min: number; max: number },
+  asOf = JACKPOT_AS_OF,
 ): JackpotWin[] {
-  const oldest = oldestYearShown(yearsShown);
+  const oldest = oldestYearShown(yearsShown, asOf, wins);
   return wins.filter((w) => {
     if (game !== "both" && w.game !== game) return false;
     if (winYear(w.date) < oldest) return false;

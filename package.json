@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "bake:wa": "node scripts/bake-wa-draws.mjs",
+    "bake:map": "node scripts/bake-jackpot-wins.mjs",
     "deploy:wa": "npx wrangler deploy",
     "lint": "oxlint",
     "preview": "vite preview"

@@ -1,5 +1,6 @@
 import { Ball } from "../components/Ball";
 import { DrawCountdown } from "../components/DrawCountdown";
+import { FeedMark } from "../components/FeedMark";
 import { MarketBoard } from "../components/MarketBoard";
 import artWeek from "../images/This-Week.jpg";
 import type { GameId } from "../types";
@@ -96,6 +97,9 @@ export function WeekView(props: Props) {
       {props.latest ? (
         <div className="last-draw">
           <p className="kicker">Last official draw · {props.latest.date}</p>
+          <p className="fine">
+            <FeedMark feed="live" /> · NY Open Data
+          </p>
           <div className="ticket-row">
             {props.latest.whites.map((n) => (
               <Ball key={n} value={n} />
@@ -105,12 +109,19 @@ export function WeekView(props: Props) {
         </div>
       ) : null}
 
-      {props.marketNote ? <p className="fine">{props.marketNote}</p> : null}
       {props.marketError ? (
         <p className="warn">
           {props.marketError}. Official lottery homepages block the browser, so
           we load the national jackpot from California Lottery’s public feed.
           Enter advertised and cash by hand if that feed is down.
+        </p>
+      ) : props.marketNote?.startsWith("Loading") ? (
+        <p className="fine">{props.marketNote}</p>
+      ) : props.marketNote ? (
+        <p className="fine">
+          <FeedMark feed="live" /> · California Lottery (national jackpot)
+          {props.nextDrawDate ? ` · next draw ${props.nextDrawDate}` : ""}.
+          Tickets sold is an estimate. Edit any field.
         </p>
       ) : null}
 

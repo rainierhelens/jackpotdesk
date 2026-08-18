@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Ball } from "../components/Ball";
+import { FeedMark } from "../components/FeedMark";
 import { FoilCard } from "../components/FoilCard";
 import { LotteryTicket } from "../components/LotteryTicket";
 import { PackFx, PackShell } from "../components/PackFx";
@@ -249,7 +250,14 @@ export function TicketsView({
               {stats
                 ? `${stats.window.toLocaleString("en-US")} drawings since ${FORMAT_START[game]}`
                 : "this matrix"}
-              {asOf ? ` through ${asOf}` : ""}. Source: NY Open Data.
+              {asOf ? ` through ${asOf}` : ""}.{" "}
+              {asOf ? (
+                <>
+                  <FeedMark feed="live" /> · NY Open Data.
+                </>
+              ) : (
+                "Source: NY Open Data."
+              )}
             </p>
           )}
           {stats ? (
@@ -384,7 +392,12 @@ export function TicketsView({
             Past results do not predict the next drawing. We skip these so you
             are less likely to share a hit, not so you hit more often. Last{" "}
             {RECENT_WINNER_LIMIT} official white sets
-            {past.size ? ` (${past.size} loaded)` : ""}.
+            {past.size ? ` (${past.size} loaded)` : ""}.{" "}
+            {asOf ? (
+              <>
+                <FeedMark feed="live" /> · NY Open Data.
+              </>
+            ) : null}
           </p>
         </aside>
       </div>

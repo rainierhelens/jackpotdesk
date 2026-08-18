@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { FeedMark } from "../components/FeedMark";
 import { MapFilters, RangeSlider } from "../components/RangeSlider";
 import { UsaCartogram } from "../components/UsaCartogram";
 import { WaBoard } from "../components/WaBoard";
@@ -11,8 +12,6 @@ import {
   gameShort,
   heatByState,
   heatValue,
-  JACKPOT_AS_OF,
-  JACKPOT_WINS,
   snapJackpot,
   ticketShare,
   winYear,
@@ -21,6 +20,7 @@ import {
   yearTint,
   type GameFilter,
   type HeatMetric,
+  type JackpotWin,
 } from "../lib/jackpotMap";
 import { STATE_NAME } from "../lib/usTiles";
 import {
@@ -40,6 +40,7 @@ import {
   type WaTicketFilter,
 } from "../lib/waBoard";
 import { GAMES } from "../lib/prizes";
+import { useJackpotWins } from "../lib/useJackpotWins";
 import type { GameId } from "../types";
 
 type Props = { game: GameId; preferWa?: boolean };
@@ -50,6 +51,8 @@ export function MapView({ game, preferWa = false }: Props) {
   const [games, setGames] = useState<GameFilter>("both");
   const [metric, setMetric] = useState<HeatMetric>("tickets");
   const [selected, setSelected] = useState<string | null>(null);
+
+  const { book, feed } = useJackpotWins();
 
   useEffect(() => {
     setBoard(preferWa ? "wa" : "us");
@@ -85,13 +88,16 @@ export function MapView({ game, preferWa = false }: Props) {
         </div>
       </div>
       {board === "wa" ? (
-        <WaMap />
+        <WaMap wins={book.wins} feed={feed} />
       ) : (
         <UsMap
           game={game}
           games={games}
           metric={metric}
           selected={selected}
+          allWins={book.wins}
+          asOf={book.asOf}
+          feed={feed}
           onGames={setGames}
           onMetric={setMetric}
           onSelected={setSelected}
@@ -106,6 +112,9 @@ function UsMap({
   games,
   metric,
   selected,
+  allWins,
+  asOf,
+  feed,
   onGames,
   onMetric,
   onSelected,
@@ -114,15 +123,18 @@ function UsMap({
   games: GameFilter;
   metric: HeatMetric;
   selected: string | null;
+  allWins: JackpotWin[];
+  asOf: string;
+  feed: "live" | "baked";
   onGames: (games: GameFilter) => void;
   onMetric: (metric: HeatMetric) => void;
   onSelected: (state: string | null) => void;
 }) {
-  const yearMax = dataYearSpan();
+  const yearMax = dataYearSpan(allWins, asOf);
   const [yearsShown, setYearsShown] = useState(Math.min(5, yearMax));
   const windowed = useMemo(
-    () => filterWins(JACKPOT_WINS, games, yearsShown),
-    [games, yearsShown],
+    () => filterWins(allWins, games, yearsShown, undefined, asOf),
+    [allWins, games, yearsShown, asOf],
   );
   const span = useMemo(() => {
     const raw = advertisedSpan(windowed);
@@ -162,8 +174,12 @@ function UsMap({
     <>
       <header className="panel-head">
         <div>
-          <p className="kicker">Jackpot map · through {formatDrawDate(JACKPOT_AS_OF)}</p>
+          <p className="kicker">Jackpot map · through {formatDrawDate(asOf)}</p>
           <h2>Where the big ones hit</h2>
+          <p className="fine">
+            <FeedMark feed={feed} /> · public jackpot tickets by sale state, not
+            every prize.
+          </p>
         </div>
       </header>
 
@@ -173,7 +189,8 @@ function UsMap({
           <p>
             Public Powerball and Mega Millions <em>jackpot</em> tickets, mapped
             by the state where the ticket was sold. Not a live feed of $4
-            winners, not store-level, not a prediction of the next hit.
+            winners, not store-level, not a prediction of the next hit. New
+            jackpot locations land here when the public lists update.
           </p>
         </div>
       </div>
@@ -374,13 +391,19 @@ function UsMap({
   );
 }
 
-function WaMap() {
+function WaMap({
+  wins,
+  feed,
+}: {
+  wins: JackpotWin[];
+  feed: "live" | "baked";
+}) {
   const [region, setRegion] = useState<WaRegion | "all">("all");
   const [tickets, setTickets] = useState<WaTicketFilter>("all");
   const [selected, setSelected] = useState<string | null>(null);
   const retailerYears = waYearSpan();
   const jackpotYears =
-    tickets === "all" ? retailerYears : waJackpotYearSpan(tickets);
+    tickets === "all" ? retailerYears : waJackpotYearSpan(tickets, wins);
   const yearMax = jackpotYears;
   const [yearsShown, setYearsShown] = useState(retailerYears);
 
@@ -393,8 +416,8 @@ function WaMap() {
     () =>
       tickets === "all"
         ? filterWaStores(region, yearsShown)
-        : waJackpots(tickets, yearsShown),
-    [region, yearsShown, tickets],
+        : waJackpots(tickets, yearsShown, wins),
+    [region, yearsShown, tickets, wins],
   );
   const span = useMemo(() => waWinsSpan(regional), [regional]);
   const [minWins, setMinWins] = useState(span.min);
@@ -442,6 +465,12 @@ function WaMap() {
             Washington board · {localJackpot ? "published cashpots" : `2023–${WA_AS_OF}`}
           </p>
           <h2>{heading}</h2>
+          {jackpotMode && !localJackpot ? (
+            <p className="fine">
+              <FeedMark feed={feed} /> · Powerball / Mega Millions jackpot
+              tickets sold in Washington, by city.
+            </p>
+          ) : null}
         </div>
       </header>
 
@@ -454,8 +483,8 @@ function WaMap() {
             does not publish that list by game. Powerball / Mega Millions here
             are jackpot tickets sold in Washington, by city. Hit 5 and Lotto
             are published cashpot / jackpot tickets with a named store. Busy
-            stores sell more tickets. This is not a lucky machine, not live,
-            and not a forecast.
+            stores sell more tickets. The $1,000+ mix list is not live. This is
+            not a lucky machine and not a forecast.
           </p>
         </div>
       </div>

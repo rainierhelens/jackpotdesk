@@ -4,6 +4,7 @@ import { FoilCard } from "../components/FoilCard";
 import { PackFx, PackShell } from "../components/PackFx";
 import { Playslip } from "../components/Playslip";
 import { WaSlip } from "../components/WaSlip";
+import { FeedMark } from "../components/FeedMark";
 import { WaValue } from "../components/WaValue";
 import { usePrefersReducedMotion } from "../lib/motion";
 import { playPackOpen } from "../lib/sfx";
@@ -339,7 +340,8 @@ export function WaTicketsView({ game }: Props) {
         <aside className="gen-side">
           <p className="fine">
             {filterNote} Hot/cold from {draws.length} official drawings
-            {latest ? ` through ${latest.date}` : ""} ({feed} {asOf}).
+            {latest ? ` through ${latest.date}` : ""} (
+            <FeedMark feed={feed} /> {asOf}).
           </p>
           {lastNumbers.length > 0 ? (
             <div className="temp-board">
@@ -561,7 +563,8 @@ export function WaTicketsView({ game }: Props) {
           <p className="fine temp-note">
             Past results do not predict the next drawing. We skip crowded public
             tickets so a hit is less likely to be shared, not so you hit more
-            often. Source: Washington’s Lottery past drawings, {feed} {asOf}.
+            often. Source: Washington’s Lottery past drawings,{" "}
+            <FeedMark feed={feed} /> {asOf}.
           </p>
         </aside>
       </div>

@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import { Ball } from "../components/Ball";
+import { FeedMark } from "../components/FeedMark";
 import { PrintSlip } from "../components/PrintSlip";
 import { money, moneyExact, parseMoney } from "../lib/ev";
 import { avoidWhites, frequencyStats } from "../lib/frequency";
@@ -367,7 +368,8 @@ export function PoolView({
       <h3>Settle last draw</h3>
       {latest ? (
         <p className="fine">
-          Scoring against {latest.date}. Jackpot cash used for a 5+extra hit:{" "}
+          Scoring against {latest.date}. <FeedMark feed="live" /> · NY Open
+          Data. Jackpot cash used for a 5+extra hit:{" "}
           {jackpotCash > 0 ? money.format(jackpotCash) : "enter cash on This week"}.
           Multipliers (Power Play / Megaplier) are not applied.
         </p>

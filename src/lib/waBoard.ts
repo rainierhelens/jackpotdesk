@@ -1,4 +1,4 @@
-import { yearTint, JACKPOT_WINS, winYear } from "./jackpotMap";
+import { yearTint, winYear, type JackpotWin } from "./jackpotMap";
 import type { GameId } from "../types";
 import book from "../data/waRetailers.json";
 import localJackpots from "../data/waJackpots.json";
@@ -160,27 +160,34 @@ function regionForCity(city: string): WaRegion {
   return "South Puget Sound";
 }
 
-export function waJackpotYearSpan(game: WaMapGame): number {
+export function waJackpotYearSpan(
+  game: WaMapGame,
+  wins: JackpotWin[] = [],
+): number {
   const years =
     game === "hit5" || game === "lotto"
       ? WA_LOCAL_JACKPOTS.filter((w) => w.game === game).map((w) =>
           winYear(w.date),
         )
-      : JACKPOT_WINS.filter((w) => w.state === "WA" && w.game === game).map(
-          (w) => winYear(w.date),
+      : wins.filter((w) => w.state === "WA" && w.game === game).map((w) =>
+          winYear(w.date),
         );
   if (years.length === 0) return 1;
   return Math.max(1, Math.max(...years) - Math.min(...years) + 1);
 }
 
-export function waJackpots(game: WaMapGame, yearsShown: number): WaStore[] {
+export function waJackpots(
+  game: WaMapGame,
+  yearsShown: number,
+  wins: JackpotWin[] = [],
+): WaStore[] {
   if (game === "hit5" || game === "lotto") {
     return waLocalJackpots(game, yearsShown);
   }
-  const pool = JACKPOT_WINS.filter((w) => w.state === "WA" && w.game === game);
+  const pool = wins.filter((w) => w.state === "WA" && w.game === game);
   const years = pool.map((w) => winYear(w.date));
   const newest = years.length ? Math.max(...years) : Number(WA_AS_OF);
-  const span = waJackpotYearSpan(game);
+  const span = waJackpotYearSpan(game, wins);
   const oldest = newest - Math.min(Math.max(1, yearsShown), span) + 1;
   const rows: WaStore[] = [];
   for (const win of pool) {

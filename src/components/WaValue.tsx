@@ -1,3 +1,4 @@
+import { FeedMark, type FeedKind } from "./FeedMark";
 import { moneyExact } from "../lib/ev";
 import { WA_GAMES } from "../lib/waGames";
 import { hit5CashpotEv, lottoCashEvPerDollar, waPrizeInputs } from "../lib/waValue";
@@ -6,7 +7,7 @@ import type { WaGameId } from "../types";
 type Props = {
   game: WaGameId;
   asOf: string;
-  feed?: "live" | "baked";
+  feed?: FeedKind;
   cashpot: string;
   advertised: string;
   cash: string;
@@ -14,6 +15,14 @@ type Props = {
   onAdvertised: (v: string) => void;
   onCash: (v: string) => void;
 };
+
+function WaFeedLine({ feed, asOf }: { feed: FeedKind; asOf: string }) {
+  return (
+    <p className="fine">
+      <FeedMark feed={feed} /> · Washington’s Lottery · {asOf}.
+    </p>
+  );
+}
 
 export function WaValue({
   game,
@@ -49,10 +58,7 @@ export function WaValue({
             inputMode="decimal"
           />
         </label>
-        <p className="fine">
-          {feed === "live" ? "Live feed" : "Baked fallback"} · Washington’s
-          Lottery · {asOf}.
-        </p>
+        <WaFeedLine feed={feed} asOf={asOf} />
       </section>
     );
   }
@@ -89,10 +95,7 @@ export function WaValue({
             />
           </label>
         </div>
-        <p className="fine">
-          {feed === "live" ? "Live feed" : "Baked fallback"} · Washington’s
-          Lottery · {asOf}.
-        </p>
+        <WaFeedLine feed={feed} asOf={asOf} />
       </section>
     );
   }
@@ -106,6 +109,7 @@ export function WaValue({
           and last-draw fades still matter for splits. Birthday fade is off —
           the field is 1–24.
         </p>
+        <WaFeedLine feed={feed} asOf={asOf} />
       </section>
     );
   }
@@ -119,6 +123,7 @@ export function WaValue({
           smaller prize. We fade area codes, dates, doubles, and last night’s
           digits so a hit is less likely to be shared.
         </p>
+        <WaFeedLine feed={feed} asOf={asOf} />
       </section>
     );
   }
@@ -132,6 +137,7 @@ export function WaValue({
           value, not hit luck. We fade last night’s 20, consecutive clusters,
           one decade, the 1–40 half, and a single column on the 80-card.
         </p>
+        <WaFeedLine feed={feed} asOf={asOf} />
       </section>
     );
   }
@@ -144,6 +150,7 @@ export function WaValue({
         register ($25–$500) — Desk cannot mint it. More POPs is more budget,
         not better odds. We fade 1, 7, 11, 13, and 15.
       </p>
+      <WaFeedLine feed={feed} asOf={asOf} />
     </section>
   );
 }

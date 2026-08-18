@@ -1,4 +1,4 @@
-# Cloudflare Worker: Washington Lottery JSON feed for jackpotdesk.com
+# Cloudflare Worker: WA Lottery boards + US jackpot map JSON for jackpotdesk.com
 name = "jackpotdesk-wa"
 main = "worker/index.js"
 compatibility_date = "2026-08-17"

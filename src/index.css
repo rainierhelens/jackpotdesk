@@ -1275,6 +1275,25 @@ button.primary:disabled {
   margin: 0.4rem 0 0;
 }
 
+.feed-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  color: var(--red);
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.feed-play {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0.32em 0 0.32em 0.55em;
+  border-color: transparent transparent transparent currentColor;
+}
+
 .ticket-row.dense .ball {
   width: 1.65rem;
   height: 1.65rem;

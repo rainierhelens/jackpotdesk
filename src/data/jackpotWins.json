@@ -1,5 +1,7 @@
 {
-  "asOf": "2026-08-16",
+  "asOf": "2026-08-12",
+  "fetchedAt": "2026-08-18T01:00:18.667Z",
+  "source": "Public jackpot tickets by sale state (PortalSeven when reachable, plus Mega Millions gallery, LotteryUSA, Wikipedia records). Not lower-tier prizes.",
   "note": "Public jackpot tickets by sale state. Not lower-tier prizes.",
   "wins": [
     {
@@ -9,6 +11,14 @@
       "shares": 1,
       "state": "IL",
       "city": "Quincy"
+    },
+    {
+      "game": "megamillions",
+      "date": "2026-07-28",
+      "advertised": 800000000,
+      "shares": 19,
+      "state": "FL",
+      "city": null
     },
     {
       "game": "powerball",
@@ -81,6 +91,14 @@
       "shares": 1,
       "state": "GA",
       "city": "Newnan"
+    },
+    {
+      "game": "powerball",
+      "date": "2025-09-06",
+      "advertised": 1790000000,
+      "shares": 2,
+      "state": "MO",
+      "city": null
     },
     {
       "game": "powerball",
@@ -243,6 +261,22 @@
       "city": "Portland"
     },
     {
+      "game": "powerball",
+      "date": "2024-04-07",
+      "advertised": 1326000000,
+      "shares": 10,
+      "state": "OR",
+      "city": null
+    },
+    {
+      "game": "powerball",
+      "date": "2024-04-06",
+      "advertised": 1330000000,
+      "shares": 1,
+      "state": "OR",
+      "city": null
+    },
+    {
       "game": "megamillions",
       "date": "2024-03-26",
       "advertised": 1128000000,
@@ -398,6 +432,14 @@
       "game": "megamillions",
       "date": "2022-10-14",
       "advertised": 502000000,
+      "shares": 40,
+      "state": "CA",
+      "city": null
+    },
+    {
+      "game": "megamillions",
+      "date": "2022-10-14",
+      "advertised": 502000000,
       "shares": 2,
       "state": "FL",
       "city": "Fort Myers"
@@ -481,6 +523,14 @@
       "shares": 2,
       "state": "CA",
       "city": "Sacramento"
+    },
+    {
+      "game": "powerball",
+      "date": "2022-01-05",
+      "advertised": 632600000,
+      "shares": 28,
+      "state": "WI",
+      "city": null
     },
     {
       "game": "megamillions",
@@ -798,6 +848,14 @@
       "game": "powerball",
       "date": "2018-10-27",
       "advertised": 687800000,
+      "shares": 25,
+      "state": "IA",
+      "city": null
+    },
+    {
+      "game": "powerball",
+      "date": "2018-10-27",
+      "advertised": 687800000,
       "shares": 2,
       "state": "NY",
       "city": "New York"
@@ -857,6 +915,14 @@
       "shares": 1,
       "state": "NJ",
       "city": "Riverdale"
+    },
+    {
+      "game": "megamillions",
+      "date": "2018-03-30",
+      "advertised": 533000000,
+      "shares": 36,
+      "state": "NY",
+      "city": null
     },
     {
       "game": "powerball",
@@ -1099,6 +1165,22 @@
       "city": "Chino Hills"
     },
     {
+      "game": "powerball",
+      "date": "2016-01-13",
+      "advertised": 1590000000,
+      "shares": 3,
+      "state": "FL",
+      "city": null
+    },
+    {
+      "game": "powerball",
+      "date": "2016-01-13",
+      "advertised": 1590000000,
+      "shares": 3,
+      "state": "TN",
+      "city": null
+    },
+    {
       "game": "megamillions",
       "date": "2016-01-08",
       "advertised": 169000000,
@@ -1253,10 +1335,26 @@
     {
       "game": "powerball",
       "date": "2015-02-11",
+      "advertised": 564100000,
+      "shares": 31,
+      "state": "NC",
+      "city": null
+    },
+    {
+      "game": "powerball",
+      "date": "2015-02-11",
       "advertised": 564000000,
       "shares": 3,
       "state": "PR",
       "city": "Shell"
+    },
+    {
+      "game": "powerball",
+      "date": "2015-02-11",
+      "advertised": 564100000,
+      "shares": 31,
+      "state": "TX",
+      "city": null
     },
     {
       "game": "megamillions",
@@ -1443,6 +1541,14 @@
       "city": "San Jose"
     },
     {
+      "game": "megamillions",
+      "date": "2013-12-17",
+      "advertised": 648000000,
+      "shares": 27,
+      "state": "GA",
+      "city": null
+    },
+    {
       "game": "powerball",
       "date": "2013-12-11",
       "advertised": 122900000,
@@ -1481,6 +1587,14 @@
       "shares": 1,
       "state": "SC",
       "city": "Lexington"
+    },
+    {
+      "game": "powerball",
+      "date": "2013-08-07",
+      "advertised": 448400000,
+      "shares": 47,
+      "state": "MN",
+      "city": null
     },
     {
       "game": "powerball",
@@ -1662,6 +1776,14 @@
       "game": "powerball",
       "date": "2012-11-28",
       "advertised": 587500000,
+      "shares": 30,
+      "state": "AZ",
+      "city": null
+    },
+    {
+      "game": "powerball",
+      "date": "2012-11-28",
+      "advertised": 587500000,
       "shares": 2,
       "state": "MO",
       "city": "Dearborn"
@@ -1785,6 +1907,22 @@
       "shares": 1,
       "state": "PA",
       "city": "Philadelphia"
+    },
+    {
+      "game": "megamillions",
+      "date": "2012-03-30",
+      "advertised": 656000000,
+      "shares": 26,
+      "state": "IL",
+      "city": null
+    },
+    {
+      "game": "megamillions",
+      "date": "2012-03-30",
+      "advertised": 656000000,
+      "shares": 26,
+      "state": "KS",
+      "city": null
     },
     {
       "game": "megamillions",

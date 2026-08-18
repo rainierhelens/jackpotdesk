@@ -41,7 +41,7 @@ In the GitHub repo: **Settings → Pages → Custom domain** `www.jackpotdesk.co
 
 ## Washington draw feed (Cloudflare Worker)
 
-The browser cannot fetch `walottery.com` (CORS). A Worker caches the boards and serves JSON to `www.jackpotdesk.com`. The site falls back to the baked `src/data/waDraws.json` if the Worker is cold or down.
+The browser cannot fetch `walottery.com` (CORS). A Worker caches the boards and serves JSON to `www.jackpotdesk.com`. The site falls back to the baked `src/data/waDraws.json` if the Worker is cold or down. The same Worker also hosts `/jackpot-wins` for the US jackpot map (public jackpot tickets by sale state, not every prize).
 
 One-time setup:
 
@@ -62,6 +62,6 @@ Use a long random string for `FEED_SECRET`. Wrangler prints a URL like `https://
 - `WA_DRAWS_URL` — same URL as in `src/config.ts`
 - `WA_FEED_SECRET` — same value as the Worker secret
 
-GitHub Actions then scrapes the Lottery (Node, no CPU cap) and `PUT`s JSON to the Worker on every Pages deploy and on the twice-daily schedule. The Worker cron is a backup scrape.
+GitHub Actions then scrapes the Lottery (Node, no CPU cap) and `PUT`s JSON to the Worker on every Pages deploy and on the twice-daily schedule. The same job bakes and `PUT`s the US jackpot map to `/jackpot-wins`. The Worker cron is a backup scrape for Washington boards only.
 
-Locally, `npm run bake:wa` still writes the fallback file. `npm run dev` will call the live Worker if it is deployed.
+Locally, `npm run bake:wa` and `npm run bake:map` still write the fallback files. `npm run dev` will call the live Worker if it is deployed.
