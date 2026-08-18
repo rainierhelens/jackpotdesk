@@ -41,6 +41,7 @@ body {
   font: 16px/1.45 var(--sans);
   font-variant-numeric: tabular-nums;
   -webkit-text-size-adjust: 100%;
+  overflow-x: clip;
 }
 
 #root {
@@ -193,6 +194,7 @@ label {
   max-width: 1080px;
   margin: 0 auto;
   padding: 0 max(1.1rem, var(--safe-left)) 4rem max(1.1rem, var(--safe-right));
+  overflow-x: clip;
 }
 
 .masthead {
@@ -3618,24 +3620,35 @@ input[type="checkbox"] {
 }
 
 /* The ladder: infinite-scroll ranked feed */
-.ladder-feed {
+.ladder-feed,
+.ladder-rows {
   display: grid;
   gap: 0.75rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.ladder-rows {
+  gap: 0.9rem;
 }
 
 .ladder-lead {
   margin: 0;
   line-height: 1.6;
+  overflow-wrap: anywhere;
 }
 
-.ladder-rows {
-  display: grid;
-  gap: 0.9rem;
+.ladder-topbar {
+  flex-wrap: wrap;
 }
 
-/* Ladder mode needs room for a full ticket tile plus row padding.
-   Desktop only: the 720px stack already sets .gen-layout to one column. */
-@media (min-width: 721px) {
+.ladder-topbar .crowd-mode {
+  white-space: normal;
+  max-width: 100%;
+}
+
+/* Keep the pool beside the feed only when both can actually fit. */
+@media (min-width: 960px) {
   .gen-layout.is-ladder {
     grid-template-columns: minmax(16rem, 25.5rem) minmax(0, 1fr);
   }
@@ -3643,32 +3656,30 @@ input[type="checkbox"] {
 
 .ladder-row {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.9rem;
   align-items: start;
+  justify-items: center;
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 0.7rem;
   background: rgba(255, 255, 255, 0.015);
-  container-type: inline-size;
   min-width: 0;
-  /* If the column still can't fit the tile, clip inside the row rather
-     than bleeding into the number pool next door. */
-  overflow: hidden;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
-/* Tile beside the data only when the row is actually wide enough. */
-@container (min-width: 640px) {
-  .ladder-row {
-    grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
-  }
-}
-
-.ladder-tile {
+.ladder-tile,
+.ladder-data {
   position: relative;
   min-width: 0;
+  width: 100%;
+  max-width: 22.5rem;
 }
 
-.ladder-tile .foil-card {
+.ladder-tile .foil-card,
+.ladder-tile .lotto-slip {
+  width: 100%;
   max-width: 100%;
 }
 
@@ -3713,11 +3724,12 @@ input[type="checkbox"] {
   letter-spacing: 0.03em;
   line-height: 1.55;
   color: var(--muted);
+  overflow-wrap: anywhere;
 }
 
 .ladder-parts {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.4rem;
   margin: 0;
 }
@@ -3778,19 +3790,27 @@ input[type="checkbox"] {
   color: var(--muted);
 }
 
-@media (max-width: 720px) {
-  .ladder-row {
-    justify-items: center;
-  }
-
-  .ladder-tile,
-  .ladder-data {
-    width: 100%;
-    max-width: 22.5rem;
+@media (max-width: 959px) {
+  .gen-layout.is-ladder {
+    grid-template-columns: 1fr;
   }
 
   .ladder-chips {
     justify-content: center;
+  }
+
+  .lotto-boards li {
+    font-size: 0.72rem;
+    gap: 0.25rem;
+  }
+
+  .lotto-whites {
+    gap: 0.2rem;
+    min-width: 0;
+  }
+
+  .lotto-extra {
+    min-width: 0;
   }
 }
 
