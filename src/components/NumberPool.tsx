@@ -20,6 +20,8 @@ type Props = {
   noun: string;
   oddsText: string | null;
   note?: string | null;
+  /** Popularity weight per number (index 0 = number `min`); 1 = random rate. */
+  heat?: number[] | null;
 };
 
 /** Warm removal ramp: cuts read warm, the surviving pool reads green. */
@@ -85,6 +87,23 @@ function useAnimatedNumber(target: number, animate: boolean): number {
 
 function stageHue(index: number): string {
   return STAGE_HUES[index % STAGE_HUES.length];
+}
+
+/** Underline tint for pick-rate heat: red = over-picked, green = ignored. */
+function heatColor(weight: number): string {
+  const t = Math.max(-1, Math.min(1, (weight - 1) / 0.18));
+  const alpha = Math.min(0.95, Math.abs(t)) * 0.9;
+  return t >= 0
+    ? `rgba(239, 68, 68, ${alpha.toFixed(2)})`
+    : `rgba(34, 197, 94, ${alpha.toFixed(2)})`;
+}
+
+function heatTitle(weight: number): string {
+  const pct = Math.round(Math.abs(weight - 1) * 100);
+  if (pct < 2) return "picked about at the random rate";
+  return weight > 1
+    ? `picked ~${pct}% more than random`
+    : `picked ~${pct}% less than random`;
 }
 
 function FlowBar({ report }: { report: PoolReport }) {
@@ -168,6 +187,7 @@ export function NumberPool({
   noun,
   oddsText,
   note,
+  heat,
 }: Props) {
   const reducedMotion = usePrefersReducedMotion();
   const survivors = useAnimatedNumber(report.survivors, !reducedMotion);
@@ -255,17 +275,35 @@ export function NumberPool({
       <div className={`pool-grid${cells.length > 50 ? " dense" : ""}`}>
         {cells.map((n) => {
           const fade = fadeByNumber.get(n);
+          const weight = heat?.[n - min];
+          const titleParts = [
+            fade ? `Faded: ${fade.label}` : null,
+            weight ? heatTitle(weight) : null,
+          ].filter(Boolean);
           return (
             <span
               key={n}
-              className={`pool-cell${fade ? ` is-faded tone-${fade.tone}` : ""}`}
-              title={fade ? `Faded: ${fade.label}` : undefined}
+              className={`pool-cell${fade ? ` is-faded tone-${fade.tone}` : ""}${weight ? " has-heat" : ""}`}
+              style={
+                weight
+                  ? ({ "--heat": heatColor(weight) } as React.CSSProperties)
+                  : undefined
+              }
+              title={titleParts.length ? titleParts.join(" · ") : undefined}
             >
               {pad ? String(n).padStart(2, "0") : String(n)}
             </span>
           );
         })}
       </div>
+
+      {heat ? (
+        <p className="fine pool-heat-note">
+          <span className="pool-heat-swatch is-red" /> over-picked ·{" "}
+          <span className="pool-heat-swatch is-green" /> under-picked — pick
+          rates fit from California winner counts, refreshed daily.
+        </p>
+      ) : null}
 
       {activeFades.length > 0 ? (
         <p className="pool-legend">

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Ball } from "../components/Ball";
+import { CrowdIndex } from "../components/CrowdIndex";
 import { FeedMark } from "../components/FeedMark";
 import { FoilCard } from "../components/FoilCard";
 import { LotteryTicket } from "../components/LotteryTicket";
@@ -10,6 +11,7 @@ import { PrintSlip } from "../components/PrintSlip";
 import { avoidWhites, frequencyStats } from "../lib/frequency";
 import { usePrefersReducedMotion } from "../lib/motion";
 import { DEFAULT_FILTERS, formatTicket, generateTickets } from "../lib/picks";
+import { popularityModel } from "../lib/popularity";
 import { loadPref, savePref } from "../lib/prefs";
 import { usePoolReport } from "../lib/usePoolReport";
 import { GAMES } from "../lib/prizes";
@@ -286,6 +288,7 @@ export function TicketsView({
                   Add to pool
                 </button>
               </div>
+              <CrowdIndex game={game} tickets={tickets} />
               {tickets[0] ? (
                 <Playslip
                   whites={tickets[0].whites}
@@ -315,6 +318,7 @@ export function TicketsView({
               noun="white-ball boards"
               oddsText={`1 in ${spec.jackpotOdds.toLocaleString("en-US")} for the jackpot`}
               note={`White balls only; no fade touches the ${spec.extraLabel}.`}
+              heat={popularityModel(game)?.white ?? null}
             />
           ) : null}
 
