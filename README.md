@@ -38,3 +38,30 @@ At your registrar, point the domain at GitHub Pages:
 | CNAME | www | `<your-github-username>.github.io` |
 
 In the GitHub repo: **Settings → Pages → Custom domain** `www.jackpotdesk.com`, then enable **Enforce HTTPS** after DNS propagates (can take up to 24 hours). Keep the apex A records so `jackpotdesk.com` can redirect to www.
+
+## Washington draw feed (Cloudflare Worker)
+
+The browser cannot fetch `walottery.com` (CORS). A Worker caches the boards and serves JSON to `www.jackpotdesk.com`. The site falls back to the baked `src/data/waDraws.json` if the Worker is cold or down.
+
+One-time setup:
+
+1. Cloudflare account, then in this repo:
+
+```bash
+npx wrangler login
+npx wrangler deploy
+npx wrangler secret put FEED_SECRET
+```
+
+Use a long random string for `FEED_SECRET`. Wrangler prints a URL like `https://jackpotdesk-wa.<you>.workers.dev`.
+
+2. Put that origin in `wrangler.toml` as `PUBLIC_ORIGIN` (no path) and the `/wa-draws` URL in `src/config.ts` as `WA_DRAWS_URL`. Redeploy the Worker.
+
+3. GitHub repo secrets (Settings → Secrets → Actions):
+
+- `WA_DRAWS_URL` — same URL as in `src/config.ts`
+- `WA_FEED_SECRET` — same value as the Worker secret
+
+GitHub Actions then scrapes the Lottery (Node, no CPU cap) and `PUT`s JSON to the Worker on every Pages deploy and on the twice-daily schedule. The Worker cron is a backup scrape.
+
+Locally, `npm run bake:wa` still writes the fallback file. `npm run dev` will call the live Worker if it is deployed.

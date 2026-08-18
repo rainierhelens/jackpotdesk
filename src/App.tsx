@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState, type MouseEvent } from "react";
-import type { GameId, Ticket } from "./types";
+import type { DeskId, GameId, Ticket, WaGameId } from "./types";
+import { DeskSwitch } from "./components/DeskSwitch";
 import { DrawCountdown } from "./components/DrawCountdown";
 import { Faq } from "./components/Faq";
 import { Footer } from "./components/Footer";
 import { GameSwitch } from "./components/GameSwitch";
+import { WaGameSwitch } from "./components/WaGameSwitch";
 import { WhyMethod } from "./components/WhyMethod";
 import { parseMoney } from "./lib/ev";
 import { trackTab } from "./lib/analytics";
@@ -27,6 +29,7 @@ import {
 import { MapView } from "./views/MapView";
 import { PoolView } from "./views/PoolView";
 import { TicketsView } from "./views/TicketsView";
+import { WaTicketsView } from "./views/WaTicketsView";
 import { WeekView } from "./views/WeekView";
 import logo from "./images/jackpotdesklogo.png";
 import iconWeek from "./images/this-week.png";
@@ -41,6 +44,8 @@ export default function App() {
   const poolApi = usePool();
   const replacePool = poolApi.replacePool;
   const [tab, setTab] = useState<Tab>("tickets");
+  const [desk, setDesk] = useState<DeskId>("national");
+  const [waGame, setWaGame] = useState<WaGameId>("hit5");
   const [advertised, setAdvertised] = useState("");
   const [cash, setCash] = useState("");
   const [sold, setSold] = useState("");
@@ -208,13 +213,26 @@ export default function App() {
             </p>
           </div>
           <div className="masthead-tools">
-            <DrawCountdown
-              game={game}
-              feedDate={nextDrawDate}
-              latestDate={latest?.date ?? null}
-              compact
+            <DeskSwitch
+              desk={desk}
+              onDesk={(next) => {
+                setDesk(next);
+                if (next === "washington" && tab !== "map") setTab("tickets");
+              }}
             />
-            <GameSwitch game={game} onGame={onGame} />
+            {desk === "national" ? (
+              <>
+                <DrawCountdown
+                  game={game}
+                  feedDate={nextDrawDate}
+                  latestDate={latest?.date ?? null}
+                  compact
+                />
+                <GameSwitch game={game} onGame={onGame} />
+              </>
+            ) : (
+              <WaGameSwitch game={waGame} onGame={setWaGame} />
+            )}
           </div>
         </div>
       </header>
@@ -223,6 +241,7 @@ export default function App() {
           <button
             type="button"
             className={tab === "tickets" ? "on" : ""}
+            aria-current={tab === "tickets" ? "page" : undefined}
             onClick={() => setTab("tickets")}
           >
             <img src={iconTickets} alt="" className="tab-icon wide" />
@@ -231,6 +250,7 @@ export default function App() {
           <button
             type="button"
             className={tab === "week" ? "on" : ""}
+            aria-current={tab === "week" ? "page" : undefined}
             onClick={() => setTab("week")}
           >
             <img src={iconWeek} alt="" className="tab-icon" />
@@ -240,6 +260,7 @@ export default function App() {
           <button
             type="button"
             className={tab === "map" ? "on" : ""}
+            aria-current={tab === "map" ? "page" : undefined}
             onClick={() => setTab("map")}
           >
             <img src={iconMap} alt="" className="tab-icon wide" />
@@ -248,6 +269,7 @@ export default function App() {
           <button
             type="button"
             className={tab === "pool" ? "on" : ""}
+            aria-current={tab === "pool" ? "page" : undefined}
             onClick={() => setTab("pool")}
           >
             <img src={iconPool} alt="" className="tab-icon wide" />
@@ -256,6 +278,7 @@ export default function App() {
           <button
             type="button"
             className={tab === "why" ? "on" : ""}
+            aria-current={tab === "why" ? "page" : undefined}
             onClick={() => setTab("why")}
           >
             <img src={iconWhy} alt="" className="tab-icon" />
@@ -265,6 +288,12 @@ export default function App() {
         </nav>
 
       <main>
+      {desk === "washington" && tab !== "tickets" && tab !== "map" ? (
+        <p className="lede">
+          Washington slips and the Hit 5 / Lotto line are on Tickets. Pool and
+          Why still price Powerball / Mega Millions.
+        </p>
+      ) : null}
 
       {tab === "week" ? (
         <WeekView
@@ -294,20 +323,26 @@ export default function App() {
         />
       ) : null}
 
-      {tab === "map" ? <MapView game={game} /> : null}
+      {tab === "map" ? (
+        <MapView game={game} preferWa={desk === "washington"} />
+      ) : null}
 
       {tab === "tickets" ? (
-        <TicketsView
-          key={game}
-          game={game}
-          past={past}
-          draws={draws}
-          asOf={asOf}
-          winnerError={winnerError}
-          exclude={exclude}
-          nextDrawDate={nextDrawDate}
-          onAddToPool={onAddToPool}
-        />
+        desk === "washington" ? (
+          <WaTicketsView key={waGame} game={waGame} />
+        ) : (
+          <TicketsView
+            key={game}
+            game={game}
+            past={past}
+            draws={draws}
+            asOf={asOf}
+            winnerError={winnerError}
+            exclude={exclude}
+            nextDrawDate={nextDrawDate}
+            onAddToPool={onAddToPool}
+          />
+        )
       ) : null}
 
       {tab === "pool" ? (

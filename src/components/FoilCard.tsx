@@ -1,13 +1,12 @@
 import { useRef, type ReactNode } from "react";
 import { DiffractionLayer } from "./DiffractionLayer";
 import { usePrefersReducedMotion } from "../lib/motion";
-import type { GameId } from "../types";
 
 type Props = {
   children: ReactNode;
   shader?: boolean;
   className?: string;
-  game?: GameId;
+  game?: string;
 };
 
 export function FoilCard({

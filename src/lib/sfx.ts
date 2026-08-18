@@ -1,4 +1,3 @@
-import type { GameId } from "../types";
 
 let ctx: AudioContext | null = null;
 
@@ -68,7 +67,7 @@ function noiseBurst(
   src.start(start);
 }
 
-export function playPackOpen(game: GameId): void {
+export function playPackOpen(game: string): void {
   const ac = audio();
   if (!ac) return;
   const t = ac.currentTime + 0.02;
@@ -81,12 +80,25 @@ export function playPackOpen(game: GameId): void {
   tone(ac, master, 70, t + 0.22, 0.28, "sine", 0.85);
   tone(ac, master, 140, t + 0.22, 0.18, "triangle", 0.35);
 
-  const chord = game === "powerball" ? [523.25, 659.25, 783.99] : [392, 493.88, 587.33];
+  const chord =
+    game === "powerball"
+      ? [523.25, 659.25, 783.99]
+      : game === "megamillions"
+        ? [392, 493.88, 587.33]
+        : [329.63, 415.3, 493.88];
   chord.forEach((f, i) => {
     tone(ac, master, f, t + 0.42 + i * 0.045, 0.55, "triangle", 0.28);
     tone(ac, master, f * 2, t + 0.42 + i * 0.045, 0.32, "sine", 0.08);
   });
 
   noiseBurst(ac, master, t + 0.7, 0.12, 0.25, 3200, 2.2);
-  tone(ac, master, game === "powerball" ? 1046 : 880, t + 0.78, 0.35, "sine", 0.18);
+  tone(
+    ac,
+    master,
+    game === "powerball" ? 1046 : game === "megamillions" ? 880 : 659.25,
+    t + 0.78,
+    0.35,
+    "sine",
+    0.18,
+  );
 }

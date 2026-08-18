@@ -30,7 +30,7 @@ export function Faq() {
     },
     {
       q: "Where do the jackpot numbers come from?",
-      a: "Last-draw numbers come from NY Open Data. Advertised jackpot and cash value come from the California Lottery’s public draw feed (same national Powerball / Mega Millions prize). Tickets sold is still an estimate. You can overwrite any field.",
+      a: "Last-draw numbers for Powerball and Mega Millions come from NY Open Data. Advertised jackpot and cash value come from the California Lottery’s public draw feed. Washington boards load from a Cloudflare Worker that caches Washington’s Lottery past-drawings pages; if that feed is down, the last baked copy in the site is used. Tickets sold on the national desk is still an estimate. You can overwrite advertised, cash, and the Hit 5 cashpot.",
     },
     {
       q: "How do I share a pool?",
@@ -38,7 +38,7 @@ export function Faq() {
     },
     {
       q: "Is the map a live feed of every lottery winner?",
-      a: "No. There is no public national feed of $4 prizes or exact stores. The map is jackpot tickets only (Powerball and Mega Millions) by the state where the ticket was sold, from public winner reports. It updates when this site does, not second-by-second.",
+      a: "No. The US board is Powerball and Mega Millions jackpot tickets by the state where they were sold. The Washington board’s store list is the Lottery’s 2023–2025 top stores for tickets worth $1,000 or more, all games mixed. Powerball / Mega Millions on that board are jackpot tickets sold in Washington, by city. Hit 5 and Lotto are published cashpot / jackpot tickets with a named store — not every drawing, and not a split of the $1,000+ mix. Busy stores sell more tickets. Neither board is live, store-lucky, or a forecast.",
     },
   ];
 

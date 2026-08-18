@@ -11,6 +11,7 @@ export function GameSwitch({ game, onGame }: Props) {
       <button
         type="button"
         className={game === "powerball" ? "on" : ""}
+        aria-pressed={game === "powerball"}
         onClick={() => onGame("powerball")}
       >
         Powerball
@@ -18,6 +19,7 @@ export function GameSwitch({ game, onGame }: Props) {
       <button
         type="button"
         className={game === "megamillions" ? "on" : ""}
+        aria-pressed={game === "megamillions"}
         onClick={() => onGame("megamillions")}
       >
         Mega Millions

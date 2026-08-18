@@ -11,7 +11,6 @@ export type JackpotWin = {
 };
 
 export type HeatMetric = "tickets" | "dollars";
-export type RangeId = "2y" | "5y" | "all";
 export type GameFilter = GameId | "both";
 
 export type StateHeat = {
@@ -29,25 +28,61 @@ export function ticketShare(win: JackpotWin): number {
   return win.advertised / Math.max(1, win.shares);
 }
 
-export function cutoffIso(range: RangeId, asOf = JACKPOT_AS_OF): string | null {
-  if (range === "all") return null;
-  const years = range === "2y" ? 2 : 5;
-  const d = new Date(`${asOf}T00:00:00`);
-  d.setFullYear(d.getFullYear() - years);
-  return d.toISOString().slice(0, 10);
+export function dataYearSpan(asOf = JACKPOT_AS_OF): number {
+  let oldest = asOf;
+  for (const w of JACKPOT_WINS) {
+    if (w.date < oldest) oldest = w.date;
+  }
+  return Math.max(
+    1,
+    Number(asOf.slice(0, 4)) - Number(oldest.slice(0, 4)) + 1,
+  );
+}
+
+export function oldestYearShown(
+  yearsShown: number,
+  asOf = JACKPOT_AS_OF,
+): number {
+  const latest = Number(asOf.slice(0, 4));
+  const n = Math.min(Math.max(1, yearsShown), dataYearSpan(asOf));
+  return latest - n + 1;
 }
 
 export function filterWins(
   wins: JackpotWin[],
   game: GameFilter,
-  range: RangeId,
+  yearsShown: number,
+  advertised?: { min: number; max: number },
 ): JackpotWin[] {
-  const cut = cutoffIso(range);
+  const oldest = oldestYearShown(yearsShown);
   return wins.filter((w) => {
     if (game !== "both" && w.game !== game) return false;
-    if (cut && w.date < cut) return false;
+    if (winYear(w.date) < oldest) return false;
+    if (advertised) {
+      if (w.advertised < advertised.min || w.advertised > advertised.max) {
+        return false;
+      }
+    }
     return true;
   });
+}
+
+export function advertisedSpan(wins: JackpotWin[]): { min: number; max: number } {
+  if (wins.length === 0) return { min: 0, max: 0 };
+  let min = wins[0].advertised;
+  let max = wins[0].advertised;
+  for (const w of wins) {
+    if (w.advertised < min) min = w.advertised;
+    if (w.advertised > max) max = w.advertised;
+  }
+  return { min, max };
+}
+
+const JACKPOT_STEP = 5_000_000;
+
+export function snapJackpot(n: number, dir: "down" | "up"): number {
+  if (dir === "down") return Math.floor(n / JACKPOT_STEP) * JACKPOT_STEP;
+  return Math.ceil(n / JACKPOT_STEP) * JACKPOT_STEP;
 }
 
 export function heatByState(wins: JackpotWin[]): Map<string, StateHeat> {
@@ -101,4 +136,33 @@ export function formatDrawDate(iso: string): string {
 
 export function gameShort(game: GameId): string {
   return game === "powerball" ? "PB" : "MM";
+}
+
+export function winYear(iso: string): number {
+  return Number(iso.slice(0, 4));
+}
+
+export function yearTint(year: number): string {
+  const hue = (Math.abs(year) * 47) % 360;
+  return `hsl(${hue} 72% 58%)`;
+}
+
+export function yearsInWins(wins: JackpotWin[]): number[] {
+  const set = new Set<number>();
+  for (const w of wins) set.add(winYear(w.date));
+  return [...set].sort((a, b) => a - b);
+}
+
+export function yearsByState(wins: JackpotWin[]): Map<string, number[]> {
+  const map = new Map<string, Set<number>>();
+  for (const w of wins) {
+    const set = map.get(w.state) ?? new Set<number>();
+    set.add(winYear(w.date));
+    map.set(w.state, set);
+  }
+  const out = new Map<string, number[]>();
+  for (const [state, set] of map) {
+    out.set(state, [...set].sort((a, b) => a - b));
+  }
+  return out;
 }

@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # After the 8 p.m. PT drawings, then again in the morning for cashpot / jackpot pages.
+  schedule:
+    - cron: "30 5 * * *"
+    - cron: "0 16 * * *"
 
 permissions:
   contents: read
@@ -24,6 +28,23 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Bake Washington draws and jackpots
+        run: npm run bake:wa
+        continue-on-error: true
+      - name: Push WA feed to Cloudflare Worker
+        env:
+          WA_FEED_SECRET: ${{ secrets.WA_FEED_SECRET }}
+          WA_DRAWS_URL: ${{ secrets.WA_DRAWS_URL }}
+        run: |
+          if [ -z "$WA_FEED_SECRET" ] || [ -z "$WA_DRAWS_URL" ]; then
+            echo "Skipping Worker push (set repo secrets WA_DRAWS_URL and WA_FEED_SECRET)"
+            exit 0
+          fi
+          curl -fsS -X PUT "$WA_DRAWS_URL" \
+            -H "Authorization: Bearer $WA_FEED_SECRET" \
+            -H "Content-Type: application/json" \
+            --data-binary @src/data/waDraws.json
+        continue-on-error: true
       - run: npm run build
       - uses: actions/upload-pages-artifact@v5
         with:

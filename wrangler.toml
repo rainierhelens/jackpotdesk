@@ -1,0 +1,14 @@
+# Cloudflare Worker: Washington Lottery JSON feed for jackpotdesk.com
+name = "jackpotdesk-wa"
+main = "worker/index.js"
+compatibility_date = "2026-08-17"
+workers_dev = true
+
+# After first deploy, set this to the workers.dev URL wrangler prints, then redeploy.
+# Cron uses it to warm the cache. GET still works without it (first visitor may 503).
+[vars]
+PUBLIC_ORIGIN = "https://jackpotdesk-wa.darren-bacon.workers.dev"
+
+# Hourly, a bit after typical result post times.
+[triggers]
+crons = ["20 * * * *"]

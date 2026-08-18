@@ -3,6 +3,7 @@ import {
   heatFill,
   heatValue,
   scaleT,
+  yearTint,
   type HeatMetric,
   type StateHeat,
 } from "../lib/jackpotMap";
@@ -13,12 +14,19 @@ const SIZE = CELL - GAP;
 
 type Props = {
   heat: Map<string, StateHeat>;
+  yearsByState: Map<string, number[]>;
   metric: HeatMetric;
   selected: string | null;
   onSelect: (state: string | null) => void;
 };
 
-export function UsaCartogram({ heat, metric, selected, onSelect }: Props) {
+export function UsaCartogram({
+  heat,
+  yearsByState,
+  metric,
+  selected,
+  onSelect,
+}: Props) {
   const max = Math.max(
     0,
     ...US_TILES.map((tile) => heatValue(heat.get(tile.id), metric)),
@@ -31,7 +39,7 @@ export function UsaCartogram({ heat, metric, selected, onSelect }: Props) {
       className="cartogram"
       viewBox={`0 0 ${width} ${height}`}
       role="img"
-      aria-label="United States jackpot heat map by state"
+      aria-label="United States jackpot heat map by state, with year stripes"
     >
       {US_TILES.map((tile) => {
         const row = heat.get(tile.id);
@@ -40,6 +48,7 @@ export function UsaCartogram({ heat, metric, selected, onSelect }: Props) {
         const x = tile.col * CELL + GAP / 2;
         const y = tile.row * CELL + GAP / 2;
         const on = selected === tile.id;
+        const years = (yearsByState.get(tile.id) ?? []).slice(-8);
         const label =
           value <= 0
             ? `${tile.name}: none in this window`
@@ -71,9 +80,24 @@ export function UsaCartogram({ heat, metric, selected, onSelect }: Props) {
                 }
               }}
             />
+            {years.map((year, i) => {
+              const bw = SIZE / years.length;
+              return (
+                <rect
+                  key={year}
+                  x={x + i * bw}
+                  y={y + SIZE - 5}
+                  width={Math.max(1, bw - 0.6)}
+                  height={5}
+                  rx="1"
+                  fill={yearTint(year)}
+                  pointerEvents="none"
+                />
+              );
+            })}
             <text
               x={x + SIZE / 2}
-              y={y + SIZE / 2 + 1}
+              y={y + SIZE / 2 - (years.length ? 2 : -1)}
               textAnchor="middle"
               dominantBaseline="middle"
               className="cartogram-abbr"

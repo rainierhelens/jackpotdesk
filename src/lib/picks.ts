@@ -48,15 +48,20 @@ function randInt(maxExclusive: number): number {
   return Math.floor(Math.random() * maxExclusive);
 }
 
-function sampleWhites(whiteMax: number): number[] {
-  const pool = Array.from({ length: whiteMax }, (_, i) => i + 1);
-  for (let i = 0; i < 5; i++) {
-    const j = i + randInt(whiteMax - i);
+export function sampleCombo(max: number, k: number): number[] {
+  const pool = Array.from({ length: max }, (_, i) => i + 1);
+  const take = Math.min(k, max);
+  for (let i = 0; i < take; i++) {
+    const j = i + randInt(max - i);
     const tmp = pool[i];
     pool[i] = pool[j];
     pool[j] = tmp;
   }
-  return pool.slice(0, 5).sort((a, b) => a - b);
+  return pool.slice(0, take).sort((a, b) => a - b);
+}
+
+function sampleWhites(whiteMax: number): number[] {
+  return sampleCombo(whiteMax, 5);
 }
 
 function isArithmetic(sorted: number[]): boolean {
@@ -126,15 +131,27 @@ export function rejectReasons(
   avoid: Set<number> = new Set(),
 ): string[] {
   const reasons: string[] = [];
-  if (filters.birthday && whites.every((n) => n <= 31)) reasons.push("birthday");
-  if (filters.sequence && (isArithmetic(whites) || longestConsecutive(whites) >= 4)) {
+  if (filters.birthday && whites.length >= 4 && whites.every((n) => n <= 31)) {
+    reasons.push("birthday");
+  }
+  if (
+    filters.sequence &&
+    whites.length >= 4 &&
+    (isArithmetic(whites) || longestConsecutive(whites) >= 4)
+  ) {
     reasons.push("sequence");
   }
-  if (filters.multiples && (isExactMultiples(whites) || isGeometric(whites))) {
+  if (
+    filters.multiples &&
+    whites.length >= 3 &&
+    (isExactMultiples(whites) || isGeometric(whites))
+  ) {
     reasons.push("multiples");
   }
   if (filters.previous && past.has(comboKey(whites))) reasons.push("previous");
-  if (filters.visual && isVisualLine(whites)) reasons.push("visual");
+  if (filters.visual && whites.length >= 3 && isVisualLine(whites)) {
+    reasons.push("visual");
+  }
   if (avoid.size > 0 && whites.some((n) => avoid.has(n))) reasons.push("temperature");
   return reasons;
 }

@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
-import type { GameId } from "../types";
 
 type Props = {
-  game: GameId;
+  game: string;
   burst: number;
 };
 
@@ -56,17 +55,29 @@ export function PackFx({ game, burst }: Props) {
 }
 
 type ShellProps = {
-  game: GameId;
+  game: string;
+  label?: string;
   opening?: boolean;
   onOpen?: () => void;
 };
 
-export function PackShell({ game, opening = false, onOpen }: ShellProps) {
-  const label = game === "powerball" ? "Powerball" : "Mega Millions";
+export function PackShell({
+  game,
+  label,
+  opening = false,
+  onOpen,
+}: ShellProps) {
+  const title =
+    label ??
+    (game === "megamillions"
+      ? "Mega Millions"
+      : game === "powerball"
+        ? "Powerball"
+        : "Washington");
   const inner = (
     <div className="pack-face">
       <p className="pack-kicker">JackpotDesk</p>
-      <p className="pack-title">{label}</p>
+      <p className="pack-title">{title}</p>
       <p className="pack-hint">{opening ? "Opening…" : "Generate"}</p>
     </div>
   );
