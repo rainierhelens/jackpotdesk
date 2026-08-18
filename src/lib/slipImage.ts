@@ -1,6 +1,8 @@
 import { pad2 } from "./picks";
 import { GAMES } from "./prizes";
-import type { GameId, Ticket } from "../types";
+import type { GameId, Pick3Way, Ticket, WaGameId } from "../types";
+import { WA_GAMES } from "./waGames";
+import { waSlipCost, type WaPlay } from "./waPicks";
 
 const PAPER = "#fffaf4";
 const PAPER_2 = "#f3ebe3";
@@ -45,6 +47,44 @@ export async function saveSlipImage(opts: SlipImage): Promise<"shared" | "downlo
   const spec = GAMES[opts.game];
   const stamp = new Date().toISOString().slice(0, 10);
   const filename = `jackpotdesk-${spec.id}-${stamp}.png`;
+
+  if (isAppleTouch()) {
+    const file = new File([blob], filename, { type: "image/png" });
+    try {
+      if (navigator.canShare?.({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: `${spec.label} slip`,
+        });
+        return "shared";
+      }
+    } catch (err) {
+      if (isAbort(err)) return "cancelled";
+    }
+  }
+
+  downloadBlob(blob, filename);
+  return "downloaded";
+}
+
+type WaSlipImage = {
+  game: WaGameId;
+  tickets: WaPlay[];
+  stake?: number;
+  pick3Way?: Pick3Way;
+  drawLabel?: string | null;
+};
+
+export async function saveWaSlipImage(
+  opts: WaSlipImage,
+): Promise<"shared" | "downloaded" | "cancelled"> {
+  if (opts.tickets.length === 0) {
+    throw new Error("No tickets to save");
+  }
+  const blob = await renderWaSlipPng(opts);
+  const spec = WA_GAMES[opts.game];
+  const stamp = new Date().toISOString().slice(0, 10);
+  const filename = `jackpotdesk-wa-${spec.id}-${stamp}.png`;
 
   if (isAppleTouch()) {
     const file = new File([blob], filename, { type: "image/png" });
@@ -271,6 +311,188 @@ function renderSlipPng(opts: SlipImage): Promise<Blob> {
   );
 
   ctx.fillStyle = pb ? PB : MM_NAVY;
+  ctx.fillRect(0, h - creditH, w, creditH);
+  ctx.fillStyle = PAPER;
+  ctx.font = `800 22px ${FONT}`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText("jackpotdesk.com", w / 2, h - creditH / 2);
+  ctx.textAlign = "left";
+  ctx.textBaseline = "alphabetic";
+
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (blob) resolve(blob);
+      else reject(new Error("Could not encode PNG"));
+    }, "image/png");
+  });
+}
+
+function waPlayLine(numbers: number[], kind: string): string {
+  if (kind === "digits") return numbers.join("");
+  return numbers.map((n) => String(n).padStart(2, "0")).join("  ");
+}
+
+function renderWaSlipPng(opts: WaSlipImage): Promise<Blob> {
+  const spec = WA_GAMES[opts.game];
+  const stake = opts.stake ?? spec.minStake ?? 1;
+  const seed = opts.tickets.map((t) => t.id).join("") || spec.id;
+  const serial = `JD-WA-${seed.replace(/-/g, "").slice(0, 10).toUpperCase()}`;
+  const total = waSlipCost(spec, opts.tickets, stake);
+  const draw = opts.drawLabel ? `DRAW ${opts.drawLabel}` : "NEXT DRAW";
+  const accent = PB;
+
+  const w = 720;
+  const pad = 28;
+  const headerH = 64;
+  const priceH = 36;
+  const barH = 76;
+  const creditH = 56;
+  const footH = 96;
+  const measure = document.createElement("canvas").getContext("2d");
+  if (!measure) return Promise.reject(new Error("Canvas is not available"));
+  const numMax = w - pad * 2 - 40;
+  const rowHs = opts.tickets.map((ticket) => {
+    measure.font = `700 24px ${FONT}`;
+    const line = waPlayLine(ticket.numbers, spec.kind);
+    return measure.measureText(line).width > numMax ? 66 : 44;
+  });
+  const rowsH = rowHs.reduce((sum, n) => sum + n, 0);
+  const h = pad + headerH + 18 + rowsH + priceH + barH + footH + creditH + pad;
+
+  const canvas = document.createElement("canvas");
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return Promise.reject(new Error("Canvas is not available"));
+
+  roundRect(ctx, 0, 0, w, h, 10);
+  ctx.clip();
+
+  const paper = ctx.createLinearGradient(0, 0, 0, h);
+  paper.addColorStop(0, PAPER);
+  paper.addColorStop(1, PAPER_2);
+  ctx.fillStyle = paper;
+  ctx.fillRect(0, 0, w, h);
+
+  ctx.fillStyle = "rgba(40, 24, 16, 0.035)";
+  for (let yScan = 0; yScan < h; yScan += 6) {
+    ctx.fillRect(0, yScan + 4, w, 2);
+  }
+
+  ctx.save();
+  ctx.globalAlpha = 0.07;
+  ctx.fillStyle = INK;
+  ctx.font = `800 54px ${FONT}`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.translate(w / 2, h / 2 - 20);
+  ctx.rotate(-0.28);
+  ctx.fillText("jackpotdesk.com", 0, 0);
+  ctx.restore();
+
+  ctx.strokeStyle = "#cbbfb4";
+  ctx.lineWidth = 2;
+  roundRect(ctx, 1, 1, w - 2, h - 2, 9);
+  ctx.stroke();
+
+  let y = pad;
+  ctx.fillStyle = accent;
+  ctx.font = `800 18px ${FONT}`;
+  ctx.textBaseline = "alphabetic";
+  ctx.fillText("WASHINGTON", pad, y + 20);
+  ctx.fillStyle = INK;
+  ctx.font = `800 30px ${FONT}`;
+  ctx.fillText(spec.label.toUpperCase(), pad, y + 52);
+
+  ctx.fillStyle = INK;
+  ctx.font = `700 16px ${FONT}`;
+  ctx.textAlign = "right";
+  ctx.fillText(draw, w - pad, y + 32);
+  ctx.textAlign = "left";
+
+  y += headerH;
+  ctx.strokeStyle = accent;
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(pad, y);
+  ctx.lineTo(w - pad, y);
+  ctx.stroke();
+
+  y += 28;
+  opts.tickets.forEach((ticket, i) => {
+    const rowH = rowHs[i];
+    ctx.font = `700 24px ${FONT}`;
+    ctx.fillStyle = "#666666";
+    ctx.fillText(playCode(i), pad, y + 24);
+
+    ctx.fillStyle = INK;
+    const line = waPlayLine(ticket.numbers, spec.kind);
+    if (rowH > 44) {
+      ctx.font = `700 18px ${FONT}`;
+      const mid = Math.ceil(ticket.numbers.length / 2);
+      const top = waPlayLine(ticket.numbers.slice(0, mid), spec.kind);
+      const bot = waPlayLine(ticket.numbers.slice(mid), spec.kind);
+      ctx.fillText(top, pad + 36, y + 22);
+      ctx.fillText(bot, pad + 36, y + 46);
+    } else {
+      ctx.fillText(line, pad + 36, y + 24);
+    }
+    y += rowH;
+  });
+
+  y += 8;
+  ctx.fillStyle = INK;
+  ctx.font = `700 18px ${FONT}`;
+  ctx.fillText(`$${total.toFixed(2)}`, pad, y + 20);
+  const priceW = ctx.measureText(`$${total.toFixed(2)} `).width;
+  ctx.font = `700 16px ${FONT}`;
+  const extra =
+    spec.id === "pick3"
+      ? (opts.pick3Way === "box" ? "BOX" : "STRAIGHT")
+      : spec.id === "keno"
+        ? `STAKE $${stake}`
+        : spec.id === "cashpop"
+          ? "$5 / POP"
+          : spec.id === "lotto"
+            ? "$1 / PAIR"
+            : "WA";
+  ctx.fillText(extra, pad + priceW + 8, y + 18);
+
+  y += priceH;
+  const bars = barcodeWidths(seed);
+  const barTop = y;
+  let x = pad;
+  ctx.fillStyle = INK;
+  for (const bw of bars) {
+    const px = Math.max(2, bw * 2);
+    ctx.fillRect(x, barTop, px, barH - 12);
+    x += px + 2;
+    if (x > w - pad) break;
+  }
+  ctx.fillStyle = accent;
+  ctx.font = `800 20px ${FONT}`;
+  ctx.textAlign = "center";
+  ctx.fillText("SAMPLE", w / 2, barTop + barH / 2 + 2);
+  ctx.textAlign = "left";
+
+  y += barH;
+  ctx.fillStyle = INK;
+  ctx.font = `700 14px ${FONT}`;
+  ctx.fillText(serial, pad, y);
+  y += 22;
+  ctx.fillStyle = MUTED;
+  ctx.font = `700 13px ${FONT}`;
+  wrapText(
+    ctx,
+    "JackpotDesk sample · not a valid lottery ticket · buy at a licensed Washington retailer",
+    pad,
+    y,
+    w - pad * 2,
+    18,
+  );
+
+  ctx.fillStyle = accent;
   ctx.fillRect(0, h - creditH, w, creditH);
   ctx.fillStyle = PAPER;
   ctx.font = `800 22px ${FONT}`;

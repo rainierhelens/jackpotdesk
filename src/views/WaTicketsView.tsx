@@ -8,6 +8,7 @@ import { FeedMark } from "../components/FeedMark";
 import { WaValue } from "../components/WaValue";
 import { usePrefersReducedMotion } from "../lib/motion";
 import { playPackOpen } from "../lib/sfx";
+import { saveWaSlipImage } from "../lib/slipImage";
 import {
   useWaDraws,
   waDrawsFor,
@@ -51,6 +52,7 @@ export function WaTicketsView({ game }: Props) {
   const [deal, setDeal] = useState(0);
   const [burst, setBurst] = useState(0);
   const [minting, setMinting] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [prizeDirty, setPrizeDirty] = useState(false);
   const [cashpot, setCashpot] = useState(String(prizes.hit5.cashpot));
   const [advertised, setAdvertised] = useState(String(prizes.lotto.advertised));
@@ -173,6 +175,24 @@ export function WaTicketsView({ game }: Props) {
       .map((t) => formatWaPlay(t.numbers, spec.kind))
       .join("\n");
     void navigator.clipboard.writeText(text);
+  }
+
+  async function saveImage() {
+    if (saving || tickets.length === 0) return;
+    setSaving(true);
+    try {
+      await saveWaSlipImage({
+        game: spec.id,
+        tickets,
+        stake,
+        pick3Way,
+        drawLabel: latest?.date ?? asOf,
+      });
+    } catch {
+      // Share cancel is handled inside saveWaSlipImage.
+    } finally {
+      setSaving(false);
+    }
   }
 
   const filterNote =
@@ -325,6 +345,14 @@ export function WaTicketsView({ game }: Props) {
                 </button>
                 <button type="button" onClick={() => window.print()}>
                   Print
+                </button>
+                <button
+                  type="button"
+                  onClick={() => void saveImage()}
+                  disabled={saving}
+                  title="On iPhone, choose Save Image to add it to Photos"
+                >
+                  {saving ? "Saving…" : "Save image"}
                 </button>
               </div>
               {tickets[0] && spec.kind !== "digits" ? (
