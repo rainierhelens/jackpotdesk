@@ -1,13 +1,16 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Ball } from "../components/Ball";
 import { FoilCard } from "../components/FoilCard";
+import { NumberPool, type PoolFade } from "../components/NumberPool";
 import { PackFx, PackShell } from "../components/PackFx";
 import { Playslip } from "../components/Playslip";
 import { WaSlip } from "../components/WaSlip";
 import { FeedMark } from "../components/FeedMark";
 import { WaValue } from "../components/WaValue";
 import { usePrefersReducedMotion } from "../lib/motion";
+import { loadPref, savePref } from "../lib/prefs";
 import { playPackOpen } from "../lib/sfx";
+import { usePoolReport } from "../lib/usePoolReport";
 import { saveWaSlipImage } from "../lib/slipImage";
 import {
   useWaDraws,
@@ -16,7 +19,7 @@ import {
   waPastKeys,
 } from "../lib/waDraws";
 import { waAvoid, waFrequency } from "../lib/waFrequency";
-import { WA_GAMES } from "../lib/waGames";
+import { CASH_POP_CROWDED, WA_GAMES } from "../lib/waGames";
 import {
   DEFAULT_WA_FILTERS,
   formatWaPlay,
@@ -45,7 +48,16 @@ export function WaTicketsView({ game }: Props) {
   const [spotCount, setSpotCount] = useState(spec.whiteCount);
   const [stake, setStake] = useState(spec.minStake ?? 1);
   const [pick3Way, setPick3Way] = useState<Pick3Way>("straight");
-  const [filters, setFilters] = useState<WaFilters>(DEFAULT_WA_FILTERS);
+  const [filters, setFilters] = useState<WaFilters>(() => ({
+    ...DEFAULT_WA_FILTERS,
+    ...loadPref<Partial<WaFilters>>("filters.wa", {}),
+  }));
+  const [fadesOpen, setFadesOpen] = useState(() =>
+    loadPref("fold.fades", true),
+  );
+  const [crowdOpen, setCrowdOpen] = useState(() =>
+    loadPref("fold.crowd", false),
+  );
   const [tickets, setTickets] = useState<WaPlay[]>([]);
   const [rejected, setRejected] = useState(0);
   const [attempts, setAttempts] = useState(0);
@@ -99,10 +111,113 @@ export function WaTicketsView({ game }: Props) {
     return waAvoid(filters, stats, lastNumbers);
   }, [filters, stats, lastNumbers, spec.kind]);
 
+  const effectiveFilters = useMemo(() => {
+    if (spec.id === "match4") {
+      return { ...filters, birthday: false, highBall: false };
+    }
+    // Every 1–15 POP has hit in past drawings, so this fade would empty the game.
+    if (spec.kind === "cashpop") return { ...filters, previous: false };
+    return filters;
+  }, [spec.id, spec.kind, filters]);
+  const poolRequest = useMemo(
+    () => ({
+      kind: "wa" as const,
+      spec,
+      whiteCount,
+      filters: effectiveFilters,
+      past,
+      avoid,
+      pick3Way,
+    }),
+    [spec, whiteCount, effectiveFilters, past, avoid, pick3Way],
+  );
+  const poolReport = usePoolReport(poolRequest);
+
+  useEffect(() => {
+    savePref("filters.wa", filters);
+  }, [filters]);
+  const poolFades = useMemo<PoolFade[]>(() => {
+    const fades: PoolFade[] = [];
+    if (filters.lastDraw && lastNumbers.length > 0) {
+      fades.push({
+        key: "last",
+        label: "Last drawing",
+        tone: "last",
+        numbers: lastNumbers,
+      });
+    }
+    if (spec.kind !== "digits" && stats) {
+      if (filters.hot) {
+        fades.push({
+          key: "hot",
+          label: "Hot (recently drawn)",
+          tone: "hot",
+          numbers: stats.hot,
+        });
+      }
+      if (filters.cold) {
+        fades.push({
+          key: "cold",
+          label: "Cold (long gaps)",
+          tone: "cold",
+          numbers: stats.cold,
+        });
+        if (stats.overdue) {
+          fades.push({
+            key: "overdue",
+            label: "Most overdue",
+            tone: "overdue",
+            numbers: [stats.overdue.n],
+          });
+        }
+      }
+    }
+    if (spec.kind === "cashpop" && filters.luckyPops) {
+      fades.push({
+        key: "luckyPops",
+        label: "Lucky POPs",
+        tone: "crowd",
+        numbers: CASH_POP_CROWDED,
+      });
+    }
+    return fades;
+  }, [filters, stats, lastNumbers, spec.kind]);
+  const poolNoun =
+    spec.kind === "digits"
+      ? "straight plays"
+      : spec.kind === "keno"
+        ? "spot sets"
+        : spec.kind === "cashpop"
+          ? "POP picks"
+          : "boards";
+  const poolOdds =
+    spec.kind === "matrix"
+      ? `1 in ${spec.jackpotOdds.toLocaleString("en-US")} for the top prize`
+      : spec.kind === "digits" && pick3Way === "straight"
+        ? "1 in 1,000 straight"
+        : null;
+
   const asOf = book.asOf;
   const showBirthday = spec.kind === "matrix" && spec.whiteMax > 31 && spec.id !== "hit5";
   const showHighBall = spec.id === "hit5";
   const showMatrixPatterns = spec.kind !== "digits" && spec.kind !== "cashpop";
+
+  const visibleFadeKeys: (keyof WaFilters)[] = [
+    ...(spec.kind !== "digits" ? (["uniqueSlip"] as const) : []),
+    "lastDraw",
+    ...(showHighBall ? (["highBall"] as const) : []),
+    ...(showBirthday ? (["birthday"] as const) : []),
+    "sequence",
+    ...(spec.kind === "digits"
+      ? (["doubles", "areaCodes", "dates"] as const)
+      : []),
+    ...(showMatrixPatterns ? (["multiples", "visual"] as const) : []),
+    ...(spec.kind === "keno" ? (["decade", "lowHalf"] as const) : []),
+    ...(spec.kind === "cashpop" ? (["luckyPops"] as const) : []),
+    ...(spec.kind !== "cashpop" ? (["previous"] as const) : []),
+    ...(spec.kind !== "digits" ? (["hot", "cold"] as const) : []),
+  ];
+  const fadesOn = visibleFadeKeys.filter((key) => filters[key]).length;
 
   useEffect(() => {
     setSpotCount(spec.whiteCount);
@@ -149,7 +264,7 @@ export function WaTicketsView({ game }: Props) {
       spec,
       whiteCount,
       n,
-      spec.id === "match4" ? { ...filters, birthday: false, highBall: false } : filters,
+      effectiveFilters,
       past,
       avoid,
       pick3Way,
@@ -366,12 +481,233 @@ export function WaTicketsView({ game }: Props) {
         </div>
 
         <aside className="gen-side">
-          <p className="fine">
-            {filterNote} Hot/cold from {draws.length} official drawings
-            {latest ? ` through ${latest.date}` : ""} (
-            <FeedMark feed={feed} /> {asOf}).
-          </p>
+          {poolReport ? (
+            <NumberPool
+              min={spec.kind === "digits" ? 0 : 1}
+              max={spec.kind === "digits" ? 9 : spec.whiteMax}
+              report={poolReport}
+              fades={poolFades}
+              noun={poolNoun}
+              oddsText={poolOdds}
+            />
+          ) : null}
+
+          <details
+            className="gen-fold"
+            open={fadesOpen}
+            onToggle={(e) => {
+              const next = e.currentTarget.open;
+              setFadesOpen(next);
+              savePref("fold.fades", next);
+            }}
+          >
+            <summary>
+              <span className="fold-title">Fade criteria</span>
+              <span className="fold-meta">
+                {fadesOn} of {visibleFadeKeys.length} on
+              </span>
+            </summary>
+            <div className="fold-body">
+              <div className="filters">
+                {spec.kind !== "digits" ? (
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={filters.uniqueSlip}
+                      onChange={() => toggle("uniqueSlip")}
+                    />
+                    {spec.pairSize
+                      ? "No shared numbers on each $1 pair"
+                      : "No repeated numbers on this slip"}
+                  </label>
+                ) : null}
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={filters.lastDraw}
+                    onChange={() => toggle("lastDraw")}
+                    disabled={!lastNumbers.length}
+                  />
+                  Last drawing
+                </label>
+                {showHighBall ? (
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={filters.highBall}
+                      onChange={() => toggle("highBall")}
+                    />
+                    All five in 1–31 (no 32–42)
+                  </label>
+                ) : null}
+                {showBirthday ? (
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={filters.birthday}
+                      onChange={() => toggle("birthday")}
+                    />
+                    All numbers in 1–31
+                  </label>
+                ) : null}
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={filters.sequence}
+                    onChange={() => toggle("sequence")}
+                  />
+                  {spec.kind === "digits"
+                    ? "Triples / straight runs"
+                    : spec.kind === "keno"
+                      ? "Consecutive clusters"
+                      : "Straight runs / 4+ consecutives"}
+                </label>
+                {spec.kind === "digits" ? (
+                  <>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={filters.doubles}
+                        onChange={() => toggle("doubles")}
+                      />
+                      Doubles (any two the same)
+                    </label>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={filters.areaCodes}
+                        onChange={() => toggle("areaCodes")}
+                      />
+                      WA area codes (206 / 253 / 360 / 425 / 509 / 564)
+                    </label>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={filters.dates}
+                        onChange={() => toggle("dates")}
+                      />
+                      Dates and years
+                    </label>
+                  </>
+                ) : null}
+                {showMatrixPatterns ? (
+                  <>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={filters.multiples}
+                        onChange={() => toggle("multiples")}
+                      />
+                      Multiples patterns
+                    </label>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={filters.visual}
+                        onChange={() => toggle("visual")}
+                      />
+                      {spec.kind === "keno"
+                        ? "One column on the 80-card"
+                        : "Playslip row / column / diagonal"}
+                    </label>
+                  </>
+                ) : null}
+                {spec.kind === "keno" ? (
+                  <>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={filters.decade}
+                        onChange={() => toggle("decade")}
+                      />
+                      One decade / one row
+                    </label>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={filters.lowHalf}
+                        onChange={() => toggle("lowHalf")}
+                      />
+                      All in 1–40
+                    </label>
+                  </>
+                ) : null}
+                {spec.kind === "cashpop" ? (
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={filters.luckyPops}
+                      onChange={() => toggle("luckyPops")}
+                    />
+                    Lucky POPs (1, 7, 11, 13, 15)
+                  </label>
+                ) : null}
+                {spec.kind !== "cashpop" ? (
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={filters.previous}
+                      onChange={() => toggle("previous")}
+                    />
+                    Recent official winners
+                  </label>
+                ) : null}
+                {spec.kind !== "digits" ? (
+                  <>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={filters.hot}
+                        onChange={() => toggle("hot")}
+                        disabled={!stats}
+                      />
+                      Recently drawn (hot)
+                    </label>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={filters.cold}
+                        onChange={() => toggle("cold")}
+                        disabled={!stats}
+                      />
+                      Long gaps and overdue
+                    </label>
+                  </>
+                ) : null}
+              </div>
+              <p className="fine temp-note">
+                Past results do not predict the next drawing. We skip crowded
+                public tickets so a hit is less likely to be shared, not so you
+                hit more often. Source: Washington’s Lottery past drawings,{" "}
+                <FeedMark feed={feed} /> {asOf}.
+              </p>
+            </div>
+          </details>
+
           {lastNumbers.length > 0 ? (
+            <details
+              className="gen-fold"
+              open={crowdOpen}
+              onToggle={(e) => {
+                const next = e.currentTarget.open;
+                setCrowdOpen(next);
+                savePref("fold.crowd", next);
+              }}
+            >
+              <summary>
+                <span className="fold-title">Crowd board</span>
+                <span className="fold-meta">
+                  {spec.kind !== "digits" && stats
+                    ? "last · hot · cold · overdue"
+                    : "last draw"}
+                </span>
+              </summary>
+              <div className="fold-body">
+                <p className="fine">
+                  {filterNote} Hot/cold from {draws.length} official drawings
+                  {latest ? ` through ${latest.date}` : ""} (
+                  <FeedMark feed={feed} /> {asOf}).
+                </p>
             <div className="temp-board">
               <article className="temp-card">
                 <h3>Last draw</h3>
@@ -421,179 +757,9 @@ export function WaTicketsView({ game }: Props) {
                 </>
               ) : null}
             </div>
+              </div>
+            </details>
           ) : null}
-
-          <div className="filters">
-            {spec.kind !== "digits" ? (
-              <label>
-                <input
-                  type="checkbox"
-                  checked={filters.uniqueSlip}
-                  onChange={() => toggle("uniqueSlip")}
-                />
-                {spec.pairSize
-                  ? "No shared numbers on each $1 pair"
-                  : "No repeated numbers on this slip"}
-              </label>
-            ) : null}
-            <label>
-              <input
-                type="checkbox"
-                checked={filters.lastDraw}
-                onChange={() => toggle("lastDraw")}
-                disabled={!lastNumbers.length}
-              />
-              Last drawing
-            </label>
-            {showHighBall ? (
-              <label>
-                <input
-                  type="checkbox"
-                  checked={filters.highBall}
-                  onChange={() => toggle("highBall")}
-                />
-                All five in 1–31 (no 32–42)
-              </label>
-            ) : null}
-            {showBirthday ? (
-              <label>
-                <input
-                  type="checkbox"
-                  checked={filters.birthday}
-                  onChange={() => toggle("birthday")}
-                />
-                All numbers in 1–31
-              </label>
-            ) : null}
-            <label>
-              <input
-                type="checkbox"
-                checked={filters.sequence}
-                onChange={() => toggle("sequence")}
-              />
-              {spec.kind === "digits"
-                ? "Triples / straight runs"
-                : spec.kind === "keno"
-                  ? "Consecutive clusters"
-                  : "Straight runs / 4+ consecutives"}
-            </label>
-            {spec.kind === "digits" ? (
-              <>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={filters.doubles}
-                    onChange={() => toggle("doubles")}
-                  />
-                  Doubles (any two the same)
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={filters.areaCodes}
-                    onChange={() => toggle("areaCodes")}
-                  />
-                  WA area codes (206 / 253 / 360 / 425 / 509 / 564)
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={filters.dates}
-                    onChange={() => toggle("dates")}
-                  />
-                  Dates and years
-                </label>
-              </>
-            ) : null}
-            {showMatrixPatterns ? (
-              <>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={filters.multiples}
-                    onChange={() => toggle("multiples")}
-                  />
-                  Multiples patterns
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={filters.visual}
-                    onChange={() => toggle("visual")}
-                  />
-                  {spec.kind === "keno"
-                    ? "One column on the 80-card"
-                    : "Playslip row / column / diagonal"}
-                </label>
-              </>
-            ) : null}
-            {spec.kind === "keno" ? (
-              <>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={filters.decade}
-                    onChange={() => toggle("decade")}
-                  />
-                  One decade / one row
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={filters.lowHalf}
-                    onChange={() => toggle("lowHalf")}
-                  />
-                  All in 1–40
-                </label>
-              </>
-            ) : null}
-            {spec.kind === "cashpop" ? (
-              <label>
-                <input
-                  type="checkbox"
-                  checked={filters.luckyPops}
-                  onChange={() => toggle("luckyPops")}
-                />
-                Lucky POPs (1, 7, 11, 13, 15)
-              </label>
-            ) : null}
-            <label>
-              <input
-                type="checkbox"
-                checked={filters.previous}
-                onChange={() => toggle("previous")}
-              />
-              Recent official winners
-            </label>
-            {spec.kind !== "digits" ? (
-              <>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={filters.hot}
-                    onChange={() => toggle("hot")}
-                    disabled={!stats}
-                  />
-                  Recently drawn (hot)
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={filters.cold}
-                    onChange={() => toggle("cold")}
-                    disabled={!stats}
-                  />
-                  Long gaps and overdue
-                </label>
-              </>
-            ) : null}
-          </div>
-          <p className="fine temp-note">
-            Past results do not predict the next drawing. We skip crowded public
-            tickets so a hit is less likely to be shared, not so you hit more
-            often. Source: Washington’s Lottery past drawings,{" "}
-            <FeedMark feed={feed} /> {asOf}.
-          </p>
         </aside>
       </div>
       {tickets.length > 0 && !minting ? (

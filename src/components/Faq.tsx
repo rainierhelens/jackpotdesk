@@ -25,6 +25,10 @@ export function Faq() {
       a: "The numbers are still random. Quick Pick can land on crowded public tickets. JackpotDesk redraws those. Hit chance is unchanged. Expected payout if you hit the jackpot is slightly better.",
     },
     {
+      q: "Are there lottery numbers with higher odds of winning?",
+      a: "No, and any product that says otherwise is selling fiction. Every combination the machine can draw has identical odds, and past drawings do not change the next one. What differs is how many people are holding a combination: birthdays, visual patterns, and last week's winners are heavily over-played, so those tickets split prizes more often when they hit. The Number pool panel on each Tickets tab shows exactly which combinations the desk skips, how many that removes, and how many equally likely combinations remain.",
+    },
+    {
       q: "Do I need an account?",
       a: "No. Pool members and tickets stay in this browser only. Nothing is uploaded.",
     },

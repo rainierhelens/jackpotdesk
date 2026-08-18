@@ -87,24 +87,29 @@ export function waPastKeys(
   return keys;
 }
 
+const WA_POLL_MS = 5 * 60_000;
+
 let live: WaBook | null = null;
 let inflight: Promise<WaBook> | null = null;
+let fetchedAt = 0;
 
 export async function fetchLiveWaBook(): Promise<WaBook> {
-  if (live) return live;
+  // A small buffer keeps several subscribers from re-fetching back to back.
+  if (live && Date.now() - fetchedAt < WA_POLL_MS - 15_000) return live;
   if (inflight) return inflight;
   inflight = (async () => {
     try {
       const response = await fetch(WA_DRAWS_URL, {
         signal: AbortSignal.timeout(8_000),
       });
-      if (!response.ok) return baked;
+      if (!response.ok) return live ?? baked;
       const parsed = parseWaBook(await response.json());
-      if (!parsed) return baked;
+      if (!parsed) return live ?? baked;
       live = parsed;
+      fetchedAt = Date.now();
       return parsed;
     } catch {
-      return baked;
+      return live ?? baked;
     } finally {
       inflight = null;
     }
@@ -118,13 +123,18 @@ export function useWaDraws(): { book: WaBook; feed: "live" | "baked" } {
 
   useEffect(() => {
     let on = true;
-    void fetchLiveWaBook().then((next) => {
-      if (!on) return;
-      setBook(next);
-      setFeed(live ? "live" : "baked");
-    });
+    const tick = () => {
+      void fetchLiveWaBook().then((next) => {
+        if (!on) return;
+        setBook(next);
+        setFeed(live ? "live" : "baked");
+      });
+    };
+    tick();
+    const timer = window.setInterval(tick, WA_POLL_MS);
     return () => {
       on = false;
+      window.clearInterval(timer);
     };
   }, []);
 

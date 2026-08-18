@@ -209,12 +209,12 @@ export function WeekView(props: Props) {
         estimate unless you replace it. Suffixes like 1.2B and 400M are allowed.
       </p>
 
-      <MarketBoard game={props.game} result={result} />
-
-      <div className="ev-pair">
-        <EvCard scenario={result.unique} cost={cost} />
-        <EvCard scenario={result.crowded} cost={cost} dim />
-      </div>
+      <MarketBoard
+        game={props.game}
+        result={result}
+        feedDate={props.nextDrawDate}
+        latestDate={props.latest?.date ?? null}
+      />
 
       <aside className={`advice advice-${advice.tone}`}>
         <strong>
@@ -239,39 +239,5 @@ export function WeekView(props: Props) {
         </button>
       </div>
     </section>
-  );
-}
-
-function EvCard({
-  scenario,
-  cost,
-  dim = false,
-}: {
-  scenario: ReturnType<typeof computeEv>["unique"];
-  cost: string;
-  dim?: boolean;
-}) {
-  return (
-    <article className={dim ? "ev-card dim" : "ev-card"}>
-      <h3>{scenario.label}</h3>
-      <p className={scenario.netEv >= 0 ? "ev-net plus" : "ev-net minus"}>
-        {moneyExact.format(scenario.netEv)}
-      </p>
-      <p className="fine">expected value after the {cost} cost</p>
-      <dl>
-        <div>
-          <dt>Expected other jackpot winners</dt>
-          <dd>{scenario.lambda.toFixed(2)}</dd>
-        </div>
-        <div>
-          <dt>Your share if you hit</dt>
-          <dd>{(scenario.shareFactor * 100).toFixed(0)}%</dd>
-        </div>
-        <div>
-          <dt>Jackpot piece of EV</dt>
-          <dd>{moneyExact.format(scenario.jackpotEv)}</dd>
-        </div>
-      </dl>
-    </article>
   );
 }

@@ -145,32 +145,35 @@ function pick3Date(digits: number[]): boolean {
   return false;
 }
 
-export function rejectWaPlay(
+/** First fade that rejects this play, or null if it survives every fade. */
+export function waRejectReason(
   numbers: number[],
   spec: WaGameSpec,
   filters: WaFilters,
   past: Set<string>,
   avoid: Set<number>,
   pick3Way: Pick3Way,
-): boolean {
+): string | null {
   const kind = spec.kind;
   const sorted = [...numbers].sort((a, b) => a - b);
   const key = playKey(numbers, kind, pick3Way === "box");
 
-  if (filters.previous && past.has(key)) return true;
-  if (avoid.size > 0 && numbers.some((n) => avoid.has(n))) return true;
+  if (filters.previous && past.has(key)) return "previous";
+  if (avoid.size > 0 && numbers.some((n) => avoid.has(n))) return "temperature";
 
   if (kind === "digits") {
-    if (filters.sequence && pick3Run(numbers)) return true;
-    if (filters.doubles && new Set(numbers).size < 3) return true;
-    if (filters.areaCodes && AREA.has(numbers.join(""))) return true;
-    if (filters.dates && pick3Date(numbers)) return true;
-    return false;
+    if (filters.sequence && pick3Run(numbers)) return "sequence";
+    if (filters.doubles && new Set(numbers).size < 3) return "doubles";
+    if (filters.areaCodes && AREA.has(numbers.join(""))) return "areaCodes";
+    if (filters.dates && pick3Date(numbers)) return "dates";
+    return null;
   }
 
   if (kind === "cashpop") {
-    if (filters.luckyPops && numbers.some((n) => LUCKY_POP.has(n))) return true;
-    return false;
+    if (filters.luckyPops && numbers.some((n) => LUCKY_POP.has(n))) {
+      return "luckyPops";
+    }
+    return null;
   }
 
   if (
@@ -179,10 +182,10 @@ export function rejectWaPlay(
     spec.whiteMax > 31 &&
     numbers.every((n) => n <= 31)
   ) {
-    return true;
+    return "birthday";
   }
   if (filters.highBall && spec.id === "hit5" && !numbers.some((n) => n >= 32)) {
-    return true;
+    return "highBall";
   }
   if (filters.sequence) {
     const runNeed = kind === "keno" ? (numbers.length >= 4 ? 3 : 2) : 4;
@@ -190,7 +193,7 @@ export function rejectWaPlay(
       numbers.length >= runNeed &&
       (longestConsecutive(sorted) >= runNeed || isArithmetic(sorted))
     ) {
-      return true;
+      return "sequence";
     }
   }
   if (
@@ -198,16 +201,27 @@ export function rejectWaPlay(
     numbers.length >= 3 &&
     (isExactMultiples(sorted) || isGeometric(sorted))
   ) {
-    return true;
+    return "multiples";
   }
-  if (filters.visual && isVisualLine(numbers)) return true;
+  if (filters.visual && isVisualLine(numbers)) return "visual";
   if (kind === "keno") {
-    if (filters.decade && oneDecade(numbers)) return true;
+    if (filters.decade && oneDecade(numbers)) return "decade";
     if (filters.lowHalf && numbers.length >= 2 && numbers.every((n) => n <= 40)) {
-      return true;
+      return "lowHalf";
     }
   }
-  return false;
+  return null;
+}
+
+export function rejectWaPlay(
+  numbers: number[],
+  spec: WaGameSpec,
+  filters: WaFilters,
+  past: Set<string>,
+  avoid: Set<number>,
+  pick3Way: Pick3Way,
+): boolean {
+  return waRejectReason(numbers, spec, filters, past, avoid, pick3Way) !== null;
 }
 
 export function generateWaPlays(

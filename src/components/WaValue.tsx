@@ -1,4 +1,5 @@
 import { FeedMark, type FeedKind } from "./FeedMark";
+import { FlashNum } from "./Flash";
 import { moneyExact } from "../lib/ev";
 import { WA_GAMES } from "../lib/waGames";
 import { hit5CashpotEv, lottoCashEvPerDollar, waPrizeInputs } from "../lib/waValue";
@@ -44,8 +45,11 @@ export function WaValue({
         <p className="kicker">This drawing · Hit 5</p>
         <h3>Line on the cashpot</h3>
         <p>
-          Cashpot {moneyExact.format(prizes.cashpot)} · 1 in{" "}
-          {WA_GAMES.hit5.jackpotOdds.toLocaleString("en-US")} · about{" "}
+          Cashpot{" "}
+          <FlashNum value={prizes.cashpot}>
+            {moneyExact.format(prizes.cashpot)}
+          </FlashNum>{" "}
+          · 1 in {WA_GAMES.hit5.jackpotOdds.toLocaleString("en-US")} · about{" "}
           {moneyExact.format(share)} of the $1 is the cashpot before $150 / $15 /
           free-ticket prizes. Washington has no state income tax. Overwrite if
           the Lottery has moved.
@@ -70,8 +74,15 @@ export function WaValue({
         <p className="kicker">This drawing · Lotto</p>
         <h3>Line on the jackpot</h3>
         <p>
-          Advertised {moneyExact.format(prizes.advertised)} · cash option{" "}
-          {moneyExact.format(prizes.cash)} · $1 buys two plays · 1 in{" "}
+          Advertised{" "}
+          <FlashNum value={prizes.advertised}>
+            {moneyExact.format(prizes.advertised)}
+          </FlashNum>{" "}
+          · cash option{" "}
+          <FlashNum value={prizes.cash}>
+            {moneyExact.format(prizes.cash)}
+          </FlashNum>{" "}
+          · $1 buys two plays · 1 in{" "}
           {WA_GAMES.lotto.jackpotOdds.toLocaleString("en-US")} each · about{" "}
           {moneyExact.format(share)} of the dollar is the cash jackpot before
           lower prizes. Annuity is not what you are paid. Overwrite if the

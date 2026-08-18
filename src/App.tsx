@@ -1,11 +1,16 @@
-import { useEffect, useMemo, useState, type MouseEvent } from "react";
+import {
+  lazy,
+  Suspense,
+  useEffect,
+  useMemo,
+  useState,
+  type MouseEvent,
+} from "react";
 import type { DeskId, GameId, Ticket, WaGameId } from "./types";
-import { DeskSwitch } from "./components/DeskSwitch";
-import { DrawCountdown } from "./components/DrawCountdown";
 import { Faq } from "./components/Faq";
 import { Footer } from "./components/Footer";
-import { GameSwitch } from "./components/GameSwitch";
-import { WaGameSwitch } from "./components/WaGameSwitch";
+import { MarketPicker } from "./components/MarketPicker";
+import { MarketTicker } from "./components/MarketTicker";
 import { WhyMethod } from "./components/WhyMethod";
 import { parseMoney } from "./lib/ev";
 import { trackTab } from "./lib/analytics";
@@ -15,7 +20,9 @@ import {
   fetchMarket,
 } from "./lib/market";
 import { comboKey } from "./lib/picks";
+import { loadPref, savePref } from "./lib/prefs";
 import { GAMES } from "./lib/prizes";
+import { WA_GAME_ORDER } from "./lib/waGames";
 import {
   clearPoolHash,
   readPoolFromLocation,
@@ -26,11 +33,21 @@ import {
   fetchOfficialDraws,
   type OfficialDraw,
 } from "./lib/winners";
-import { MapView } from "./views/MapView";
-import { PoolView } from "./views/PoolView";
-import { TicketsView } from "./views/TicketsView";
-import { WaTicketsView } from "./views/WaTicketsView";
-import { WeekView } from "./views/WeekView";
+const MapView = lazy(() =>
+  import("./views/MapView").then((m) => ({ default: m.MapView })),
+);
+const PoolView = lazy(() =>
+  import("./views/PoolView").then((m) => ({ default: m.PoolView })),
+);
+const TicketsView = lazy(() =>
+  import("./views/TicketsView").then((m) => ({ default: m.TicketsView })),
+);
+const WaTicketsView = lazy(() =>
+  import("./views/WaTicketsView").then((m) => ({ default: m.WaTicketsView })),
+);
+const WeekView = lazy(() =>
+  import("./views/WeekView").then((m) => ({ default: m.WeekView })),
+);
 import logo from "./images/jackpotdesklogo.png";
 import iconWeek from "./images/this-week.png";
 import iconMap from "./images/map.png";
@@ -40,12 +57,36 @@ import iconWhy from "./images/why-this.png";
 
 type Tab = "week" | "map" | "tickets" | "pool" | "why";
 
+const TABS: Tab[] = ["week", "map", "tickets", "pool", "why"];
+const NATIONAL_IDS: GameId[] = ["powerball", "megamillions"];
+
+/** Deep-link params parsed once at startup: ?tab=&desk=&game=&wa= */
+function urlState() {
+  const params = new URLSearchParams(window.location.search);
+  const tab = params.get("tab") as Tab | null;
+  const desk = params.get("desk") as DeskId | null;
+  const game = params.get("game") as GameId | null;
+  const wa = params.get("wa") as WaGameId | null;
+  return {
+    tab: tab && TABS.includes(tab) ? tab : null,
+    desk: desk === "national" || desk === "washington" ? desk : null,
+    game: game && NATIONAL_IDS.includes(game) ? game : null,
+    wa: wa && WA_GAME_ORDER.includes(wa) ? wa : null,
+  };
+}
+
+const boot = urlState();
+
 export default function App() {
   const poolApi = usePool();
   const replacePool = poolApi.replacePool;
-  const [tab, setTab] = useState<Tab>("tickets");
-  const [desk, setDesk] = useState<DeskId>("national");
-  const [waGame, setWaGame] = useState<WaGameId>("hit5");
+  const [tab, setTab] = useState<Tab>(boot.tab ?? "tickets");
+  const [desk, setDesk] = useState<DeskId>(
+    boot.desk ?? loadPref<DeskId>("desk", "national"),
+  );
+  const [waGame, setWaGame] = useState<WaGameId>(
+    boot.wa ?? loadPref<WaGameId>("waGame", "hit5"),
+  );
   const [advertised, setAdvertised] = useState("");
   const [cash, setCash] = useState("");
   const [sold, setSold] = useState("");
@@ -64,6 +105,25 @@ export default function App() {
   const [shareNotice, setShareNotice] = useState<string | null>(null);
 
   const game = poolApi.pool.game;
+  const setGame = poolApi.setGame;
+
+  useEffect(() => {
+    if (boot.game) setGame(boot.game);
+    // Apply the deep-linked national game once at startup.
+  }, [setGame]);
+
+  useEffect(() => {
+    savePref("desk", desk);
+    savePref("waGame", waGame);
+    const params = new URLSearchParams();
+    if (tab !== "tickets") params.set("tab", tab);
+    if (desk !== "national") params.set("desk", desk);
+    if (game !== "powerball") params.set("game", game);
+    if (waGame !== "hit5") params.set("wa", waGame);
+    const search = params.toString();
+    const url = `${window.location.pathname}${search ? `?${search}` : ""}${window.location.hash}`;
+    window.history.replaceState(null, "", url);
+  }, [tab, desk, game, waGame]);
 
   useEffect(() => {
     trackTab(tab);
@@ -178,9 +238,14 @@ export default function App() {
     goToTickets();
   }
 
-  function onDesk(next: DeskId) {
-    setDesk(next);
-    goToTickets();
+  function onTickNational(next: GameId) {
+    setDesk("national");
+    onGame(next);
+  }
+
+  function onTickWashington(next: WaGameId) {
+    setDesk("washington");
+    onWaGame(next);
   }
 
   function onAddToPool(tickets: Ticket[]) {
@@ -229,23 +294,25 @@ export default function App() {
             </p>
           </div>
           <div className="masthead-tools">
-            <DeskSwitch desk={desk} onDesk={onDesk} />
-            {desk === "national" ? (
-              <>
-                <DrawCountdown
-                  game={game}
-                  feedDate={nextDrawDate}
-                  latestDate={latest?.date ?? null}
-                  compact
-                />
-                <GameSwitch game={game} onGame={onGame} />
-              </>
-            ) : (
-              <WaGameSwitch game={waGame} onGame={onWaGame} />
-            )}
+            <MarketPicker
+              desk={desk}
+              game={game}
+              waGame={waGame}
+              onNational={onTickNational}
+              onWashington={onTickWashington}
+            />
           </div>
         </div>
       </header>
+
+      <MarketTicker
+        desk={desk}
+        game={game}
+        waGame={waGame}
+        latestDate={latest?.date ?? null}
+        onNational={onTickNational}
+        onWashington={onTickWashington}
+      />
 
       <nav className="tabs" aria-label="Primary">
           <button
@@ -298,6 +365,7 @@ export default function App() {
         </nav>
 
       <main>
+      <Suspense fallback={null}>
       {desk === "washington" && tab !== "tickets" && tab !== "map" ? (
         <p className="lede">
           Washington slips and the Hit 5 / Lotto line are on Tickets. Pool and
@@ -388,6 +456,7 @@ export default function App() {
           <Faq />
         </>
       ) : null}
+      </Suspense>
       </main>
 
       <Footer />

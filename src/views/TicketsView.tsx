@@ -3,12 +3,15 @@ import { Ball } from "../components/Ball";
 import { FeedMark } from "../components/FeedMark";
 import { FoilCard } from "../components/FoilCard";
 import { LotteryTicket } from "../components/LotteryTicket";
+import { NumberPool, type PoolFade } from "../components/NumberPool";
 import { PackFx, PackShell } from "../components/PackFx";
 import { Playslip } from "../components/Playslip";
 import { PrintSlip } from "../components/PrintSlip";
 import { avoidWhites, frequencyStats } from "../lib/frequency";
 import { usePrefersReducedMotion } from "../lib/motion";
 import { DEFAULT_FILTERS, formatTicket, generateTickets } from "../lib/picks";
+import { loadPref, savePref } from "../lib/prefs";
+import { usePoolReport } from "../lib/usePoolReport";
 import { GAMES } from "../lib/prizes";
 import { playPackOpen } from "../lib/sfx";
 import { saveSlipImage } from "../lib/slipImage";
@@ -57,7 +60,16 @@ export function TicketsView({
 }: Props) {
   const spec = GAMES[game];
   const [count, setCount] = useState("5");
-  const [filters, setFilters] = useState<Filters>(DEFAULT_FILTERS);
+  const [filters, setFilters] = useState<Filters>(() => ({
+    ...DEFAULT_FILTERS,
+    ...loadPref<Partial<Filters>>("filters.national", {}),
+  }));
+  const [fadesOpen, setFadesOpen] = useState(() =>
+    loadPref("fold.fades", true),
+  );
+  const [crowdOpen, setCrowdOpen] = useState(() =>
+    loadPref("fold.crowd", false),
+  );
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [rejected, setRejected] = useState(0);
   const [attempts, setAttempts] = useState(0);
@@ -77,6 +89,54 @@ export function TicketsView({
     () => avoidWhites(filters, stats, lastWhites ?? []),
     [filters, stats, lastWhites],
   );
+  const poolRequest = useMemo(
+    () => ({ kind: "national" as const, spec, filters, past, avoid }),
+    [spec, filters, past, avoid],
+  );
+  const poolReport = usePoolReport(poolRequest);
+
+  useEffect(() => {
+    savePref("filters.national", filters);
+  }, [filters]);
+  const poolFades = useMemo<PoolFade[]>(() => {
+    const fades: PoolFade[] = [];
+    if (filters.lastDraw && lastWhites?.length) {
+      fades.push({
+        key: "last",
+        label: "Last drawing",
+        tone: "last",
+        numbers: lastWhites,
+      });
+    }
+    if (stats && filters.hot) {
+      fades.push({
+        key: "hot",
+        label: "Hot (recently drawn)",
+        tone: "hot",
+        numbers: stats.hot,
+      });
+    }
+    if (stats && filters.cold) {
+      fades.push({
+        key: "cold",
+        label: "Cold (long gaps)",
+        tone: "cold",
+        numbers: stats.cold,
+      });
+      if (stats.overdue) {
+        fades.push({
+          key: "overdue",
+          label: "Most overdue",
+          tone: "overdue",
+          numbers: [stats.overdue.n],
+        });
+      }
+    }
+    return fades;
+  }, [filters, stats, lastWhites]);
+
+  const fadesTotal = Object.keys(filters).length;
+  const fadesOn = Object.values(filters).filter(Boolean).length;
 
   function toggle(key: keyof Filters) {
     setFilters((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -244,26 +304,157 @@ export function TicketsView({
               {winnerError}. Previous-winner and hot/cold filters are skipped
               until the feed loads.
             </p>
-          ) : (
-            <p className="fine">
-              Fade crowded public tickets. Hot/cold from{" "}
-              {stats
-                ? `${stats.window.toLocaleString("en-US")} drawings since ${FORMAT_START[game]}`
-                : "this matrix"}
-              {asOf ? ` through ${asOf}` : ""}.{" "}
-              {asOf ? (
-                <>
-                  <FeedMark feed="live" /> · NY Open Data.
-                </>
-              ) : (
-                "Source: NY Open Data."
-              )}
-            </p>
-          )}
+          ) : null}
+
+          {poolReport ? (
+            <NumberPool
+              min={1}
+              max={spec.whiteMax}
+              report={poolReport}
+              fades={poolFades}
+              noun="white-ball boards"
+              oddsText={`1 in ${spec.jackpotOdds.toLocaleString("en-US")} for the jackpot`}
+              note={`White balls only; no fade touches the ${spec.extraLabel}.`}
+            />
+          ) : null}
+
+          <details
+            className="gen-fold"
+            open={fadesOpen}
+            onToggle={(e) => {
+              const next = e.currentTarget.open;
+              setFadesOpen(next);
+              savePref("fold.fades", next);
+            }}
+          >
+            <summary>
+              <span className="fold-title">Fade criteria</span>
+              <span className="fold-meta">
+                {fadesOn} of {fadesTotal} on
+              </span>
+            </summary>
+            <div className="fold-body">
+              <div className="filters">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={filters.uniqueSlip}
+                    onChange={() => toggle("uniqueSlip")}
+                  />
+                  No repeated whites on this slip
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={filters.lastDraw}
+                    onChange={() => toggle("lastDraw")}
+                    disabled={!lastWhites?.length}
+                  />
+                  Last drawing’s whites
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={filters.birthday}
+                    onChange={() => toggle("birthday")}
+                  />
+                  All five whites in 1–31
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={filters.sequence}
+                    onChange={() => toggle("sequence")}
+                  />
+                  Straight runs / 4+ consecutives
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={filters.multiples}
+                    onChange={() => toggle("multiples")}
+                  />
+                  Multiples patterns
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={filters.visual}
+                    onChange={() => toggle("visual")}
+                  />
+                  Playslip row / column / diagonal
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={filters.previous}
+                    onChange={() => toggle("previous")}
+                  />
+                  Recent official winners
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={filters.hot}
+                    onChange={() => toggle("hot")}
+                    disabled={!stats}
+                  />
+                  Recently drawn (hot)
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={filters.cold}
+                    onChange={() => toggle("cold")}
+                    disabled={!stats}
+                  />
+                  Long gaps and overdue
+                </label>
+              </div>
+              <p className="fine temp-note">
+                Past results do not predict the next drawing. We skip these so
+                you are less likely to share a hit, not so you hit more often.
+                Last {RECENT_WINNER_LIMIT} official white sets
+                {past.size ? ` (${past.size} loaded)` : ""}.{" "}
+                {asOf ? (
+                  <>
+                    <FeedMark feed="live" /> · NY Open Data.
+                  </>
+                ) : null}
+              </p>
+            </div>
+          </details>
+
           {stats ? (
-            <div className="temp-board">
-              <article className="temp-card">
-                <h3>Last draw</h3>
+            <details
+              className="gen-fold"
+              open={crowdOpen}
+              onToggle={(e) => {
+                const next = e.currentTarget.open;
+                setCrowdOpen(next);
+                savePref("fold.crowd", next);
+              }}
+            >
+              <summary>
+                <span className="fold-title">Crowd board</span>
+                <span className="fold-meta">last · hot · cold · overdue</span>
+              </summary>
+              <div className="fold-body">
+                <p className="fine">
+                  Hot/cold from {stats.window.toLocaleString("en-US")} drawings
+                  since {FORMAT_START[game]}
+                  {asOf ? ` through ${asOf}` : ""}.{" "}
+                  {asOf ? (
+                    <>
+                      <FeedMark feed="live" /> · NY Open Data.
+                    </>
+                  ) : (
+                    "Source: NY Open Data."
+                  )}
+                </p>
+                <div className="temp-board">
+                  <article className="temp-card">
+                    <h3>Last draw</h3>
                 <p className="fine">People replay these whites.</p>
                 <div className="ticket-row">
                   {lastWhites && lastWhites.length > 0 ? (
@@ -309,96 +500,10 @@ export function TicketsView({
                   )}
                 </div>
               </article>
-            </div>
+                </div>
+              </div>
+            </details>
           ) : null}
-          <div className="filters">
-            <label>
-              <input
-                type="checkbox"
-                checked={filters.uniqueSlip}
-                onChange={() => toggle("uniqueSlip")}
-              />
-              No repeated whites on this slip
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                checked={filters.lastDraw}
-                onChange={() => toggle("lastDraw")}
-                disabled={!lastWhites?.length}
-              />
-              Last drawing’s whites
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                checked={filters.birthday}
-                onChange={() => toggle("birthday")}
-              />
-              All five whites in 1–31
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                checked={filters.sequence}
-                onChange={() => toggle("sequence")}
-              />
-              Straight runs / 4+ consecutives
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                checked={filters.multiples}
-                onChange={() => toggle("multiples")}
-              />
-              Multiples patterns
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                checked={filters.visual}
-                onChange={() => toggle("visual")}
-              />
-              Playslip row / column / diagonal
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                checked={filters.previous}
-                onChange={() => toggle("previous")}
-              />
-              Recent official winners
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                checked={filters.hot}
-                onChange={() => toggle("hot")}
-                disabled={!stats}
-              />
-              Recently drawn (hot)
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                checked={filters.cold}
-                onChange={() => toggle("cold")}
-                disabled={!stats}
-              />
-              Long gaps and overdue
-            </label>
-          </div>
-          <p className="fine temp-note">
-            Past results do not predict the next drawing. We skip these so you
-            are less likely to share a hit, not so you hit more often. Last{" "}
-            {RECENT_WINNER_LIMIT} official white sets
-            {past.size ? ` (${past.size} loaded)` : ""}.{" "}
-            {asOf ? (
-              <>
-                <FeedMark feed="live" /> · NY Open Data.
-              </>
-            ) : null}
-          </p>
         </aside>
       </div>
       {tickets.length > 0 && !minting ? (
