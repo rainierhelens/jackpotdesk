@@ -163,8 +163,24 @@ export default function App() {
     [poolApi.pool.tickets],
   );
 
+  function goToTickets() {
+    setTab("tickets");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   function onGame(next: GameId) {
     poolApi.setGame(next);
+    goToTickets();
+  }
+
+  function onWaGame(next: WaGameId) {
+    setWaGame(next);
+    goToTickets();
+  }
+
+  function onDesk(next: DeskId) {
+    setDesk(next);
+    goToTickets();
   }
 
   function onAddToPool(tickets: Ticket[]) {
@@ -213,13 +229,7 @@ export default function App() {
             </p>
           </div>
           <div className="masthead-tools">
-            <DeskSwitch
-              desk={desk}
-              onDesk={(next) => {
-                setDesk(next);
-                if (next === "washington" && tab !== "map") setTab("tickets");
-              }}
-            />
+            <DeskSwitch desk={desk} onDesk={onDesk} />
             {desk === "national" ? (
               <>
                 <DrawCountdown
@@ -231,7 +241,7 @@ export default function App() {
                 <GameSwitch game={game} onGame={onGame} />
               </>
             ) : (
-              <WaGameSwitch game={waGame} onGame={setWaGame} />
+              <WaGameSwitch game={waGame} onGame={onWaGame} />
             )}
           </div>
         </div>
