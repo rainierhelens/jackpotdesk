@@ -26,6 +26,7 @@ export function PatternLadder({
   source,
   renderTile,
   crowd,
+  reject,
 }: {
   model: PatternModel;
   size: number;
@@ -33,8 +34,14 @@ export function PatternLadder({
   source: string;
   renderTile: (entry: LadderEntry) => ReactNode;
   crowd?: (entry: LadderEntry) => CrowdReading | null;
+  /** When set, faded boards never enter the ranked field. */
+  reject?: (numbers: number[]) => boolean;
 }) {
-  const ladder = useMemo(() => patternLadder(model, size), [model, size]);
+  const ladder = useMemo(
+    () => patternLadder(model, size, LADDER_DEPTH, { reject }),
+    [model, size, reject],
+  );
+  const fadesOn = reject != null;
   const [shown, setShown] = useState(PAGE);
   const endRef = useRef<HTMLDivElement>(null);
 
@@ -67,16 +74,27 @@ export function PatternLadder({
         <h3>The ladder</h3>
         <span className="crowd-mode">
           TOP {ladder.entries.length} OF{" "}
-          {ladder.scanned.toLocaleString("en-US")} SCANNED · 50 PTS = RANDOM
+          {ladder.scanned.toLocaleString("en-US")} SCANNED
+          {fadesOn && ladder.rejected > 0
+            ? ` · ${ladder.rejected.toLocaleString("en-US")} VETOED`
+            : ""}{" "}
+          · 50 PTS = RANDOM
         </span>
       </div>
       <p className="fine ladder-lead">
         Every board below is ranked by pattern score against{" "}
         {model.draws.toLocaleString("en-US")} past drawings ({source}): number
-        frequency, common pairs, recent heat, and winning shapes. Rank #1 is
-        the strongest match to the past, <b>not</b> the board most likely to
-        be drawn next. No such board exists: every combination keeps identical
-        odds. The ladder re-ranks only when new official draws land.
+        frequency, common pairs, recent heat, and winning shapes
+        {fadesOn
+          ? ", then last-draw, hot, cold, and obvious shapes are dropped"
+          : ""}
+        . Rank #1 is the strongest match to the past
+        {fadesOn ? " that also cleared the fades" : ""}, <b>not</b> the board
+        most likely to be drawn next. No such board exists: every combination
+        keeps identical odds.{" "}
+        {fadesOn
+          ? "The faded ladder re-ranks when new official draws land or the fade list changes."
+          : "The ladder re-ranks only when new official draws land."}
       </p>
       <div className="ladder-rows">
         {ladder.entries.slice(0, shown).map((entry) => {
@@ -130,9 +148,10 @@ export function PatternLadder({
       {atEnd ? (
         <div className="ladder-end">
           <p>
-            End of the free ladder: the top {LADDER_DEPTH} of{" "}
-            {ladder.scanned.toLocaleString("en-US")} scanned boards. The full
-            field is reserved for a future desk tier.
+            End of the free ladder: the top {ladder.entries.length} of{" "}
+            {ladder.scanned.toLocaleString("en-US")} scanned boards
+            {fadesOn ? " that cleared the fades" : ""}. The full field is
+            reserved for a future desk tier.
           </p>
           <p className="fine">
             1.00× on every stat is the average random ticket. Patterns

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Ball } from "../components/Ball";
 import { CrowdIndex } from "../components/CrowdIndex";
 import { FeedMark } from "../components/FeedMark";
@@ -93,6 +93,9 @@ export function TicketsView({
   const [patternFades, setPatternFades] = useState(() =>
     loadPref("pattern.applyFades", false),
   );
+  const [ladderFades, setLadderFades] = useState(() =>
+    loadPref("ladder.applyFades", false),
+  );
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [rejected, setRejected] = useState(0);
   const [attempts, setAttempts] = useState(0);
@@ -120,6 +123,10 @@ export function TicketsView({
   const avoid = useMemo(
     () => avoidWhites(filters, stats, lastWhites ?? []),
     [filters, stats, lastWhites],
+  );
+  const fadeReject = useCallback(
+    (nums: number[]) => rejectReasons(nums, filters, past, avoid).length > 0,
+    [filters, past, avoid],
   );
   const poolRequest = useMemo(
     () => ({ kind: "national" as const, spec, filters, past, avoid }),
@@ -353,7 +360,9 @@ export function TicketsView({
       </header>
       <p className="gen-tag">
         {mode === "ladder"
-          ? "Ranks official history, best first. "
+          ? ladderFades
+            ? "Ranks official history, then drops last-draw, hot, cold, and obvious looks. "
+            : "Ranks official history, best first. "
           : mode === "pattern"
             ? patternFades
               ? "Historical shape, minus last-draw, hot, cold, and obvious looks. Entertainment. "
@@ -372,6 +381,15 @@ export function TicketsView({
             savePref("pattern.applyFades", next);
           }}
         />
+      ) : mode === "ladder" ? (
+        <PatternFadesToggle
+          variant="ladder"
+          on={ladderFades}
+          onToggle={(next) => {
+            setLadderFades(next);
+            savePref("ladder.applyFades", next);
+          }}
+        />
       ) : null}
 
       <div className={`gen-layout${mode === "ladder" ? " is-ladder" : ""}`}>
@@ -381,6 +399,7 @@ export function TicketsView({
               model={patternModel}
               size={5}
               source="NY Open Data"
+              reject={ladderFades ? fadeReject : undefined}
               renderTile={(entry) => (
                 <FoilCard game={game}>
                   <LotteryTicket

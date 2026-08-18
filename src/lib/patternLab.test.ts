@@ -144,6 +144,24 @@ describe("pattern generation", () => {
     expect(LADDER_FREE_DEPTH).toBeLessThan(LADDER_DEPTH);
   });
 
+  it("can veto faded boards and still rank deterministically", () => {
+    const reject = (nums: number[]) => nums.includes(1);
+    const first = patternLadder(model, 3, 20, { reject });
+    const second = patternLadder(model, 3, 20, { reject });
+    expect(first.entries.length).toBe(20);
+    expect(first.rejected).toBeGreaterThan(0);
+    expect(first.entries.every((e) => !e.numbers.includes(1))).toBe(true);
+    expect(first.entries.map((e) => e.numbers)).toEqual(
+      second.entries.map((e) => e.numbers),
+    );
+    first.entries.forEach((entry, i) => {
+      expect(entry.rank).toBe(i + 1);
+      if (i > 0) {
+        expect(entry.points).toBeLessThanOrEqual(first.entries[i - 1].points);
+      }
+    });
+  });
+
   it("serves a deterministic ladder in non-increasing score order", () => {
     const first = patternLadder(model, 3, 20);
     const second = patternLadder(model, 3, 20);

@@ -19,9 +19,10 @@ Default persisted pref is `mintMode = "ladder"` ([`src/views/TicketsView.tsx`](.
 ### Ladder
 
 - Engine: [`patternLadder`](../src/lib/patternLab.ts) scans 60,000 frequency-weighted candidates, scores them, returns the top `LADDER_DEPTH` (100) in strict descending pattern score.
-- Seed is derived from the draw history, so the same history produces the same ladder. It re-ranks only when new official draws change the model.
+- Seed is derived from the draw history, so the same history produces the same ladder. The fade-free ladder re-ranks only when new official draws change the model.
+- Optional **Apply fades** toggle (`ladder.applyFades`): hard-veto last-draw, hot, cold, and the other fade criteria during the scan, then re-number the survivors from #1. History is a score, then a veto. Default is off. The faded ladder also re-ranks when the fade list changes.
 - UI: [`PatternLadder`](../src/components/PatternLadder.tsx) infinite-scroll feed. Each row is a rendered slip plus points, why-line, Frequency / Heat / Pairs / Shape, and the live co-winner index.
-- Fades do not apply. Special ball (national) is the historically most frequent special.
+- Special ball (national) is the historically most frequent special.
 - Planned gate (not wired): `LADDER_FREE_DEPTH` = 10 free ranks; 11–100 is the paid field. The live site is still ungated.
 
 ### Pattern lab

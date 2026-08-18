@@ -556,6 +556,13 @@ export type LadderResult = {
   entries: LadderEntry[];
   /** Candidate boards scanned to build the ranking. */
   scanned: number;
+  /** Boards dropped by reject() while scanning. */
+  rejected: number;
+};
+
+export type LadderOpts = {
+  /** Hard veto: faded boards never enter the ranked field. */
+  reject?: (numbers: number[]) => boolean;
 };
 
 /** Ranks 1..LADDER_DEPTH are the scored field. The live feed is ungated. */
@@ -586,25 +593,33 @@ function topSpecial(model: PatternModel): number | null {
 
 /**
  * Rank the scanned field by pattern score, best first. Deterministic for a
- * given draw history: the same game shows the same ladder until new data
- * arrives. Depth-capped — the feed is meant to be scarce.
+ * given draw history and reject rule: the fade-free ladder only re-ranks
+ * when new official draws land. Optional reject is a veto after the score,
+ * not a different score. Depth-capped. The feed is meant to be scarce.
  */
 export function patternLadder(
   model: PatternModel,
   size: number,
   depth: number = LADDER_DEPTH,
+  opts: LadderOpts = {},
 ): LadderResult {
   const rand = mulberry32(modelSeed(model) ^ (size * 0x9e3779b9));
   const blend = blendWeights(model);
+  const reject = opts.reject;
   const seen = new Set<string>();
   const candidates: RankedCandidate[] = [];
   let scanned = 0;
+  let rejected = 0;
   while (scanned < LADDER_ATTEMPTS) {
     scanned += 1;
     const numbers = weightedCombo(blend, size, rand);
     const key = comboKey(numbers);
     if (seen.has(key)) continue;
     seen.add(key);
+    if (reject?.(numbers)) {
+      rejected += 1;
+      continue;
+    }
     candidates.push({ numbers, score: rawScore(model, numbers, null).raw });
   }
   candidates.sort((a, b) => b.score - a.score);
@@ -623,5 +638,6 @@ export function patternLadder(
       };
     }),
     scanned,
+    rejected,
   };
 }

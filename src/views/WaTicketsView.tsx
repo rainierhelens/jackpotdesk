@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Ball } from "../components/Ball";
 import { WaCrowdIndex } from "../components/CrowdIndex";
 import { FoilCard } from "../components/FoilCard";
@@ -75,6 +75,9 @@ export function WaTicketsView({ game }: Props) {
   const [patternFades, setPatternFades] = useState(() =>
     loadPref("pattern.applyFades", false),
   );
+  const [ladderFades, setLadderFades] = useState(() =>
+    loadPref("ladder.applyFades", false),
+  );
   const [tickets, setTickets] = useState<WaPlay[]>([]);
   const [rejected, setRejected] = useState(0);
   const [attempts, setAttempts] = useState(0);
@@ -126,6 +129,11 @@ export function WaTicketsView({ game }: Props) {
     if (spec.kind === "cashpop") return { ...filters, previous: false };
     return filters;
   }, [spec.id, spec.kind, filters]);
+  const fadeReject = useCallback(
+    (nums: number[]) =>
+      waRejectReason(nums, spec, effectiveFilters, past, avoid) != null,
+    [spec, effectiveFilters, past, avoid],
+  );
   const poolRequest = useMemo(
     () => ({
       kind: "wa" as const,
@@ -469,7 +477,9 @@ export function WaTicketsView({ game }: Props) {
       </header>
       <p className="gen-tag">
         {mode === "ladder"
-          ? "Ranks official history, best first. "
+          ? ladderFades
+            ? "Ranks official history, then drops last-draw, hot, cold, and obvious looks. "
+            : "Ranks official history, best first. "
           : mode === "pattern"
             ? patternFades
               ? "Historical shape, minus last-draw, hot, cold, and obvious looks. Entertainment. "
@@ -488,6 +498,15 @@ export function WaTicketsView({ game }: Props) {
             savePref("pattern.applyFades", next);
           }}
         />
+      ) : mode === "ladder" ? (
+        <PatternFadesToggle
+          variant="ladder"
+          on={ladderFades}
+          onToggle={(next) => {
+            setLadderFades(next);
+            savePref("ladder.applyFades", next);
+          }}
+        />
       ) : null}
 
       <div className={`gen-layout${mode === "ladder" ? " is-ladder" : ""}`}>
@@ -497,6 +516,7 @@ export function WaTicketsView({ game }: Props) {
               model={patternModel}
               size={whiteCount}
               source="Washington’s Lottery"
+              reject={ladderFades ? fadeReject : undefined}
               renderTile={(entry) => (
                 <FoilCard game={spec.id}>
                   <WaSlip

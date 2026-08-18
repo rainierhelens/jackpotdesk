@@ -20,10 +20,16 @@ function pointsTone(points: number): string {
 export function PatternFadesToggle({
   on,
   onToggle,
+  variant = "pattern",
 }: {
   on: boolean;
   onToggle: (next: boolean) => void;
+  variant?: "pattern" | "ladder";
 }) {
+  const body =
+    variant === "ladder"
+      ? "Off: the full ranked field, highest pattern score first. Re-ranks only when new official draws land. On: same score, then drop last-draw, hot, cold, and obvious shapes from the fade list on the right. Survivors keep their order and are re-numbered from #1. History is a score, then a veto. It does not make numbers more likely next time. Same hit odds either way."
+      : "Off: highest-weighted echo of official history. On: same score, then drop last-draw, hot, cold, and obvious shapes from the fade list on the right. History is a score, then a veto. It does not make numbers more likely next time. Same hit odds either way.";
   return (
     <div className="pattern-mix">
       <label>
@@ -34,12 +40,7 @@ export function PatternFadesToggle({
         />
         Apply fades
       </label>
-      <p className="fine">
-        Off: highest-weighted echo of official history. On: same score, then
-        drop last-draw, hot, cold, and obvious shapes from the fade list on
-        the right. History is a score, then a veto. It does not make numbers
-        more likely next time. Same hit odds either way.
-      </p>
+      <p className="fine">{body}</p>
     </div>
   );
 }

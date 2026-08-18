@@ -54,7 +54,7 @@ From **all** stored history (newest-first):
 
 `explainTicket` states only facts the score used (top-10 membership, named pairs, hot count, modal odd/even, sum band).
 
-`patternLadder(model, size, depth)` is the ranked field. Deterministic seed from the frequency vector. `patternPickTickets` is the jittered mint.
+`patternLadder(model, size, depth, opts?)` is the ranked field. Deterministic seed from the frequency vector. Optional `opts.reject` is a fade veto after the score. `patternPickTickets` is the jittered mint.
 
 ## Client data flow
 
