@@ -426,6 +426,7 @@ export function BoardView({
 
   useEffect(() => {
     if (mode !== "ladder" || !ladder || ladder.entries.length === 0) return;
+    const depth = ladder.entries.length;
     function onKey(event: KeyboardEvent) {
       const node = event.target;
       if (node instanceof HTMLElement) {
@@ -441,7 +442,7 @@ export function BoardView({
       }
       if (event.key === "ArrowRight" || event.key === "ArrowDown") {
         event.preventDefault();
-        setLadderRank((cur) => Math.min(ladder.entries.length, cur + 1));
+        setLadderRank((cur) => Math.min(depth, cur + 1));
       } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
         event.preventDefault();
         setLadderRank((cur) => Math.max(1, cur - 1));

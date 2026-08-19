@@ -104,8 +104,8 @@ export function waToOfficial(rows: WaDraw[]): OfficialDraw[] {
 }
 
 function specOf(spec: GameSpec | HeatSpec): HeatSpec {
-  if ("pick" in spec && typeof spec.pick === "number") return spec;
-  return nationalHeatSpec(spec);
+  if ("id" in spec) return nationalHeatSpec(spec);
+  return spec;
 }
 
 export function sliceHeatDraws(
