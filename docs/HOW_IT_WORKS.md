@@ -1,6 +1,6 @@
 # How JackpotDesk works
 
-Read this before changing mint modes, ticket generation, or product copy. Claims we may and may not make are in [CLAIMS.md](CLAIMS.md). Data jobs and model math are in [DATA_AND_MODELS.md](DATA_AND_MODELS.md). How we ship and later charge is in [BUSINESS.md](BUSINESS.md). Visual language and the em-dash rule are in [STYLE.md](STYLE.md). The operator email is in [DIGEST.md](DIGEST.md).
+Read this before changing mint modes, ticket generation, or product copy. Claims we may and may not make are in [CLAIMS.md](CLAIMS.md). Data jobs and model math are in [DATA_AND_MODELS.md](DATA_AND_MODELS.md). How we ship and later charge is in [BUSINESS.md](BUSINESS.md). Visual language and the em-dash rule are in [STYLE.md](STYLE.md). The operator email is in [DIGEST.md](DIGEST.md). The public jar and inbox are in [DESK.md](DESK.md).
 
 ## Premise
 
@@ -14,7 +14,7 @@ Every mode below draws from the legal matrix (count, range, uniqueness, special 
 
 ## Modes
 
-Default persisted pref is `mintMode = "ladder"` ([`src/views/TicketsView.tsx`](../src/views/TicketsView.tsx), [`src/views/WaTicketsView.tsx`](../src/views/WaTicketsView.tsx)). Switch order: Ladder → Pattern lab → Desk pick → Quick mint.
+Default mode on Desk is Ladder ([`src/views/BoardView.tsx`](../src/views/BoardView.tsx)). Switch order: Ladder → Pattern lab → Desk pick → Quick mint.
 
 ### Ladder
 
@@ -45,11 +45,15 @@ Default persisted pref is `mintMode = "ladder"` ([`src/views/TicketsView.tsx`](.
 
 ## Secondary tools
 
-- **This week**: cash jackpot, tax, split risk, expected value. Does not pick numbers.
+- **Desk** (home tab, [`BoardView`](../src/views/BoardView.tsx)): mint + heat + ladder. One slip next to Heat (official-draw frequency: grid, pairs, draw map), NumberPool (fade space and crowd pick-rate), and the Ladder feed (pattern score). Mint N boards with Quick / Desk pick / Pattern lab, or step the ranked field with arrow keys, then click Heat or pool chips to edit the first board. Copy, print, save, or add-to-pool operate on the minted stack. Live PatternReport and CrowdIndex re-score the boards. Same hit odds as Quick Pick. Clicking to edit does not change hit odds. Do not blend the three readouts into one score. Old `?tab=tickets` and `?tab=heat` bounce here. Clean home omits `tab`.
+- **Heat** (on Desk, [`lotteryHeat.ts`](../src/lib/lotteryHeat.ts)): official-draw frequency. National Powerball / Mega Millions and Washington Hit 5 / Lotto / Match 4 / Cash Pop. Windows are all-time, last N draws, or a custom date range. Optional time-shift slides a 50-draw pane through that history (Play animates; reduced motion jumps). Views: grid, pair matrix (from the pattern model), draw map. Color is count or deviation from a uniform field. Click fills the slip. Mint from this view weights by this window (weight floor 1). Save grid PNG. Not crowd pick-rate. Not a forecast.
+- **This week**: cash jackpot, tax, split risk, expected value. Does not pick numbers. Build slip lands on Desk.
 - **Map**: public jackpot tickets by sale state.
 - **Pool**: members, shares, payouts in this browser.
 - **Why this**: method copy. Keep it aligned with [CLAIMS.md](CLAIMS.md).
 - **Private digest**: daily operator email of Ladder #1–#3 plus the EV call. Not a public list. See [DIGEST.md](DIGEST.md).
+- **Tip the desk**: optional gift for hosting and archives. Not a pass. See [DESK.md](DESK.md).
+- **Write the desk**: support form to the operator. No name required. Not a public list.
 
 ## Games
 

@@ -24,7 +24,7 @@ const HOT_COUNT = 3;
 const COLD_COUNT = 3;
 const OVERDUE_MIN_DAYS = 30;
 
-function daysBetween(from: string, to: string): number {
+export function daysBetween(from: string, to: string): number {
   const a = Date.parse(`${from}T12:00:00Z`);
   const b = Date.parse(`${to}T12:00:00Z`);
   if (!Number.isFinite(a) || !Number.isFinite(b)) return 0;

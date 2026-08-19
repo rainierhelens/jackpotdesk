@@ -331,7 +331,7 @@ export function PoolView({
       {mintNote ? <p className="fine">{mintNote}</p> : null}
 
       {pool.tickets.length === 0 ? (
-        <p className="fine">No tickets yet. Mint here or generate on the Tickets tab and add them.</p>
+        <p className="fine">No tickets yet. Mint here or generate on Desk and add them.</p>
       ) : (
         <ol className="ticket-list compact">
           {pool.tickets.map((ticket, i) => {

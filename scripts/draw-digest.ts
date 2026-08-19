@@ -270,7 +270,7 @@ function formatHtml(payload: DigestPayload): string {
       <p style="margin:0 0 10px;font-size:14px;"><span style="color:${callColor};font-weight:700;">${callLine(block)}</span> · unique-ticket EV ${escapeHtml(block.netEv)} after 37% federal, 0% WA state.</p>
       <p style="margin:0 0 12px;color:#a1a1aa;font-size:13px;">${escapeHtml(block.advice)}</p>
       <table width="100%" cellpadding="0" cellspacing="0">${block.rungs.map(rungHtml).join("")}</table>
-      <p style="margin:10px 0 0;color:#71717a;font-size:12px;">Last official ${escapeHtml(block.lastDraw ?? "n/a")} · ${block.history} draws in the model. <a href="${SITE}/?desk=national&game=${block.id}&tab=tickets" style="color:#3b9eff;">Open the ladder</a></p>`;
+      <p style="margin:10px 0 0;color:#71717a;font-size:12px;">Last official ${escapeHtml(block.lastDraw ?? "n/a")} · ${block.history} draws in the model. <a href="${SITE}/?desk=national&game=${block.id}" style="color:#3b9eff;">Open the ladder</a></p>`;
     })
     .join("");
 
@@ -280,7 +280,7 @@ function formatHtml(payload: DigestPayload): string {
       <p style="margin:0 0 6px;color:#a1a1aa;font-size:13px;">${escapeHtml(block.when)}</p>
       <p style="margin:0 0 12px;font-size:14px;">${escapeHtml(block.prizeLine)}</p>
       <table width="100%" cellpadding="0" cellspacing="0">${block.rungs.map(rungHtml).join("")}</table>
-      <p style="margin:10px 0 0;color:#71717a;font-size:12px;">Last official ${escapeHtml(block.lastDraw ?? "n/a")} · ${block.history} draws in the baked book. <a href="${SITE}/?desk=washington&wa=${block.id}&tab=tickets" style="color:#3b9eff;">Open the ladder</a></p>`,
+      <p style="margin:10px 0 0;color:#71717a;font-size:12px;">Last official ${escapeHtml(block.lastDraw ?? "n/a")} · ${block.history} draws in the baked book. <a href="${SITE}/?desk=washington&wa=${block.id}" style="color:#3b9eff;">Open the ladder</a></p>`,
     )
     .join("");
 
@@ -327,7 +327,7 @@ function formatText(payload: DigestPayload): string {
       lines.push(`      ${rung.why}`);
     }
     lines.push(
-      `Last official ${block.lastDraw ?? "n/a"} · ${block.history} draws. ${SITE}/?desk=national&game=${block.id}&tab=tickets`,
+      `Last official ${block.lastDraw ?? "n/a"} · ${block.history} draws. ${SITE}/?desk=national&game=${block.id}`,
     );
     lines.push("");
   }
@@ -342,7 +342,7 @@ function formatText(payload: DigestPayload): string {
       lines.push(`      ${rung.why}`);
     }
     lines.push(
-      `Last official ${block.lastDraw ?? "n/a"} · ${block.history} draws. ${SITE}/?desk=washington&wa=${block.id}&tab=tickets`,
+      `Last official ${block.lastDraw ?? "n/a"} · ${block.history} draws. ${SITE}/?desk=washington&wa=${block.id}`,
     );
     lines.push("");
   }

@@ -6,12 +6,18 @@ declare global {
 }
 
 const TAB_PATH: Record<string, { title: string; path: string }> = {
-  tickets: { title: "Build the slip", path: "/tickets" },
   week: { title: "This week", path: "/week" },
   map: { title: "Map", path: "/map" },
+  board: { title: "The desk", path: "/desk" },
   pool: { title: "Pool", path: "/pool" },
   why: { title: "Why this", path: "/why" },
+  tip: { title: "Tip the desk", path: "/tip" },
+  write: { title: "Write the desk", path: "/write" },
 };
+
+export function trackEvent(name: string, params: Record<string, unknown> = {}) {
+  window.gtag?.("event", name, params);
+}
 
 export function trackTab(tab: string) {
   const page = TAB_PATH[tab] ?? { title: tab, path: `/${tab}` };

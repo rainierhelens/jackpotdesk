@@ -56,11 +56,14 @@ From **all** stored history (newest-first):
 
 `patternLadder(model, size, depth, opts?)` is the ranked field. Deterministic seed from the frequency vector. Optional `opts.reject` is a fade veto after the score. `patternPickTickets` is the jittered mint.
 
+Lottery Heat ([`src/lib/lotteryHeat.ts`](../src/lib/lotteryHeat.ts)) is a **client window** on the official draw list (national or WA). It extends `numberField` with share, uniform expected count, signed deviation, last-drawn date, and the special-ball row (in-range extras only). Time-shift is a 50-draw pane walked across that slice. The pair view reads `buildPatternModel` pair counts. No new fetch or bake. Changing the window does not change hit odds.
+
 ## Client data flow
 
 ```
 NY Open Data ──► winners.ts ──► pattern model (national, full history)
                               └── hot/cold fades, past keys
+                              └── Lottery Heat (windowed client frequency)
 
 waWinnerCounts.json ──► fit-popularity ──► popularity.json ──► crowd + Desk pick
 winnerCounts.json ────┘
@@ -68,4 +71,5 @@ winnerCounts.json ────┘
 prior waDraws ∪ 180-day scrape ∪ winner-count numbers
         ──► bake-wa-draws / Worker scrape ──► accumulating book
         ──► waDrawsFor ──► pattern model (WA)
+                              └── Lottery Heat (WA windows)
 ```

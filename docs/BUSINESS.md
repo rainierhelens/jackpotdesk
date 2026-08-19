@@ -31,6 +31,7 @@ Goals:
 2. Keep archives appending (popularity Action + WA union). Every week live is more history.
 3. Do not take payment, accounts, or refunds yet.
 4. Private digest is live for the operator only ([DIGEST.md](DIGEST.md)). No public signup.
+5. [Tip the desk](DESK.md) and [Write the desk](DESK.md) are the public-anonymous jar and inbox. No named founder page. The jar URL stays blank until you paste a Ko-fi or Stripe Payment Link.
 
 Copy on the site stays entertainment / same-odds. Optional later: a one-line “free experiment” note on Why this — do not add a fake “coming soon / subscribe” gate.
 
@@ -96,7 +97,7 @@ If a sentence would be illegal as an investment pitch, it is illegal as a lotter
 
 No accounts yet, so use what you have (Analytics, already on the site):
 
-- Sessions on Tickets / Ladder vs bounce.
+- Sessions on Desk / Ladder vs bounce.
 - Draw-day vs off-day traffic.
 - Outbound to Lottery Lab (honesty is working if some people click it).
 - Save/print/copy if you later event those.
@@ -107,3 +108,4 @@ Phase 1 adds: pass starts, night-pass on jackpot spikes, refunds, “#1 missed�
 
 - **2026-08:** Premise is The Ladder, honest-hero. Monetize ranked-field access, not prediction. Live site ships ungated as an experiment. This plan is the next document; payments are not in this pass.
 - **2026-08:** Operator is subscriber #1 on a private Resend digest. Public email list waits for Phase 1.
+- **2026-08:** Tip the desk and Write the desk ship as JackpotDesk, not a personal brand. Financial KYC stays off the site.

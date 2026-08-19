@@ -7,7 +7,7 @@ The product is **The Ladder**: a ranked feed of boards scored against official d
 Secondary tools:
 
 1. **This week:** expected value using cash jackpot, tax, and split risk.
-2. **Tickets modes:** Ladder (default), Pattern lab, Desk pick (least-crowded), Quick mint (fade crowded public tickets).
+2. **Desk:** Ladder (default), Pattern lab, Desk pick (least-crowded), Quick mint, plus Heat and the number pool on one slip.
 3. **Pool:** members, shares, and payout splits in this browser.
 
 This does **not** raise the chance of winning. Hit odds match Quick Pick. The live site is a free experiment; how we might charge later is in [`docs/BUSINESS.md`](docs/BUSINESS.md). How it looks and how copy is written: [`docs/STYLE.md`](docs/STYLE.md). Engines, claims, and the private digest: [`docs/`](docs/).
@@ -43,7 +43,7 @@ In the GitHub repo: **Settings → Pages → Custom domain** `www.jackpotdesk.co
 
 ## Washington draw feed (Cloudflare Worker)
 
-The browser cannot fetch `walottery.com` (CORS). A Worker caches the boards and serves JSON to `www.jackpotdesk.com`. The site falls back to the baked `src/data/waDraws.json` if the Worker is cold or down. The same Worker also hosts `/jackpot-wins` for the US jackpot map (public jackpot tickets by sale state, not every prize).
+The browser cannot fetch `walottery.com` (CORS). A Worker caches the boards and serves JSON to `www.jackpotdesk.com`. The site falls back to the baked `src/data/waDraws.json` if the Worker is cold or down. The same Worker also hosts `/jackpot-wins` for the US jackpot map (public jackpot tickets by sale state, not every prize) and `POST /write-desk` for [Write the desk](docs/DESK.md).
 
 One-time setup:
 
@@ -53,6 +53,8 @@ One-time setup:
 npx wrangler login
 npx wrangler deploy
 npx wrangler secret put FEED_SECRET
+npx wrangler secret put RESEND_API_KEY
+npx wrangler secret put DESK_TO_EMAIL
 ```
 
 Use a long random string for `FEED_SECRET`. Wrangler prints a URL like `https://jackpotdesk-wa.<you>.workers.dev`.

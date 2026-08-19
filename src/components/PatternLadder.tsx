@@ -27,6 +27,7 @@ export function PatternLadder({
   renderTile,
   crowd,
   reject,
+  onSelect,
 }: {
   model: PatternModel;
   size: number;
@@ -36,6 +37,8 @@ export function PatternLadder({
   crowd?: (entry: LadderEntry) => CrowdReading | null;
   /** When set, faded boards never enter the ranked field. */
   reject?: (numbers: number[]) => boolean;
+  /** Load this ranked board onto the shared slip. */
+  onSelect?: (entry: LadderEntry) => void;
 }) {
   const ladder = useMemo(
     () => patternLadder(model, size, LADDER_DEPTH, { reject }),
@@ -69,7 +72,7 @@ export function PatternLadder({
   const atEnd = shown >= ladder.entries.length;
 
   return (
-    <section className="ladder-feed" aria-label="Pattern ladder">
+    <section className="ladder-feed is-reel" aria-label="Pattern ladder">
       <div className="crowd-topbar ladder-topbar">
         <h3>The ladder</h3>
         <span className="crowd-mode">
@@ -121,6 +124,15 @@ export function PatternLadder({
                     </span>
                   ) : null}
                 </div>
+                {onSelect ? (
+                  <button
+                    type="button"
+                    className="ladder-load"
+                    onClick={() => onSelect(entry)}
+                  >
+                    Load on slip
+                  </button>
+                ) : null}
                 <p className="ladder-why">{entry.why}</p>
                 <dl className="ladder-parts">
                   <div>

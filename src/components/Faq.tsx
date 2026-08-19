@@ -26,7 +26,7 @@ export function Faq() {
     },
     {
       q: "Are there lottery numbers with higher odds of winning?",
-      a: "No, and any product that says otherwise is selling fiction. Every combination the machine can draw has identical odds, and past drawings do not change the next one. What differs is how many people are holding a combination: birthdays, visual patterns, and last week's winners are heavily over-played, so those tickets split prizes more often when they hit. The Number pool panel on each Tickets tab shows exactly which combinations the desk skips, how many that removes, and how many equally likely combinations remain.",
+      a: "No, and any product that says otherwise is selling fiction. Every combination the machine can draw has identical odds, and past drawings do not change the next one. What differs is how many people are holding a combination: birthdays, visual patterns, and last week's winners are heavily over-played, so those tickets split prizes more often when they hit. The Number pool panel on Desk shows exactly which combinations the desk skips, how many that removes, and how many equally likely combinations remain.",
     },
     {
       q: "Do I need an account?",

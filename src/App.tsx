@@ -39,15 +39,14 @@ const MapView = lazy(() =>
 const PoolView = lazy(() =>
   import("./views/PoolView").then((m) => ({ default: m.PoolView })),
 );
-const TicketsView = lazy(() =>
-  import("./views/TicketsView").then((m) => ({ default: m.TicketsView })),
-);
-const WaTicketsView = lazy(() =>
-  import("./views/WaTicketsView").then((m) => ({ default: m.WaTicketsView })),
-);
 const WeekView = lazy(() =>
   import("./views/WeekView").then((m) => ({ default: m.WeekView })),
 );
+const BoardView = lazy(() =>
+  import("./views/BoardView").then((m) => ({ default: m.BoardView })),
+);
+import { TipView } from "./views/TipView";
+import { WriteView } from "./views/WriteView";
 import logo from "./images/jackpotdesklogo.png";
 import iconWeek from "./images/this-week.png";
 import iconMap from "./images/map.png";
@@ -55,15 +54,24 @@ import iconTickets from "./images/tickets.png";
 import iconPool from "./images/pool.png";
 import iconWhy from "./images/why-this.png";
 
-type Tab = "week" | "map" | "tickets" | "pool" | "why";
+type Tab = "week" | "map" | "board" | "pool" | "why" | "tip" | "write";
 
-const TABS: Tab[] = ["week", "map", "tickets", "pool", "why"];
+const TABS: Tab[] = [
+  "board",
+  "week",
+  "map",
+  "pool",
+  "why",
+  "tip",
+  "write",
+];
 const NATIONAL_IDS: GameId[] = ["powerball", "megamillions"];
 
 /** Deep-link params parsed once at startup: ?tab=&desk=&game=&wa= */
 function urlState() {
   const params = new URLSearchParams(window.location.search);
-  const tab = params.get("tab") as Tab | null;
+  const raw = params.get("tab");
+  const tab = raw === "tickets" || raw === "heat" ? null : (raw as Tab | null);
   const desk = params.get("desk") as DeskId | null;
   const game = params.get("game") as GameId | null;
   const wa = params.get("wa") as WaGameId | null;
@@ -80,7 +88,7 @@ const boot = urlState();
 export default function App() {
   const poolApi = usePool();
   const replacePool = poolApi.replacePool;
-  const [tab, setTab] = useState<Tab>(boot.tab ?? "tickets");
+  const [tab, setTab] = useState<Tab>(boot.tab ?? "board");
   const [desk, setDesk] = useState<DeskId>(
     boot.desk ?? loadPref<DeskId>("desk", "national"),
   );
@@ -118,7 +126,7 @@ export default function App() {
     savePref("desk", desk);
     savePref("waGame", waGame);
     const params = new URLSearchParams();
-    if (tab !== "tickets") params.set("tab", tab);
+    if (tab !== "board") params.set("tab", tab);
     if (desk !== "national") params.set("desk", desk);
     if (game !== "powerball") params.set("game", game);
     if (waGame !== "hit5") params.set("wa", waGame);
@@ -225,19 +233,19 @@ export default function App() {
     [poolApi.pool.tickets],
   );
 
-  function goToTickets() {
-    setTab("tickets");
+  function goToDesk() {
+    setTab("board");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function onGame(next: GameId) {
     poolApi.setGame(next);
-    goToTickets();
+    goToDesk();
   }
 
   function onWaGame(next: WaGameId) {
     setWaGame(next);
-    goToTickets();
+    goToDesk();
   }
 
   function onTickNational(next: GameId) {
@@ -271,6 +279,7 @@ export default function App() {
 
   return (
     <div className="shell">
+      <div className="chrome">
       <header className="masthead">
         <div className="masthead-row">
           <div className="masthead-brand">
@@ -307,24 +316,15 @@ export default function App() {
         </div>
       </header>
 
-      <MarketTicker
-        desk={desk}
-        game={game}
-        waGame={waGame}
-        latestDate={latest?.date ?? null}
-        onNational={onTickNational}
-        onWashington={onTickWashington}
-      />
-
       <nav className="tabs" aria-label="Primary">
           <button
             type="button"
-            className={tab === "tickets" ? "on" : ""}
-            aria-current={tab === "tickets" ? "page" : undefined}
-            onClick={() => setTab("tickets")}
+            className={tab === "board" ? "on" : ""}
+            aria-current={tab === "board" ? "page" : undefined}
+            onClick={() => setTab("board")}
           >
             <img src={iconTickets} alt="" className="tab-icon wide" />
-            Tickets
+            Desk
           </button>
           <button
             type="button"
@@ -364,13 +364,45 @@ export default function App() {
             <span className="tab-full">Why this</span>
             <span className="tab-short">Why</span>
           </button>
+          <button
+            type="button"
+            className={tab === "tip" ? "on" : ""}
+            aria-current={tab === "tip" ? "page" : undefined}
+            onClick={() => setTab("tip")}
+          >
+            <span className="tab-full">Tip the desk</span>
+            <span className="tab-short">Tip</span>
+          </button>
+          <button
+            type="button"
+            className={tab === "write" ? "on" : ""}
+            aria-current={tab === "write" ? "page" : undefined}
+            onClick={() => setTab("write")}
+          >
+            <span className="tab-full">Write the desk</span>
+            <span className="tab-short">Write</span>
+          </button>
         </nav>
+      </div>
+
+      <MarketTicker
+        desk={desk}
+        game={game}
+        waGame={waGame}
+        latestDate={latest?.date ?? null}
+        onNational={onTickNational}
+        onWashington={onTickWashington}
+      />
 
       <main>
       <Suspense fallback={null}>
-      {desk === "washington" && tab !== "tickets" && tab !== "map" ? (
+      {desk === "washington" &&
+      tab !== "map" &&
+      tab !== "board" &&
+      tab !== "tip" &&
+      tab !== "write" ? (
         <p className="lede">
-          Washington slips and the Hit 5 / Lotto line are on Tickets. Pool and
+          Washington slips and the Hit 5 / Lotto line are on Desk. Pool and
           Why still price Powerball / Mega Millions.
         </p>
       ) : null}
@@ -397,7 +429,7 @@ export default function App() {
           onStateId={setStateId}
           onHumanShare={setHumanShare}
           onBuildSlip={() => {
-            setTab("tickets");
+            setTab("board");
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
         />
@@ -407,22 +439,22 @@ export default function App() {
         <MapView game={game} preferWa={desk === "washington"} />
       ) : null}
 
-      {tab === "tickets" ? (
-        desk === "washington" ? (
-          <WaTicketsView key={waGame} game={waGame} />
-        ) : (
-          <TicketsView
-            key={game}
-            game={game}
-            past={past}
-            draws={draws}
-            asOf={asOf}
-            winnerError={winnerError}
-            exclude={exclude}
-            nextDrawDate={nextDrawDate}
-            onAddToPool={onAddToPool}
-          />
-        )
+      {tab === "board" ? (
+        <BoardView
+          game={game}
+          draws={draws}
+          asOf={asOf}
+          winnerError={winnerError}
+          past={past}
+          exclude={exclude}
+          nextDrawDate={nextDrawDate}
+          desk={desk}
+          waGame={waGame}
+          onGame={setGame}
+          onDesk={setDesk}
+          onWaGame={setWaGame}
+          onAddToPool={onAddToPool}
+        />
       ) : null}
 
       {tab === "pool" ? (
@@ -458,10 +490,23 @@ export default function App() {
           <Faq />
         </>
       ) : null}
+
+      {tab === "tip" ? (
+        <TipView onWrite={() => setTab("write")} />
+      ) : null}
+
+      {tab === "write" ? (
+        <WriteView onTip={() => setTab("tip")} />
+      ) : null}
       </Suspense>
       </main>
 
-      <Footer />
+      <Footer
+        onDeskTab={(next) => {
+          setTab(next);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      />
     </div>
   );
 }

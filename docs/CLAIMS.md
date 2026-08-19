@@ -12,6 +12,8 @@ Read this before changing masthead, SEO, Why this, Ladder copy, a paywall, or th
 - “50 points = the average random ticket.”
 - “1.00× crowd = expected co-winners of the average random board if it hits. Lower is lonelier.”
 - “Entertainment, not prediction.”
+- “How often each number appeared in this window.” (Lottery Heat)
+- “Mint a starting board, then click Heat, the number pool, or a ladder tile.” (Desk is the mint + heat + ladder surface). Name each source. Do not blend them into one score.
 - Internal / docs: “fitted popularity model,” “pattern-ranking model,” “quasi-Poisson.” “Machine learning” only in docs, never on the masthead, SEO, or a paywall.
 
 ## Banned

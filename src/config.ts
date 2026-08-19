@@ -9,3 +9,14 @@ export const WA_DRAWS_URL =
 export const JACKPOT_WINS_URL =
   import.meta.env.VITE_JACKPOT_WINS_URL ||
   WA_DRAWS_URL.replace(/\/wa-draws\/?$/, "/jackpot-wins");
+
+/** Worker route for Write the desk. Same origin as the WA feed. */
+export const WRITE_DESK_URL =
+  import.meta.env.VITE_WRITE_DESK_URL ||
+  WA_DRAWS_URL.replace(/\/wa-draws\/?$/, "/write-desk");
+
+/**
+ * Outbound tip jar (Ko-fi or Stripe Payment Link). Blank means the tip
+ * page explains the jar is not open yet. Do not put a personal name here.
+ */
+export const TIP_JAR_URL = import.meta.env.VITE_TIP_JAR_URL || "";

@@ -2,6 +2,8 @@
 
 Operator-only email. There is no public signup. The list is one address: yours. It is stored only in GitHub Actions secrets, never in this repo.
 
+The same Resend API key can also send [Write the desk](DESK.md) mail from the Worker (`DESK_TO_EMAIL`). That is a different inbox path. This file is the private draw-night letter only.
+
 The job builds the same Ladder #1–#3 the site shows (Powerball, Mega Millions, Hit 5, Lotto), plus the national EV call (skip / entertain / rare plus) using 37% federal tax, 0% Washington state tax, and a 20% birthday-share sketch. Copy follows [CLAIMS.md](CLAIMS.md) and [STYLE.md](STYLE.md): scored replay of the past, same hit odds, no em dashes.
 
 ## You are subscriber #1

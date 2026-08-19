@@ -24,6 +24,10 @@ type Props = {
   heat?: number[] | null;
   /** Where the heat weights come from, e.g. "California winner counts". */
   heatSource?: string;
+  /** Whites currently on the slip. Only used when `onToggleWhite` is set. */
+  selected?: number[];
+  /** When set, chips add or remove a white on the shared slip. */
+  onToggleWhite?: (n: number) => void;
 };
 
 /** Warm removal ramp: cuts read warm, the surviving pool reads green. */
@@ -191,6 +195,8 @@ export function NumberPool({
   note,
   heat,
   heatSource,
+  selected,
+  onToggleWhite,
 }: Props) {
   const reducedMotion = usePrefersReducedMotion();
   const survivors = useAnimatedNumber(report.survivors, !reducedMotion);
@@ -279,22 +285,40 @@ export function NumberPool({
         {cells.map((n) => {
           const fade = fadeByNumber.get(n);
           const weight = heat?.[n - min];
+          const on = selected?.includes(n) ?? false;
           const titleParts = [
             fade ? `Faded: ${fade.label}` : null,
             weight ? heatTitle(weight) : null,
           ].filter(Boolean);
+          const className = `pool-cell${fade ? ` is-faded tone-${fade.tone}` : ""}${weight ? " has-heat" : ""}${on ? " is-on" : ""}`;
+          const style = weight
+            ? ({ "--heat": heatColor(weight) } as React.CSSProperties)
+            : undefined;
+          const label = pad ? String(n).padStart(2, "0") : String(n);
+          if (onToggleWhite) {
+            return (
+              <button
+                key={n}
+                type="button"
+                className={className}
+                style={style}
+                title={titleParts.length ? titleParts.join(" · ") : undefined}
+                aria-pressed={on}
+                aria-label={`Number ${label}${on ? ", on the slip" : ""}`}
+                onClick={() => onToggleWhite(n)}
+              >
+                {label}
+              </button>
+            );
+          }
           return (
             <span
               key={n}
-              className={`pool-cell${fade ? ` is-faded tone-${fade.tone}` : ""}${weight ? " has-heat" : ""}`}
-              style={
-                weight
-                  ? ({ "--heat": heatColor(weight) } as React.CSSProperties)
-                  : undefined
-              }
+              className={className}
+              style={style}
               title={titleParts.length ? titleParts.join(" · ") : undefined}
             >
-              {pad ? String(n).padStart(2, "0") : String(n)}
+              {label}
             </span>
           );
         })}
