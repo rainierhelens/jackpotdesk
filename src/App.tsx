@@ -42,6 +42,12 @@ const PoolView = lazy(() =>
 const WeekView = lazy(() =>
   import("./views/WeekView").then((m) => ({ default: m.WeekView })),
 );
+const TicketsView = lazy(() =>
+  import("./views/TicketsView").then((m) => ({ default: m.TicketsView })),
+);
+const WaTicketsView = lazy(() =>
+  import("./views/WaTicketsView").then((m) => ({ default: m.WaTicketsView })),
+);
 const BoardView = lazy(() =>
   import("./views/BoardView").then((m) => ({ default: m.BoardView })),
 );
@@ -53,10 +59,11 @@ import iconTickets from "./images/tickets.png";
 import iconPool from "./images/pool.png";
 import iconWhy from "./images/why-this.png";
 
-type Tab = "week" | "map" | "board" | "pool" | "why" | "write";
+type Tab = "week" | "map" | "board" | "tickets" | "pool" | "why" | "write";
 
 const TABS: Tab[] = [
   "board",
+  "tickets",
   "week",
   "map",
   "pool",
@@ -70,7 +77,7 @@ function urlState() {
   const params = new URLSearchParams(window.location.search);
   const raw = params.get("tab");
   const tab =
-    raw === "tickets" || raw === "heat" || raw === "tip"
+    raw === "heat" || raw === "tip"
       ? null
       : (raw as Tab | null);
   const desk = params.get("desk") as DeskId | null;
@@ -239,6 +246,11 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  function goToTickets() {
+    setTab("tickets");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   function onGame(next: GameId) {
     poolApi.setGame(next);
     goToDesk();
@@ -246,7 +258,7 @@ export default function App() {
 
   function onWaGame(next: WaGameId) {
     setWaGame(next);
-    goToDesk();
+    goToTickets();
   }
 
   function onTickNational(next: GameId) {
@@ -329,6 +341,14 @@ export default function App() {
           </button>
           <button
             type="button"
+            className={tab === "tickets" ? "on" : ""}
+            aria-current={tab === "tickets" ? "page" : undefined}
+            onClick={() => setTab("tickets")}
+          >
+            Tickets
+          </button>
+          <button
+            type="button"
             className={tab === "week" ? "on" : ""}
             aria-current={tab === "week" ? "page" : undefined}
             onClick={() => setTab("week")}
@@ -391,9 +411,10 @@ export default function App() {
       {desk === "washington" &&
       tab !== "map" &&
       tab !== "board" &&
+      tab !== "tickets" &&
       tab !== "write" ? (
         <p className="lede">
-          Washington slips and the Hit 5 / Lotto line are on Desk. Pool and
+          Washington slips and the Hit 5 / Lotto line are on Tickets. Pool and
           Why still price Powerball / Mega Millions.
         </p>
       ) : null}
@@ -446,6 +467,24 @@ export default function App() {
           onWaGame={setWaGame}
           onAddToPool={onAddToPool}
         />
+      ) : null}
+
+      {tab === "tickets" ? (
+        desk === "washington" ? (
+          <WaTicketsView key={waGame} game={waGame} />
+        ) : (
+          <TicketsView
+            key={game}
+            game={game}
+            past={past}
+            draws={draws}
+            asOf={asOf}
+            winnerError={winnerError}
+            exclude={exclude}
+            nextDrawDate={nextDrawDate}
+            onAddToPool={onAddToPool}
+          />
+        )
       ) : null}
 
       {tab === "pool" ? (

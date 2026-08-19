@@ -9,6 +9,7 @@ const TAB_PATH: Record<string, { title: string; path: string }> = {
   week: { title: "This week", path: "/week" },
   map: { title: "Map", path: "/map" },
   board: { title: "The desk", path: "/desk" },
+  tickets: { title: "Build the slip", path: "/tickets" },
   pool: { title: "Pool", path: "/pool" },
   why: { title: "Why this", path: "/why" },
   write: { title: "Write the desk", path: "/write" },
