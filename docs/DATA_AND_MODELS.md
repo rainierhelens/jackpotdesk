@@ -21,13 +21,14 @@ More history does not make the next drawing more likely to match the past. It ma
 | WA draw numbers | walottery.com 180 days | [`src/data/waDraws.json`](../src/data/waDraws.json) + Worker cache | **Yes.** Scrape merges prior draws; bake also folds the winner-count archive. |
 | Fitted crowd weights | n/a | [`src/data/popularity.json`](../src/data/popularity.json) | Re-fit from the full archive after each append. |
 | Pattern model | n/a | Built in the browser from the draw list | Grows as the draw list grows. No separate bake. |
+| National advertised jackpots | California Lottery (CORS blocks the browser) | [`src/data/marketQuotes.json`](../src/data/marketQuotes.json) + Worker `/market` | Refreshed on each Pages bake. Not a history. |
 
 The Cloudflare Worker is a cache of the accumulating book, not the archive. Permanent stores are the JSON files committed by GitHub Actions.
 
 ## Jobs
 
 - [`.github/workflows/popularity.yml`](../.github/workflows/popularity.yml) — daily `45 16 * * *`: scrape national + WA winner counts, refit weights, commit if changed.
-- [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) — on push to `main` and twice daily: `bake:wa`, `bake:map`, PUT books to the Worker, Pages build.
+- [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) — on push to `main` and twice daily: `bake:wa`, `bake:map`, `bake:market`, PUT books to the Worker, Pages build.
 
 ## Popularity model (crowd)
 

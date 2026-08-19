@@ -1,9 +1,10 @@
 /**
- * CORS JSON host for Washington boards and the US jackpot map.
+ * CORS JSON host for Washington boards, the US jackpot map, and national jackpots.
  * GET is public. PUT (Actions) needs FEED_SECRET. Cron scrapes WA as a backup.
  * POST /write-desk sends support mail via Resend (DESK_TO_EMAIL).
  */
 import { isWaBook, scrapeWaLottery } from "../scripts/wa-lottery.mjs";
+import { fetchCaMarket, isMarketBook } from "../scripts/market-feed.mjs";
 
 const ALLOW = new Set([
   "https://www.jackpotdesk.com",
@@ -16,10 +17,11 @@ const ALLOW = new Set([
 const PATHS = {
   wa: "/wa-draws",
   map: "/jackpot-wins",
+  market: "/market",
   write: "/write-desk",
 };
 
-const last = { wa: null, map: null };
+const last = { wa: null, map: null, market: null };
 
 function corsHeaders(request) {
   const origin = request.headers.get("Origin") || "";
@@ -45,6 +47,9 @@ function jsonResponse(body, request, status = 200) {
 
 function feedKind(pathname) {
   if (pathname === PATHS.map || pathname.startsWith(`${PATHS.map}/`)) return "map";
+  if (pathname === PATHS.market || pathname.startsWith(`${PATHS.market}/`)) {
+    return "market";
+  }
   return "wa";
 }
 
@@ -109,7 +114,15 @@ function isJackpotBook(data) {
 }
 
 function validBook(kind, book) {
-  return kind === "map" ? isJackpotBook(book) : isWaBook(book);
+  if (kind === "map") return isJackpotBook(book);
+  if (kind === "market") return isMarketBook(book);
+  return isWaBook(book);
+}
+
+async function refreshMarket(origin) {
+  const book = await fetchCaMarket();
+  await writeCache(origin, "market", book);
+  return book;
 }
 
 async function cachedWaBook(origin) {
@@ -306,16 +319,27 @@ export default {
         refreshWa(origin).catch((err) => console.error("wa scrape failed", err)),
       );
     }
+    if (kind === "market") {
+      ctx.waitUntil(
+        refreshMarket(origin).catch((err) =>
+          console.error("market scrape failed", err),
+        ),
+      );
+    }
     return jsonResponse({ error: "warming" }, request, 503);
   },
 
   async scheduled(_event, env, ctx) {
     const origin = env.PUBLIC_ORIGIN;
     if (!origin) return;
+    const host = origin.replace(/\/$/, "");
     ctx.waitUntil(
-      refreshWa(origin.replace(/\/$/, "")).catch((err) =>
-        console.error("wa cron failed", err),
-      ),
+      Promise.all([
+        refreshWa(host).catch((err) => console.error("wa cron failed", err)),
+        refreshMarket(host).catch((err) =>
+          console.error("market cron failed", err),
+        ),
+      ]),
     );
   },
 };

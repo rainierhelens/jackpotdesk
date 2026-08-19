@@ -1,0 +1,17 @@
+{
+  "asOf": "2026-08-19",
+  "fetchedAt": "2026-08-19T23:37:07.086Z",
+  "source": "California Lottery (national jackpot)",
+  "games": {
+    "powerball": {
+      "advertised": 48000000,
+      "cash": 20800000,
+      "nextDraw": "2026-08-19"
+    },
+    "megamillions": {
+      "advertised": 113000000,
+      "cash": 48300000,
+      "nextDraw": "2026-08-21"
+    }
+  }
+}

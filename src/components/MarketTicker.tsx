@@ -64,7 +64,7 @@ function NationalTick({
       title={
         quote
           ? `Cash ${formatCompact(quote.cash)} · net EV per $${spec.ticketCost} ticket (37% fed + 5% state sketch)`
-          : "Loading jackpot feed"
+          : "Jackpot from the last site build"
       }
     >
       <span className="tick-label">{spec.label}</span>

@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { fetchMarket, type MarketQuote } from "./market";
+import {
+  bakedMarket,
+  fetchLiveMarketBook,
+  quotesFromBook,
+  type MarketQuote,
+} from "./market";
 import type { GameId } from "../types";
 
 export const NATIONAL_GAMES: GameId[] = ["powerball", "megamillions"];
@@ -7,10 +12,10 @@ export const NATIONAL_GAMES: GameId[] = ["powerball", "megamillions"];
 export const QUOTE_POLL_MS = 5 * 60_000;
 
 /**
- * Module-level cache shared by every subscriber (ticker, picker) so the
- * California Lottery feed is hit once per poll window, not once per component.
+ * Module-level cache shared by every subscriber (ticker, picker).
+ * Seeded from the last site build so national tiles never sit on ··.
  */
-const cache: Partial<Record<GameId, MarketQuote>> = {};
+let cache = quotesFromBook(bakedMarket);
 let fetchedAt = 0;
 let inflight: Promise<void> | null = null;
 
@@ -18,15 +23,7 @@ async function refresh(): Promise<void> {
   if (inflight) return inflight;
   inflight = (async () => {
     try {
-      await Promise.all(
-        NATIONAL_GAMES.map(async (id) => {
-          try {
-            cache[id] = await fetchMarket(id);
-          } catch {
-            // Keep the previous quote; views surface feed errors themselves.
-          }
-        }),
-      );
+      cache = quotesFromBook(await fetchLiveMarketBook());
       fetchedAt = Date.now();
     } finally {
       inflight = null;
@@ -44,7 +41,6 @@ export function useMarketQuotes(): Partial<Record<GameId, MarketQuote>> {
   useEffect(() => {
     let on = true;
     async function tick() {
-      // A small buffer keeps several subscribers from re-fetching back to back.
       if (Date.now() - fetchedAt > QUOTE_POLL_MS - 15_000) await refresh();
       if (on) setQuotes({ ...cache });
     }

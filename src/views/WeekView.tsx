@@ -112,14 +112,23 @@ export function WeekView(props: Props) {
       {props.marketError ? (
         <p className="warn">
           {props.marketError}. Official lottery homepages block the browser, so
-          we load the national jackpot from California Lottery’s public feed.
-          Enter advertised and cash by hand if that feed is down.
+          we load the national jackpot from a Worker cache of California
+          Lottery’s public feed, or the last site build. Enter advertised and
+          cash by hand if you want a newer figure.
         </p>
       ) : props.marketNote?.startsWith("Loading") ? (
         <p className="fine">{props.marketNote}</p>
       ) : props.marketNote ? (
         <p className="fine">
-          <FeedMark feed="live" /> · California Lottery (national jackpot)
+          <FeedMark
+            feed={
+              props.marketNote?.includes("Last site build") ? "baked" : "live"
+            }
+          />{" "}
+          ·{" "}
+          {props.marketNote?.includes("Last site build")
+            ? "Last site build · California Lottery jackpot"
+            : "California Lottery (national jackpot)"}
           {props.nextDrawDate ? ` · next draw ${props.nextDrawDate}` : ""}.
           Tickets sold is an estimate. Edit any field.
         </p>

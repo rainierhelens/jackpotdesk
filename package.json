@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "bake:wa": "node scripts/bake-wa-draws.mjs",
     "bake:map": "node scripts/bake-jackpot-wins.mjs",
+    "bake:market": "node scripts/bake-market.mjs",
     "bake:popularity": "node scripts/popularity-scrape.mjs && node scripts/wa-popularity-scrape.mjs",
     "fit:popularity": "node scripts/fit-popularity.mjs",
     "deploy:wa": "npx wrangler deploy",

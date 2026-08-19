@@ -34,6 +34,9 @@ jobs:
       - name: Bake US jackpot map
         run: npm run bake:map
         continue-on-error: true
+      - name: Bake national advertised jackpots
+        run: npm run bake:market
+        continue-on-error: true
       - name: Push WA feed to Cloudflare Worker
         env:
           WA_FEED_SECRET: ${{ secrets.WA_FEED_SECRET }}
@@ -62,6 +65,21 @@ jobs:
             -H "Authorization: Bearer $WA_FEED_SECRET" \
             -H "Content-Type: application/json" \
             --data-binary @src/data/jackpotWins.json
+        continue-on-error: true
+      - name: Push national jackpots to Cloudflare Worker
+        env:
+          WA_FEED_SECRET: ${{ secrets.WA_FEED_SECRET }}
+          WA_DRAWS_URL: ${{ secrets.WA_DRAWS_URL }}
+        run: |
+          if [ -z "$WA_FEED_SECRET" ] || [ -z "$WA_DRAWS_URL" ]; then
+            echo "Skipping market push (set repo secrets WA_DRAWS_URL and WA_FEED_SECRET)"
+            exit 0
+          fi
+          MARKET_URL="${WA_DRAWS_URL%/wa-draws}/market"
+          curl -fsS -X PUT "$MARKET_URL" \
+            -H "Authorization: Bearer $WA_FEED_SECRET" \
+            -H "Content-Type: application/json" \
+            --data-binary @src/data/marketQuotes.json
         continue-on-error: true
       - name: Build site
         run: npm run build

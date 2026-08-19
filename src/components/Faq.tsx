@@ -34,7 +34,7 @@ export function Faq() {
     },
     {
       q: "Where do the jackpot numbers come from?",
-      a: "Last-draw numbers for Powerball and Mega Millions come from NY Open Data. Advertised jackpot and cash value come from the California Lottery’s public draw feed. Washington boards load from a Cloudflare Worker that caches Washington’s Lottery past-drawings pages; if that feed is down, the last baked copy in the site is used. The US jackpot map uses the same Worker (`/jackpot-wins`) for public jackpot-ticket locations. Tickets sold on the national desk is still an estimate. You can overwrite advertised, cash, and the Hit 5 cashpot.",
+      a: "Last-draw numbers for Powerball and Mega Millions come from NY Open Data. Advertised jackpot and cash value come from the California Lottery’s public draw feed, cached on a Cloudflare Worker (`/market`). The browser cannot call California directly, so if that feed is down the last baked copy in the site is used. Washington boards load from the same Worker; if that feed is down, the last baked copy in the site is used. The US jackpot map uses `/jackpot-wins` for public jackpot-ticket locations. Tickets sold on the national desk is still an estimate. You can overwrite advertised, cash, and the Hit 5 cashpot.",
     },
     {
       q: "How do I share a pool?",

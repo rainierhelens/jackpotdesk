@@ -43,7 +43,7 @@ In the GitHub repo: **Settings → Pages → Custom domain** `www.jackpotdesk.co
 
 ## Washington draw feed (Cloudflare Worker)
 
-The browser cannot fetch `walottery.com` (CORS). A Worker caches the boards and serves JSON to `www.jackpotdesk.com`. The site falls back to the baked `src/data/waDraws.json` if the Worker is cold or down. The same Worker also hosts `/jackpot-wins` for the US jackpot map (public jackpot tickets by sale state, not every prize) and `POST /write-desk` for [Write the desk](docs/DESK.md).
+The browser cannot fetch `walottery.com` or `calottery.com` (CORS). A Worker caches the boards and national jackpots and serves JSON to `www.jackpotdesk.com`. The site falls back to the baked `src/data/waDraws.json` and `src/data/marketQuotes.json` if the Worker is cold or down. The same Worker also hosts `/jackpot-wins` for the US jackpot map (public jackpot tickets by sale state, not every prize), `/market` for advertised Powerball / Mega Millions jackpots, and `POST /write-desk` for [Write the desk](docs/DESK.md).
 
 One-time setup:
 

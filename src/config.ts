@@ -10,6 +10,11 @@ export const JACKPOT_WINS_URL =
   import.meta.env.VITE_JACKPOT_WINS_URL ||
   WA_DRAWS_URL.replace(/\/wa-draws\/?$/, "/jackpot-wins");
 
+/** National advertised jackpots. Worker caches California; baked JSON is the fallback. */
+export const MARKET_QUOTES_URL =
+  import.meta.env.VITE_MARKET_QUOTES_URL ||
+  WA_DRAWS_URL.replace(/\/wa-draws\/?$/, "/market");
+
 /** Worker route for Write the desk. Same origin as the WA feed. */
 export const WRITE_DESK_URL =
   import.meta.env.VITE_WRITE_DESK_URL ||
