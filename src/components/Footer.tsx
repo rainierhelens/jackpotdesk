@@ -1,9 +1,8 @@
 import type { MouseEvent } from "react";
 
-type DeskTab = "tip" | "write" | "board";
+type DeskTab = "write" | "board";
 
 const LINKS = [
-  { href: "/?tab=tip", label: "Tip", tab: "tip" as const },
   { href: "/?tab=write", label: "Write", tab: "write" as const },
   { href: "/", label: "Desk", tab: "board" as const },
   { href: "/expected-value.html", label: "Expected value" },

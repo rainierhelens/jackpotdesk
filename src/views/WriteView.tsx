@@ -2,11 +2,7 @@ import { useState, type FormEvent } from "react";
 import { WRITE_DESK_URL } from "../config";
 import { trackEvent } from "../lib/analytics";
 
-type Props = {
-  onTip: () => void;
-};
-
-export function WriteView({ onTip }: Props) {
+export function WriteView() {
   const [message, setMessage] = useState("");
   const [reply, setReply] = useState("");
   const [honey, setHoney] = useState("");
@@ -145,11 +141,7 @@ export function WriteView({ onTip }: Props) {
       </form>
       <p className="fine">
         Messages are support mail. See the{" "}
-        <a href="/privacy.html">privacy policy</a>. To keep the desk running,{" "}
-        <button type="button" className="text-link" onClick={onTip}>
-          tip the desk
-        </button>
-        .
+        <a href="/privacy.html">privacy policy</a>.
       </p>
     </section>
   );

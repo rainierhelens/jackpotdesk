@@ -11,7 +11,6 @@ const TAB_PATH: Record<string, { title: string; path: string }> = {
   board: { title: "The desk", path: "/desk" },
   pool: { title: "Pool", path: "/pool" },
   why: { title: "Why this", path: "/why" },
-  tip: { title: "Tip the desk", path: "/tip" },
   write: { title: "Write the desk", path: "/write" },
 };
 

@@ -45,7 +45,6 @@ const WeekView = lazy(() =>
 const BoardView = lazy(() =>
   import("./views/BoardView").then((m) => ({ default: m.BoardView })),
 );
-import { TipView } from "./views/TipView";
 import { WriteView } from "./views/WriteView";
 import logo from "./images/jackpotdesklogo.png";
 import iconWeek from "./images/this-week.png";
@@ -54,7 +53,7 @@ import iconTickets from "./images/tickets.png";
 import iconPool from "./images/pool.png";
 import iconWhy from "./images/why-this.png";
 
-type Tab = "week" | "map" | "board" | "pool" | "why" | "tip" | "write";
+type Tab = "week" | "map" | "board" | "pool" | "why" | "write";
 
 const TABS: Tab[] = [
   "board",
@@ -62,7 +61,6 @@ const TABS: Tab[] = [
   "map",
   "pool",
   "why",
-  "tip",
   "write",
 ];
 const NATIONAL_IDS: GameId[] = ["powerball", "megamillions"];
@@ -71,7 +69,10 @@ const NATIONAL_IDS: GameId[] = ["powerball", "megamillions"];
 function urlState() {
   const params = new URLSearchParams(window.location.search);
   const raw = params.get("tab");
-  const tab = raw === "tickets" || raw === "heat" ? null : (raw as Tab | null);
+  const tab =
+    raw === "tickets" || raw === "heat" || raw === "tip"
+      ? null
+      : (raw as Tab | null);
   const desk = params.get("desk") as DeskId | null;
   const game = params.get("game") as GameId | null;
   const wa = params.get("wa") as WaGameId | null;
@@ -366,15 +367,6 @@ export default function App() {
           </button>
           <button
             type="button"
-            className={tab === "tip" ? "on" : ""}
-            aria-current={tab === "tip" ? "page" : undefined}
-            onClick={() => setTab("tip")}
-          >
-            <span className="tab-full">Tip the desk</span>
-            <span className="tab-short">Tip</span>
-          </button>
-          <button
-            type="button"
             className={tab === "write" ? "on" : ""}
             aria-current={tab === "write" ? "page" : undefined}
             onClick={() => setTab("write")}
@@ -399,7 +391,6 @@ export default function App() {
       {desk === "washington" &&
       tab !== "map" &&
       tab !== "board" &&
-      tab !== "tip" &&
       tab !== "write" ? (
         <p className="lede">
           Washington slips and the Hit 5 / Lotto line are on Desk. Pool and
@@ -491,12 +482,8 @@ export default function App() {
         </>
       ) : null}
 
-      {tab === "tip" ? (
-        <TipView onWrite={() => setTab("write")} />
-      ) : null}
-
       {tab === "write" ? (
-        <WriteView onTip={() => setTab("tip")} />
+        <WriteView />
       ) : null}
       </Suspense>
       </main>
