@@ -36,14 +36,13 @@ VITE_TIP_JAR_URL=https://ko-fi.com/jackpotdesk
 
 Restart `npm run dev`. Open `/?tab=tip` and confirm **Open the tip jar** appears.
 
-**Production (GitHub Pages)** — repo secret:
+**Production (GitHub Pages)** — when the jar is ready:
 
-- Name: `VITE_TIP_JAR_URL`
-- Value: the same HTTPS checkout URL (no quotes)
+1. Uncomment `VITE_TIP_JAR_URL` in [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) on the build step.
+2. Repo secret `VITE_TIP_JAR_URL` = your HTTPS checkout URL (no quotes).
+3. Push to `main` or run **Deploy GitHub Pages** manually.
 
-Settings → Secrets and variables → Actions → New repository secret. The deploy workflow passes it into `npm run build`. Push to `main` or run **Deploy GitHub Pages** manually.
-
-Leave the secret unset (or the env blank locally) to keep the “jar is not open yet” copy.
+Until that env line is wired and the secret is set, production always shows “The jar is not open yet.” Delete the secret if you added it early; the workflow no longer reads it while the line is commented out.
 
 ## Write the desk
 

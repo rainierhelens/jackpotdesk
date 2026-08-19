@@ -64,8 +64,6 @@ jobs:
             --data-binary @src/data/jackpotWins.json
         continue-on-error: true
       - name: Build site
-        env:
-          VITE_TIP_JAR_URL: ${{ secrets.VITE_TIP_JAR_URL }}
         run: npm run build
       - uses: actions/upload-pages-artifact@v5
         with:
