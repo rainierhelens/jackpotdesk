@@ -16,14 +16,13 @@ export function HeatPairs({ spec, expected, cells, onPickPair }: Props) {
 
   return (
     <figure className="heat-poster is-wide">
-      <figcaption className="heat-poster-head">
+      <figcaption
+        className="heat-poster-head"
+        title="How often two whites were drawn together in this window. Entertainment. Not a forecast."
+      >
         <strong>White-ball pairs</strong>
         <span>Upper triangle · expected {expected.toFixed(2)} if uniform</span>
       </figcaption>
-      <p className="fine heat-poster-lede">
-        How often two whites were drawn together in this window. Entertainment.
-        Not a forecast.
-      </p>
       <div
         className="heat-pairs"
         style={{ gridTemplateColumns: `repeat(${spec.whiteMax}, minmax(7px, 1fr))` }}

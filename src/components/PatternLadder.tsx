@@ -84,21 +84,29 @@ export function PatternLadder({
           · 50 PTS = RANDOM
         </span>
       </div>
-      <p className="fine ladder-lead">
-        Every board below is ranked by pattern score against{" "}
-        {model.draws.toLocaleString("en-US")} past drawings ({source}): number
-        frequency, common pairs, recent heat, and winning shapes
-        {fadesOn
-          ? ", then last-draw, hot, cold, and obvious shapes are dropped"
-          : ""}
-        . Rank #1 is the strongest match to the past
-        {fadesOn ? " that also cleared the fades" : ""}, <b>not</b> the board
-        most likely to be drawn next. No such board exists: every combination
-        keeps identical odds.{" "}
-        {fadesOn
-          ? "The faded ladder re-ranks when new official draws land or the fade list changes."
-          : "The ladder re-ranks only when new official draws land."}
-      </p>
+      <details className="gen-fold is-hint">
+        <summary>
+          <span className="fold-title">How ranks work</span>
+          <span className="fold-meta">Not a forecast</span>
+        </summary>
+        <div className="fold-body">
+          <p className="fine">
+            Every board below is ranked by pattern score against{" "}
+            {model.draws.toLocaleString("en-US")} past drawings ({source}):
+            number frequency, common pairs, recent heat, and winning shapes
+            {fadesOn
+              ? ", then last-draw, hot, cold, and obvious shapes are dropped"
+              : ""}
+            . Rank #1 is the strongest match to the past
+            {fadesOn ? " that also cleared the fades" : ""}, <b>not</b> the
+            board most likely to be drawn next. No such board exists: every
+            combination keeps identical odds.{" "}
+            {fadesOn
+              ? "The faded ladder re-ranks when new official draws land or the fade list changes."
+              : "The ladder re-ranks only when new official draws land."}
+          </p>
+        </div>
+      </details>
       <div className="ladder-rows">
         {ladder.entries.slice(0, shown).map((entry) => {
           const reading = crowd ? crowd(entry) : null;

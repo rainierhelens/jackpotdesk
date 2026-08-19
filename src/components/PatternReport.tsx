@@ -21,18 +21,20 @@ export function PatternFadesToggle({
   on,
   onToggle,
   variant = "pattern",
+  compact = false,
 }: {
   on: boolean;
   onToggle: (next: boolean) => void;
   variant?: "pattern" | "ladder";
+  compact?: boolean;
 }) {
   const body =
     variant === "ladder"
-      ? "Off: the full ranked field, highest pattern score first. Re-ranks only when new official draws land. On: same score, then drop last-draw, hot, cold, and obvious shapes from the fade list on the right. Survivors keep their order and are re-numbered from #1. History is a score, then a veto. It does not make numbers more likely next time. Same hit odds either way."
-      : "Off: highest-weighted echo of official history. On: same score, then drop last-draw, hot, cold, and obvious shapes from the fade list on the right. History is a score, then a veto. It does not make numbers more likely next time. Same hit odds either way.";
+      ? "Off: the full ranked field, highest pattern score first. Re-ranks only when new official draws land. On: same score, then drop last-draw, hot, cold, and obvious shapes from the fade list. Survivors keep their order and are re-numbered from #1. History is a score, then a veto. Same hit odds either way."
+      : "Off: highest-weighted echo of official history. On: same score, then drop last-draw, hot, cold, and obvious shapes from the fade list. History is a score, then a veto. Same hit odds either way.";
   return (
-    <div className="pattern-mix">
-      <label>
+    <div className={`pattern-mix${compact ? " is-compact" : ""}`}>
+      <label title={compact ? body : undefined}>
         <input
           type="checkbox"
           checked={on}
@@ -40,7 +42,7 @@ export function PatternFadesToggle({
         />
         Apply fades
       </label>
-      <p className="fine">{body}</p>
+      {compact ? null : <p className="fine">{body}</p>}
     </div>
   );
 }
@@ -100,13 +102,21 @@ export function PatternReport({
           </div>
         ))}
       </div>
-      <p className="fine crowd-note">
-        Scores weigh number frequency, common pairs, recent heat, and the
-        odd/even, high/low, and sum shapes of {model.draws.toLocaleString("en-US")}{" "}
-        past drawings ({source}). These patterns describe the past only.
-        Every combination is exactly as likely as any other. Entertainment,
-        not prediction.
-      </p>
+      <details className="gen-fold is-hint">
+        <summary>
+          <span className="fold-title">About this score</span>
+          <span className="fold-meta">50 pts = random</span>
+        </summary>
+        <div className="fold-body">
+          <p className="fine">
+            Scores weigh number frequency, common pairs, recent heat, and the
+            odd/even, high/low, and sum shapes of{" "}
+            {model.draws.toLocaleString("en-US")} past drawings ({source}).
+            These patterns describe the past only. Every combination is
+            exactly as likely as any other. Entertainment, not prediction.
+          </p>
+        </div>
+      </details>
     </section>
   );
 }

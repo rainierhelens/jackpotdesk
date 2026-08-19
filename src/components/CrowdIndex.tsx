@@ -63,7 +63,15 @@ function CrowdPanel({
           </div>
         ))}
       </div>
-      <p className="fine crowd-note">{note}</p>
+      <details className="gen-fold is-hint">
+        <summary>
+          <span className="fold-title">About this index</span>
+          <span className="fold-meta">1.00× = average</span>
+        </summary>
+        <div className="fold-body">
+          <p className="fine">{note}</p>
+        </div>
+      </details>
     </section>
   );
 }

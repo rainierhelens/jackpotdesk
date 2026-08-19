@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Ball } from "../components/Ball";
 import { CrowdIndex, WaCrowdIndex } from "../components/CrowdIndex";
+import { DeskHints } from "../components/DeskHints";
 import { FeedMark } from "../components/FeedMark";
 import { FoilCard } from "../components/FoilCard";
 import { PackFx, PackShell } from "../components/PackFx";
@@ -63,6 +64,7 @@ import {
 import { loadPref, savePref } from "../lib/prefs";
 import { playPackOpen } from "../lib/sfx";
 import { GAMES } from "../lib/prizes";
+import { toggleTrayWhite } from "../lib/slipHints";
 import { saveSlipImage, saveWaSlipImage } from "../lib/slipImage";
 import { usePoolReport } from "../lib/usePoolReport";
 import { useWaDraws, waDrawsFor, waLatest, waPastKeys } from "../lib/waDraws";
@@ -197,9 +199,7 @@ export function BoardView({
   const [playing, setPlaying] = useState(false);
   const [boardCount, setBoardCount] = useState("5");
   const [stack, setStack] = useState<Ticket[]>([]);
-  const [crowdOpen, setCrowdOpen] = useState(() =>
-    loadPref("fold.crowd", false),
-  );
+  const [crowdOpen, setCrowdOpen] = useState(true);
   const [cashpot, setCashpot] = useState(() =>
     String(waBook.prizes.hit5.cashpot),
   );
@@ -504,11 +504,12 @@ export function BoardView({
 
   function onToggleWhite(n: number) {
     setMinted(null);
-    setWhites((cur) => {
-      if (cur.includes(n)) return cur.filter((x) => x !== n);
-      if (cur.length >= spec.pick) return cur;
-      return [...cur, n];
-    });
+    setWhites((cur) => toggleTrayWhite(cur, n, spec.pick));
+  }
+
+  function onToggleExtra(n: number) {
+    setMinted(null);
+    setExtra((cur) => (cur === n ? null : n));
   }
 
   function applyTicket(ticket: Ticket) {
@@ -707,6 +708,8 @@ export function BoardView({
   }
 
   const sorted = [...whites].sort((a, b) => a - b);
+  const lastAdded = whites[whites.length - 1];
+  const whitesFull = whites.length >= spec.pick;
   const hasExtra = spec.extraMax > 0;
   const trayTicket = ticketFromTray(sorted, extra, spec.pick, hasExtra);
   const ready = trayTicket ?? minted;
@@ -767,6 +770,15 @@ export function BoardView({
   const deskReady = national
     ? Boolean(popularityModel(game))
     : Boolean(waPopularityModel(waGame));
+  const crowdWhite = national
+    ? (popularityModel(game)?.white ?? null)
+    : (waPopularityModel(waGame)?.white ?? null);
+  const crowdSpecial = national
+    ? (popularityModel(game)?.special ?? null)
+    : null;
+  const trayPartial =
+    (whites.length > 0 || extra != null) &&
+    (whites.length < spec.pick || (hasExtra && extra == null));
   const packGame = national ? game : waGame;
   const extraShort =
     game === "powerball" ? "PB" : game === "megamillions" ? "MB" : "";
@@ -787,35 +799,68 @@ export function BoardView({
           <h2>The desk</h2>
         </div>
       </header>
-      <p className="lede">
-        Mint a starting board, then click Heat, the number pool, or a ladder
-        tile to edit the same slip. Heat is official-draw frequency. The pool
-        is fade space and crowd pick-rate. The ladder is a fit to the past.
-        Entertainment, not prediction. Same hit odds as Quick Pick. Clicking
-        to edit does not change hit odds.
-      </p>
-      {!national ? (
-        <WaValue
-          game={waGame}
-          asOf={waAsOf}
-          feed={waFeed}
-          cashpot={cashpot}
-          advertised={waAdvertised}
-          cash={waCash}
-          onCashpot={(v) => {
-            setPrizeDirty(true);
-            setCashpot(v);
-          }}
-          onAdvertised={(v) => {
-            setPrizeDirty(true);
-            setWaAdvertised(v);
-          }}
-          onCash={(v) => {
-            setPrizeDirty(true);
-            setWaCash(v);
-          }}
-        />
-      ) : null}
+      <details className="gen-fold is-hint">
+        <summary>
+          <span className="fold-title">How the desk works</span>
+          <span className="fold-meta">Same hit odds as Quick Pick</span>
+        </summary>
+        <div className="fold-body">
+          <p className="fine">
+            Mint a starting board, then click Heat, the number pool, or a
+            ladder tile to edit the same slip. Heat is official-draw
+            frequency. The pool is fade space and crowd pick-rate. The
+            ladder is a fit to the past. Entertainment, not prediction.
+            Clicking to edit does not change hit odds.
+          </p>
+        </div>
+      </details>
+      <details className="gen-fold is-hint">
+        <summary>
+          <span className="fold-title">{spec.label}</span>
+          <span className="fold-meta">
+            1 in{" "}
+            {(national
+              ? GAMES[game].jackpotOdds
+              : waSpec.jackpotOdds
+            ).toLocaleString("en-US")}{" "}
+            · ${spec.ticketCost.toFixed(0)}
+          </span>
+        </summary>
+        <div className="fold-body">
+          {national ? (
+            <p className="fine">
+              {spec.pick} whites from 1–{spec.whiteMax} plus a {spec.extraLabel}{" "}
+              from 1–{spec.extraMax}. ${spec.ticketCost.toFixed(0)} a play.
+              Jackpot 1 in {GAMES[game].jackpotOdds.toLocaleString("en-US")}.
+              Same hit odds as Quick Pick.
+            </p>
+          ) : (
+            <>
+              <p className="fine">{waSpec.note}</p>
+              <WaValue
+                game={waGame}
+                asOf={waAsOf}
+                feed={waFeed}
+                cashpot={cashpot}
+                advertised={waAdvertised}
+                cash={waCash}
+                onCashpot={(v) => {
+                  setPrizeDirty(true);
+                  setCashpot(v);
+                }}
+                onAdvertised={(v) => {
+                  setPrizeDirty(true);
+                  setWaAdvertised(v);
+                }}
+                onCash={(v) => {
+                  setPrizeDirty(true);
+                  setWaCash(v);
+                }}
+              />
+            </>
+          )}
+        </div>
+      </details>
 
       <div className="map-toolbar hub-toolbar">
         <div className="mode-picker">
@@ -894,6 +939,7 @@ export function BoardView({
                 type="button"
                 className={mode === "ladder" ? "is-on" : ""}
                 aria-pressed={mode === "ladder"}
+                title="Ranks official history, best first. Arrow keys step the field. Same hit odds as Quick Pick."
                 onClick={() => pickMode("ladder")}
               >
                 The Ladder
@@ -904,6 +950,7 @@ export function BoardView({
                 type="button"
                 className={mode === "pattern" ? "is-on" : ""}
                 aria-pressed={mode === "pattern"}
+                title="Echo of the past. Entertainment. Same hit odds as Quick Pick."
                 onClick={() => pickMode("pattern")}
               >
                 Pattern lab
@@ -914,6 +961,7 @@ export function BoardView({
                 type="button"
                 className={mode === "desk" ? "is-on" : ""}
                 aria-pressed={mode === "desk"}
+                title="Keeps the least-crowded boards that clear the fades. Same hit odds as Quick Pick."
                 onClick={() => pickMode("desk")}
               >
                 Desk pick
@@ -923,6 +971,7 @@ export function BoardView({
               type="button"
               className={mode === "quick" ? "is-on" : ""}
               aria-pressed={mode === "quick"}
+              title="Random boards. Fades veto crowded looks. Same hit odds as Quick Pick."
               onClick={() => pickMode("quick")}
             >
               Quick mint
@@ -951,6 +1000,7 @@ export function BoardView({
               type="button"
               className={custom ? "is-on" : ""}
               aria-pressed={custom}
+              title="Pick a from/to date range for Heat."
               onClick={() => {
                 setPlaying(false);
                 setHeatWindow("custom");
@@ -973,6 +1023,13 @@ export function BoardView({
                 type="button"
                 className={heatView === row.id ? "is-on" : ""}
                 aria-pressed={heatView === row.id}
+                title={
+                  row.id === "grid"
+                    ? "How often each number appeared in this window. Not crowd pick-rate."
+                    : row.id === "pairs"
+                      ? "How often two whites were drawn together. Entertainment, not a forecast."
+                      : "Official draws in this window. Click a white to put it on the slip."
+                }
                 onClick={() => setHeatView(row.id)}
               >
                 {row.label}
@@ -990,6 +1047,7 @@ export function BoardView({
                 type="button"
                 className={colorMode === "frequency" ? "is-on" : ""}
                 aria-pressed={colorMode === "frequency"}
+                title="Color by how often the number was drawn."
                 onClick={() => setColorMode("frequency")}
               >
                 Frequency
@@ -998,6 +1056,7 @@ export function BoardView({
                 type="button"
                 className={colorMode === "deviation" ? "is-on" : ""}
                 aria-pressed={colorMode === "deviation"}
+                title="Color by how far each count sits from a uniform field."
                 onClick={() => setColorMode("deviation")}
               >
                 Deviation
@@ -1014,6 +1073,7 @@ export function BoardView({
 
       {mode === "pattern" ? (
         <PatternFadesToggle
+          compact
           on={patternFades}
           onToggle={(next) => {
             setPatternFades(next);
@@ -1023,6 +1083,7 @@ export function BoardView({
       ) : null}
       {mode === "ladder" ? (
         <PatternFadesToggle
+          compact
           variant="ladder"
           on={ladderFades}
           onToggle={(next) => {
@@ -1035,11 +1096,15 @@ export function BoardView({
       <div className="hub-layout">
         <div className="hub-slip">
           <header className="heat-stage-head">
-            <p className="kicker">The slip</p>
-            <p className="fine">
-              {mode === "ladder"
-                ? "Arrow keys step through the ranked field, starting at #1. Same hit odds as Quick Pick."
-                : "Mint, then click any panel. Same hit odds as Quick Pick."}
+            <p
+              className="kicker"
+              title={
+                mode === "ladder"
+                  ? "Arrow keys step through the ranked field, starting at #1. Same hit odds as Quick Pick."
+                  : "Mint, then click Heat, the pool, or a ladder tile. Same hit odds as Quick Pick."
+              }
+            >
+              The slip
             </p>
           </header>
           <div
@@ -1109,7 +1174,20 @@ export function BoardView({
                   <span className="lotto-whites">
                     {Array.from({ length: spec.pick }, (_, i) =>
                       sorted[i] != null ? (
-                        <span key={`w-${sorted[i]}`}>{pad2(sorted[i])}</span>
+                        <button
+                          key={`w-${sorted[i]}`}
+                          type="button"
+                          className={`lotto-pick${whitesFull && sorted[i] === lastAdded ? " is-last" : ""}`}
+                          title={
+                            whitesFull && sorted[i] === lastAdded
+                              ? `Last pick. Tap to drop, or click a new Heat number to replace ${pad2(sorted[i])}.`
+                              : `Remove ${pad2(sorted[i])} from the slip`
+                          }
+                          aria-label={`Remove ${pad2(sorted[i])} from the slip`}
+                          onClick={() => onToggleWhite(sorted[i])}
+                        >
+                          {pad2(sorted[i])}
+                        </button>
                       ) : (
                         <span key={`empty-${i}`} className="heat-slip-empty">
                           ··
@@ -1121,7 +1199,15 @@ export function BoardView({
                     <span className="lotto-extra">
                       <em>{extraShort}</em>
                       {extra != null ? (
-                        pad2(extra)
+                        <button
+                          type="button"
+                          className="lotto-pick"
+                          title={`Remove ${extraShort || "extra"} ${pad2(extra)} from the slip`}
+                          aria-label={`Remove ${extraShort || "extra"} ${pad2(extra)} from the slip`}
+                          onClick={() => onToggleExtra(extra)}
+                        >
+                          {pad2(extra)}
+                        </button>
                       ) : (
                         <span className="heat-slip-empty">··</span>
                       )}
@@ -1141,6 +1227,20 @@ export function BoardView({
               </div>
             )}
           </div>
+          {trayPartial ? (
+            <DeskHints
+              whites={sorted}
+              extra={extra}
+              pick={spec.pick}
+              extraLabel={spec.extraLabel}
+              book={book}
+              patternModel={patternModel}
+              crowdWhite={crowdWhite}
+              crowdSpecial={crowdSpecial}
+              onToggleWhite={onToggleWhite}
+              onToggleExtra={onToggleExtra}
+            />
+          ) : null}
           {mode === "ladder" && ladder ? (
             <div className="mode-picker hub-ladder-step">
               <p className="mode-picker-label" id="desk-rank">
@@ -1288,13 +1388,7 @@ export function BoardView({
               tickets={reportTickets}
               source={sourceNote}
             />
-          ) : (
-            <p className="fine">
-              Fill {spec.pick} whites
-              {hasExtra ? ` and a ${spec.extraLabel}` : ""} to score this
-              board against the past. 50 points = average random ticket.
-            </p>
-          )}
+          ) : null}
           {batch.length > 0 && national ? (
             <CrowdIndex game={game} tickets={batch} />
           ) : null}
@@ -1362,6 +1456,7 @@ export function BoardView({
             <button
               type="button"
               disabled={maxShift <= 0}
+              title="Walk a 50-draw pane through official history."
               onClick={() => {
                 if (reduced) {
                   setShift((cur) => (cur >= maxShift ? 0 : maxShift));
@@ -1389,10 +1484,7 @@ export function BoardView({
                     setActiveIsExtra(kind === "extra");
                   }}
                   onToggleWhite={onToggleWhite}
-                  onToggleExtra={(n) => {
-                    setMinted(null);
-                    setExtra((cur) => (cur === n ? null : n));
-                  }}
+                  onToggleExtra={onToggleExtra}
                 />
               ) : null}
               {heatView === "pairs" ? (
@@ -1416,12 +1508,12 @@ export function BoardView({
                   onToggleWhite={onToggleWhite}
                 />
               ) : null}
-              <p className="fine">
-                {sourceNote}. How often each number appeared in this window.
-                Not crowd pick-rate.
-              </p>
               <div className="heat-actions">
-                <button type="button" onClick={() => void saveHeatPng()}>
+                <button
+                  type="button"
+                  title={`${sourceNote}. How often each number appeared in this window. Not crowd pick-rate.`}
+                  onClick={() => void saveHeatPng()}
+                >
                   Save grid PNG
                 </button>
                 {mode !== "ladder" ? (
@@ -1429,6 +1521,7 @@ export function BoardView({
                     type="button"
                     onClick={mintHeat}
                     disabled={minting}
+                    title="Mint one board weighted by this Heat window. Same hit odds as Quick Pick."
                   >
                     Mint from this view
                   </button>
@@ -1463,6 +1556,11 @@ export function BoardView({
               }
               selected={whites}
               onToggleWhite={onToggleWhite}
+              extraMax={hasExtra ? spec.extraMax : 0}
+              extraLabel={spec.extraLabel}
+              selectedExtra={extra}
+              onToggleExtra={hasExtra ? onToggleExtra : undefined}
+              extraHeat={crowdSpecial}
             />
           ) : null}
           <details

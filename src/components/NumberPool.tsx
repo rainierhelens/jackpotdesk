@@ -28,6 +28,12 @@ type Props = {
   selected?: number[];
   /** When set, chips add or remove a white on the shared slip. */
   onToggleWhite?: (n: number) => void;
+  extraMax?: number;
+  extraLabel?: string;
+  selectedExtra?: number | null;
+  onToggleExtra?: (n: number) => void;
+  /** Popularity weight per extra (index 0 = 1). */
+  extraHeat?: number[] | null;
 };
 
 /** Warm removal ramp: cuts read warm, the surviving pool reads green. */
@@ -177,9 +183,11 @@ function StageLadder({
           <span className="pool-stage-pct">{pctLabel(stage.share)}</span>
         </div>
       ))}
-      <p className="fine pool-stage-note">
-        Stage bars are scaled against the largest fade so small fades stay
-        visible; the % column is the true share of the whole space.
+      <p
+        className="fine pool-stage-note"
+        title="Stage bars are scaled against the largest fade so small fades stay visible. The % column is the true share of the whole space."
+      >
+        Bars are relative. % is the true share.
       </p>
     </div>
   );
@@ -197,6 +205,11 @@ export function NumberPool({
   heatSource,
   selected,
   onToggleWhite,
+  extraMax = 0,
+  extraLabel = "",
+  selectedExtra = null,
+  onToggleExtra,
+  extraHeat,
 }: Props) {
   const reducedMotion = usePrefersReducedMotion();
   const survivors = useAnimatedNumber(report.survivors, !reducedMotion);
@@ -324,13 +337,39 @@ export function NumberPool({
         })}
       </div>
 
-      {heat ? (
-        <p className="fine pool-heat-note">
-          <span className="pool-heat-swatch is-red" /> over-picked ·{" "}
-          <span className="pool-heat-swatch is-green" /> under-picked. Pick
-          rates fit from {heatSource ?? "official winner counts"}, refreshed
-          daily.
-        </p>
+      {extraMax > 0 && onToggleExtra ? (
+        <>
+          <p className="pool-row-label">{extraLabel || "Extra"}</p>
+          <div
+            className={`pool-grid${extraMax > 50 ? " dense" : ""}`}
+          >
+            {Array.from({ length: extraMax }, (_, i) => {
+              const n = i + 1;
+              const weight = extraHeat?.[i];
+              const on = selectedExtra === n;
+              const title = weight ? heatTitle(weight) : undefined;
+              const className = `pool-cell${weight ? " has-heat" : ""}${on ? " is-on" : ""} is-extra`;
+              const style = weight
+                ? ({ "--heat": heatColor(weight) } as React.CSSProperties)
+                : undefined;
+              const label = pad ? String(n).padStart(2, "0") : String(n);
+              return (
+                <button
+                  key={`extra-${n}`}
+                  type="button"
+                  className={className}
+                  style={style}
+                  title={title}
+                  aria-pressed={on}
+                  aria-label={`${extraLabel || "Extra"} ${label}${on ? ", on the slip" : ""}`}
+                  onClick={() => onToggleExtra(n)}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+        </>
       ) : null}
 
       {activeFades.length > 0 ? (
@@ -343,15 +382,31 @@ export function NumberPool({
         </p>
       ) : null}
 
-      <p className="fine pool-note">
-        {report.exact
-          ? `Counted across all ${fmt(report.total)} possible ${noun}.`
-          : `Estimated from ${fmt(report.samples)} random draws; counts wiggle a little each refresh.`}{" "}
-        Every {noun.replace(/s$/, "")} left in the pool has exactly the same
-        chance of being drawn. Fading crowds changes who you might split with,
-        not whether you hit.
-        {note ? ` ${note}` : ""}
-      </p>
+      <details className="gen-fold is-hint" open>
+        <summary>
+          <span className="fold-title">About this pool</span>
+          <span className="fold-meta">Hit odds unchanged</span>
+        </summary>
+        <div className="fold-body">
+          {heat ? (
+            <p className="fine pool-heat-note">
+              <span className="pool-heat-swatch is-red" /> over-picked ·{" "}
+              <span className="pool-heat-swatch is-green" /> under-picked. Pick
+              rates fit from {heatSource ?? "official winner counts"},
+              refreshed daily.
+            </p>
+          ) : null}
+          <p className="fine pool-note">
+            {report.exact
+              ? `Counted across all ${fmt(report.total)} possible ${noun}.`
+              : `Estimated from ${fmt(report.samples)} random draws; counts wiggle a little each refresh.`}{" "}
+            Every {noun.replace(/s$/, "")} left in the pool has exactly the
+            same chance of being drawn. Fading crowds changes who you might
+            split with, not whether you hit.
+            {note ? ` ${note}` : ""}
+          </p>
+        </div>
+      </details>
     </section>
   );
 }

@@ -23,11 +23,18 @@ type Props = {
 
 const COLS = 10;
 
+function gapMark(days: number): string {
+  if (days <= 0) return "last";
+  return `${days}d`;
+}
+
 function Cell({
   cell,
   fill,
   t,
   selected,
+  marked,
+  dimmed,
   kind,
   extraLabel,
   onActive,
@@ -37,6 +44,8 @@ function Cell({
   fill: string;
   t: number;
   selected: boolean;
+  marked: boolean;
+  dimmed: boolean;
   kind: "white" | "extra";
   extraLabel: string;
   onActive: (cell: HeatCell | null, kind: "white" | "extra") => void;
@@ -46,23 +55,32 @@ function Cell({
     kind === "extra"
       ? `${extraLabel} ${pad2(cell.n)}`
       : `Number ${pad2(cell.n)}`;
+  const showMark = selected || marked;
   return (
     <button
       type="button"
-      className={`heat-cell${selected ? " is-on" : ""}${kind === "extra" ? " is-extra" : ""}`}
+      className={`heat-cell${selected ? " is-on" : ""}${marked ? " is-marked" : ""}${dimmed ? " is-dim" : ""}${kind === "extra" ? " is-extra" : ""}`}
       style={{
         background: fill,
         color: heatInk(fill),
         ["--heat" as string]: t.toFixed(3),
       }}
       aria-pressed={selected}
-      aria-label={`${label}. ${cell.count} draws.`}
+      title={
+        dimmed
+          ? `${label}. Replaces the last number on the slip.`
+          : selected
+            ? `${label}. On the slip. Click to drop.`
+            : undefined
+      }
+      aria-label={`${label}. ${cell.count} draws. ${gapMark(cell.gapDays)} gap.`}
       onMouseEnter={() => onActive(cell, kind)}
       onFocus={() => onActive(cell, kind)}
       onMouseLeave={() => onActive(null, kind)}
       onClick={onToggle}
     >
       {pad2(cell.n)}
+      {showMark ? <span className="heat-cell-mark">{gapMark(cell.gapDays)}</span> : null}
     </button>
   );
 }
@@ -73,6 +91,8 @@ function Matrix({
   min,
   max,
   selected,
+  marked,
+  dimUnused,
   kind,
   extraLabel,
   onActive,
@@ -83,6 +103,8 @@ function Matrix({
   min: number;
   max: number;
   selected: (n: number) => boolean;
+  marked: (n: number) => boolean;
+  dimUnused: boolean;
   kind: "white" | "extra";
   extraLabel: string;
   onActive: (cell: HeatCell | null, kind: "white" | "extra") => void;
@@ -115,6 +137,8 @@ function Matrix({
                   fill={heatFill(cell, mode, min, max)}
                   t={heatNorm(cell, mode, min, max)}
                   selected={selected(cell.n)}
+                  marked={marked(cell.n)}
+                  dimmed={dimUnused && !selected(cell.n)}
                   kind={kind}
                   extraLabel={extraLabel}
                   onActive={onActive}
@@ -170,6 +194,7 @@ export function HeatGrid({
   const whiteScale = heatScale(book.whites, mode);
   const extraScale = heatScale(book.extras, mode);
   const picked = new Set(selectedWhites);
+  const whiteFull = selectedWhites.length >= book.pick;
 
   return (
     <figure className="heat-poster">
@@ -189,6 +214,8 @@ export function HeatGrid({
         min={whiteScale.min}
         max={whiteScale.max}
         selected={(n) => picked.has(n)}
+        marked={(n) => Boolean(active) && !activeIsExtra && active?.n === n}
+        dimUnused={whiteFull}
         kind="white"
         extraLabel={book.extraLabel}
         onActive={onActive}
@@ -204,6 +231,8 @@ export function HeatGrid({
             min={extraScale.min}
             max={extraScale.max}
             selected={(n) => selectedExtra === n}
+            marked={(n) => Boolean(active) && activeIsExtra && active?.n === n}
+            dimUnused={false}
             kind="extra"
             extraLabel={book.extraLabel}
             onActive={onActive}
@@ -211,7 +240,12 @@ export function HeatGrid({
           />
         </>
       ) : null}
-      <HeatTip book={book} cell={active} extra={activeIsExtra} />
+      <HeatTip
+        book={book}
+        cell={active}
+        extra={activeIsExtra}
+        whiteFull={whiteFull}
+      />
     </figure>
   );
 }
@@ -220,16 +254,19 @@ function HeatTip({
   book,
   cell,
   extra,
+  whiteFull,
 }: {
   book: HeatBook;
   cell: HeatCell | null;
   extra: boolean;
+  whiteFull: boolean;
 }) {
   if (!cell) {
     return (
       <p className="heat-tip" role="status">
-        Hover a cell. Count, share of draws, last drawn, gap, and deviation from
-        a uniform field.
+        {whiteFull
+          ? "Board is full. A new pick replaces the last number. Tap a ball on the slip to drop it."
+          : "Hover a cell. Count, share of draws, last drawn, gap, and deviation from a uniform field."}
       </p>
     );
   }

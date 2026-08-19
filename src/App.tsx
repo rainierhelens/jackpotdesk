@@ -7,6 +7,7 @@ import {
   type MouseEvent,
 } from "react";
 import type { DeskId, GameId, Ticket, WaGameId } from "./types";
+import { BackToTop } from "./components/BackToTop";
 import { Faq } from "./components/Faq";
 import { Footer } from "./components/Footer";
 import { MarketPicker } from "./components/MarketPicker";
@@ -533,6 +534,7 @@ export default function App() {
           window.scrollTo({ top: 0, behavior: "smooth" });
         }}
       />
+      <BackToTop />
     </div>
   );
 }
