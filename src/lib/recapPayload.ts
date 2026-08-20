@@ -1,4 +1,25 @@
+import {
+  heatFill,
+  heatInk,
+  heatScale,
+  type HeatCell,
+} from "./lotteryHeat";
+
 export type RecapTone = "no" | "entertain" | "rare";
+
+export type RecapHeatCell = {
+  n: number;
+  count: number;
+};
+
+export type RecapHeat = {
+  draws: number;
+  whiteMax: number;
+  extraMax: number;
+  extraLabel: string | null;
+  whites: RecapHeatCell[];
+  extras: RecapHeatCell[];
+};
 
 export type RecapRung = {
   rank: number;
@@ -26,6 +47,7 @@ export type RecapNational = {
   officialWhites: number[];
   officialExtra: number | null;
   historyBefore: number;
+  heat: RecapHeat | null;
   rungs: RecapRung[];
   ladderHref: string;
 };
@@ -40,6 +62,7 @@ export type RecapWashington = {
   officialWhites: number[];
   officialExtra: number | null;
   historyBefore: number;
+  heat: RecapHeat | null;
   rungs: RecapRung[];
   ladderHref: string;
 };
@@ -73,4 +96,30 @@ export function recapExtraClass(extraLabel: string | null | undefined): string {
 
 export function padBall(n: number): string {
   return String(n).padStart(2, "0");
+}
+
+function asHeatCells(cells: RecapHeatCell[]): HeatCell[] {
+  return cells.map((cell) => ({
+    n: cell.n,
+    count: cell.count,
+    share: 0,
+    lastDrawn: null,
+    gapDays: 0,
+    expected: 0,
+    deviation: 0,
+  }));
+}
+
+export function recapHeatPaint(cells: RecapHeatCell[]): {
+  n: number;
+  count: number;
+  fill: string;
+  ink: string;
+}[] {
+  const full = asHeatCells(cells);
+  const { min, max } = heatScale(full, "frequency");
+  return full.map((cell) => {
+    const fill = heatFill(cell, "frequency", min, max);
+    return { n: cell.n, count: cell.count, fill, ink: heatInk(fill) };
+  });
 }

@@ -25,6 +25,8 @@ import { GAMES } from "../../src/lib/prizes.ts";
 import { fetchOfficialDraws, type OfficialDraw } from "../../src/lib/winners.ts";
 import { WA_GAMES } from "../../src/lib/waGames.ts";
 import type { GameId, WaGameId } from "../../src/types.ts";
+import { heatBookFromDraws, waHeatSpec } from "../../src/lib/lotteryHeat.ts";
+import type { RecapHeat } from "../../src/lib/recapPayload.ts";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "../..");
 export const SITE = "https://www.jackpotdesk.com";
@@ -107,6 +109,7 @@ export type RecapNational = {
   officialWhites: number[];
   officialExtra: number | null;
   historyBefore: number;
+  heat: RecapHeat | null;
   rungs: ReplayRung[];
   ladderHref: string;
 };
@@ -121,6 +124,7 @@ export type RecapWashington = {
   officialWhites: number[];
   officialExtra: number | null;
   historyBefore: number;
+  heat: RecapHeat | null;
   rungs: ReplayRung[];
   ladderHref: string;
 };
@@ -227,6 +231,23 @@ export function digestCallLine(tone: "no" | "entertain" | "rare"): string {
   if (tone === "rare") return "RARE PLUS";
   if (tone === "entertain") return "ENTERTAIN ONLY";
   return "SKIP AS AN INVESTMENT";
+}
+
+function slimHeat(
+  prior: OfficialDraw[],
+  spec: Parameters<typeof heatBookFromDraws>[1],
+  extraLabel: string | null,
+): RecapHeat | null {
+  const book = heatBookFromDraws(prior, spec);
+  if (!book) return null;
+  return {
+    draws: book.draws,
+    whiteMax: book.whiteMax,
+    extraMax: book.extraMax,
+    extraLabel,
+    whites: book.whites.map((cell) => ({ n: cell.n, count: cell.count })),
+    extras: book.extras.map((cell) => ({ n: cell.n, count: cell.count })),
+  };
 }
 
 export function recapCallLine(tone: "no" | "entertain" | "rare"): string {
@@ -412,6 +433,7 @@ export async function recapNational(game: GameId): Promise<RecapNational> {
       ? replay.official.extra
       : null,
     historyBefore: replay.historyBefore,
+    heat: slimHeat(official.draws.slice(1), spec, spec.extraLabel),
     rungs: replay.rungs,
     ladderHref: `${SITE}/?desk=national&game=${game}`,
   };
@@ -445,6 +467,7 @@ export function recapWashington(
     officialWhites: replay.official.whites,
     officialExtra: null,
     historyBefore: replay.historyBefore,
+    heat: slimHeat(draws.slice(1), waHeatSpec(spec), null),
     rungs: replay.rungs,
     ladderHref: `${SITE}/?desk=washington&wa=${id}`,
   };

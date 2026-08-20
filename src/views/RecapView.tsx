@@ -3,7 +3,9 @@ import {
   padBall,
   recapCallLabel,
   recapExtraClass,
+  recapHeatPaint,
   recapToneClass,
+  type RecapHeat,
   type RecapNational,
   type RecapPayload,
   type RecapRung,
@@ -93,7 +95,72 @@ function RecapCompare({
   );
 }
 
-function RungCard({ rung }: { rung: RecapRung }) {
+function RecapHeatGrid({
+  heat,
+  officialWhites,
+  officialExtra,
+  top,
+}: {
+  heat: RecapHeat | null | undefined;
+  officialWhites: number[];
+  officialExtra: number | null;
+  top?: RecapRung;
+}) {
+  if (!heat) return null;
+  const official = new Set(officialWhites);
+  const ladder = new Set(top?.whites ?? []);
+  const extraOfficial = new Set(officialExtra != null ? [officialExtra] : []);
+  const extraLadder = new Set(top?.extra != null ? [top.extra] : []);
+  const extraKind = recapExtraClass(heat.extraLabel);
+  return (
+    <figure className="recap-heat">
+      <figcaption>
+        Frequency before this drawing · {heat.draws} official draws. Solid
+        rings are the official board. Dashed rings are last night's #1. Same
+        hit odds as Quick Pick.
+      </figcaption>
+      <div className="recap-heat-grid">
+        {recapHeatPaint(heat.whites).map((cell) => (
+          <span
+            key={`w-${cell.n}`}
+            className={`recap-heat-cell${official.has(cell.n) ? " is-official" : ""}${ladder.has(cell.n) ? " is-ladder" : ""}`}
+            style={{ background: cell.fill, color: cell.ink }}
+            title={`${padBall(cell.n)} · ${cell.count} draws`}
+          >
+            {padBall(cell.n)}
+          </span>
+        ))}
+      </div>
+      {heat.extras.length ? (
+        <>
+          <p className="recap-heat-label">{heat.extraLabel || "Extra"}</p>
+          <div className="recap-heat-grid">
+            {recapHeatPaint(heat.extras).map((cell) => (
+              <span
+                key={`x-${cell.n}`}
+                className={`recap-heat-cell${extraKind ? ` ${extraKind}` : ""}${extraOfficial.has(cell.n) ? " is-official" : ""}${extraLadder.has(cell.n) ? " is-ladder" : ""}`}
+                style={{ background: cell.fill, color: cell.ink }}
+                title={`${padBall(cell.n)} · ${cell.count} draws`}
+              >
+                {padBall(cell.n)}
+              </span>
+            ))}
+          </div>
+        </>
+      ) : null}
+    </figure>
+  );
+}
+
+function RungCard({
+  rung,
+  extraLabel,
+  officialWhites,
+}: {
+  rung: RecapRung;
+  extraLabel?: string | null;
+  officialWhites: number[];
+}) {
   const rankNote =
     rung.rank === 1
       ? " #1 is the strongest match to history before this drawing. Not the winning pick."
@@ -101,6 +168,13 @@ function RungCard({ rung }: { rung: RecapRung }) {
   return (
     <article className="recap-rung">
       <p className="recap-rank">#{rung.rank}</p>
+      <RecapBalls
+        whites={rung.whites}
+        extra={rung.extra}
+        extraLabel={extraLabel}
+        hits={new Set(officialWhites)}
+        extraHit={rung.extraHit === true}
+      />
       <p className="recap-board">{rung.board}</p>
       <p className="recap-match">
         {rung.matchLine}.{rankNote}
@@ -130,9 +204,20 @@ function NationalPanel({ block }: { block: RecapNational }) {
         officialBoard={block.officialBoard}
         top={block.rungs[0]}
       />
+      <RecapHeatGrid
+        heat={block.heat}
+        officialWhites={block.officialWhites}
+        officialExtra={block.officialExtra}
+        top={block.rungs[0]}
+      />
       <div className="recap-rungs">
         {block.rungs.map((rung) => (
-          <RungCard key={rung.rank} rung={rung} />
+          <RungCard
+            key={rung.rank}
+            rung={rung}
+            extraLabel={block.extraLabel}
+            officialWhites={block.officialWhites}
+          />
         ))}
       </div>
       <div className={`verdict ${recapToneClass(block.tone)}`}>
@@ -173,9 +258,20 @@ function WashingtonPanel({ block }: { block: RecapWashington }) {
         officialBoard={block.officialBoard}
         top={block.rungs[0]}
       />
+      <RecapHeatGrid
+        heat={block.heat}
+        officialWhites={block.officialWhites}
+        officialExtra={block.officialExtra}
+        top={block.rungs[0]}
+      />
       <div className="recap-rungs">
         {block.rungs.map((rung) => (
-          <RungCard key={rung.rank} rung={rung} />
+          <RungCard
+            key={rung.rank}
+            rung={rung}
+            extraLabel={block.extraLabel}
+            officialWhites={block.officialWhites}
+          />
         ))}
       </div>
       <a className="recap-ladder" href={block.ladderHref}>

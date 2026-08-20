@@ -758,6 +758,57 @@ main {
   box-shadow: 0 0 0 2px var(--green);
 }
 
+.recap-heat {
+  margin: 0.9rem 0 0;
+}
+
+.recap-heat figcaption,
+.recap-heat-label {
+  margin: 0 0 0.45rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.recap-heat-label {
+  margin-top: 0.65rem;
+  color: var(--gold);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.recap-heat-grid {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 3px;
+}
+
+.recap-heat-cell {
+  min-height: 1.55rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+}
+
+.recap-heat-cell.is-official {
+  outline: 2px solid #fff;
+  outline-offset: 1px;
+  z-index: 1;
+}
+
+.recap-heat-cell.is-ladder {
+  box-shadow: inset 0 0 0 2px var(--gold);
+}
+
+.recap-heat-cell.is-official.is-ladder {
+  outline-color: #fff;
+}
+
 .recap-official {
   margin: 0.85rem 0 0;
   padding: 0.7rem 0.85rem;

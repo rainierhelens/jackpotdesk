@@ -19,7 +19,12 @@ import {
   type RecapWashington,
   type ReplayRung,
 } from "./lib/deskLetter.ts";
-import { padBall, recapExtraClass } from "../src/lib/recapPayload.ts";
+import {
+  padBall,
+  recapExtraClass,
+  recapHeatPaint,
+  type RecapHeat,
+} from "../src/lib/recapPayload.ts";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const RECAP_DIR = join(ROOT, "public", "recap");
@@ -86,13 +91,62 @@ function compareHtml(
   return `<div class="recap-compare">${official}${nightOne}</div>`;
 }
 
-function rungHtml(rung: ReplayRung): string {
+function heatRowHtml(
+  cells: RecapHeat["whites"],
+  official: Set<number>,
+  ladder: Set<number>,
+  extraKind: string | null,
+): string {
+  return recapHeatPaint(cells)
+    .map((cell) => {
+      const marks = [
+        official.has(cell.n) ? " is-official" : "",
+        ladder.has(cell.n) ? " is-ladder" : "",
+        extraKind ? ` ${extraKind}` : "",
+      ].join("");
+      return `<span class="recap-heat-cell${marks}" style="background:${cell.fill};color:${cell.ink}" title="${padBall(cell.n)} · ${cell.count} draws">${padBall(cell.n)}</span>`;
+    })
+    .join("");
+}
+
+function heatHtml(
+  heat: RecapHeat | null | undefined,
+  officialWhites: number[],
+  officialExtra: number | null,
+  top: ReplayRung | undefined,
+): string {
+  if (!heat) return "";
+  const official = new Set(officialWhites);
+  const ladder = new Set(top?.whites ?? []);
+  const extraKind = recapExtraClass(heat.extraLabel);
+  const extraOfficial = new Set(
+    officialExtra != null ? [officialExtra] : [],
+  );
+  const extraLadder = new Set(top?.extra != null ? [top.extra] : []);
+  const extras = heat.extras.length
+    ? `<p class="recap-heat-label">${escapeHtml(heat.extraLabel || "Extra")}</p>
+    <div class="recap-heat-grid">${heatRowHtml(heat.extras, extraOfficial, extraLadder, extraKind)}</div>`
+    : "";
+  return `<figure class="recap-heat">
+    <figcaption>Frequency before this drawing · ${heat.draws} official draws. Solid rings are the official board. Dashed rings are last night's #1. Same hit odds as Quick Pick.</figcaption>
+    <div class="recap-heat-grid">${heatRowHtml(heat.whites, official, ladder, null)}</div>
+    ${extras}
+  </figure>`;
+}
+
+function rungHtml(
+  rung: ReplayRung,
+  extraLabel: string | null | undefined,
+  officialWhites: number[],
+): string {
   const rankNote =
     rung.rank === 1
       ? " #1 is the strongest match to history before this drawing. Not the winning pick."
       : " Not the winning pick.";
+  const hits = new Set(officialWhites);
   return `<article class="recap-rung">
       <p class="recap-rank">#${rung.rank}</p>
+      ${ballsHtml(rung.whites, rung.extra, extraLabel, hits, rung.extraHit === true)}
       <p class="recap-board">${escapeHtml(rung.board)}</p>
       <p class="recap-match">${escapeHtml(rung.matchLine)}.${rankNote}</p>
       <p class="recap-meta">${rung.points} pts${rung.crowd ? ` · ${escapeHtml(rung.crowd)}` : ""}</p>
@@ -110,8 +164,9 @@ function nationalHtml(block: RecapNational): string {
       </div>
     </header>
     ${compareHtml(block.officialDate, block.officialWhites, block.officialExtra, block.extraLabel, block.officialBoard, block.rungs[0])}
+    ${heatHtml(block.heat, block.officialWhites, block.officialExtra, block.rungs[0])}
     <div class="recap-rungs">
-    ${block.rungs.map(rungHtml).join("\n    ")}
+    ${block.rungs.map((rung) => rungHtml(rung, block.extraLabel, block.officialWhites)).join("\n    ")}
     </div>
     <div class="verdict ${callClass(block.tone)}">
       <strong>${escapeHtml(call)}</strong>
@@ -135,8 +190,9 @@ function washingtonHtml(block: RecapWashington): string {
     </header>
     <p class="fine">${escapeHtml(block.prizeLine)}</p>
     ${compareHtml(block.officialDate, block.officialWhites, block.officialExtra, null, block.officialBoard, block.rungs[0])}
+    ${heatHtml(block.heat, block.officialWhites, block.officialExtra, block.rungs[0])}
     <div class="recap-rungs">
-    ${block.rungs.map(rungHtml).join("\n    ")}
+    ${block.rungs.map((rung) => rungHtml(rung, null, block.officialWhites)).join("\n    ")}
     </div>
     <a class="recap-ladder" href="${escapeHtml(block.ladderHref)}">
       Open the live Ladder for tonight

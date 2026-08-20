@@ -29,6 +29,17 @@ const FIXTURE: RecapPayload = {
       officialWhites: [5, 12, 23, 44, 61],
       officialExtra: 9,
       historyBefore: 1200,
+      heat: {
+        draws: 80,
+        whiteMax: 5,
+        extraMax: 2,
+        extraLabel: "Powerball",
+        whites: [1, 2, 3, 4, 5].map((n) => ({ n, count: n * 3 })),
+        extras: [
+          { n: 1, count: 4 },
+          { n: 9, count: 11 },
+        ],
+      },
       ladderHref: "https://www.jackpotdesk.com/?desk=national&game=powerball",
       rungs: [
         {
@@ -81,6 +92,7 @@ const FIXTURE: RecapPayload = {
       officialWhites: [5, 8, 19, 28, 41],
       officialExtra: null,
       historyBefore: 180,
+      heat: null,
       ladderHref: "https://www.jackpotdesk.com/?desk=washington&wa=hit5",
       rungs: [
         {
@@ -177,6 +189,13 @@ describe("recap page", () => {
     expect(html).toContain('class="recap-ball"');
     expect(html).toContain('class="recap-ball is-powerball');
     expect(html).toContain(">09</span>");
+  });
+
+  it("styles every rung as balls and shows a small frequency map", () => {
+    expect(html).toContain('class="recap-heat"');
+    expect(html).toContain("Frequency before this drawing");
+    expect(html).toContain("is-official");
+    expect(html.match(/class="recap-balls"/g)?.length).toBeGreaterThan(3);
   });
 
   it("prints the public EV call and points at tonight's live Ladder", () => {
