@@ -17,13 +17,13 @@ export function Faq() {
       ),
     },
     {
-      q: "What is Last night?",
+      q: "What is the recap?",
       a: (
         <>
-          A public scored replay. Last official results against the Ladder that
-          was live before those numbers. Same hit odds as Quick Pick.
-          Entertainment, not prediction. Tonight’s #1 stays on the live Ladder.{" "}
-          <a href="/last-night.html">Open last night</a>.
+          A public scored replay at{" "}
+          <a href="/recap">/recap</a>. Last official results against the Ladder
+          that was live before those numbers. Same hit odds as Quick Pick.
+          Entertainment, not prediction. Tonight’s #1 stays on the live Ladder.
         </>
       ),
     },

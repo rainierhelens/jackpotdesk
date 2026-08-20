@@ -2,7 +2,7 @@ name: Draw-night digest
 
 # Private email for the operator. One recipient, stored only in repo secrets.
 # 17:00 UTC is 10:00 a.m. Pacific: after morning archives, before evening draws.
-# The public last-night recap siblings this window via deploy.yml (same cron,
+# The public /recap page siblings this window via deploy.yml (same cron,
 # same official data libraries, Pages write, no human merge).
 on:
   workflow_dispatch:

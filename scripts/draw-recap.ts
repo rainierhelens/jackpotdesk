@@ -1,8 +1,6 @@
 /**
- * Public last-night recap. Writes public/last-night.html for Pages.
- *
- * Last official results vs the Ladder that was live before those numbers.
- * Tonight's EV call. Link to the live Ladder. No tonight #1. No signup.
+ * Public daily recap. Writes the latest page to /recap and a dated copy
+ * to /recap/YYYY-MM-DD. No query-string route. No tonight #1. No signup.
  *
  *   npm run recap
  */
@@ -23,9 +21,14 @@ import {
 } from "./lib/deskLetter.ts";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const OUT = join(ROOT, "public", "last-night.html");
+const RECAP_DIR = join(ROOT, "public", "recap");
 
 const LEAD = `${SAME_ODDS_LEAD} This page is last night's official results against the Ladder that was live before those numbers landed. Entertainment, not prediction. Rank #1 is the strongest match to the past, never the winning pick.`;
+
+export type RecapPage = {
+  path: string;
+  kind: "latest" | "archive";
+};
 
 function callClass(tone: "no" | "entertain" | "rare"): string {
   if (tone === "rare") return "is-rare";
@@ -79,7 +82,10 @@ function washingtonHtml(block: RecapWashington): string {
   </section>`;
 }
 
-export function formatLastNightHtml(payload: RecapPayload): string {
+export function formatRecapHtml(
+  payload: RecapPayload,
+  page: RecapPage = { path: "/recap", kind: "latest" },
+): string {
   const national = payload.national.map(nationalHtml).join("\n  ");
   const washington = payload.washington.map(washingtonHtml).join("\n  ");
   const notes = payload.notes.length
@@ -89,25 +95,34 @@ export function formatLastNightHtml(payload: RecapPayload): string {
     national || washington
       ? `${national}\n  ${washington}`
       : "<p>No official drawings were ready to score.</p>";
+  const title =
+    page.kind === "archive"
+      ? `Recap · ${payload.asOf} | JackpotDesk`
+      : "Recap | JackpotDesk";
+  const datedPath = `/recap/${payload.asOf}`;
+  const stamp =
+    page.kind === "archive"
+      ? `Recap for ${escapeHtml(payload.asOf)}. <a href="/recap">Latest recap</a>`
+      : `Built ${escapeHtml(payload.asOf)} from the latest official draws. <a href="${escapeHtml(datedPath)}">Permalink ${escapeHtml(datedPath)}</a>`;
 
   return `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Last night | JackpotDesk</title>
+    <title>${escapeHtml(title)}</title>
     <meta
       name="description"
       content="${SAME_ODDS_LEAD} Last official results versus last night's Ladder #1 to #3. Entertainment, not prediction."
     />
-    <link rel="canonical" href="${SITE}/last-night.html" />
+    <link rel="canonical" href="${SITE}${page.path}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Geist+Mono:wght@400;700&family=Inter:wght@400;600;700&display=swap" />
     <link rel="stylesheet" href="/legal.css" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="JackpotDesk" />
-    <meta property="og:url" content="${SITE}/last-night.html" />
-    <meta property="og:title" content="Last night | JackpotDesk" />
+    <meta property="og:url" content="${SITE}${page.path}" />
+    <meta property="og:title" content="${escapeHtml(title)}" />
     <meta
       property="og:description"
       content="${SAME_ODDS_LEAD} A scored replay of the past, not a forecast."
@@ -129,6 +144,8 @@ export function formatLastNightHtml(payload: RecapPayload): string {
     <main class="legal recap">
       <a class="legal-brand" href="/"><img src="/logo.png" alt="JackpotDesk" width="220" height="31" /></a>
       <nav class="legal-nav" aria-label="Site">
+        <a href="/">Desk</a>
+        <a href="/recap"${page.kind === "latest" ? ' aria-current="page"' : ""}>Recap</a>
         <a href="/about.html">About</a>
         <a href="/tip.html">Tip the desk</a>
         <a href="/contact.html">Write the desk</a>
@@ -140,15 +157,15 @@ export function formatLastNightHtml(payload: RecapPayload): string {
         <a href="/privacy.html">Privacy</a>
       </nav>
       <nav class="legal-nav" aria-label="Tools">
-        <a href="/last-night.html" aria-current="page">Last night</a>
+        <a href="/recap"${page.kind === "latest" ? ' aria-current="page"' : ""}>Recap</a>
         <a href="/expected-value.html">Expected value</a>
         <a href="/unique-tickets.html">Unique tickets</a>
         <a href="/office-pool.html">Office pool</a>
         <a href="/lottery-lab.html">Lottery Lab</a>
       </nav>
       <p class="kicker">JackpotDesk · scored replay</p>
-      <h1>Last night</h1>
-      <p class="updated">Built ${escapeHtml(payload.asOf)} from the latest official draws.</p>
+      <h1>Recap</h1>
+      <p class="updated">${stamp}</p>
       <p>${escapeHtml(LEAD)}</p>
       ${games}
       ${notes}
@@ -173,22 +190,31 @@ export function formatLastNightHtml(payload: RecapPayload): string {
 `;
 }
 
-export function writeLastNightPage(html: string): string {
-  mkdirSync(dirname(OUT), { recursive: true });
-  writeFileSync(OUT, html);
-  return OUT;
+export function writeRecapPages(payload: RecapPayload): string[] {
+  const latest = formatRecapHtml(payload, { path: "/recap", kind: "latest" });
+  const archive = formatRecapHtml(payload, {
+    path: `/recap/${payload.asOf}`,
+    kind: "archive",
+  });
+  assertNoEmDash("/recap", latest);
+  assertNoEmDash(`/recap/${payload.asOf}`, archive);
+  const latestFile = join(RECAP_DIR, "index.html");
+  const archiveFile = join(RECAP_DIR, payload.asOf, "index.html");
+  mkdirSync(dirname(latestFile), { recursive: true });
+  mkdirSync(dirname(archiveFile), { recursive: true });
+  writeFileSync(latestFile, latest);
+  writeFileSync(archiveFile, archive);
+  return [latestFile, archiveFile];
 }
 
 async function main(): Promise<void> {
   const payload = await buildRecapPayload();
-  const html = formatLastNightHtml(payload);
-  assertNoEmDash("last-night.html", html);
-  const path = writeLastNightPage(html);
+  const paths = writeRecapPages(payload);
   const games = [
     ...payload.national.map((g) => `${g.label} ${g.officialDate}`),
     ...payload.washington.map((g) => `${g.label} ${g.officialDate}`),
   ];
-  console.log(`Wrote ${path}`);
+  console.log(`Wrote ${paths.join(" · ")}`);
   console.log(`Games: ${games.join(" · ") || "none"}`);
   if (payload.notes.length) {
     console.log(`Notes: ${payload.notes.join(" | ")}`);

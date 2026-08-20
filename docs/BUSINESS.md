@@ -12,7 +12,7 @@ Sell:
 
 - The rest of tonight’s ranked field (ranks 11–100) and the write-up beside each board.
 - Honest packs as units: “10 more ranks” or “1 Pattern lab mint.” Not a Ladder reroll. The fade-free ladder is the same #1 until a new official draw lands.
-- Optional: a YouTube / shorts ritual that points at the free ladder and the public last-night recap.
+- Optional: a YouTube / shorts ritual that points at the free ladder and the public recap.
 
 Never sell:
 
@@ -118,7 +118,7 @@ No accounts yet, so use what you have (Analytics, already on the site):
 - Sessions on Desk / Ladder vs bounce.
 - Draw-day vs off-day traffic.
 - Outbound to Lottery Lab (honesty is working if some people click it).
-- Recap page views once live (`/last-night.html`).
+- Recap page views once live (`/recap`).
 - Save/print/copy if you later event those.
 
 Phase 1 adds: pass starts, night-pass on jackpot spikes, refunds, “#1 missed” tickets.
@@ -130,3 +130,4 @@ Phase 1 adds: pass starts, night-pass on jackpot spikes, refunds, “#1 missed�
 - **2026-08:** Tip the desk and Write the desk ship as JackpotDesk, not a personal brand. Financial KYC stays off the site.
 - **2026-08-19:** Public daily recap ships as a Phase 0 goal. Auto-publish through GitHub (sibling the 10:00 a.m. PT digest). No per-recap approval. Package: same-odds first sentence from live site copy; last night’s official vs last night’s Ladder #1–#3 as a scored replay; SKIP / ENTERTAIN ONLY / RARE PLUS; link to the live Ladder for tonight. Do not publish tonight’s #1 as a tip sheet. Desk pick may be named as the least-crowded board, not a forecast.
 - **2026-08-19:** Never sell loot boxes, gacha, or paid mystery drops (Washington: pay + chance + a prize of value). Honest packs and a desk pass only. No lottery courier or internet ticket sales (WA bans them; prizes can be refused; no convenience fees). No site that sells shares then buys slips. No cover-the-field / Texas-style bulk print, including Hit 5. Adjacent lanes: ranking access, public recap, pool/print tooling, tip jar.
+- **2026-08-20:** Public daily feed lives at `/recap` (latest as the default page). Dated archives at `/recap/YYYY-MM-DD` if a permalink is needed. Linked from the desk tabs. Not a query-string route.

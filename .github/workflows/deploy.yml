@@ -83,7 +83,7 @@ jobs:
             -H "Content-Type: application/json" \
             --data-binary @src/data/marketQuotes.json
         continue-on-error: true
-      - name: Build last-night recap
+      - name: Build public recap
         run: npm run recap
       - name: Build site
         run: npm run build

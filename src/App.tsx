@@ -340,6 +340,7 @@ export default function App() {
             <img src={iconTickets} alt="" className="tab-icon wide" />
             Desk
           </button>
+          <a href="/recap">Recap</a>
           <button
             type="button"
             className={tab === "tickets" ? "on" : ""}

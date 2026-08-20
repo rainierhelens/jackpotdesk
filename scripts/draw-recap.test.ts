@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatLastNightHtml } from "./draw-recap.ts";
+import { formatRecapHtml } from "./draw-recap.ts";
 import {
   SAME_ODDS_LEAD,
   digestCallLine,
@@ -131,8 +131,8 @@ describe("EV call labels", () => {
   });
 });
 
-describe("last-night page", () => {
-  const html = formatLastNightHtml(FIXTURE);
+describe("recap page", () => {
+  const html = formatRecapHtml(FIXTURE);
 
   it("opens with live-site same-odds copy", () => {
     const firstBody = html.match(/<p>(Same hit odds[\s\S]*?)<\/p>/);
@@ -171,5 +171,25 @@ describe("last-night page", () => {
 
   it("has no em dashes", () => {
     expect(html).not.toContain("\u2014");
+  });
+
+  it("lives at /recap, not a query string", () => {
+    expect(html).toContain('rel="canonical" href="https://www.jackpotdesk.com/recap"');
+    expect(html).toContain('href="/recap"');
+    expect(html).toContain("/recap/2026-08-20");
+    expect(html).not.toMatch(/[?&]tab=recap|[?&]page=recap/);
+  });
+
+  it("keeps a dated archive URL under /recap", () => {
+    const archive = formatRecapHtml(FIXTURE, {
+      path: "/recap/2026-08-20",
+      kind: "archive",
+    });
+    expect(archive).toContain(
+      'rel="canonical" href="https://www.jackpotdesk.com/recap/2026-08-20"',
+    );
+    expect(archive).toContain("Latest recap");
+    expect(archive).toContain(SAME_ODDS_LEAD);
+    expect(archive).toContain("Tonight's #1 is on the live desk, not on this page");
   });
 });

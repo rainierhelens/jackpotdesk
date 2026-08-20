@@ -5,7 +5,7 @@ type DeskTab = "write" | "board";
 const LINKS = [
   { href: "/?tab=write", label: "Write", tab: "write" as const },
   { href: "/", label: "Desk", tab: "board" as const },
-  { href: "/last-night.html", label: "Last night" },
+  { href: "/recap", label: "Recap" },
   { href: "/expected-value.html", label: "Expected value" },
   { href: "/unique-tickets.html", label: "Unique tickets" },
   { href: "/office-pool.html", label: "Office pool" },
