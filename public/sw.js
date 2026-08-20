@@ -39,6 +39,11 @@ self.addEventListener("fetch", (event) => {
   if (url.origin !== self.location.origin) return;
 
   if (req.mode === "navigate") {
+    const path = url.pathname;
+    if (path === "/recap" || path.startsWith("/recap/")) {
+      event.respondWith(fetch(req));
+      return;
+    }
     event.respondWith(
       fetch(req)
         .then((res) => {

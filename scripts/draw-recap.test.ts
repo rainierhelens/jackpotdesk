@@ -184,6 +184,7 @@ describe("recap page", () => {
     expect(html).toContain('aria-label="Primary"');
     expect(html).toMatch(/<a href="\/recap" class="on" aria-current="page">Recap<\/a>/);
     expect(html).toContain("Last night vs The Ladder");
+    expect(html).toContain('classList.add("is-embed")');
   });
 
   it("keeps a dated archive URL under /recap", () => {

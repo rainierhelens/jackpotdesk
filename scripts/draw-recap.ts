@@ -122,6 +122,11 @@ export function formatRecapHtml(
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Geist+Mono:wght@400;700&family=Inter:wght@400;600;700&display=swap" />
     <link rel="stylesheet" href="/legal.css" />
+    <script>
+      if (/[?&]embed=1(?:&|$)/.test(location.search)) {
+        document.documentElement.classList.add("is-embed");
+      }
+    </script>
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="JackpotDesk" />
     <meta property="og:url" content="${SITE}${page.path}" />

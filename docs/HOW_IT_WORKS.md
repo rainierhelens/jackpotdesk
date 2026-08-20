@@ -51,7 +51,7 @@ Default mode on Desk is Ladder ([`src/views/BoardView.tsx`](../src/views/BoardVi
 - **Map**: public jackpot tickets by sale state.
 - **Pool**: members, shares, payouts in this browser.
 - **Why this**: method copy. Keep it aligned with [CLAIMS.md](CLAIMS.md).
-- **Recap** ([`/recap`](../public/recap/index.html)): public scored replay. Latest at `/recap`. Dated copies at `/recap/YYYY-MM-DD`. Last official results versus the Ladder that was live before those numbers. EV call SKIP / ENTERTAIN ONLY / RARE PLUS. Link to the live Ladder for tonight. Does not publish tonight’s #1. Auto-built in the Pages job. Linked from the desk tabs. See [DIGEST.md](DIGEST.md).
+- **Recap** (desk tab, [`/recap`](../public/recap/index.html)): public scored replay. Latest at `/recap`. Dated copies at `/recap/YYYY-MM-DD`. Last official results versus the Ladder that was live before those numbers. EV call SKIP / ENTERTAIN ONLY / RARE PLUS. Link to the live Ladder for tonight. Does not publish tonight’s #1. Auto-built in the Pages job. Same primary tab bar as Desk. See [DIGEST.md](DIGEST.md).
 - **Private digest**: daily operator email of Ladder #1–#3 plus the EV call. Not a public list. Sibling of the public recap. See [DIGEST.md](DIGEST.md).
 - **Tip the desk**: optional gift for hosting and archives. Not a pass. See [DESK.md](DESK.md).
 - **Write the desk**: support form to the operator. No name required. Not a public list.

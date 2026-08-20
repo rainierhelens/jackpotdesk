@@ -231,9 +231,12 @@ main {
   margin: 0.35rem 0 0;
   padding: 0.32rem 0.7rem;
   width: fit-content;
+  min-height: 0;
   background: var(--gold);
   color: #09090b;
+  border: 0;
   border-radius: 999px;
+  box-shadow: none;
   font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -656,6 +659,17 @@ main {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 1.15rem 1.15rem 1.35rem;
+}
+
+.recap-embed {
+  display: block;
+  width: 100%;
+  min-height: 70vh;
+  height: 80vh;
+  margin-top: 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg);
 }
 
 .panel-wash {

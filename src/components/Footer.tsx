@@ -1,11 +1,11 @@
 import type { MouseEvent } from "react";
 
-type DeskTab = "write" | "board";
+type DeskTab = "write" | "board" | "recap";
 
 const LINKS = [
   { href: "/?tab=write", label: "Write", tab: "write" as const },
   { href: "/", label: "Desk", tab: "board" as const },
-  { href: "/recap", label: "Recap" },
+  { href: "/recap", label: "Recap", tab: "recap" as const },
   { href: "/expected-value.html", label: "Expected value" },
   { href: "/unique-tickets.html", label: "Unique tickets" },
   { href: "/office-pool.html", label: "Office pool" },

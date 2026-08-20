@@ -404,3 +404,12 @@ a {
 .why-lab {
   margin: 1.4rem 0 0;
 }
+
+html.is-embed .recap-chrome,
+html.is-embed .legal-nav {
+  display: none;
+}
+
+html.is-embed .legal.recap {
+  padding-top: 0.25rem;
+}
