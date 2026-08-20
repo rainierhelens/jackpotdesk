@@ -194,6 +194,7 @@ describe("recap page", () => {
   it("styles every rung as balls and shows a small frequency map", () => {
     expect(html).toContain('class="recap-heat"');
     expect(html).toContain("Frequency before this drawing");
+    expect(html).toContain("Yellow rings are last night's #1");
     expect(html).toContain("is-official");
     expect(html.match(/class="recap-balls"/g)?.length).toBeGreaterThan(3);
   });

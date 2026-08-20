@@ -128,7 +128,7 @@ function heatHtml(
     <div class="recap-heat-grid">${heatRowHtml(heat.extras, extraOfficial, extraLadder, extraKind)}</div>`
     : "";
   return `<figure class="recap-heat">
-    <figcaption>Frequency before this drawing · ${heat.draws} official draws. Solid rings are the official board. Dashed rings are last night's #1. Same hit odds as Quick Pick.</figcaption>
+    <figcaption>Frequency before this drawing · ${heat.draws} official draws. White rings are the official board. Yellow rings are last night's #1. Same hit odds as Quick Pick.</figcaption>
     <div class="recap-heat-grid">${heatRowHtml(heat.whites, official, ladder, null)}</div>
     ${extras}
   </figure>`;

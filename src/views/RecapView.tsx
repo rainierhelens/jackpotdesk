@@ -115,8 +115,8 @@ function RecapHeatGrid({
   return (
     <figure className="recap-heat">
       <figcaption>
-        Frequency before this drawing · {heat.draws} official draws. Solid
-        rings are the official board. Dashed rings are last night's #1. Same
+        Frequency before this drawing · {heat.draws} official draws. White
+        rings are the official board. Yellow rings are last night's #1. Same
         hit odds as Quick Pick.
       </figcaption>
       <div className="recap-heat-grid">
