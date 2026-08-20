@@ -1,0 +1,5390 @@
+{
+  "updated": "2026-08-20T06:45:26.952Z",
+  "source": "Replay of The Ladder from official history excluding that drawing. First write wins. Not a forecast.",
+  "note": "One row per game and official date. Existing rows are never overwritten. Rank #1 is the strongest match to history before that drawing, never the winning pick. Same hit odds as Quick Pick.",
+  "rows": [
+    {
+      "game": "megamillions",
+      "officialDate": "2026-08-18",
+      "officialWhites": [
+        5,
+        19,
+        30,
+        38,
+        59
+      ],
+      "officialExtra": 12,
+      "historyBefore": 918,
+      "recorded": "2026-08-20T06:45:13.794Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            10,
+            17,
+            48,
+            51,
+            55
+          ],
+          "extra": 22,
+          "points": 70,
+          "crowd": "1.11x crowd · beats 25% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #1 pair 10-17 · 3 running hot over the last 30 draws · sum 181 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            5,
+            19,
+            30,
+            38,
+            59
+          ],
+          "ladderOnly": [
+            10,
+            17,
+            48,
+            51,
+            55
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            14,
+            22,
+            26,
+            48,
+            58
+          ],
+          "extra": 22,
+          "points": 70,
+          "crowd": "0.92x crowd · beats 63% of random boards",
+          "why": "1 of the top-10 all-time numbers · 2 running hot over the last 30 draws · sum 168 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            5,
+            19,
+            30,
+            38,
+            59
+          ],
+          "ladderOnly": [
+            14,
+            22,
+            26,
+            48,
+            58
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            10,
+            17,
+            22,
+            51,
+            66
+          ],
+          "extra": 22,
+          "points": 68,
+          "crowd": "1.12x crowd · beats 23% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #1 pair 10-17 · 2 running hot over the last 30 draws · sum 166 inside the historical middle band · 2 odd / 3 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            5,
+            19,
+            30,
+            38,
+            59
+          ],
+          "ladderOnly": [
+            10,
+            17,
+            22,
+            51,
+            66
+          ]
+        }
+      ]
+    },
+    {
+      "game": "powerball",
+      "officialDate": "2026-08-17",
+      "officialWhites": [
+        8,
+        15,
+        25,
+        49,
+        65
+      ],
+      "officialExtra": 22,
+      "historyBefore": 1389,
+      "recorded": "2026-08-20T06:45:13.794Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            2,
+            12,
+            44,
+            50,
+            61
+          ],
+          "extra": 4,
+          "points": 70,
+          "crowd": "0.94x crowd · beats 59% of random boards",
+          "why": "1 of the top-10 all-time numbers · carries the #7 pair 44-50 · 2 running hot over the last 30 draws · sum 169 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            8,
+            15,
+            25,
+            49,
+            65
+          ],
+          "ladderOnly": [
+            2,
+            12,
+            44,
+            50,
+            61
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            3,
+            6,
+            44,
+            59,
+            61
+          ],
+          "extra": 4,
+          "points": 69,
+          "crowd": "1.07x crowd · beats 32% of random boards",
+          "why": "1 of the top-10 all-time numbers · 4 running hot over the last 30 draws · sum 173 inside the historical middle band · 3 odd / 2 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            8,
+            15,
+            25,
+            49,
+            65
+          ],
+          "ladderOnly": [
+            3,
+            6,
+            44,
+            59,
+            61
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            3,
+            16,
+            41,
+            48,
+            60
+          ],
+          "extra": 4,
+          "points": 69,
+          "crowd": "0.88x crowd · beats 74% of random boards",
+          "why": "carries the #6 pair 3-16 · 2 running hot over the last 30 draws · sum 168 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            8,
+            15,
+            25,
+            49,
+            65
+          ],
+          "ladderOnly": [
+            3,
+            16,
+            41,
+            48,
+            60
+          ]
+        }
+      ]
+    },
+    {
+      "game": "hit5",
+      "officialDate": "2026-08-16",
+      "officialWhites": [
+        5,
+        8,
+        19,
+        28,
+        41
+      ],
+      "officialExtra": null,
+      "historyBefore": 179,
+      "recorded": "2026-08-20T06:45:13.794Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            11,
+            14,
+            16,
+            27,
+            39
+          ],
+          "extra": null,
+          "points": 73,
+          "crowd": "0.91x crowd · beats 86% of random boards",
+          "why": "3 of the top-10 all-time numbers · carries the #1 pair 11-39 · 2 running hot over the last 30 draws · sum 107 inside the historical middle band",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            5,
+            8,
+            19,
+            28,
+            41
+          ],
+          "ladderOnly": [
+            11,
+            14,
+            16,
+            27,
+            39
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            11,
+            14,
+            20,
+            39,
+            42
+          ],
+          "extra": null,
+          "points": 73,
+          "crowd": "0.92x crowd · beats 83% of random boards",
+          "why": "4 of the top-10 all-time numbers · carries the #1 pair 11-39 · 1 running hot over the last 30 draws · sum 126 inside the historical middle band · 2 odd / 3 even, the modal split",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            5,
+            8,
+            19,
+            28,
+            41
+          ],
+          "ladderOnly": [
+            11,
+            14,
+            20,
+            39,
+            42
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            4,
+            11,
+            14,
+            27,
+            39
+          ],
+          "extra": null,
+          "points": 72,
+          "crowd": "0.98x crowd · beats 58% of random boards",
+          "why": "4 of the top-10 all-time numbers · carries the #1 pair 11-39 · 1 running hot over the last 30 draws · sum 95 inside the historical middle band",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            5,
+            8,
+            19,
+            28,
+            41
+          ],
+          "ladderOnly": [
+            4,
+            11,
+            14,
+            27,
+            39
+          ]
+        }
+      ]
+    },
+    {
+      "game": "powerball",
+      "officialDate": "2026-08-15",
+      "officialWhites": [
+        5,
+        8,
+        27,
+        29,
+        63
+      ],
+      "officialExtra": 13,
+      "historyBefore": 1388,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            3,
+            27,
+            44,
+            50,
+            59
+          ],
+          "extra": 4,
+          "points": 70,
+          "crowd": "1.01x crowd · beats 44% of random boards",
+          "why": "1 of the top-10 all-time numbers · carries the #7 pair 44-50 · 4 running hot over the last 30 draws · sum 183 inside the historical middle band · 3 odd / 2 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 1,
+          "extraHit": false,
+          "overlap": [
+            27
+          ],
+          "officialOnly": [
+            5,
+            8,
+            29,
+            63
+          ],
+          "ladderOnly": [
+            3,
+            44,
+            50,
+            59
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            3,
+            16,
+            40,
+            48,
+            53
+          ],
+          "extra": 4,
+          "points": 69,
+          "crowd": "0.91x crowd · beats 68% of random boards",
+          "why": "carries the #6 pair 3-16 · 4 running hot over the last 30 draws · sum 160 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            5,
+            8,
+            27,
+            29,
+            63
+          ],
+          "ladderOnly": [
+            3,
+            16,
+            40,
+            48,
+            53
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            3,
+            16,
+            37,
+            44,
+            59
+          ],
+          "extra": 4,
+          "points": 69,
+          "crowd": "1.08x crowd · beats 30% of random boards",
+          "why": "carries the #2 pair 37-44 · 4 running hot over the last 30 draws · sum 159 inside the historical middle band · 3 odd / 2 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            5,
+            8,
+            27,
+            29,
+            63
+          ],
+          "ladderOnly": [
+            3,
+            16,
+            37,
+            44,
+            59
+          ]
+        }
+      ]
+    },
+    {
+      "game": "hit5",
+      "officialDate": "2026-08-15",
+      "officialWhites": [
+        12,
+        15,
+        25,
+        27,
+        31
+      ],
+      "officialExtra": null,
+      "historyBefore": 178,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            11,
+            14,
+            22,
+            27,
+            39
+          ],
+          "extra": null,
+          "points": 74,
+          "crowd": "0.95x crowd · beats 68% of random boards",
+          "why": "4 of the top-10 all-time numbers · carries the #1 pair 11-39 · 1 running hot over the last 30 draws · sum 113 inside the historical middle band",
+          "whiteHits": 1,
+          "extraHit": null,
+          "overlap": [
+            27
+          ],
+          "officialOnly": [
+            12,
+            15,
+            25,
+            31
+          ],
+          "ladderOnly": [
+            11,
+            14,
+            22,
+            39
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            11,
+            14,
+            20,
+            27,
+            39
+          ],
+          "extra": null,
+          "points": 73,
+          "crowd": "0.94x crowd · beats 73% of random boards",
+          "why": "4 of the top-10 all-time numbers · carries the #1 pair 11-39 · 1 running hot over the last 30 draws · sum 111 inside the historical middle band",
+          "whiteHits": 1,
+          "extraHit": null,
+          "overlap": [
+            27
+          ],
+          "officialOnly": [
+            12,
+            15,
+            25,
+            31
+          ],
+          "ladderOnly": [
+            11,
+            14,
+            20,
+            39
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            11,
+            14,
+            16,
+            27,
+            39
+          ],
+          "extra": null,
+          "points": 73,
+          "crowd": "0.91x crowd · beats 86% of random boards",
+          "why": "3 of the top-10 all-time numbers · carries the #1 pair 11-39 · 2 running hot over the last 30 draws · sum 107 inside the historical middle band",
+          "whiteHits": 1,
+          "extraHit": null,
+          "overlap": [
+            27
+          ],
+          "officialOnly": [
+            12,
+            15,
+            25,
+            31
+          ],
+          "ladderOnly": [
+            11,
+            14,
+            16,
+            39
+          ]
+        }
+      ]
+    },
+    {
+      "game": "lotto",
+      "officialDate": "2026-08-15",
+      "officialWhites": [
+        1,
+        10,
+        23,
+        27,
+        28,
+        49
+      ],
+      "officialExtra": null,
+      "historyBefore": 76,
+      "recorded": "2026-08-20T06:45:13.794Z",
+      "closestRank": 2,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            12,
+            17,
+            20,
+            23,
+            37,
+            40
+          ],
+          "extra": null,
+          "points": 86,
+          "crowd": "1.05x crowd · beats 21% of random boards",
+          "why": "6 of the top-10 all-time numbers · carries the #2 pair 23-37 · 3 running hot over the last 30 draws · sum 149 inside the historical middle band · 3 odd / 3 even, the modal split",
+          "whiteHits": 1,
+          "extraHit": null,
+          "overlap": [
+            23
+          ],
+          "officialOnly": [
+            1,
+            10,
+            27,
+            28,
+            49
+          ],
+          "ladderOnly": [
+            12,
+            17,
+            20,
+            37,
+            40
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            8,
+            12,
+            20,
+            23,
+            27,
+            39
+          ],
+          "extra": null,
+          "points": 84,
+          "crowd": "1.11x crowd · beats 5% of random boards",
+          "why": "5 of the top-10 all-time numbers · carries the #1 pair 20-27 · 1 running hot over the last 30 draws · sum 129 inside the historical middle band · 3 odd / 3 even, the modal split",
+          "whiteHits": 2,
+          "extraHit": null,
+          "overlap": [
+            23,
+            27
+          ],
+          "officialOnly": [
+            1,
+            10,
+            28,
+            49
+          ],
+          "ladderOnly": [
+            8,
+            12,
+            20,
+            39
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            3,
+            12,
+            17,
+            20,
+            37,
+            40
+          ],
+          "extra": null,
+          "points": 84,
+          "crowd": "1.03x crowd · beats 30% of random boards",
+          "why": "5 of the top-10 all-time numbers · carries the #4 pair 3-17 · 2 running hot over the last 30 draws · sum 129 inside the historical middle band · 3 odd / 3 even, the modal split",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            1,
+            10,
+            23,
+            27,
+            28,
+            49
+          ],
+          "ladderOnly": [
+            3,
+            12,
+            17,
+            20,
+            37,
+            40
+          ]
+        }
+      ]
+    },
+    {
+      "game": "megamillions",
+      "officialDate": "2026-08-14",
+      "officialWhites": [
+        3,
+        23,
+        27,
+        46,
+        60
+      ],
+      "officialExtra": 11,
+      "historyBefore": 917,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            10,
+            17,
+            26,
+            51,
+            66
+          ],
+          "extra": 22,
+          "points": 70,
+          "crowd": "1.21x crowd · beats 13% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #1 pair 10-17 · 3 running hot over the last 30 draws · sum 170 inside the historical middle band · 2 odd / 3 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            3,
+            23,
+            27,
+            46,
+            60
+          ],
+          "ladderOnly": [
+            10,
+            17,
+            26,
+            51,
+            66
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            10,
+            17,
+            26,
+            51,
+            61
+          ],
+          "extra": 22,
+          "points": 68,
+          "crowd": "1.12x crowd · beats 24% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #1 pair 10-17 · 3 running hot over the last 30 draws · sum 165 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            3,
+            23,
+            27,
+            46,
+            60
+          ],
+          "ladderOnly": [
+            10,
+            17,
+            26,
+            51,
+            61
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            9,
+            17,
+            26,
+            48,
+            51
+          ],
+          "extra": 22,
+          "points": 68,
+          "crowd": "1.12x crowd · beats 24% of random boards",
+          "why": "1 of the top-10 all-time numbers · 4 running hot over the last 30 draws · sum 151 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            3,
+            23,
+            27,
+            46,
+            60
+          ],
+          "ladderOnly": [
+            9,
+            17,
+            26,
+            48,
+            51
+          ]
+        }
+      ]
+    },
+    {
+      "game": "hit5",
+      "officialDate": "2026-08-14",
+      "officialWhites": [
+        2,
+        10,
+        23,
+        24,
+        38
+      ],
+      "officialExtra": null,
+      "historyBefore": 177,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            11,
+            14,
+            20,
+            39,
+            42
+          ],
+          "extra": null,
+          "points": 75,
+          "crowd": "0.92x crowd · beats 83% of random boards",
+          "why": "4 of the top-10 all-time numbers · carries the #1 pair 11-39 · 3 running hot over the last 30 draws · sum 126 inside the historical middle band · 2 odd / 3 even, the modal split",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            2,
+            10,
+            23,
+            24,
+            38
+          ],
+          "ladderOnly": [
+            11,
+            14,
+            20,
+            39,
+            42
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            11,
+            14,
+            20,
+            27,
+            39
+          ],
+          "extra": null,
+          "points": 74,
+          "crowd": "0.94x crowd · beats 73% of random boards",
+          "why": "4 of the top-10 all-time numbers · carries the #1 pair 11-39 · 2 running hot over the last 30 draws · sum 111 inside the historical middle band",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            2,
+            10,
+            23,
+            24,
+            38
+          ],
+          "ladderOnly": [
+            11,
+            14,
+            20,
+            27,
+            39
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            11,
+            14,
+            16,
+            27,
+            39
+          ],
+          "extra": null,
+          "points": 74,
+          "crowd": "0.91x crowd · beats 86% of random boards",
+          "why": "3 of the top-10 all-time numbers · carries the #1 pair 11-39 · 3 running hot over the last 30 draws · sum 107 inside the historical middle band",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            2,
+            10,
+            23,
+            24,
+            38
+          ],
+          "ladderOnly": [
+            11,
+            14,
+            16,
+            27,
+            39
+          ]
+        }
+      ]
+    },
+    {
+      "game": "hit5",
+      "officialDate": "2026-08-13",
+      "officialWhites": [
+        5,
+        14,
+        18,
+        23,
+        27
+      ],
+      "officialExtra": null,
+      "historyBefore": 176,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            11,
+            14,
+            20,
+            39,
+            42
+          ],
+          "extra": null,
+          "points": 75,
+          "crowd": "0.92x crowd · beats 83% of random boards",
+          "why": "4 of the top-10 all-time numbers · carries the #1 pair 11-39 · 2 running hot over the last 30 draws · sum 126 inside the historical middle band · 2 odd / 3 even, the modal split",
+          "whiteHits": 1,
+          "extraHit": null,
+          "overlap": [
+            14
+          ],
+          "officialOnly": [
+            5,
+            18,
+            23,
+            27
+          ],
+          "ladderOnly": [
+            11,
+            20,
+            39,
+            42
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            11,
+            14,
+            16,
+            22,
+            39
+          ],
+          "extra": null,
+          "points": 73,
+          "crowd": "0.94x crowd · beats 75% of random boards",
+          "why": "3 of the top-10 all-time numbers · carries the #1 pair 11-39 · 2 running hot over the last 30 draws · sum 102 inside the historical middle band · 2 odd / 3 even, the modal split",
+          "whiteHits": 1,
+          "extraHit": null,
+          "overlap": [
+            14
+          ],
+          "officialOnly": [
+            5,
+            18,
+            23,
+            27
+          ],
+          "ladderOnly": [
+            11,
+            16,
+            22,
+            39
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            8,
+            15,
+            20,
+            28,
+            39
+          ],
+          "extra": null,
+          "points": 72,
+          "crowd": "1.01x crowd · beats 45% of random boards",
+          "why": "4 of the top-10 all-time numbers · carries the #3 pair 20-39 · sum 110 inside the historical middle band · 2 odd / 3 even, the modal split",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            5,
+            14,
+            18,
+            23,
+            27
+          ],
+          "ladderOnly": [
+            8,
+            15,
+            20,
+            28,
+            39
+          ]
+        }
+      ]
+    },
+    {
+      "game": "powerball",
+      "officialDate": "2026-08-12",
+      "officialWhites": [
+        4,
+        26,
+        66,
+        67,
+        69
+      ],
+      "officialExtra": 9,
+      "historyBefore": 1387,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            14,
+            16,
+            50,
+            53,
+            59
+          ],
+          "extra": 4,
+          "points": 70,
+          "crowd": "0.87x crowd · beats 76% of random boards",
+          "why": "5 running hot over the last 30 draws · sum 192 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            4,
+            26,
+            66,
+            67,
+            69
+          ],
+          "ladderOnly": [
+            14,
+            16,
+            50,
+            53,
+            59
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            3,
+            16,
+            44,
+            61,
+            64
+          ],
+          "extra": 4,
+          "points": 70,
+          "crowd": "0.94x crowd · beats 61% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #6 pair 3-16 · 3 running hot over the last 30 draws · sum 188 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            4,
+            26,
+            66,
+            67,
+            69
+          ],
+          "ladderOnly": [
+            3,
+            16,
+            44,
+            61,
+            64
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            16,
+            30,
+            37,
+            44,
+            59
+          ],
+          "extra": 4,
+          "points": 70,
+          "crowd": "0.91x crowd · beats 66% of random boards",
+          "why": "carries the #2 pair 37-44 · 3 running hot over the last 30 draws · sum 186 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            4,
+            26,
+            66,
+            67,
+            69
+          ],
+          "ladderOnly": [
+            16,
+            30,
+            37,
+            44,
+            59
+          ]
+        }
+      ]
+    },
+    {
+      "game": "hit5",
+      "officialDate": "2026-08-12",
+      "officialWhites": [
+        15,
+        21,
+        30,
+        32,
+        40
+      ],
+      "officialExtra": null,
+      "historyBefore": 175,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            11,
+            14,
+            20,
+            39,
+            42
+          ],
+          "extra": null,
+          "points": 75,
+          "crowd": "0.92x crowd · beats 83% of random boards",
+          "why": "4 of the top-10 all-time numbers · carries the #1 pair 11-39 · 2 running hot over the last 30 draws · sum 126 inside the historical middle band · 2 odd / 3 even, the modal split",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            15,
+            21,
+            30,
+            32,
+            40
+          ],
+          "ladderOnly": [
+            11,
+            14,
+            20,
+            39,
+            42
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            11,
+            14,
+            20,
+            22,
+            39
+          ],
+          "extra": null,
+          "points": 74,
+          "crowd": "0.97x crowd · beats 59% of random boards",
+          "why": "4 of the top-10 all-time numbers · carries the #1 pair 11-39 · 1 running hot over the last 30 draws · sum 106 inside the historical middle band · 2 odd / 3 even, the modal split",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            15,
+            21,
+            30,
+            32,
+            40
+          ],
+          "ladderOnly": [
+            11,
+            14,
+            20,
+            22,
+            39
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            11,
+            14,
+            16,
+            27,
+            39
+          ],
+          "extra": null,
+          "points": 73,
+          "crowd": "0.91x crowd · beats 86% of random boards",
+          "why": "3 of the top-10 all-time numbers · carries the #1 pair 11-39 · 2 running hot over the last 30 draws · sum 107 inside the historical middle band",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            15,
+            21,
+            30,
+            32,
+            40
+          ],
+          "ladderOnly": [
+            11,
+            14,
+            16,
+            27,
+            39
+          ]
+        }
+      ]
+    },
+    {
+      "game": "lotto",
+      "officialDate": "2026-08-12",
+      "officialWhites": [
+        1,
+        5,
+        6,
+        21,
+        29,
+        30
+      ],
+      "officialExtra": null,
+      "historyBefore": 75,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            12,
+            17,
+            20,
+            23,
+            37,
+            40
+          ],
+          "extra": null,
+          "points": 88,
+          "crowd": "1.05x crowd · beats 21% of random boards",
+          "why": "6 of the top-10 all-time numbers · carries the #2 pair 23-37 · 5 running hot over the last 30 draws · sum 149 inside the historical middle band · 3 odd / 3 even, the modal split",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            1,
+            5,
+            6,
+            21,
+            29,
+            30
+          ],
+          "ladderOnly": [
+            12,
+            17,
+            20,
+            23,
+            37,
+            40
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            8,
+            17,
+            20,
+            23,
+            37,
+            40
+          ],
+          "extra": null,
+          "points": 87,
+          "crowd": "1.11x crowd · beats 4% of random boards",
+          "why": "6 of the top-10 all-time numbers · carries the #2 pair 23-37 · 4 running hot over the last 30 draws · sum 145 inside the historical middle band · 3 odd / 3 even, the modal split",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            1,
+            5,
+            6,
+            21,
+            29,
+            30
+          ],
+          "ladderOnly": [
+            8,
+            17,
+            20,
+            23,
+            37,
+            40
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            8,
+            17,
+            20,
+            23,
+            27,
+            37
+          ],
+          "extra": null,
+          "points": 86,
+          "crowd": "1.12x crowd · beats 3% of random boards",
+          "why": "5 of the top-10 all-time numbers · carries the #1 pair 20-27 · 3 running hot over the last 30 draws · sum 132 inside the historical middle band",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            1,
+            5,
+            6,
+            21,
+            29,
+            30
+          ],
+          "ladderOnly": [
+            8,
+            17,
+            20,
+            23,
+            27,
+            37
+          ]
+        }
+      ]
+    },
+    {
+      "game": "megamillions",
+      "officialDate": "2026-08-11",
+      "officialWhites": [
+        1,
+        20,
+        30,
+        46,
+        68
+      ],
+      "officialExtra": 17,
+      "historyBefore": 916,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            10,
+            17,
+            20,
+            48,
+            54
+          ],
+          "extra": 22,
+          "points": 70,
+          "crowd": "1.01x crowd · beats 42% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #1 pair 10-17 · 2 running hot over the last 30 draws · sum 149 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 1,
+          "extraHit": false,
+          "overlap": [
+            20
+          ],
+          "officialOnly": [
+            1,
+            30,
+            46,
+            68
+          ],
+          "ladderOnly": [
+            10,
+            17,
+            48,
+            54
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            8,
+            10,
+            17,
+            51,
+            66
+          ],
+          "extra": 22,
+          "points": 69,
+          "crowd": "1.29x crowd · beats 8% of random boards",
+          "why": "3 of the top-10 all-time numbers · carries the #1 pair 10-17 · 2 running hot over the last 30 draws · sum 152 inside the historical middle band · 2 odd / 3 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            1,
+            20,
+            30,
+            46,
+            68
+          ],
+          "ladderOnly": [
+            8,
+            10,
+            17,
+            51,
+            66
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            10,
+            17,
+            20,
+            50,
+            51
+          ],
+          "extra": 22,
+          "points": 69,
+          "crowd": "1.05x crowd · beats 35% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #1 pair 10-17 · 3 running hot over the last 30 draws · sum 148 inside the historical middle band · 2 odd / 3 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 1,
+          "extraHit": false,
+          "overlap": [
+            20
+          ],
+          "officialOnly": [
+            1,
+            30,
+            46,
+            68
+          ],
+          "ladderOnly": [
+            10,
+            17,
+            50,
+            51
+          ]
+        }
+      ]
+    },
+    {
+      "game": "hit5",
+      "officialDate": "2026-08-11",
+      "officialWhites": [
+        3,
+        11,
+        14,
+        20,
+        38
+      ],
+      "officialExtra": null,
+      "historyBefore": 174,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            11,
+            14,
+            20,
+            39,
+            42
+          ],
+          "extra": null,
+          "points": 72,
+          "crowd": "0.92x crowd · beats 83% of random boards",
+          "why": "3 of the top-10 all-time numbers · carries the #1 pair 11-39 · 1 running hot over the last 30 draws · sum 126 inside the historical middle band · 2 odd / 3 even, the modal split",
+          "whiteHits": 3,
+          "extraHit": null,
+          "overlap": [
+            11,
+            14,
+            20
+          ],
+          "officialOnly": [
+            3,
+            38
+          ],
+          "ladderOnly": [
+            39,
+            42
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            8,
+            11,
+            20,
+            28,
+            39
+          ],
+          "extra": null,
+          "points": 71,
+          "crowd": "1.06x crowd · beats 25% of random boards",
+          "why": "3 of the top-10 all-time numbers · carries the #1 pair 11-39 · sum 106 inside the historical middle band · 2 odd / 3 even, the modal split",
+          "whiteHits": 2,
+          "extraHit": null,
+          "overlap": [
+            11,
+            20
+          ],
+          "officialOnly": [
+            3,
+            14,
+            38
+          ],
+          "ladderOnly": [
+            8,
+            28,
+            39
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            11,
+            14,
+            16,
+            39,
+            42
+          ],
+          "extra": null,
+          "points": 70,
+          "crowd": "0.88x crowd · beats 93% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #1 pair 11-39 · 2 running hot over the last 30 draws · sum 122 inside the historical middle band · 2 odd / 3 even, the modal split",
+          "whiteHits": 2,
+          "extraHit": null,
+          "overlap": [
+            11,
+            14
+          ],
+          "officialOnly": [
+            3,
+            20,
+            38
+          ],
+          "ladderOnly": [
+            16,
+            39,
+            42
+          ]
+        }
+      ]
+    },
+    {
+      "game": "powerball",
+      "officialDate": "2026-08-10",
+      "officialWhites": [
+        6,
+        37,
+        54,
+        55,
+        64
+      ],
+      "officialExtra": 10,
+      "historyBefore": 1386,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            3,
+            16,
+            32,
+            48,
+            59
+          ],
+          "extra": 4,
+          "points": 71,
+          "crowd": "0.99x crowd · beats 47% of random boards",
+          "why": "1 of the top-10 all-time numbers · carries the #6 pair 3-16 · 4 running hot over the last 30 draws · sum 158 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            6,
+            37,
+            54,
+            55,
+            64
+          ],
+          "ladderOnly": [
+            3,
+            16,
+            32,
+            48,
+            59
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            3,
+            16,
+            50,
+            53,
+            59
+          ],
+          "extra": 4,
+          "points": 70,
+          "crowd": "0.94x crowd · beats 60% of random boards",
+          "why": "carries the #6 pair 3-16 · 5 running hot over the last 30 draws · sum 181 inside the historical middle band · 3 odd / 2 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            6,
+            37,
+            54,
+            55,
+            64
+          ],
+          "ladderOnly": [
+            3,
+            16,
+            50,
+            53,
+            59
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            3,
+            16,
+            48,
+            60,
+            63
+          ],
+          "extra": 4,
+          "points": 70,
+          "crowd": "0.88x crowd · beats 74% of random boards",
+          "why": "1 of the top-10 all-time numbers · carries the #6 pair 3-16 · 3 running hot over the last 30 draws · sum 190 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            6,
+            37,
+            54,
+            55,
+            64
+          ],
+          "ladderOnly": [
+            3,
+            16,
+            48,
+            60,
+            63
+          ]
+        }
+      ]
+    },
+    {
+      "game": "hit5",
+      "officialDate": "2026-08-10",
+      "officialWhites": [
+        11,
+        18,
+        31,
+        32,
+        38
+      ],
+      "officialExtra": null,
+      "historyBefore": 173,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            11,
+            14,
+            22,
+            27,
+            39
+          ],
+          "extra": null,
+          "points": 73,
+          "crowd": "0.95x crowd · beats 68% of random boards",
+          "why": "3 of the top-10 all-time numbers · carries the #1 pair 11-39 · 1 running hot over the last 30 draws · sum 113 inside the historical middle band",
+          "whiteHits": 1,
+          "extraHit": null,
+          "overlap": [
+            11
+          ],
+          "officialOnly": [
+            18,
+            31,
+            32,
+            38
+          ],
+          "ladderOnly": [
+            14,
+            22,
+            27,
+            39
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            11,
+            14,
+            16,
+            27,
+            39
+          ],
+          "extra": null,
+          "points": 72,
+          "crowd": "0.91x crowd · beats 86% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #1 pair 11-39 · 1 running hot over the last 30 draws · sum 107 inside the historical middle band",
+          "whiteHits": 1,
+          "extraHit": null,
+          "overlap": [
+            11
+          ],
+          "officialOnly": [
+            18,
+            31,
+            32,
+            38
+          ],
+          "ladderOnly": [
+            14,
+            16,
+            27,
+            39
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            11,
+            14,
+            20,
+            22,
+            39
+          ],
+          "extra": null,
+          "points": 72,
+          "crowd": "0.97x crowd · beats 59% of random boards",
+          "why": "3 of the top-10 all-time numbers · carries the #1 pair 11-39 · 1 running hot over the last 30 draws · sum 106 inside the historical middle band · 2 odd / 3 even, the modal split",
+          "whiteHits": 1,
+          "extraHit": null,
+          "overlap": [
+            11
+          ],
+          "officialOnly": [
+            18,
+            31,
+            32,
+            38
+          ],
+          "ladderOnly": [
+            14,
+            20,
+            22,
+            39
+          ]
+        }
+      ]
+    },
+    {
+      "game": "lotto",
+      "officialDate": "2026-08-10",
+      "officialWhites": [
+        8,
+        10,
+        14,
+        16,
+        39,
+        42
+      ],
+      "officialExtra": null,
+      "historyBefore": 74,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 3,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            12,
+            17,
+            20,
+            23,
+            37,
+            40
+          ],
+          "extra": null,
+          "points": 88,
+          "crowd": "1.05x crowd · beats 21% of random boards",
+          "why": "6 of the top-10 all-time numbers · carries the #2 pair 23-37 · 5 running hot over the last 30 draws · sum 149 inside the historical middle band · 3 odd / 3 even, the modal split",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            8,
+            10,
+            14,
+            16,
+            39,
+            42
+          ],
+          "ladderOnly": [
+            12,
+            17,
+            20,
+            23,
+            37,
+            40
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            3,
+            17,
+            20,
+            23,
+            37,
+            40
+          ],
+          "extra": null,
+          "points": 88,
+          "crowd": "1.07x crowd · beats 12% of random boards",
+          "why": "5 of the top-10 all-time numbers · carries the #2 pair 23-37 · 5 running hot over the last 30 draws · sum 140 inside the historical middle band",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            8,
+            10,
+            14,
+            16,
+            39,
+            42
+          ],
+          "ladderOnly": [
+            3,
+            17,
+            20,
+            23,
+            37,
+            40
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            8,
+            17,
+            20,
+            23,
+            37,
+            40
+          ],
+          "extra": null,
+          "points": 87,
+          "crowd": "1.11x crowd · beats 4% of random boards",
+          "why": "6 of the top-10 all-time numbers · carries the #2 pair 23-37 · 4 running hot over the last 30 draws · sum 145 inside the historical middle band · 3 odd / 3 even, the modal split",
+          "whiteHits": 1,
+          "extraHit": null,
+          "overlap": [
+            8
+          ],
+          "officialOnly": [
+            10,
+            14,
+            16,
+            39,
+            42
+          ],
+          "ladderOnly": [
+            17,
+            20,
+            23,
+            37,
+            40
+          ]
+        }
+      ]
+    },
+    {
+      "game": "hit5",
+      "officialDate": "2026-08-09",
+      "officialWhites": [
+        16,
+        22,
+        27,
+        35,
+        40
+      ],
+      "officialExtra": null,
+      "historyBefore": 172,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 2,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            11,
+            14,
+            20,
+            39,
+            42
+          ],
+          "extra": null,
+          "points": 73,
+          "crowd": "0.92x crowd · beats 83% of random boards",
+          "why": "4 of the top-10 all-time numbers · carries the #1 pair 11-39 · 1 running hot over the last 30 draws · sum 126 inside the historical middle band · 2 odd / 3 even, the modal split",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            16,
+            22,
+            27,
+            35,
+            40
+          ],
+          "ladderOnly": [
+            11,
+            14,
+            20,
+            39,
+            42
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            11,
+            14,
+            22,
+            27,
+            39
+          ],
+          "extra": null,
+          "points": 72,
+          "crowd": "0.95x crowd · beats 68% of random boards",
+          "why": "3 of the top-10 all-time numbers · carries the #1 pair 11-39 · 1 running hot over the last 30 draws · sum 113 inside the historical middle band",
+          "whiteHits": 2,
+          "extraHit": null,
+          "overlap": [
+            22,
+            27
+          ],
+          "officialOnly": [
+            16,
+            35,
+            40
+          ],
+          "ladderOnly": [
+            11,
+            14,
+            39
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            11,
+            14,
+            16,
+            22,
+            39
+          ],
+          "extra": null,
+          "points": 72,
+          "crowd": "0.94x crowd · beats 75% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #1 pair 11-39 · 2 running hot over the last 30 draws · sum 102 inside the historical middle band · 2 odd / 3 even, the modal split",
+          "whiteHits": 2,
+          "extraHit": null,
+          "overlap": [
+            16,
+            22
+          ],
+          "officialOnly": [
+            27,
+            35,
+            40
+          ],
+          "ladderOnly": [
+            11,
+            14,
+            39
+          ]
+        }
+      ]
+    },
+    {
+      "game": "powerball",
+      "officialDate": "2026-08-08",
+      "officialWhites": [
+        5,
+        9,
+        35,
+        54,
+        63
+      ],
+      "officialExtra": 7,
+      "historyBefore": 1385,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            3,
+            16,
+            44,
+            50,
+            59
+          ],
+          "extra": 4,
+          "points": 71,
+          "crowd": "0.99x crowd · beats 48% of random boards",
+          "why": "carries the #6 pair 3-16 · 5 running hot over the last 30 draws · sum 172 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            5,
+            9,
+            35,
+            54,
+            63
+          ],
+          "ladderOnly": [
+            3,
+            16,
+            44,
+            50,
+            59
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            3,
+            16,
+            32,
+            44,
+            59
+          ],
+          "extra": 4,
+          "points": 70,
+          "crowd": "1.05x crowd · beats 34% of random boards",
+          "why": "1 of the top-10 all-time numbers · carries the #6 pair 3-16 · 4 running hot over the last 30 draws · sum 154 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            5,
+            9,
+            35,
+            54,
+            63
+          ],
+          "ladderOnly": [
+            3,
+            16,
+            32,
+            44,
+            59
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            3,
+            14,
+            44,
+            50,
+            53
+          ],
+          "extra": 4,
+          "points": 70,
+          "crowd": "0.99x crowd · beats 48% of random boards",
+          "why": "carries the #7 pair 44-50 · 5 running hot over the last 30 draws · sum 164 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            5,
+            9,
+            35,
+            54,
+            63
+          ],
+          "ladderOnly": [
+            3,
+            14,
+            44,
+            50,
+            53
+          ]
+        }
+      ]
+    },
+    {
+      "game": "hit5",
+      "officialDate": "2026-08-08",
+      "officialWhites": [
+        2,
+        7,
+        9,
+        13,
+        26
+      ],
+      "officialExtra": null,
+      "historyBefore": 171,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            8,
+            15,
+            20,
+            28,
+            39
+          ],
+          "extra": null,
+          "points": 73,
+          "crowd": "1.01x crowd · beats 45% of random boards",
+          "why": "4 of the top-10 all-time numbers · carries the #3 pair 20-39 · sum 110 inside the historical middle band · 2 odd / 3 even, the modal split",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            2,
+            7,
+            9,
+            13,
+            26
+          ],
+          "ladderOnly": [
+            8,
+            15,
+            20,
+            28,
+            39
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            8,
+            11,
+            20,
+            39,
+            42
+          ],
+          "extra": null,
+          "points": 72,
+          "crowd": "1.03x crowd · beats 35% of random boards",
+          "why": "3 of the top-10 all-time numbers · carries the #1 pair 11-39 · 1 running hot over the last 30 draws · sum 120 inside the historical middle band · 2 odd / 3 even, the modal split",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            2,
+            7,
+            9,
+            13,
+            26
+          ],
+          "ladderOnly": [
+            8,
+            11,
+            20,
+            39,
+            42
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            11,
+            14,
+            16,
+            22,
+            39
+          ],
+          "extra": null,
+          "points": 72,
+          "crowd": "0.94x crowd · beats 75% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #1 pair 11-39 · 2 running hot over the last 30 draws · sum 102 inside the historical middle band · 2 odd / 3 even, the modal split",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            2,
+            7,
+            9,
+            13,
+            26
+          ],
+          "ladderOnly": [
+            11,
+            14,
+            16,
+            22,
+            39
+          ]
+        }
+      ]
+    },
+    {
+      "game": "lotto",
+      "officialDate": "2026-08-08",
+      "officialWhites": [
+        4,
+        5,
+        20,
+        23,
+        27,
+        46
+      ],
+      "officialExtra": null,
+      "historyBefore": 73,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            3,
+            17,
+            20,
+            23,
+            37,
+            44
+          ],
+          "extra": null,
+          "points": 88,
+          "crowd": "1.04x crowd · beats 24% of random boards",
+          "why": "5 of the top-10 all-time numbers · carries the #2 pair 23-37 · 4 running hot over the last 30 draws · sum 144 inside the historical middle band",
+          "whiteHits": 2,
+          "extraHit": null,
+          "overlap": [
+            20,
+            23
+          ],
+          "officialOnly": [
+            4,
+            5,
+            27,
+            46
+          ],
+          "ladderOnly": [
+            3,
+            17,
+            37,
+            44
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            3,
+            12,
+            17,
+            23,
+            37,
+            40
+          ],
+          "extra": null,
+          "points": 86,
+          "crowd": "1.07x crowd · beats 13% of random boards",
+          "why": "5 of the top-10 all-time numbers · carries the #2 pair 23-37 · 5 running hot over the last 30 draws · sum 132 inside the historical middle band",
+          "whiteHits": 1,
+          "extraHit": null,
+          "overlap": [
+            23
+          ],
+          "officialOnly": [
+            4,
+            5,
+            20,
+            27,
+            46
+          ],
+          "ladderOnly": [
+            3,
+            12,
+            17,
+            37,
+            40
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            3,
+            17,
+            20,
+            23,
+            28,
+            37
+          ],
+          "extra": null,
+          "points": 86,
+          "crowd": "1.11x crowd · beats 4% of random boards",
+          "why": "4 of the top-10 all-time numbers · carries the #2 pair 23-37 · 4 running hot over the last 30 draws · sum 128 inside the historical middle band",
+          "whiteHits": 2,
+          "extraHit": null,
+          "overlap": [
+            20,
+            23
+          ],
+          "officialOnly": [
+            4,
+            5,
+            27,
+            46
+          ],
+          "ladderOnly": [
+            3,
+            17,
+            28,
+            37
+          ]
+        }
+      ]
+    },
+    {
+      "game": "megamillions",
+      "officialDate": "2026-08-07",
+      "officialWhites": [
+        17,
+        20,
+        32,
+        54,
+        57
+      ],
+      "officialExtra": 23,
+      "historyBefore": 915,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 2,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            14,
+            26,
+            48,
+            51,
+            66
+          ],
+          "extra": 22,
+          "points": 68,
+          "crowd": "0.97x crowd · beats 51% of random boards",
+          "why": "1 of the top-10 all-time numbers · 3 running hot over the last 30 draws · sum 205 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            17,
+            20,
+            32,
+            54,
+            57
+          ],
+          "ladderOnly": [
+            14,
+            26,
+            48,
+            51,
+            66
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            10,
+            17,
+            48,
+            51,
+            59
+          ],
+          "extra": 22,
+          "points": 67,
+          "crowd": "1.06x crowd · beats 33% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #1 pair 10-17 · 3 running hot over the last 30 draws · sum 185 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 1,
+          "extraHit": false,
+          "overlap": [
+            17
+          ],
+          "officialOnly": [
+            20,
+            32,
+            54,
+            57
+          ],
+          "ladderOnly": [
+            10,
+            48,
+            51,
+            59
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            10,
+            17,
+            43,
+            50,
+            51
+          ],
+          "extra": 22,
+          "points": 67,
+          "crowd": "1.01x crowd · beats 43% of random boards",
+          "why": "3 of the top-10 all-time numbers · carries the #1 pair 10-17 · 2 running hot over the last 30 draws · sum 171 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 1,
+          "extraHit": false,
+          "overlap": [
+            17
+          ],
+          "officialOnly": [
+            20,
+            32,
+            54,
+            57
+          ],
+          "ladderOnly": [
+            10,
+            43,
+            50,
+            51
+          ]
+        }
+      ]
+    },
+    {
+      "game": "hit5",
+      "officialDate": "2026-08-07",
+      "officialWhites": [
+        5,
+        11,
+        17,
+        36,
+        39
+      ],
+      "officialExtra": null,
+      "historyBefore": 170,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 2,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            4,
+            14,
+            20,
+            39,
+            42
+          ],
+          "extra": null,
+          "points": 72,
+          "crowd": "0.93x crowd · beats 79% of random boards",
+          "why": "5 of the top-10 all-time numbers · carries the #2 pair 14-39 · 1 running hot over the last 30 draws · sum 119 inside the historical middle band",
+          "whiteHits": 1,
+          "extraHit": null,
+          "overlap": [
+            39
+          ],
+          "officialOnly": [
+            5,
+            11,
+            17,
+            36
+          ],
+          "ladderOnly": [
+            4,
+            14,
+            20,
+            42
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            11,
+            14,
+            20,
+            22,
+            39
+          ],
+          "extra": null,
+          "points": 72,
+          "crowd": "0.97x crowd · beats 59% of random boards",
+          "why": "4 of the top-10 all-time numbers · carries the #1 pair 11-39 · 1 running hot over the last 30 draws · sum 106 inside the historical middle band · 2 odd / 3 even, the modal split",
+          "whiteHits": 2,
+          "extraHit": null,
+          "overlap": [
+            11,
+            39
+          ],
+          "officialOnly": [
+            5,
+            17,
+            36
+          ],
+          "ladderOnly": [
+            14,
+            20,
+            22
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            8,
+            11,
+            20,
+            39,
+            42
+          ],
+          "extra": null,
+          "points": 72,
+          "crowd": "1.03x crowd · beats 35% of random boards",
+          "why": "3 of the top-10 all-time numbers · carries the #1 pair 11-39 · 1 running hot over the last 30 draws · sum 120 inside the historical middle band · 2 odd / 3 even, the modal split",
+          "whiteHits": 2,
+          "extraHit": null,
+          "overlap": [
+            11,
+            39
+          ],
+          "officialOnly": [
+            5,
+            17,
+            36
+          ],
+          "ladderOnly": [
+            8,
+            20,
+            42
+          ]
+        }
+      ]
+    },
+    {
+      "game": "hit5",
+      "officialDate": "2026-08-06",
+      "officialWhites": [
+        6,
+        18,
+        22,
+        28,
+        32
+      ],
+      "officialExtra": null,
+      "historyBefore": 169,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            11,
+            14,
+            20,
+            39,
+            42
+          ],
+          "extra": null,
+          "points": 73,
+          "crowd": "0.92x crowd · beats 83% of random boards",
+          "why": "4 of the top-10 all-time numbers · carries the #1 pair 11-39 · 1 running hot over the last 30 draws · sum 126 inside the historical middle band · 2 odd / 3 even, the modal split",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            6,
+            18,
+            22,
+            28,
+            32
+          ],
+          "ladderOnly": [
+            11,
+            14,
+            20,
+            39,
+            42
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            4,
+            14,
+            20,
+            39,
+            42
+          ],
+          "extra": null,
+          "points": 73,
+          "crowd": "0.93x crowd · beats 79% of random boards",
+          "why": "5 of the top-10 all-time numbers · carries the #2 pair 14-39 · 1 running hot over the last 30 draws · sum 119 inside the historical middle band",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            6,
+            18,
+            22,
+            28,
+            32
+          ],
+          "ladderOnly": [
+            4,
+            14,
+            20,
+            39,
+            42
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            4,
+            11,
+            14,
+            39,
+            42
+          ],
+          "extra": null,
+          "points": 73,
+          "crowd": "0.95x crowd · beats 70% of random boards",
+          "why": "4 of the top-10 all-time numbers · carries the #1 pair 11-39 · 1 running hot over the last 30 draws · sum 110 inside the historical middle band · 2 odd / 3 even, the modal split",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            6,
+            18,
+            22,
+            28,
+            32
+          ],
+          "ladderOnly": [
+            4,
+            11,
+            14,
+            39,
+            42
+          ]
+        }
+      ]
+    },
+    {
+      "game": "powerball",
+      "officialDate": "2026-08-05",
+      "officialWhites": [
+        14,
+        20,
+        59,
+        60,
+        61
+      ],
+      "officialExtra": 25,
+      "historyBefore": 1384,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            21,
+            27,
+            44,
+            50,
+            59
+          ],
+          "extra": 4,
+          "points": 71,
+          "crowd": "0.98x crowd · beats 51% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #7 pair 44-50 · 3 running hot over the last 30 draws · sum 201 inside the historical middle band · 3 odd / 2 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 1,
+          "extraHit": false,
+          "overlap": [
+            59
+          ],
+          "officialOnly": [
+            14,
+            20,
+            60,
+            61
+          ],
+          "ladderOnly": [
+            21,
+            27,
+            44,
+            50
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            18,
+            21,
+            37,
+            44,
+            50
+          ],
+          "extra": 4,
+          "points": 71,
+          "crowd": "1.04x crowd · beats 36% of random boards",
+          "why": "1 of the top-10 all-time numbers · carries the #2 pair 37-44 · 2 running hot over the last 30 draws · sum 170 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            14,
+            20,
+            59,
+            60,
+            61
+          ],
+          "ladderOnly": [
+            18,
+            21,
+            37,
+            44,
+            50
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            3,
+            21,
+            44,
+            50,
+            53
+          ],
+          "extra": 4,
+          "points": 71,
+          "crowd": "1.04x crowd · beats 38% of random boards",
+          "why": "1 of the top-10 all-time numbers · carries the #7 pair 44-50 · 4 running hot over the last 30 draws · sum 171 inside the historical middle band · 3 odd / 2 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            14,
+            20,
+            59,
+            60,
+            61
+          ],
+          "ladderOnly": [
+            3,
+            21,
+            44,
+            50,
+            53
+          ]
+        }
+      ]
+    },
+    {
+      "game": "hit5",
+      "officialDate": "2026-08-05",
+      "officialWhites": [
+        11,
+        12,
+        20,
+        29,
+        39
+      ],
+      "officialExtra": null,
+      "historyBefore": 168,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 3,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            4,
+            14,
+            15,
+            39,
+            42
+          ],
+          "extra": null,
+          "points": 71,
+          "crowd": "0.90x crowd · beats 87% of random boards",
+          "why": "5 of the top-10 all-time numbers · carries the #1 pair 14-39 · 1 running hot over the last 30 draws · sum 114 inside the historical middle band · 2 odd / 3 even, the modal split",
+          "whiteHits": 1,
+          "extraHit": null,
+          "overlap": [
+            39
+          ],
+          "officialOnly": [
+            11,
+            12,
+            20,
+            29
+          ],
+          "ladderOnly": [
+            4,
+            14,
+            15,
+            42
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            4,
+            14,
+            21,
+            31,
+            42
+          ],
+          "extra": null,
+          "points": 71,
+          "crowd": "1.01x crowd · beats 44% of random boards",
+          "why": "4 of the top-10 all-time numbers · carries the #2 pair 4-42 · 1 running hot over the last 30 draws · sum 112 inside the historical middle band · 2 odd / 3 even, the modal split",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            11,
+            12,
+            20,
+            29,
+            39
+          ],
+          "ladderOnly": [
+            4,
+            14,
+            21,
+            31,
+            42
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            4,
+            14,
+            20,
+            39,
+            42
+          ],
+          "extra": null,
+          "points": 71,
+          "crowd": "0.93x crowd · beats 79% of random boards",
+          "why": "5 of the top-10 all-time numbers · carries the #1 pair 14-39 · 1 running hot over the last 30 draws · sum 119 inside the historical middle band",
+          "whiteHits": 2,
+          "extraHit": null,
+          "overlap": [
+            20,
+            39
+          ],
+          "officialOnly": [
+            11,
+            12,
+            29
+          ],
+          "ladderOnly": [
+            4,
+            14,
+            42
+          ]
+        }
+      ]
+    },
+    {
+      "game": "lotto",
+      "officialDate": "2026-08-05",
+      "officialWhites": [
+        1,
+        2,
+        28,
+        35,
+        48,
+        49
+      ],
+      "officialExtra": null,
+      "historyBefore": 72,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            8,
+            17,
+            20,
+            23,
+            37,
+            44
+          ],
+          "extra": null,
+          "points": 89,
+          "crowd": "1.08x crowd · beats 11% of random boards",
+          "why": "6 of the top-10 all-time numbers · carries the #2 pair 23-37 · 3 running hot over the last 30 draws · sum 149 inside the historical middle band",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            1,
+            2,
+            28,
+            35,
+            48,
+            49
+          ],
+          "ladderOnly": [
+            8,
+            17,
+            20,
+            23,
+            37,
+            44
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            12,
+            17,
+            20,
+            23,
+            37,
+            40
+          ],
+          "extra": null,
+          "points": 88,
+          "crowd": "1.05x crowd · beats 21% of random boards",
+          "why": "6 of the top-10 all-time numbers · carries the #2 pair 23-37 · 5 running hot over the last 30 draws · sum 149 inside the historical middle band",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            1,
+            2,
+            28,
+            35,
+            48,
+            49
+          ],
+          "ladderOnly": [
+            12,
+            17,
+            20,
+            23,
+            37,
+            40
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            3,
+            12,
+            17,
+            23,
+            37,
+            40
+          ],
+          "extra": null,
+          "points": 87,
+          "crowd": "1.07x crowd · beats 13% of random boards",
+          "why": "5 of the top-10 all-time numbers · carries the #2 pair 23-37 · 5 running hot over the last 30 draws · sum 132 inside the historical middle band",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            1,
+            2,
+            28,
+            35,
+            48,
+            49
+          ],
+          "ladderOnly": [
+            3,
+            12,
+            17,
+            23,
+            37,
+            40
+          ]
+        }
+      ]
+    },
+    {
+      "game": "megamillions",
+      "officialDate": "2026-08-04",
+      "officialWhites": [
+        14,
+        21,
+        51,
+        55,
+        65
+      ],
+      "officialExtra": 21,
+      "historyBefore": 914,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            10,
+            17,
+            43,
+            51,
+            66
+          ],
+          "extra": 22,
+          "points": 67,
+          "crowd": "1.04x crowd · beats 37% of random boards",
+          "why": "3 of the top-10 all-time numbers · carries the #1 pair 10-17 · 1 running hot over the last 30 draws · sum 187 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 1,
+          "extraHit": false,
+          "overlap": [
+            51
+          ],
+          "officialOnly": [
+            14,
+            21,
+            55,
+            65
+          ],
+          "ladderOnly": [
+            10,
+            17,
+            43,
+            66
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            17,
+            26,
+            47,
+            48,
+            51
+          ],
+          "extra": 22,
+          "points": 67,
+          "crowd": "1.05x crowd · beats 35% of random boards",
+          "why": "1 of the top-10 all-time numbers · 4 running hot over the last 30 draws · sum 189 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 1,
+          "extraHit": false,
+          "overlap": [
+            51
+          ],
+          "officialOnly": [
+            14,
+            21,
+            55,
+            65
+          ],
+          "ladderOnly": [
+            17,
+            26,
+            47,
+            48
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            10,
+            26,
+            43,
+            48,
+            51
+          ],
+          "extra": 22,
+          "points": 67,
+          "crowd": "1.09x crowd · beats 27% of random boards",
+          "why": "2 of the top-10 all-time numbers · 3 running hot over the last 30 draws · sum 178 inside the historical middle band · 2 odd / 3 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 1,
+          "extraHit": false,
+          "overlap": [
+            51
+          ],
+          "officialOnly": [
+            14,
+            21,
+            55,
+            65
+          ],
+          "ladderOnly": [
+            10,
+            26,
+            43,
+            48
+          ]
+        }
+      ]
+    },
+    {
+      "game": "powerball",
+      "officialDate": "2026-08-03",
+      "officialWhites": [
+        8,
+        30,
+        41,
+        48,
+        54
+      ],
+      "officialExtra": 4,
+      "historyBefore": 1383,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            3,
+            16,
+            44,
+            48,
+            53
+          ],
+          "extra": 4,
+          "points": 72,
+          "crowd": "0.97x crowd · beats 53% of random boards",
+          "why": "carries the #6 pair 3-16 · 5 running hot over the last 30 draws · sum 164 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 1,
+          "extraHit": true,
+          "overlap": [
+            48
+          ],
+          "officialOnly": [
+            8,
+            30,
+            41,
+            54
+          ],
+          "ladderOnly": [
+            3,
+            16,
+            44,
+            53
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            3,
+            27,
+            44,
+            50,
+            59
+          ],
+          "extra": 4,
+          "points": 71,
+          "crowd": "1.01x crowd · beats 44% of random boards",
+          "why": "1 of the top-10 all-time numbers · carries the #7 pair 44-50 · 4 running hot over the last 30 draws · sum 183 inside the historical middle band · 3 odd / 2 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": true,
+          "overlap": [],
+          "officialOnly": [
+            8,
+            30,
+            41,
+            48,
+            54
+          ],
+          "ladderOnly": [
+            3,
+            27,
+            44,
+            50,
+            59
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            3,
+            16,
+            32,
+            55,
+            64
+          ],
+          "extra": 4,
+          "points": 70,
+          "crowd": "0.97x crowd · beats 53% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #6 pair 3-16 · 3 running hot over the last 30 draws · sum 170 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": true,
+          "overlap": [],
+          "officialOnly": [
+            8,
+            30,
+            41,
+            48,
+            54
+          ],
+          "ladderOnly": [
+            3,
+            16,
+            32,
+            55,
+            64
+          ]
+        }
+      ]
+    },
+    {
+      "game": "lotto",
+      "officialDate": "2026-08-03",
+      "officialWhites": [
+        3,
+        12,
+        16,
+        17,
+        21,
+        22
+      ],
+      "officialExtra": null,
+      "historyBefore": 71,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            3,
+            17,
+            20,
+            23,
+            37,
+            40
+          ],
+          "extra": null,
+          "points": 87,
+          "crowd": "1.07x crowd · beats 12% of random boards",
+          "why": "5 of the top-10 all-time numbers · carries the #2 pair 23-37 · 4 running hot over the last 30 draws · sum 140 inside the historical middle band",
+          "whiteHits": 2,
+          "extraHit": null,
+          "overlap": [
+            3,
+            17
+          ],
+          "officialOnly": [
+            12,
+            16,
+            21,
+            22
+          ],
+          "ladderOnly": [
+            20,
+            23,
+            37,
+            40
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            10,
+            17,
+            20,
+            23,
+            37,
+            44
+          ],
+          "extra": null,
+          "points": 86,
+          "crowd": "1.04x crowd · beats 23% of random boards",
+          "why": "5 of the top-10 all-time numbers · carries the #2 pair 23-37 · 3 running hot over the last 30 draws · sum 151 inside the historical middle band",
+          "whiteHits": 1,
+          "extraHit": null,
+          "overlap": [
+            17
+          ],
+          "officialOnly": [
+            3,
+            12,
+            16,
+            21,
+            22
+          ],
+          "ladderOnly": [
+            10,
+            20,
+            23,
+            37,
+            44
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            17,
+            20,
+            23,
+            24,
+            37,
+            44
+          ],
+          "extra": null,
+          "points": 86,
+          "crowd": "1.00x crowd · beats 50% of random boards",
+          "why": "5 of the top-10 all-time numbers · carries the #2 pair 23-37 · 3 running hot over the last 30 draws · sum 165 inside the historical middle band",
+          "whiteHits": 1,
+          "extraHit": null,
+          "overlap": [
+            17
+          ],
+          "officialOnly": [
+            3,
+            12,
+            16,
+            21,
+            22
+          ],
+          "ladderOnly": [
+            20,
+            23,
+            24,
+            37,
+            44
+          ]
+        }
+      ]
+    },
+    {
+      "game": "powerball",
+      "officialDate": "2026-08-01",
+      "officialWhites": [
+        6,
+        17,
+        27,
+        48,
+        50
+      ],
+      "officialExtra": 5,
+      "historyBefore": 1382,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            3,
+            16,
+            48,
+            60,
+            64
+          ],
+          "extra": 4,
+          "points": 71,
+          "crowd": "0.86x crowd · beats 79% of random boards",
+          "why": "1 of the top-10 all-time numbers · carries the #6 pair 3-16 · 3 running hot over the last 30 draws · sum 191 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 1,
+          "extraHit": false,
+          "overlap": [
+            48
+          ],
+          "officialOnly": [
+            6,
+            17,
+            27,
+            50
+          ],
+          "ladderOnly": [
+            3,
+            16,
+            60,
+            64
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            3,
+            16,
+            55,
+            59,
+            64
+          ],
+          "extra": 4,
+          "points": 70,
+          "crowd": "0.91x crowd · beats 66% of random boards",
+          "why": "1 of the top-10 all-time numbers · carries the #6 pair 3-16 · 4 running hot over the last 30 draws · sum 197 inside the historical middle band · 3 odd / 2 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            6,
+            17,
+            27,
+            48,
+            50
+          ],
+          "ladderOnly": [
+            3,
+            16,
+            55,
+            59,
+            64
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            5,
+            21,
+            44,
+            50,
+            64
+          ],
+          "extra": 4,
+          "points": 70,
+          "crowd": "0.98x crowd · beats 50% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #7 pair 44-50 · 2 running hot over the last 30 draws · sum 184 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 1,
+          "extraHit": false,
+          "overlap": [
+            50
+          ],
+          "officialOnly": [
+            6,
+            17,
+            27,
+            48
+          ],
+          "ladderOnly": [
+            5,
+            21,
+            44,
+            64
+          ]
+        }
+      ]
+    },
+    {
+      "game": "lotto",
+      "officialDate": "2026-08-01",
+      "officialWhites": [
+        8,
+        23,
+        26,
+        31,
+        39,
+        43
+      ],
+      "officialExtra": null,
+      "historyBefore": 70,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            12,
+            17,
+            20,
+            23,
+            37,
+            44
+          ],
+          "extra": null,
+          "points": 87,
+          "crowd": "1.02x crowd · beats 38% of random boards",
+          "why": "6 of the top-10 all-time numbers · carries the #2 pair 23-37 · 3 running hot over the last 30 draws · sum 153 inside the historical middle band",
+          "whiteHits": 1,
+          "extraHit": null,
+          "overlap": [
+            23
+          ],
+          "officialOnly": [
+            8,
+            26,
+            31,
+            39,
+            43
+          ],
+          "ladderOnly": [
+            12,
+            17,
+            20,
+            37,
+            44
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            10,
+            17,
+            20,
+            23,
+            37,
+            44
+          ],
+          "extra": null,
+          "points": 87,
+          "crowd": "1.04x crowd · beats 23% of random boards",
+          "why": "5 of the top-10 all-time numbers · carries the #2 pair 23-37 · 3 running hot over the last 30 draws · sum 151 inside the historical middle band",
+          "whiteHits": 1,
+          "extraHit": null,
+          "overlap": [
+            23
+          ],
+          "officialOnly": [
+            8,
+            26,
+            31,
+            39,
+            43
+          ],
+          "ladderOnly": [
+            10,
+            17,
+            20,
+            37,
+            44
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            17,
+            20,
+            23,
+            37,
+            40,
+            44
+          ],
+          "extra": null,
+          "points": 87,
+          "crowd": "1.00x crowd · beats 47% of random boards",
+          "why": "6 of the top-10 all-time numbers · carries the #2 pair 23-37 · 4 running hot over the last 30 draws",
+          "whiteHits": 1,
+          "extraHit": null,
+          "overlap": [
+            23
+          ],
+          "officialOnly": [
+            8,
+            26,
+            31,
+            39,
+            43
+          ],
+          "ladderOnly": [
+            17,
+            20,
+            37,
+            40,
+            44
+          ]
+        }
+      ]
+    },
+    {
+      "game": "megamillions",
+      "officialDate": "2026-07-31",
+      "officialWhites": [
+        4,
+        18,
+        26,
+        43,
+        51
+      ],
+      "officialExtra": 4,
+      "historyBefore": 913,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            9,
+            14,
+            26,
+            49,
+            66
+          ],
+          "extra": 22,
+          "points": 67,
+          "crowd": "1.02x crowd · beats 40% of random boards",
+          "why": "1 of the top-10 all-time numbers · 2 running hot over the last 30 draws · sum 164 inside the historical middle band · 2 odd / 3 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 1,
+          "extraHit": false,
+          "overlap": [
+            26
+          ],
+          "officialOnly": [
+            4,
+            18,
+            43,
+            51
+          ],
+          "ladderOnly": [
+            9,
+            14,
+            49,
+            66
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            10,
+            17,
+            26,
+            50,
+            55
+          ],
+          "extra": 22,
+          "points": 67,
+          "crowd": "1.15x crowd · beats 19% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #1 pair 10-17 · 2 running hot over the last 30 draws · sum 158 inside the historical middle band · 2 odd / 3 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 1,
+          "extraHit": false,
+          "overlap": [
+            26
+          ],
+          "officialOnly": [
+            4,
+            18,
+            43,
+            51
+          ],
+          "ladderOnly": [
+            10,
+            17,
+            50,
+            55
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            9,
+            26,
+            29,
+            56,
+            66
+          ],
+          "extra": 22,
+          "points": 67,
+          "crowd": "0.93x crowd · beats 60% of random boards",
+          "why": "2 running hot over the last 30 draws · sum 186 inside the historical middle band · 2 odd / 3 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 1,
+          "extraHit": false,
+          "overlap": [
+            26
+          ],
+          "officialOnly": [
+            4,
+            18,
+            43,
+            51
+          ],
+          "ladderOnly": [
+            9,
+            29,
+            56,
+            66
+          ]
+        }
+      ]
+    },
+    {
+      "game": "powerball",
+      "officialDate": "2026-07-29",
+      "officialWhites": [
+        30,
+        36,
+        40,
+        42,
+        57
+      ],
+      "officialExtra": 2,
+      "historyBefore": 1381,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            3,
+            16,
+            44,
+            50,
+            59
+          ],
+          "extra": 4,
+          "points": 70,
+          "crowd": "0.99x crowd · beats 48% of random boards",
+          "why": "carries the #6 pair 3-16 · 5 running hot over the last 30 draws · sum 172 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            30,
+            36,
+            40,
+            42,
+            57
+          ],
+          "ladderOnly": [
+            3,
+            16,
+            44,
+            50,
+            59
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            3,
+            16,
+            21,
+            53,
+            60
+          ],
+          "extra": 4,
+          "points": 70,
+          "crowd": "1.03x crowd · beats 39% of random boards",
+          "why": "1 of the top-10 all-time numbers · carries the #6 pair 3-16 · 3 running hot over the last 30 draws · sum 153 inside the historical middle band · 3 odd / 2 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            30,
+            36,
+            40,
+            42,
+            57
+          ],
+          "ladderOnly": [
+            3,
+            16,
+            21,
+            53,
+            60
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            3,
+            4,
+            44,
+            50,
+            53
+          ],
+          "extra": 4,
+          "points": 70,
+          "crowd": "1.00x crowd · beats 46% of random boards",
+          "why": "carries the #7 pair 44-50 · 4 running hot over the last 30 draws · sum 154 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            30,
+            36,
+            40,
+            42,
+            57
+          ],
+          "ladderOnly": [
+            3,
+            4,
+            44,
+            50,
+            53
+          ]
+        }
+      ]
+    },
+    {
+      "game": "lotto",
+      "officialDate": "2026-07-29",
+      "officialWhites": [
+        9,
+        12,
+        27,
+        29,
+        35,
+        43
+      ],
+      "officialExtra": null,
+      "historyBefore": 69,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            3,
+            17,
+            20,
+            23,
+            28,
+            37
+          ],
+          "extra": null,
+          "points": 88,
+          "crowd": "1.11x crowd · beats 4% of random boards",
+          "why": "4 of the top-10 all-time numbers · carries the #2 pair 23-37 · 3 running hot over the last 30 draws · sum 128 inside the historical middle band",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            9,
+            12,
+            27,
+            29,
+            35,
+            43
+          ],
+          "ladderOnly": [
+            3,
+            17,
+            20,
+            23,
+            28,
+            37
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            8,
+            17,
+            20,
+            23,
+            37,
+            40
+          ],
+          "extra": null,
+          "points": 87,
+          "crowd": "1.11x crowd · beats 4% of random boards",
+          "why": "6 of the top-10 all-time numbers · carries the #2 pair 23-37 · 4 running hot over the last 30 draws · sum 145 inside the historical middle band",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            9,
+            12,
+            27,
+            29,
+            35,
+            43
+          ],
+          "ladderOnly": [
+            8,
+            17,
+            20,
+            23,
+            37,
+            40
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            17,
+            20,
+            23,
+            28,
+            37,
+            40
+          ],
+          "extra": null,
+          "points": 86,
+          "crowd": "1.07x crowd · beats 13% of random boards",
+          "why": "5 of the top-10 all-time numbers · carries the #2 pair 23-37 · 4 running hot over the last 30 draws · sum 165 inside the historical middle band",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            9,
+            12,
+            27,
+            29,
+            35,
+            43
+          ],
+          "ladderOnly": [
+            17,
+            20,
+            23,
+            28,
+            37,
+            40
+          ]
+        }
+      ]
+    },
+    {
+      "game": "megamillions",
+      "officialDate": "2026-07-28",
+      "officialWhites": [
+        34,
+        48,
+        49,
+        59,
+        70
+      ],
+      "officialExtra": 12,
+      "historyBefore": 912,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            10,
+            17,
+            43,
+            51,
+            56
+          ],
+          "extra": 22,
+          "points": 68,
+          "crowd": "0.98x crowd · beats 49% of random boards",
+          "why": "3 of the top-10 all-time numbers · carries the #1 pair 10-17 · 3 running hot over the last 30 draws · sum 177 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            34,
+            48,
+            49,
+            59,
+            70
+          ],
+          "ladderOnly": [
+            10,
+            17,
+            43,
+            51,
+            56
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            10,
+            17,
+            40,
+            55,
+            56
+          ],
+          "extra": 22,
+          "points": 67,
+          "crowd": "1.05x crowd · beats 35% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #1 pair 10-17 · 2 running hot over the last 30 draws · sum 178 inside the historical middle band · 2 odd / 3 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            34,
+            48,
+            49,
+            59,
+            70
+          ],
+          "ladderOnly": [
+            10,
+            17,
+            40,
+            55,
+            56
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            10,
+            17,
+            20,
+            40,
+            66
+          ],
+          "extra": 22,
+          "points": 67,
+          "crowd": "1.11x crowd · beats 24% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #1 pair 10-17 · 1 running hot over the last 30 draws · sum 153 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            34,
+            48,
+            49,
+            59,
+            70
+          ],
+          "ladderOnly": [
+            10,
+            17,
+            20,
+            40,
+            66
+          ]
+        }
+      ]
+    },
+    {
+      "game": "powerball",
+      "officialDate": "2026-07-27",
+      "officialWhites": [
+        6,
+        26,
+        46,
+        58,
+        65
+      ],
+      "officialExtra": 25,
+      "historyBefore": 1380,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            3,
+            16,
+            48,
+            55,
+            60
+          ],
+          "extra": 4,
+          "points": 72,
+          "crowd": "0.87x crowd · beats 77% of random boards",
+          "why": "carries the #6 pair 3-16 · 4 running hot over the last 30 draws · sum 182 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            6,
+            26,
+            46,
+            58,
+            65
+          ],
+          "ladderOnly": [
+            3,
+            16,
+            48,
+            55,
+            60
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            3,
+            16,
+            44,
+            50,
+            61
+          ],
+          "extra": 4,
+          "points": 70,
+          "crowd": "0.96x crowd · beats 56% of random boards",
+          "why": "1 of the top-10 all-time numbers · carries the #6 pair 3-16 · 4 running hot over the last 30 draws · sum 174 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            6,
+            26,
+            46,
+            58,
+            65
+          ],
+          "ladderOnly": [
+            3,
+            16,
+            44,
+            50,
+            61
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            3,
+            16,
+            32,
+            59,
+            63
+          ],
+          "extra": 4,
+          "points": 70,
+          "crowd": "1.01x crowd · beats 44% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #6 pair 3-16 · 3 running hot over the last 30 draws · sum 173 inside the historical middle band · 3 odd / 2 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            6,
+            26,
+            46,
+            58,
+            65
+          ],
+          "ladderOnly": [
+            3,
+            16,
+            32,
+            59,
+            63
+          ]
+        }
+      ]
+    },
+    {
+      "game": "lotto",
+      "officialDate": "2026-07-27",
+      "officialWhites": [
+        3,
+        23,
+        24,
+        26,
+        37,
+        39
+      ],
+      "officialExtra": null,
+      "historyBefore": 68,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            8,
+            17,
+            20,
+            23,
+            37,
+            44
+          ],
+          "extra": null,
+          "points": 89,
+          "crowd": "1.08x crowd · beats 11% of random boards",
+          "why": "6 of the top-10 all-time numbers · carries the #6 pair 17-37 · 3 running hot over the last 30 draws · sum 149 inside the historical middle band",
+          "whiteHits": 2,
+          "extraHit": null,
+          "overlap": [
+            23,
+            37
+          ],
+          "officialOnly": [
+            3,
+            24,
+            26,
+            39
+          ],
+          "ladderOnly": [
+            8,
+            17,
+            20,
+            44
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            10,
+            17,
+            20,
+            23,
+            37,
+            44
+          ],
+          "extra": null,
+          "points": 88,
+          "crowd": "1.04x crowd · beats 23% of random boards",
+          "why": "5 of the top-10 all-time numbers · carries the #6 pair 17-37 · 3 running hot over the last 30 draws · sum 151 inside the historical middle band",
+          "whiteHits": 2,
+          "extraHit": null,
+          "overlap": [
+            23,
+            37
+          ],
+          "officialOnly": [
+            3,
+            24,
+            26,
+            39
+          ],
+          "ladderOnly": [
+            10,
+            17,
+            20,
+            44
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            12,
+            17,
+            20,
+            23,
+            37,
+            40
+          ],
+          "extra": null,
+          "points": 87,
+          "crowd": "1.05x crowd · beats 21% of random boards",
+          "why": "6 of the top-10 all-time numbers · carries the #3 pair 12-20 · 4 running hot over the last 30 draws · sum 149 inside the historical middle band",
+          "whiteHits": 2,
+          "extraHit": null,
+          "overlap": [
+            23,
+            37
+          ],
+          "officialOnly": [
+            3,
+            24,
+            26,
+            39
+          ],
+          "ladderOnly": [
+            12,
+            17,
+            20,
+            40
+          ]
+        }
+      ]
+    },
+    {
+      "game": "powerball",
+      "officialDate": "2026-07-25",
+      "officialWhites": [
+        3,
+        4,
+        24,
+        36,
+        47
+      ],
+      "officialExtra": 17,
+      "historyBefore": 1379,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 2,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            16,
+            30,
+            37,
+            44,
+            53
+          ],
+          "extra": 4,
+          "points": 72,
+          "crowd": "0.91x crowd · beats 68% of random boards",
+          "why": "carries the #2 pair 37-44 · 3 running hot over the last 30 draws · sum 180 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            3,
+            4,
+            24,
+            36,
+            47
+          ],
+          "ladderOnly": [
+            16,
+            30,
+            37,
+            44,
+            53
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            3,
+            16,
+            48,
+            55,
+            60
+          ],
+          "extra": 4,
+          "points": 71,
+          "crowd": "0.87x crowd · beats 77% of random boards",
+          "why": "carries the #6 pair 3-16 · 4 running hot over the last 30 draws · sum 182 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 1,
+          "extraHit": false,
+          "overlap": [
+            3
+          ],
+          "officialOnly": [
+            4,
+            24,
+            36,
+            47
+          ],
+          "ladderOnly": [
+            16,
+            48,
+            55,
+            60
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            4,
+            21,
+            44,
+            50,
+            64
+          ],
+          "extra": 4,
+          "points": 71,
+          "crowd": "0.95x crowd · beats 58% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #7 pair 44-50 · 2 running hot over the last 30 draws · sum 183 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 1,
+          "extraHit": false,
+          "overlap": [
+            4
+          ],
+          "officialOnly": [
+            3,
+            24,
+            36,
+            47
+          ],
+          "ladderOnly": [
+            21,
+            44,
+            50,
+            64
+          ]
+        }
+      ]
+    },
+    {
+      "game": "lotto",
+      "officialDate": "2026-07-25",
+      "officialWhites": [
+        31,
+        34,
+        38,
+        40,
+        45,
+        48
+      ],
+      "officialExtra": null,
+      "historyBefore": 67,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 3,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            10,
+            17,
+            20,
+            23,
+            37,
+            44
+          ],
+          "extra": null,
+          "points": 90,
+          "crowd": "1.04x crowd · beats 23% of random boards",
+          "why": "6 of the top-10 all-time numbers · carries the #6 pair 17-37 · 3 running hot over the last 30 draws · sum 151 inside the historical middle band",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            31,
+            34,
+            38,
+            40,
+            45,
+            48
+          ],
+          "ladderOnly": [
+            10,
+            17,
+            20,
+            23,
+            37,
+            44
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            17,
+            20,
+            23,
+            28,
+            37,
+            44
+          ],
+          "extra": null,
+          "points": 88,
+          "crowd": "1.04x crowd · beats 26% of random boards",
+          "why": "5 of the top-10 all-time numbers · carries the #2 pair 28-37 · 3 running hot over the last 30 draws",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            31,
+            34,
+            38,
+            40,
+            45,
+            48
+          ],
+          "ladderOnly": [
+            17,
+            20,
+            23,
+            28,
+            37,
+            44
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            12,
+            17,
+            20,
+            23,
+            37,
+            40
+          ],
+          "extra": null,
+          "points": 88,
+          "crowd": "1.05x crowd · beats 21% of random boards",
+          "why": "6 of the top-10 all-time numbers · carries the #3 pair 12-20 · 3 running hot over the last 30 draws · sum 149 inside the historical middle band",
+          "whiteHits": 1,
+          "extraHit": null,
+          "overlap": [
+            40
+          ],
+          "officialOnly": [
+            31,
+            34,
+            38,
+            45,
+            48
+          ],
+          "ladderOnly": [
+            12,
+            17,
+            20,
+            23,
+            37
+          ]
+        }
+      ]
+    },
+    {
+      "game": "megamillions",
+      "officialDate": "2026-07-24",
+      "officialWhites": [
+        2,
+        5,
+        42,
+        44,
+        60
+      ],
+      "officialExtra": 1,
+      "historyBefore": 911,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            10,
+            17,
+            47,
+            51,
+            56
+          ],
+          "extra": 22,
+          "points": 70,
+          "crowd": "1.06x crowd · beats 33% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #1 pair 10-17 · 4 running hot over the last 30 draws · sum 181 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            2,
+            5,
+            42,
+            44,
+            60
+          ],
+          "ladderOnly": [
+            10,
+            17,
+            47,
+            51,
+            56
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            10,
+            17,
+            50,
+            51,
+            56
+          ],
+          "extra": 22,
+          "points": 68,
+          "crowd": "0.98x crowd · beats 48% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #1 pair 10-17 · 4 running hot over the last 30 draws · sum 184 inside the historical middle band · 2 odd / 3 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            2,
+            5,
+            42,
+            44,
+            60
+          ],
+          "ladderOnly": [
+            10,
+            17,
+            50,
+            51,
+            56
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            10,
+            17,
+            20,
+            46,
+            66
+          ],
+          "extra": 22,
+          "points": 67,
+          "crowd": "1.04x crowd · beats 36% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #1 pair 10-17 · 1 running hot over the last 30 draws · sum 159 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            2,
+            5,
+            42,
+            44,
+            60
+          ],
+          "ladderOnly": [
+            10,
+            17,
+            20,
+            46,
+            66
+          ]
+        }
+      ]
+    },
+    {
+      "game": "powerball",
+      "officialDate": "2026-07-22",
+      "officialWhites": [
+        4,
+        5,
+        22,
+        50,
+        58
+      ],
+      "officialExtra": 1,
+      "historyBefore": 1378,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            3,
+            16,
+            37,
+            44,
+            53
+          ],
+          "extra": 4,
+          "points": 73,
+          "crowd": "1.07x crowd · beats 31% of random boards",
+          "why": "carries the #2 pair 37-44 · 4 running hot over the last 30 draws · sum 153 inside the historical middle band · 3 odd / 2 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            4,
+            5,
+            22,
+            50,
+            58
+          ],
+          "ladderOnly": [
+            3,
+            16,
+            37,
+            44,
+            53
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            3,
+            16,
+            32,
+            44,
+            59
+          ],
+          "extra": 4,
+          "points": 71,
+          "crowd": "1.05x crowd · beats 34% of random boards",
+          "why": "1 of the top-10 all-time numbers · carries the #6 pair 3-16 · 4 running hot over the last 30 draws · sum 154 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            4,
+            5,
+            22,
+            50,
+            58
+          ],
+          "ladderOnly": [
+            3,
+            16,
+            32,
+            44,
+            59
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            3,
+            21,
+            37,
+            44,
+            64
+          ],
+          "extra": 4,
+          "points": 71,
+          "crowd": "1.11x crowd · beats 25% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #2 pair 37-44 · 2 running hot over the last 30 draws · sum 169 inside the historical middle band · 3 odd / 2 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            4,
+            5,
+            22,
+            50,
+            58
+          ],
+          "ladderOnly": [
+            3,
+            21,
+            37,
+            44,
+            64
+          ]
+        }
+      ]
+    },
+    {
+      "game": "lotto",
+      "officialDate": "2026-07-22",
+      "officialWhites": [
+        2,
+        9,
+        25,
+        32,
+        36,
+        48
+      ],
+      "officialExtra": null,
+      "historyBefore": 66,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            12,
+            17,
+            20,
+            23,
+            37,
+            44
+          ],
+          "extra": null,
+          "points": 90,
+          "crowd": "1.02x crowd · beats 38% of random boards",
+          "why": "6 of the top-10 all-time numbers · carries the #3 pair 12-20 · 3 running hot over the last 30 draws · sum 153 inside the historical middle band",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            2,
+            9,
+            25,
+            32,
+            36,
+            48
+          ],
+          "ladderOnly": [
+            12,
+            17,
+            20,
+            23,
+            37,
+            44
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            12,
+            17,
+            20,
+            23,
+            37,
+            40
+          ],
+          "extra": null,
+          "points": 90,
+          "crowd": "1.05x crowd · beats 21% of random boards",
+          "why": "6 of the top-10 all-time numbers · carries the #3 pair 12-20 · 4 running hot over the last 30 draws · sum 149 inside the historical middle band",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            2,
+            9,
+            25,
+            32,
+            36,
+            48
+          ],
+          "ladderOnly": [
+            12,
+            17,
+            20,
+            23,
+            37,
+            40
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            8,
+            17,
+            20,
+            23,
+            37,
+            40
+          ],
+          "extra": null,
+          "points": 89,
+          "crowd": "1.11x crowd · beats 4% of random boards",
+          "why": "6 of the top-10 all-time numbers · carries the #6 pair 17-37 · 4 running hot over the last 30 draws · sum 145 inside the historical middle band",
+          "whiteHits": 0,
+          "extraHit": null,
+          "overlap": [],
+          "officialOnly": [
+            2,
+            9,
+            25,
+            32,
+            36,
+            48
+          ],
+          "ladderOnly": [
+            8,
+            17,
+            20,
+            23,
+            37,
+            40
+          ]
+        }
+      ]
+    },
+    {
+      "game": "megamillions",
+      "officialDate": "2026-07-21",
+      "officialWhites": [
+        25,
+        37,
+        59,
+        68,
+        70
+      ],
+      "officialExtra": 10,
+      "historyBefore": 910,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            10,
+            17,
+            40,
+            43,
+            51
+          ],
+          "extra": 22,
+          "points": 69,
+          "crowd": "1.09x crowd · beats 27% of random boards",
+          "why": "3 of the top-10 all-time numbers · carries the #1 pair 10-17 · 2 running hot over the last 30 draws · sum 161 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            25,
+            37,
+            59,
+            68,
+            70
+          ],
+          "ladderOnly": [
+            10,
+            17,
+            40,
+            43,
+            51
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            3,
+            5,
+            22,
+            58,
+            66
+          ],
+          "extra": 22,
+          "points": 69,
+          "crowd": "1.20x crowd · beats 14% of random boards",
+          "why": "1 of the top-10 all-time numbers · 2 running hot over the last 30 draws · sum 154 inside the historical middle band · 2 odd / 3 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            25,
+            37,
+            59,
+            68,
+            70
+          ],
+          "ladderOnly": [
+            3,
+            5,
+            22,
+            58,
+            66
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            10,
+            17,
+            20,
+            48,
+            51
+          ],
+          "extra": 22,
+          "points": 68,
+          "crowd": "1.12x crowd · beats 24% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #1 pair 10-17 · 3 running hot over the last 30 draws · sum 146 inside the historical middle band · 2 odd / 3 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            25,
+            37,
+            59,
+            68,
+            70
+          ],
+          "ladderOnly": [
+            10,
+            17,
+            20,
+            48,
+            51
+          ]
+        }
+      ]
+    },
+    {
+      "game": "lotto",
+      "officialDate": "2026-07-20",
+      "officialWhites": [
+        14,
+        18,
+        30,
+        34,
+        37,
+        39
+      ],
+      "officialExtra": null,
+      "historyBefore": 65,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            12,
+            17,
+            20,
+            23,
+            37,
+            44
+          ],
+          "extra": null,
+          "points": 91,
+          "crowd": "1.02x crowd · beats 38% of random boards",
+          "why": "6 of the top-10 all-time numbers · carries the #3 pair 12-20 · 3 running hot over the last 30 draws · sum 153 inside the historical middle band · 3 odd / 3 even, the modal split",
+          "whiteHits": 1,
+          "extraHit": null,
+          "overlap": [
+            37
+          ],
+          "officialOnly": [
+            14,
+            18,
+            30,
+            34,
+            39
+          ],
+          "ladderOnly": [
+            12,
+            17,
+            20,
+            23,
+            44
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            17,
+            20,
+            23,
+            37,
+            40,
+            44
+          ],
+          "extra": null,
+          "points": 91,
+          "crowd": "1.00x crowd · beats 47% of random boards",
+          "why": "6 of the top-10 all-time numbers · carries the #6 pair 17-37 · 4 running hot over the last 30 draws · 3 odd / 3 even, the modal split",
+          "whiteHits": 1,
+          "extraHit": null,
+          "overlap": [
+            37
+          ],
+          "officialOnly": [
+            14,
+            18,
+            30,
+            34,
+            39
+          ],
+          "ladderOnly": [
+            17,
+            20,
+            23,
+            40,
+            44
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            17,
+            20,
+            23,
+            28,
+            37,
+            44
+          ],
+          "extra": null,
+          "points": 91,
+          "crowd": "1.04x crowd · beats 26% of random boards",
+          "why": "5 of the top-10 all-time numbers · carries the #2 pair 28-37 · 3 running hot over the last 30 draws · 3 odd / 3 even, the modal split",
+          "whiteHits": 1,
+          "extraHit": null,
+          "overlap": [
+            37
+          ],
+          "officialOnly": [
+            14,
+            18,
+            30,
+            34,
+            39
+          ],
+          "ladderOnly": [
+            17,
+            20,
+            23,
+            28,
+            44
+          ]
+        }
+      ]
+    },
+    {
+      "game": "megamillions",
+      "officialDate": "2026-07-17",
+      "officialWhites": [
+        22,
+        34,
+        45,
+        48,
+        55
+      ],
+      "officialExtra": 14,
+      "historyBefore": 909,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 3,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            10,
+            17,
+            24,
+            48,
+            51
+          ],
+          "extra": 22,
+          "points": 68,
+          "crowd": "1.19x crowd · beats 15% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #1 pair 10-17 · 2 running hot over the last 30 draws · sum 150 inside the historical middle band · 2 odd / 3 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 1,
+          "extraHit": false,
+          "overlap": [
+            48
+          ],
+          "officialOnly": [
+            22,
+            34,
+            45,
+            55
+          ],
+          "ladderOnly": [
+            10,
+            17,
+            24,
+            51
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            10,
+            17,
+            24,
+            51,
+            57
+          ],
+          "extra": 22,
+          "points": 67,
+          "crowd": "1.20x crowd · beats 14% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #1 pair 10-17 · 2 running hot over the last 30 draws · sum 159 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            22,
+            34,
+            45,
+            48,
+            55
+          ],
+          "ladderOnly": [
+            10,
+            17,
+            24,
+            51,
+            57
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            14,
+            22,
+            24,
+            42,
+            48
+          ],
+          "extra": 22,
+          "points": 67,
+          "crowd": "0.97x crowd · beats 52% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #4 pair 22-42 · sum 150 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 2,
+          "extraHit": false,
+          "overlap": [
+            22,
+            48
+          ],
+          "officialOnly": [
+            34,
+            45,
+            55
+          ],
+          "ladderOnly": [
+            14,
+            24,
+            42
+          ]
+        }
+      ]
+    },
+    {
+      "game": "megamillions",
+      "officialDate": "2026-07-14",
+      "officialWhites": [
+        2,
+        4,
+        10,
+        48,
+        56
+      ],
+      "officialExtra": 22,
+      "historyBefore": 908,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            10,
+            17,
+            40,
+            43,
+            51
+          ],
+          "extra": 24,
+          "points": 68,
+          "crowd": "1.09x crowd · beats 28% of random boards",
+          "why": "3 of the top-10 all-time numbers · carries the #1 pair 10-17 · 2 running hot over the last 30 draws · sum 161 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 1,
+          "extraHit": false,
+          "overlap": [
+            10
+          ],
+          "officialOnly": [
+            2,
+            4,
+            48,
+            56
+          ],
+          "ladderOnly": [
+            17,
+            40,
+            43,
+            51
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            3,
+            5,
+            22,
+            52,
+            66
+          ],
+          "extra": 24,
+          "points": 66,
+          "crowd": "1.26x crowd · beats 9% of random boards",
+          "why": "1 of the top-10 all-time numbers · 1 running hot over the last 30 draws · sum 148 inside the historical middle band · 2 odd / 3 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            2,
+            4,
+            10,
+            48,
+            56
+          ],
+          "ladderOnly": [
+            3,
+            5,
+            22,
+            52,
+            66
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            14,
+            17,
+            35,
+            40,
+            53
+          ],
+          "extra": 24,
+          "points": 66,
+          "crowd": "0.95x crowd · beats 56% of random boards",
+          "why": "2 of the top-10 all-time numbers · 2 running hot over the last 30 draws · sum 159 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            2,
+            4,
+            10,
+            48,
+            56
+          ],
+          "ladderOnly": [
+            14,
+            17,
+            35,
+            40,
+            53
+          ]
+        }
+      ]
+    },
+    {
+      "game": "megamillions",
+      "officialDate": "2026-07-10",
+      "officialWhites": [
+        2,
+        39,
+        44,
+        46,
+        56
+      ],
+      "officialExtra": 23,
+      "historyBefore": 907,
+      "recorded": "2026-08-20T06:45:26.952Z",
+      "closestRank": 1,
+      "rungs": [
+        {
+          "rank": 1,
+          "whites": [
+            13,
+            16,
+            21,
+            61,
+            62
+          ],
+          "extra": 24,
+          "points": 68,
+          "crowd": "0.86x crowd · beats 75% of random boards",
+          "why": "carries the #2 pair 16-21 · 2 running hot over the last 30 draws · sum 173 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            2,
+            39,
+            44,
+            46,
+            56
+          ],
+          "ladderOnly": [
+            13,
+            16,
+            21,
+            61,
+            62
+          ]
+        },
+        {
+          "rank": 2,
+          "whites": [
+            10,
+            17,
+            47,
+            51,
+            62
+          ],
+          "extra": 24,
+          "points": 67,
+          "crowd": "1.13x crowd · beats 23% of random boards",
+          "why": "2 of the top-10 all-time numbers · carries the #1 pair 10-17 · 4 running hot over the last 30 draws · sum 187 inside the historical middle band · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            2,
+            39,
+            44,
+            46,
+            56
+          ],
+          "ladderOnly": [
+            10,
+            17,
+            47,
+            51,
+            62
+          ]
+        },
+        {
+          "rank": 3,
+          "whites": [
+            17,
+            32,
+            35,
+            40,
+            66
+          ],
+          "extra": 24,
+          "points": 67,
+          "crowd": "0.95x crowd · beats 56% of random boards",
+          "why": "1 of the top-10 all-time numbers · 2 running hot over the last 30 draws · sum 190 inside the historical middle band · 2 odd / 3 even, the modal split · a frequently drawn special ball",
+          "whiteHits": 0,
+          "extraHit": false,
+          "overlap": [],
+          "officialOnly": [
+            2,
+            39,
+            44,
+            46,
+            56
+          ],
+          "ladderOnly": [
+            17,
+            32,
+            35,
+            40,
+            66
+          ]
+        }
+      ]
+    }
+  ]
+}

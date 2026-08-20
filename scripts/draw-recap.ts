@@ -19,6 +19,7 @@ import {
   type RecapWashington,
   type ReplayRung,
 } from "./lib/deskLetter.ts";
+import { persistLadderReplay } from "./lib/ladderReplay.ts";
 import {
   padBall,
   recapExtraClass,
@@ -372,12 +373,16 @@ export function writeRecapPages(payload: RecapPayload): string[] {
 async function main(): Promise<void> {
   const payload = await buildRecapPayload();
   const paths = writeRecapPages(payload);
+  const replay = await persistLadderReplay(payload);
   const games = [
     ...payload.national.map((g) => `${g.label} ${g.officialDate}`),
     ...payload.washington.map((g) => `${g.label} ${g.officialDate}`),
   ];
   console.log(`Wrote ${paths.join(" · ")}`);
   console.log(`Games: ${games.join(" · ") || "none"}`);
+  console.log(
+    `Ladder replay: ${replay.added} new row${replay.added === 1 ? "" : "s"} · ${replay.book.rows.length} stored`,
+  );
   if (payload.notes.length) {
     console.log(`Notes: ${payload.notes.join(" | ")}`);
   }
