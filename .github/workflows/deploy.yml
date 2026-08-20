@@ -12,7 +12,7 @@ on:
     - cron: "0 17 * * *"
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -85,6 +85,18 @@ jobs:
         continue-on-error: true
       - name: Build public recap
         run: npm run recap
+      - name: Commit ladder replay archive
+        run: |
+          FILES="src/data/ladderReplay.json public/recap/ladder-replay.json"
+          if [ -z "$(git status --porcelain -- $FILES)" ]; then
+            echo "No new ladder replay rows."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add $FILES
+          git commit -m "data: append ladder vs official replay [skip ci]"
+          git push
       - name: Build site
         run: npm run build
       - uses: actions/upload-pages-artifact@v5

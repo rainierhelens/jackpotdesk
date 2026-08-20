@@ -22,13 +22,14 @@ More history does not make the next drawing more likely to match the past. It ma
 | Fitted crowd weights | n/a | [`src/data/popularity.json`](../src/data/popularity.json) | Re-fit from the full archive after each append. |
 | Pattern model | n/a | Built in the browser from the draw list | Grows as the draw list grows. No separate bake. |
 | National advertised jackpots | California Lottery (CORS blocks the browser) | [`src/data/marketQuotes.json`](../src/data/marketQuotes.json) + Worker `/market` | Refreshed on each Pages bake. Not a history. |
+| Official vs last night's Ladder | Replay from history excluding that drawing | [`src/data/ladderReplay.json`](../src/data/ladderReplay.json) + [`/recap/ladder-replay.json`](../public/recap/ladder-replay.json) | **Yes.** One row per game and official date. First write wins. |
 
 The Cloudflare Worker is a cache of the accumulating book, not the archive. Permanent stores are the JSON files committed by GitHub Actions.
 
 ## Jobs
 
 - [`.github/workflows/popularity.yml`](../.github/workflows/popularity.yml) — daily `45 16 * * *`: scrape national + WA winner counts, refit weights, commit if changed.
-- [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) — on push to `main` and three times daily (`30 5`, `0 16`, `0 17` UTC): `bake:wa`, `bake:map`, `bake:market`, `/recap` page, PUT books to the Worker, Pages build. The 10:00 a.m. Pacific run siblings the private digest.
+- [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) — on push to `main` and three times daily (`30 5`, `0 16`, `0 17` UTC): `bake:wa`, `bake:map`, `bake:market`, `/recap` page, append official-vs-Ladder rows, PUT books to the Worker, Pages build. The 10:00 a.m. Pacific run siblings the private digest. New replay rows are committed back to `src/data/ladderReplay.json` (`[skip ci]` so the Pages job does not loop).
 
 ## Popularity model (crowd)
 
@@ -58,6 +59,17 @@ From **all** stored history (newest-first):
 `patternLadder(model, size, depth, opts?)` is the ranked field. Deterministic seed from the frequency vector. Optional `opts.reject` is a fade veto after the score. `patternPickTickets` is the jittered mint.
 
 Lottery Heat ([`src/lib/lotteryHeat.ts`](../src/lib/lotteryHeat.ts)) is a **client window** on the official draw list (national or WA). It extends `numberField` with share, uniform expected count, signed deviation, last-drawn date, and the special-ball row (in-range extras only). Time-shift is a 50-draw pane walked across that slice. The pair view reads `buildPatternModel` pair counts. No new fetch or bake. Changing the window does not change hit odds.
+
+## Official vs Ladder ledger
+
+[`src/data/ladderReplay.json`](../src/data/ladderReplay.json) is the compounding book of last night's comparison. Each recap rebuilds The Ladder from official history **excluding** that drawing, scores #1–#3 against the official board, and appends one row per `(game, officialDate)` if that key is new.
+
+- Games: Powerball, Mega Millions, Hit 5, Lotto.
+- A row stores official whites / extra, history size under that ranking, #1–#3 boards, points, crowd, why, white hits, extra hit, overlap, official-only, and ladder-only numbers.
+- First write wins. Later recaps and ranking-formula changes do not rewrite an existing official date. That is what was first recorded for that night.
+- The first recap seeds up to 40 recent official dates per game so the book does not start at zero. After that, only new official dates append.
+- This is a descriptive archive. It is not a holdout chart and it does not publish tonight's #1.
+- `npm run recap` writes the committed store and a public copy at `/recap/ladder-replay.json`.
 
 ## Client data flow
 

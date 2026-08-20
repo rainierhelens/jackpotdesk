@@ -363,8 +363,14 @@ function waPrizeLine(book: WaBook, id: "hit5" | "lotto"): string {
   return `Advertised ${moneyExact.format(advertised)} · cash ${moneyExact.format(cash)}. About ${moneyExact.format(share)} of the $1 is the cash jackpot (two boards per dollar).`;
 }
 
-function lastOfficialLadder(
+/**
+ * Rebuild The Ladder from history older than `draws[index]` and score it
+ * against that official board. Draws are newest-first. Returns null when
+ * there is not enough prior history to rank.
+ */
+export function replayOfficialAt(
   draws: OfficialDraw[],
+  index: number,
   whiteMax: number,
   whiteCount: number,
   extraMax: number | null,
@@ -374,18 +380,16 @@ function lastOfficialLadder(
   official: OfficialDraw;
   historyBefore: number;
   rungs: ReplayRung[];
-} {
-  const official = draws[0];
-  if (!official) throw new Error("No official draw to replay");
-  const prior = draws.slice(1);
+} | null {
+  const official = draws[index];
+  if (!official) return null;
+  const prior = draws.slice(index + 1);
   const model = buildPatternModel(
     prior.map((d) => ({ numbers: d.whites, extra: d.extra })),
     whiteMax,
     extraMax,
   );
-  if (!model) {
-    throw new Error("Not enough history before the last official draw");
-  }
+  if (!model) return null;
   const ladder = patternLadder(model, whiteCount, LADDER_TOP);
   return {
     official,
@@ -398,6 +402,37 @@ function lastOfficialLadder(
       crowd,
     ),
   };
+}
+
+function lastOfficialLadder(
+  draws: OfficialDraw[],
+  whiteMax: number,
+  whiteCount: number,
+  extraMax: number | null,
+  extraLabel: string | null,
+  crowd: (entry: LadderEntry) => { index: number; beats: number } | null,
+): {
+  official: OfficialDraw;
+  historyBefore: number;
+  rungs: ReplayRung[];
+} {
+  const replay = replayOfficialAt(
+    draws,
+    0,
+    whiteMax,
+    whiteCount,
+    extraMax,
+    extraLabel,
+    crowd,
+  );
+  if (!replay) {
+    throw new Error(
+      draws[0]
+        ? "Not enough history before the last official draw"
+        : "No official draw to replay",
+    );
+  }
+  return replay;
 }
 
 export async function recapNational(game: GameId): Promise<RecapNational> {
