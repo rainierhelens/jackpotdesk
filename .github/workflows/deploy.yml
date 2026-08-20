@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   # After the 8 p.m. PT drawings, morning cashpot / jackpot pages, and 5:00 a.m.
   # Pacific daily for the public recap. 12:00 UTC is 5:00 a.m. PDT. All 7 days.
-  # Private digest stays on draw-digest.yml at 10:00 a.m. Pacific.
+  # Private digest uses the same 5:00 a.m. Pacific cron on draw-digest.yml.
   schedule:
     - cron: "30 5 * * *"
     - cron: "0 12 * * *"
