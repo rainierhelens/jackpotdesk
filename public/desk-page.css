@@ -483,6 +483,199 @@ h2 {
   color: var(--red);
 }
 
+.segment {
+  display: flex;
+  flex-wrap: wrap;
+  background: #0c0c0e;
+  border: 1px solid #ffffff18;
+  border-radius: var(--radius);
+  padding: 3px;
+  gap: 3px;
+}
+
+.segment button {
+  border: 0;
+  background: transparent;
+  border-radius: calc(var(--radius) - 2px);
+  padding: 0.45rem 0.85rem;
+  min-height: 2.4rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #8b8b94;
+}
+
+.segment button.on {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.hit-lead {
+  max-width: 46rem;
+  margin: 0.75rem 0 0;
+  color: var(--ink);
+}
+
+.hit-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.45rem;
+  margin: 0.85rem 0 0;
+}
+
+.hit-stats article {
+  margin: 0;
+  padding: 0.65rem 0.7rem;
+  background: #0c0c0e;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.hit-stats p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.hit-stats strong {
+  display: block;
+  margin-top: 0.15rem;
+  font-family: var(--mono);
+  font-size: 1.05rem;
+}
+
+.hit-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: center;
+  margin: 0.9rem 0 0;
+}
+
+.hit-map {
+  display: grid;
+  grid-template-areas:
+    "oly nps east"
+    "oly sps east"
+    "sw sps cen"
+    "sw . tri";
+  grid-template-columns: 1fr 1.15fr 1fr;
+  gap: 0.45rem;
+  margin: 0.9rem 0 0;
+}
+
+.hit-region {
+  margin: 0;
+  padding: 0.7rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #0c0c0e;
+  color: var(--ink);
+  text-align: left;
+  min-height: 5.4rem;
+  cursor: pointer;
+}
+
+.hit-region.on {
+  outline: 2px solid var(--ink);
+  outline-offset: 1px;
+}
+
+.hit-region[data-area="oly"] { grid-area: oly; }
+.hit-region[data-area="nps"] { grid-area: nps; }
+.hit-region[data-area="sps"] { grid-area: sps; }
+.hit-region[data-area="sw"] { grid-area: sw; }
+.hit-region[data-area="east"] { grid-area: east; }
+.hit-region[data-area="cen"] { grid-area: cen; }
+.hit-region[data-area="tri"] { grid-area: tri; }
+
+.hit-region b {
+  display: block;
+  font-family: var(--mono);
+  font-size: 1.25rem;
+}
+
+.hit-region span {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.hit-table-wrap {
+  margin: 0.9rem 0 0;
+  overflow-x: auto;
+}
+
+.hit-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.hit-table th,
+.hit-table td {
+  padding: 0.45rem 0.5rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.hit-table th {
+  color: var(--gold);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hit-table td:last-child,
+.hit-table th:last-child {
+  font-family: var(--mono);
+  text-align: right;
+}
+
+.hit-sources {
+  margin: 0.85rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hit-sources li {
+  margin: 0.25rem 0;
+  font-size: 0.84rem;
+  color: var(--muted);
+}
+
+.help {
+  display: block;
+  margin: 0.75rem 0 0;
+  padding: 0.85rem 0.95rem;
+  background: #0c0c0e;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.help span {
+  display: block;
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 0.88rem;
+  margin-top: 0.2rem;
+}
+
+@media (hover: hover) {
+  .segment button:hover:not(.on) {
+    background: #ffffff10;
+    color: #f4f4f5;
+  }
+
+  .hit-region:hover {
+    border-color: #ffffff2a;
+  }
+}
+
 @media (max-width: 720px) {
   .tag {
     display: none;
@@ -528,6 +721,20 @@ h2 {
   }
 
   .recap-rungs {
+    grid-template-columns: 1fr;
+  }
+
+  .hit-map {
+    grid-template-areas:
+      "nps nps"
+      "sps sps"
+      "oly sw"
+      "east cen"
+      "tri tri";
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .hit-stats {
     grid-template-columns: 1fr;
   }
 }

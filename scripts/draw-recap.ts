@@ -335,6 +335,7 @@ export function formatRecapHtml(
         <nav class="footer-links" aria-label="Site">
           <a class="footer-btn" href="/">Desk</a>
           <a class="footer-btn" href="/recap">Recap</a>
+          <a class="footer-btn" href="/washington/claimed-prizes-by-store">Claimed prizes</a>
           <a class="footer-btn" href="/expected-value.html">Expected value</a>
           <a class="footer-btn" href="/unique-tickets.html">Unique tickets</a>
           <a class="footer-btn" href="/office-pool.html">Office pool</a>

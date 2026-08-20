@@ -47,6 +47,9 @@ export function WhyMethod() {
         <a href="/recap">Recap:</a> official results versus the
         Ladder that was live before those numbers. A scored replay, not
         tonight’s tip sheet.{" "}
+        <a href="/washington/claimed-prizes-by-store">Claimed prizes:</a> official
+        Washington’s Lottery listed claims from the last year, counted by store.
+        Same hit odds at every licensed retailer. History, not a tip.{" "}
         <a href="/lottery-lab.html">Lottery Lab:</a> models cannot beat Quick
         Pick. The Ladder ranks the past. It does not change the odds.
       </p>

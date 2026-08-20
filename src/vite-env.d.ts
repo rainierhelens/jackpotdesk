@@ -1,5 +1,10 @@
 /// <reference types="vite/client" />
 
+declare module "*?raw" {
+  const content: string;
+  export default content;
+}
+
 interface ImportMetaEnv {
   readonly VITE_WA_DRAWS_URL?: string;
   readonly VITE_JACKPOT_WINS_URL?: string;

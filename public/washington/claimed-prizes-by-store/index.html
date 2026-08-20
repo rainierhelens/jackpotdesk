@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Washington claimed lottery prizes by store | JackpotDesk</title>
+    <meta
+      name="description"
+      content="Every licensed retailer has the same chance of selling a jackpot ticket. Official Washington’s Lottery claimed prizes listed in the last year, counted by store. Not luck. Not a forecast."
+    />
+    <link rel="canonical" href="https://www.jackpotdesk.com/washington/claimed-prizes-by-store" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Geist+Mono:wght@400;700&family=Inter:wght@400;600;700&display=swap" />
+    <link rel="stylesheet" href="/desk-page.css" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="JackpotDesk" />
+    <meta property="og:url" content="https://www.jackpotdesk.com/washington/claimed-prizes-by-store" />
+    <meta property="og:title" content="Washington claimed lottery prizes by store" />
+    <meta
+      property="og:description"
+      content="Official listed claims from the last year, counted by store. Same hit odds. Entertainment, not prediction."
+    />
+    <meta property="og:image" content="https://www.jackpotdesk.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://www.jackpotdesk.com/og-image.png" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3HEMBNLM71"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-3HEMBNLM71');
+    </script>
+  </head>
+  <body>
+    <div class="shell">
+      <div class="chrome">
+        <header class="masthead">
+          <div class="masthead-row">
+            <div class="masthead-brand">
+              <h1 class="brand">
+                <a class="brand-home" href="/" aria-label="JackpotDesk home">
+                  <img class="brand-logo" src="/logo.png" alt="" width="294" height="41" />
+                </a>
+              </h1>
+              <p class="tag">
+                The Ladder ranks every scanned board against measured history.
+                Same hit odds as Quick Pick.
+              </p>
+              <a class="masthead-recap" href="/recap">
+                Recap
+                <span>Last night vs The Ladder</span>
+              </a>
+            </div>
+          </div>
+        </header>
+        <nav class="tabs" aria-label="Primary">
+          <a href="/">Desk</a>
+          <a href="/recap">Recap</a>
+          <a href="/?tab=tickets">Tickets</a>
+          <a href="/?tab=week"><span class="tab-full">This week</span><span class="tab-short">Week</span></a>
+          <a href="/?tab=map">Map</a>
+          <a href="/?tab=pool">Pool</a>
+          <a href="/?tab=why"><span class="tab-full">Why this</span><span class="tab-short">Why</span></a>
+          <a href="/?tab=write"><span class="tab-full">Write the desk</span><span class="tab-short">Write</span></a>
+        </nav>
+      </div>
+      <main class="recap-main">
+        <section class="panel desk-page">
+          <header class="panel-head">
+            <div>
+              <p class="kicker">Washington board · official listed claims</p>
+              <h2>Claimed prizes by store</h2>
+            </div>
+            <p class="fine" id="hit-asof">Washington’s Lottery winners search · last ~365 days</p>
+          </header>
+          <p class="hit-lead">
+            Every licensed retailer has the same chance of selling a jackpot ticket.
+            Location does not change hit odds. This page counts claimed prizes
+            Washington’s Lottery listed in the last year, by the store on that row.
+            Entertainment, not prediction.
+          </p>
+          <p>
+            The official
+            <a href="https://www.walottery.com/winners/Search.aspx" rel="noopener noreferrer">Winners By Game search</a>
+            publishes claimed prizes, usually $600 and up, with a retailer name,
+            street, and city. This is that list, rolled up by store. It is not every
+            winning ticket sold, not sales volume, and not a reason to drive to a
+            store. Winner names stay on walottery.com.
+          </p>
+          <div class="hit-toolbar">
+            <div class="segment" role="group" aria-label="Game">
+              <button type="button" data-game="all" class="on">All listed</button>
+              <button type="button" data-game="Scratch">Scratch</button>
+              <button type="button" data-game="Lotto">Lotto</button>
+              <button type="button" data-game="Mega Millions">Mega Millions</button>
+              <button type="button" data-game="Match 4">Match 4</button>
+              <button type="button" data-game="Powerball">Powerball</button>
+              <button type="button" data-game="Hit 5">Hit 5</button>
+            </div>
+          </div>
+          <p class="fine" id="hit-map-note">
+            Counts are listed claims, not luck and not a forecast.
+          </p>
+          <div class="hit-stats" id="hit-stats"></div>
+          <div class="hit-table-wrap">
+            <table class="hit-table">
+              <caption class="fine" id="hit-table-caption">
+                Stores on the official winners search, sorted by listed claims.
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Store</th>
+                  <th scope="col">City</th>
+                  <th scope="col">Listed claims</th>
+                  <th scope="col">Listed dollars</th>
+                </tr>
+              </thead>
+              <tbody id="hit-table-body"></tbody>
+            </table>
+          </div>
+          <noscript>
+            <p class="fine">
+              Enable JavaScript to sort the store table. The official list stays at
+              <a href="https://www.walottery.com/winners/Search.aspx" rel="noopener noreferrer">walottery.com/winners/Search.aspx</a>.
+            </p>
+          </noscript>
+        </section>
+        <section class="panel desk-page">
+          <header class="panel-head">
+            <div>
+              <p class="kicker">Secondary layer · different metric</p>
+              <h2>Luckiest Retailers top 10s</h2>
+            </div>
+          </header>
+          <p>
+            Separate from claimed-prize counts: Washington’s Lottery also publishes
+            annual Luckiest Retailers lists. Those are stores that sold the most
+            $1,000+ winning tickets in the published year, regional top 10s only.
+            That is not this table, not every store, and not sales volume.
+          </p>
+          <div class="hit-toolbar">
+            <div class="segment" role="group" aria-label="Luckiest year">
+              <button type="button" data-luck-year="2025" class="on">2025</button>
+              <button type="button" data-luck-year="2024">2024</button>
+              <button type="button" data-luck-year="2023">2023</button>
+            </div>
+          </div>
+          <div class="hit-map" id="luck-map" role="list"></div>
+          <div class="hit-table-wrap">
+            <table class="hit-table">
+              <caption class="fine" id="luck-caption">
+                Published top 10 by $1,000+ tickets sold, not claimed-prize counts.
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Store</th>
+                  <th scope="col">City</th>
+                  <th scope="col">Year</th>
+                  <th scope="col">$1,000+ sold</th>
+                </tr>
+              </thead>
+              <tbody id="luck-table-body"></tbody>
+            </table>
+          </div>
+        </section>
+        <section class="panel desk-page">
+          <header class="panel-head">
+            <div>
+              <p class="kicker">How to read this</p>
+              <h2>History, not a tip</h2>
+            </div>
+          </header>
+          <p>
+            A high claim count means the Lottery listed more claimed prizes at that
+            address in this window. Busy stores sell more tickets. Same hit odds at
+            every licensed retailer.
+          </p>
+          <p>
+            <a href="/lottery-lab.html">Lottery Lab</a> stays the proof page: models
+            cannot beat Quick Pick. The live
+            <a href="/?desk=washington">Ladder</a>
+            ranks scanned boards against official draw history. Same hit odds as
+            Quick Pick.
+          </p>
+          <a class="help" href="/?desk=washington">
+            Open the live Ladder
+            <span>A scored replay of the past, best first. Not a store tip.</span>
+          </a>
+          <a class="help" href="/lottery-lab.html">
+            Lottery Lab
+            <span>Models cannot beat Quick Pick. Here is an uncrowded slip instead.</span>
+          </a>
+          <p class="fine">
+            Source:
+            <a href="https://www.walottery.com/winners/Search.aspx" rel="noopener noreferrer">Washington’s Lottery Winners By Game</a>
+            · Luckiest Retailers press lists 2023–2025 ·
+            <a href="https://www.walottery.com/Privacy/" rel="noopener noreferrer">Lottery privacy</a>.
+            JackpotDesk does not copy their map, logos, or winner-name list.
+            Entertainment only. We do not sell tickets. Keep it fun. Know your limit.
+            Responsible gaming:
+            <a href="https://www.ncpgambling.org/">ncpgambling.org</a>
+            ·
+            <a href="/responsible.html">JackpotDesk responsible gaming</a>
+          </p>
+        </section>
+      </main>
+      <footer class="site-footer">
+        <nav class="footer-links" aria-label="Site">
+          <a class="footer-btn" href="/">Desk</a>
+          <a class="footer-btn" href="/recap">Recap</a>
+          <a class="footer-btn" href="/washington/claimed-prizes-by-store">Claimed prizes</a>
+          <a class="footer-btn" href="/expected-value.html">Expected value</a>
+          <a class="footer-btn" href="/unique-tickets.html">Unique tickets</a>
+          <a class="footer-btn" href="/office-pool.html">Office pool</a>
+          <a class="footer-btn" href="/lottery-lab.html">Lottery Lab</a>
+          <a class="footer-btn" href="/about.html">About</a>
+          <span class="footer-copy">© 2026 JackpotDesk</span>
+        </nav>
+      </footer>
+    </div>
+    <script>
+      (function () {
+        var AREAS = [
+          { region: "Olympic Peninsula", area: "oly", label: "Olympic Peninsula" },
+          { region: "North Puget Sound", area: "nps", label: "North Puget Sound" },
+          { region: "South Puget Sound", area: "sps", label: "South Puget Sound" },
+          { region: "Southwest", area: "sw", label: "Southwest" },
+          { region: "Eastern", area: "east", label: "Eastern" },
+          { region: "Central", area: "cen", label: "Central" },
+          { region: "Tri-Cities", area: "tri", label: "Tri-Cities" }
+        ];
+        var game = "all";
+        var luckYear = 2025;
+        var luckRegion = "all";
+        var claimed = null;
+        var luckiest = null;
+
+        function esc(value) {
+          return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
+        }
+
+        function dollars(n) {
+          return "$" + Math.round(n).toLocaleString("en-US");
+        }
+
+        function titleCase(value) {
+          return String(value).toLowerCase().replace(/\b[a-z0-9']+/g, function (word) {
+            if (/^(wa|ne|nw|se|sw|qfc|iga|usa|us)$/i.test(word)) return word.toUpperCase();
+            return word.charAt(0).toUpperCase() + word.slice(1);
+          });
+        }
+
+        function heatFill(wins, maxWins) {
+          if (maxWins <= 0 || wins <= 0) return "#18181b";
+          var t = wins / maxWins;
+          return "rgb(0 " + Math.round(40 + t * 159) + " " + Math.round(28 + t * 60) + ")";
+        }
+
+        function claimedRows() {
+          return claimed.stores
+            .map(function (store) {
+              if (game === "all") return store;
+              var count = store.games[game] || 0;
+              if (!count) return null;
+              return {
+                name: store.name,
+                address: store.address,
+                city: store.city,
+                claims: count,
+                sum: (store.gameSums && store.gameSums[game]) || 0
+              };
+            })
+            .filter(Boolean)
+            .sort(function (a, b) {
+              return b.claims - a.claims || b.sum - a.sum || a.city.localeCompare(b.city);
+            });
+        }
+
+        function renderClaimed() {
+          if (!claimed) return;
+          var rows = claimedRows();
+          var totalClaims = rows.reduce(function (n, row) { return n + row.claims; }, 0);
+          var totalSum = rows.reduce(function (n, row) { return n + row.sum; }, 0);
+          document.getElementById("hit-asof").textContent =
+            "Washington’s Lottery · listed " + claimed.dateMin + "–" + claimed.dateMax;
+          document.getElementById("hit-map-note").textContent =
+            claimed.locatedClaims.toLocaleString("en-US") +
+            " located claims · " +
+            claimed.storeCount.toLocaleString("en-US") +
+            " stores · " +
+            claimed.unlocatedClaims +
+            " listed cards had no store. Counts are listed claims, not luck.";
+          document.getElementById("hit-stats").innerHTML =
+            "<article><p>Stores in view</p><strong>" + rows.length.toLocaleString("en-US") + "</strong></article>" +
+            "<article><p>Listed claims</p><strong>" + totalClaims.toLocaleString("en-US") + "</strong></article>" +
+            "<article><p>Listed dollars</p><strong>" + dollars(totalSum) + "</strong></article>";
+          document.getElementById("hit-table-caption").textContent =
+            (game === "all" ? "All listed games" : game) +
+            " · " +
+            rows.length +
+            " stores, sorted by listed claims. Not a forecast.";
+          document.getElementById("hit-table-body").innerHTML = rows.map(function (store) {
+            var tip = "Listed " + store.claims + " claimed prizes at this store per Washington's Lottery winners search. Not a forecast.";
+            return "<tr title=\"" + esc(tip) + "\"><td>" + esc(titleCase(store.name)) +
+              "<div class=\"fine\">" + esc(titleCase(store.address)) + "</div></td><td>" +
+              esc(titleCase(store.city)) + "</td><td>" + store.claims + "</td><td>" +
+              dollars(store.sum) + "</td></tr>";
+          }).join("");
+        }
+
+        function renderLuckiest() {
+          if (!luckiest) return;
+          var totals = {};
+          luckiest.regions.forEach(function (row) {
+            if (row.year !== luckYear) return;
+            totals[row.region] = row.top10Wins;
+          });
+          var max = 0;
+          AREAS.forEach(function (item) { max = Math.max(max, totals[item.region] || 0); });
+          document.getElementById("luck-map").innerHTML = AREAS.map(function (item) {
+            var wins = totals[item.region] || 0;
+            var title = "Published top-10 total: " + wins + " tickets of $1,000+ in " + luckYear + " per Washington's Lottery. Different metric than claimed prizes.";
+            var on = luckRegion === item.region ? " on" : "";
+            return '<button type="button" class="hit-region' + on + '" data-area="' + item.area +
+              '" data-region="' + esc(item.region) + '" title="' + esc(title) +
+              '" style="background:' + heatFill(wins, max) + '"><b>' + wins +
+              "</b><span>" + esc(item.label) + "</span></button>";
+          }).join("");
+          var rows = luckiest.stores.filter(function (store) {
+            if (store.year !== luckYear) return false;
+            if (luckRegion !== "all" && store.region !== luckRegion) return false;
+            return true;
+          }).sort(function (a, b) { return b.wins - a.wins || a.name.localeCompare(b.name); });
+          document.getElementById("luck-caption").textContent =
+            luckYear + " · published top 10 by $1,000+ tickets sold" +
+            (luckRegion === "all" ? "" : " · " + luckRegion) +
+            ". Different metric than claimed prizes.";
+          document.getElementById("luck-table-body").innerHTML = rows.map(function (store) {
+            var tip = "Sold " + store.wins + " tickets of $1,000+ in " + store.year + " per Washington's Lottery.";
+            return "<tr title=\"" + esc(tip) + "\"><td>" + esc(store.name) +
+              "<div class=\"fine\">" + esc(store.address) + " · " + esc(store.region) +
+              "</div></td><td>" + esc(store.city) + "</td><td>" + store.year +
+              "</td><td>" + store.wins + "</td></tr>";
+          }).join("");
+        }
+
+        document.querySelectorAll("[data-game]").forEach(function (button) {
+          button.addEventListener("click", function () {
+            game = button.getAttribute("data-game");
+            document.querySelectorAll("[data-game]").forEach(function (el) {
+              el.classList.toggle("on", el === button);
+            });
+            renderClaimed();
+          });
+        });
+        document.querySelectorAll("[data-luck-year]").forEach(function (button) {
+          button.addEventListener("click", function () {
+            luckYear = Number(button.getAttribute("data-luck-year"));
+            document.querySelectorAll("[data-luck-year]").forEach(function (el) {
+              el.classList.toggle("on", el === button);
+            });
+            renderLuckiest();
+          });
+        });
+        document.getElementById("luck-map").addEventListener("click", function (event) {
+          var button = event.target.closest("[data-region]");
+          if (!button) return;
+          var next = button.getAttribute("data-region");
+          luckRegion = luckRegion === next ? "all" : next;
+          renderLuckiest();
+        });
+
+        Promise.all([
+          fetch("/data/wa-claimed-prizes-by-store.json").then(function (res) { return res.json(); }),
+          fetch("/data/wa-luckiest-retailers.json").then(function (res) { return res.json(); })
+        ]).then(function (pair) {
+          claimed = pair[0];
+          luckiest = pair[1];
+          renderClaimed();
+          renderLuckiest();
+        });
+      })();
+    </script>
+  </body>
+</html>

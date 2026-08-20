@@ -2,7 +2,7 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import { defineConfig, type Connect, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 
-/** Serve the static recap at /recap instead of the SPA shell. */
+/** Serve static editorial pages at pretty URLs instead of the SPA shell. */
 function recapPrettyUrl(): Plugin {
   const rewrite = (
     req: IncomingMessage,
@@ -12,6 +12,11 @@ function recapPrettyUrl(): Plugin {
     const url = req.url?.split("?")[0] ?? "";
     if (url === "/recap" || url === "/recap/") {
       req.url = "/recap/index.html";
+    } else if (
+      url === "/washington/claimed-prizes-by-store" ||
+      url === "/washington/claimed-prizes-by-store/"
+    ) {
+      req.url = "/washington/claimed-prizes-by-store/index.html";
     } else {
       const dated = url.match(/^\/recap\/(\d{4}-\d{2}-\d{2})\/?$/);
       if (dated) req.url = `/recap/${dated[1]}/index.html`;

@@ -1,0 +1,2176 @@
+{
+  "asOf": "2025",
+  "published": "2026-03-09",
+  "coverage": "Published regional top-10 lists only. Not every store, not every prize, not sales volume.",
+  "note": "Washington's Lottery Luckiest Retailers lists: stores that sold the most tickets worth $1,000 or more that calendar year, all games mixed. Busy stores sell more tickets. Same hit odds at every licensed retailer. Not a prediction.",
+  "source": "Washington's Lottery Luckiest Retailers press lists, 2023-2025 (walottery.com/pressroom)",
+  "sources": [
+    {
+      "year": 2025,
+      "region": "South Puget Sound",
+      "url": "https://walottery.com/pressroom/Details.aspx?id=12213"
+    },
+    {
+      "year": 2025,
+      "region": "North Puget Sound",
+      "url": "https://walottery.com/pressroom/Details.aspx?id=12213"
+    },
+    {
+      "year": 2025,
+      "region": "Olympic Peninsula",
+      "url": "https://walottery.com/pressroom/Details.aspx?id=12212"
+    },
+    {
+      "year": 2025,
+      "region": "Eastern",
+      "url": "https://walottery.com/pressroom/Details.aspx?id=12211"
+    },
+    {
+      "year": 2025,
+      "region": "Central",
+      "url": "https://walottery.com/pressroom/Details.aspx?id=12210"
+    },
+    {
+      "year": 2025,
+      "region": "Southwest",
+      "url": "https://walottery.com/pressroom/Details.aspx?id=12214"
+    },
+    {
+      "year": 2025,
+      "region": "Tri-Cities",
+      "url": "https://walottery.com/pressroom/Details.aspx?id=12215"
+    },
+    {
+      "year": 2024,
+      "region": "South Puget Sound",
+      "url": "https://walottery.com/PressRoom/Details.aspx?id=12176"
+    },
+    {
+      "year": 2024,
+      "region": "North Puget Sound",
+      "url": "https://walottery.com/PressRoom/Details.aspx?id=12176"
+    },
+    {
+      "year": 2024,
+      "region": "Olympic Peninsula",
+      "url": "https://walottery.com/PressRoom/Details.aspx?id=12175"
+    },
+    {
+      "year": 2024,
+      "region": "Eastern",
+      "url": "https://walottery.com/PressRoom/Details.aspx?id=12174"
+    },
+    {
+      "year": 2024,
+      "region": "Central",
+      "url": "https://walottery.com/PressRoom/Details.aspx?id=12173"
+    },
+    {
+      "year": 2024,
+      "region": "Southwest",
+      "url": "https://walottery.com/PressRoom/Details.aspx?id=12177"
+    },
+    {
+      "year": 2024,
+      "region": "Tri-Cities",
+      "url": "https://walottery.com/PressRoom/Details.aspx?id=12178"
+    },
+    {
+      "year": 2023,
+      "region": "South Puget Sound",
+      "url": "https://www.walottery.com/PressRoom/Details.aspx?id=12135"
+    },
+    {
+      "year": 2023,
+      "region": "North Puget Sound",
+      "url": "https://www.walottery.com/PressRoom/Details.aspx?id=12135"
+    },
+    {
+      "year": 2023,
+      "region": "Olympic Peninsula",
+      "url": "https://walottery.com/pressroom/Details.aspx?id=12134"
+    },
+    {
+      "year": 2023,
+      "region": "Eastern",
+      "url": "https://walottery.com/PressRoom/Details.aspx?id=12133"
+    },
+    {
+      "year": 2023,
+      "region": "Central",
+      "url": "https://walottery.com/PressRoom/Details.aspx?id=12132"
+    },
+    {
+      "year": 2023,
+      "region": "Southwest",
+      "url": "https://walottery.com/PressRoom/Details.aspx?id=12136"
+    },
+    {
+      "year": 2023,
+      "region": "Tri-Cities",
+      "url": "https://walottery.com/PressRoom/Details.aspx?id=12137"
+    }
+  ],
+  "regions": [
+    {
+      "year": 2023,
+      "region": "Central",
+      "storeCount": 10,
+      "top10Wins": 46,
+      "pressStatedTotal": null,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12132"
+    },
+    {
+      "year": 2023,
+      "region": "Eastern",
+      "storeCount": 10,
+      "top10Wins": 66,
+      "pressStatedTotal": null,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12133"
+    },
+    {
+      "year": 2023,
+      "region": "North Puget Sound",
+      "storeCount": 10,
+      "top10Wins": 81,
+      "pressStatedTotal": 81,
+      "sourceUrl": "https://www.walottery.com/PressRoom/Details.aspx?id=12135"
+    },
+    {
+      "year": 2023,
+      "region": "Olympic Peninsula",
+      "storeCount": 10,
+      "top10Wins": 70,
+      "pressStatedTotal": null,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12134"
+    },
+    {
+      "year": 2023,
+      "region": "South Puget Sound",
+      "storeCount": 10,
+      "top10Wins": 139,
+      "pressStatedTotal": 139,
+      "sourceUrl": "https://www.walottery.com/PressRoom/Details.aspx?id=12135"
+    },
+    {
+      "year": 2023,
+      "region": "Southwest",
+      "storeCount": 10,
+      "top10Wins": 70,
+      "pressStatedTotal": null,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12136"
+    },
+    {
+      "year": 2023,
+      "region": "Tri-Cities",
+      "storeCount": 10,
+      "top10Wins": 40,
+      "pressStatedTotal": null,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12137"
+    },
+    {
+      "year": 2024,
+      "region": "Central",
+      "storeCount": 10,
+      "top10Wins": 52,
+      "pressStatedTotal": null,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12173"
+    },
+    {
+      "year": 2024,
+      "region": "Eastern",
+      "storeCount": 10,
+      "top10Wins": 91,
+      "pressStatedTotal": null,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12174"
+    },
+    {
+      "year": 2024,
+      "region": "North Puget Sound",
+      "storeCount": 10,
+      "top10Wins": 92,
+      "pressStatedTotal": 92,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12176"
+    },
+    {
+      "year": 2024,
+      "region": "Olympic Peninsula",
+      "storeCount": 10,
+      "top10Wins": 62,
+      "pressStatedTotal": null,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12175"
+    },
+    {
+      "year": 2024,
+      "region": "South Puget Sound",
+      "storeCount": 10,
+      "top10Wins": 151,
+      "pressStatedTotal": 151,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12176"
+    },
+    {
+      "year": 2024,
+      "region": "Southwest",
+      "storeCount": 10,
+      "top10Wins": 67,
+      "pressStatedTotal": null,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12177"
+    },
+    {
+      "year": 2024,
+      "region": "Tri-Cities",
+      "storeCount": 10,
+      "top10Wins": 40,
+      "pressStatedTotal": null,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12178"
+    },
+    {
+      "year": 2025,
+      "region": "Central",
+      "storeCount": 10,
+      "top10Wins": 52,
+      "pressStatedTotal": null,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12210"
+    },
+    {
+      "year": 2025,
+      "region": "Eastern",
+      "storeCount": 10,
+      "top10Wins": 58,
+      "pressStatedTotal": null,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12211"
+    },
+    {
+      "year": 2025,
+      "region": "North Puget Sound",
+      "storeCount": 10,
+      "top10Wins": 96,
+      "pressStatedTotal": 96,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12213"
+    },
+    {
+      "year": 2025,
+      "region": "Olympic Peninsula",
+      "storeCount": 10,
+      "top10Wins": 81,
+      "pressStatedTotal": null,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12212"
+    },
+    {
+      "year": 2025,
+      "region": "South Puget Sound",
+      "storeCount": 10,
+      "top10Wins": 170,
+      "pressStatedTotal": 170,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12213"
+    },
+    {
+      "year": 2025,
+      "region": "Southwest",
+      "storeCount": 10,
+      "top10Wins": 83,
+      "pressStatedTotal": null,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12214"
+    },
+    {
+      "year": 2025,
+      "region": "Tri-Cities",
+      "storeCount": 10,
+      "top10Wins": 53,
+      "pressStatedTotal": null,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12215"
+    }
+  ],
+  "stores": [
+    {
+      "year": 2025,
+      "region": "South Puget Sound",
+      "name": "Hilltop Red Apple Market",
+      "address": "2701 Beacon Avenue S",
+      "city": "Seattle",
+      "wins": 20,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12213"
+    },
+    {
+      "year": 2025,
+      "region": "South Puget Sound",
+      "name": "All Star Grocery",
+      "address": "2825 S 200th Street",
+      "city": "SeaTac",
+      "wins": 20,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12213"
+    },
+    {
+      "year": 2025,
+      "region": "South Puget Sound",
+      "name": "Fred Meyer",
+      "address": "365 Renton Center Way SW",
+      "city": "Renton",
+      "wins": 18,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12213"
+    },
+    {
+      "year": 2025,
+      "region": "South Puget Sound",
+      "name": "Safeway",
+      "address": "13308 Meridian E",
+      "city": "Puyallup",
+      "wins": 18,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12213"
+    },
+    {
+      "year": 2025,
+      "region": "South Puget Sound",
+      "name": "Fred Meyer",
+      "address": "14300 1st Avenue S",
+      "city": "Burien",
+      "wins": 17,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12213"
+    },
+    {
+      "year": 2025,
+      "region": "South Puget Sound",
+      "name": "Fred Meyer",
+      "address": "801 Auburn Way N",
+      "city": "Auburn",
+      "wins": 17,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12213"
+    },
+    {
+      "year": 2025,
+      "region": "South Puget Sound",
+      "name": "Fred Meyer",
+      "address": "17404 Meridian E",
+      "city": "Puyallup",
+      "wins": 16,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12213"
+    },
+    {
+      "year": 2025,
+      "region": "South Puget Sound",
+      "name": "Safeway",
+      "address": "17230 140th Avenue SE",
+      "city": "Renton",
+      "wins": 15,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12213"
+    },
+    {
+      "year": 2025,
+      "region": "South Puget Sound",
+      "name": "Safeway",
+      "address": "1207 S 320th Street",
+      "city": "Federal Way",
+      "wins": 15,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12213"
+    },
+    {
+      "year": 2025,
+      "region": "South Puget Sound",
+      "name": "Fred Meyer",
+      "address": "16735 SE 272nd Street",
+      "city": "Covington",
+      "wins": 14,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12213"
+    },
+    {
+      "year": 2025,
+      "region": "North Puget Sound",
+      "name": "Fred Meyer",
+      "address": "2902 164th Street SW",
+      "city": "Lynnwood",
+      "wins": 15,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12213"
+    },
+    {
+      "year": 2025,
+      "region": "North Puget Sound",
+      "name": "Fred Meyer",
+      "address": "9925 State Avenue",
+      "city": "Marysville",
+      "wins": 12,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12213"
+    },
+    {
+      "year": 2025,
+      "region": "North Puget Sound",
+      "name": "Fred Meyer",
+      "address": "21045 Bothell Everett Highway",
+      "city": "Bothell",
+      "wins": 10,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12213"
+    },
+    {
+      "year": 2025,
+      "region": "North Puget Sound",
+      "name": "Evergreen Food Store",
+      "address": "7306 Evergreen Way",
+      "city": "Everett",
+      "wins": 9,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12213"
+    },
+    {
+      "year": 2025,
+      "region": "North Puget Sound",
+      "name": "Fred Meyer",
+      "address": "800 Lakeway Drive",
+      "city": "Bellingham",
+      "wins": 9,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12213"
+    },
+    {
+      "year": 2025,
+      "region": "North Puget Sound",
+      "name": "Haggen",
+      "address": "1815 Main Street",
+      "city": "Ferndale",
+      "wins": 9,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12213"
+    },
+    {
+      "year": 2025,
+      "region": "North Puget Sound",
+      "name": "Safeway",
+      "address": "4128 Rucker Avenue",
+      "city": "Everett",
+      "wins": 8,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12213"
+    },
+    {
+      "year": 2025,
+      "region": "North Puget Sound",
+      "name": "Fred Meyer",
+      "address": "4615 196th Street SW",
+      "city": "Lynnwood",
+      "wins": 8,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12213"
+    },
+    {
+      "year": 2025,
+      "region": "North Puget Sound",
+      "name": "Safeway",
+      "address": "11031 19th Avenue SE",
+      "city": "Everett",
+      "wins": 8,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12213"
+    },
+    {
+      "year": 2025,
+      "region": "North Puget Sound",
+      "name": "WinCo Foods",
+      "address": "21900 Highway 99",
+      "city": "Edmonds",
+      "wins": 8,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12213"
+    },
+    {
+      "year": 2025,
+      "region": "Olympic Peninsula",
+      "name": "Safeway",
+      "address": "2890 NW Bucklin Hill Road",
+      "city": "Silverdale",
+      "wins": 13,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12212"
+    },
+    {
+      "year": 2025,
+      "region": "Olympic Peninsula",
+      "name": "Fred Meyer",
+      "address": "1900 SE Sedgwick Road",
+      "city": "Port Orchard",
+      "wins": 11,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12212"
+    },
+    {
+      "year": 2025,
+      "region": "Olympic Peninsula",
+      "name": "Safeway",
+      "address": "23961 NE State Route 3",
+      "city": "Belfair",
+      "wins": 10,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12212"
+    },
+    {
+      "year": 2025,
+      "region": "Olympic Peninsula",
+      "name": "Safeway",
+      "address": "221 W Heron Street",
+      "city": "Aberdeen",
+      "wins": 8,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12212"
+    },
+    {
+      "year": 2025,
+      "region": "Olympic Peninsula",
+      "name": "Safeway",
+      "address": "3355 Bethel Road SE",
+      "city": "Port Orchard",
+      "wins": 8,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12212"
+    },
+    {
+      "year": 2025,
+      "region": "Olympic Peninsula",
+      "name": "Safeway",
+      "address": "680 W Washington Street",
+      "city": "Sequim",
+      "wins": 7,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12212"
+    },
+    {
+      "year": 2025,
+      "region": "Olympic Peninsula",
+      "name": "Fred Meyer",
+      "address": "5050 State Highway 303 NE",
+      "city": "Bremerton",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12212"
+    },
+    {
+      "year": 2025,
+      "region": "Olympic Peninsula",
+      "name": "Fred Meyer",
+      "address": "301 E Wallace Kneeland Boulevard",
+      "city": "Shelton",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12212"
+    },
+    {
+      "year": 2025,
+      "region": "Olympic Peninsula",
+      "name": "Mt. Pleasant Village",
+      "address": "3010 E Highway 101",
+      "city": "Port Angeles",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12212"
+    },
+    {
+      "year": 2025,
+      "region": "Olympic Peninsula",
+      "name": "Albertsons",
+      "address": "1434 Olney Street SE",
+      "city": "Port Orchard",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12212"
+    },
+    {
+      "year": 2025,
+      "region": "Eastern",
+      "name": "Rosauers Supermarket",
+      "address": "10618 E Sprague Avenue",
+      "city": "Spokane Valley",
+      "wins": 7,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12211"
+    },
+    {
+      "year": 2025,
+      "region": "Eastern",
+      "name": "Yoke's Fresh Market",
+      "address": "210 E North Foothills Drive",
+      "city": "Spokane",
+      "wins": 7,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12211"
+    },
+    {
+      "year": 2025,
+      "region": "Eastern",
+      "name": "Yoke's Fresh Market",
+      "address": "1233 N Liberty Lake Road",
+      "city": "Liberty Lake",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12211"
+    },
+    {
+      "year": 2025,
+      "region": "Eastern",
+      "name": "Fred Meyer",
+      "address": "12120 N Division Street",
+      "city": "Spokane",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12211"
+    },
+    {
+      "year": 2025,
+      "region": "Eastern",
+      "name": "Yoke's Fresh Market",
+      "address": "4235 S Cheney Spokane Road",
+      "city": "Spokane",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12211"
+    },
+    {
+      "year": 2025,
+      "region": "Eastern",
+      "name": "Rosauers Supermarket",
+      "address": "1724 W Francis Avenue",
+      "city": "Spokane",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12211"
+    },
+    {
+      "year": 2025,
+      "region": "Eastern",
+      "name": "Bob Mart",
+      "address": "1501 E Crawford Avenue",
+      "city": "Deer Park",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12211"
+    },
+    {
+      "year": 2025,
+      "region": "Eastern",
+      "name": "Walmart",
+      "address": "9212 N Colton Street",
+      "city": "Spokane",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12211"
+    },
+    {
+      "year": 2025,
+      "region": "Eastern",
+      "name": "Rosauers Supermarket",
+      "address": "5912 Highway 291",
+      "city": "Nine Mile Falls",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12211"
+    },
+    {
+      "year": 2025,
+      "region": "Eastern",
+      "name": "Safeway",
+      "address": "1304 N Liberty Lake Road",
+      "city": "Liberty Lake",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12211"
+    },
+    {
+      "year": 2025,
+      "region": "Southwest",
+      "name": "Fred Meyer",
+      "address": "7411 NE 117th Avenue",
+      "city": "Vancouver",
+      "wins": 13,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12214"
+    },
+    {
+      "year": 2025,
+      "region": "Southwest",
+      "name": "WinCo Foods",
+      "address": "2101 NE Andresen Road",
+      "city": "Vancouver",
+      "wins": 11,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12214"
+    },
+    {
+      "year": 2025,
+      "region": "Southwest",
+      "name": "Fred Meyer",
+      "address": "16600 SE McGillivray Boulevard",
+      "city": "Vancouver",
+      "wins": 10,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12214"
+    },
+    {
+      "year": 2025,
+      "region": "Southwest",
+      "name": "Safeway",
+      "address": "6711 NE 63rd Street",
+      "city": "Vancouver",
+      "wins": 9,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12214"
+    },
+    {
+      "year": 2025,
+      "region": "Southwest",
+      "name": "WinCo Foods",
+      "address": "9700 NE Highway 99",
+      "city": "Vancouver",
+      "wins": 8,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12214"
+    },
+    {
+      "year": 2025,
+      "region": "Southwest",
+      "name": "Safeway",
+      "address": "6700 NE 162nd Avenue",
+      "city": "Vancouver",
+      "wins": 7,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12214"
+    },
+    {
+      "year": 2025,
+      "region": "Southwest",
+      "name": "WinCo Foods",
+      "address": "11310 NE 119th Street",
+      "city": "Vancouver",
+      "wins": 7,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12214"
+    },
+    {
+      "year": 2025,
+      "region": "Southwest",
+      "name": "Fred Meyer",
+      "address": "7700 NE Highway 99",
+      "city": "Vancouver",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12214"
+    },
+    {
+      "year": 2025,
+      "region": "Southwest",
+      "name": "Fred Meyer",
+      "address": "11325 SE Mill Plain Boulevard",
+      "city": "Vancouver",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12214"
+    },
+    {
+      "year": 2025,
+      "region": "Southwest",
+      "name": "WinCo Foods",
+      "address": "905 NE 136th Avenue",
+      "city": "Vancouver",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12214"
+    },
+    {
+      "year": 2025,
+      "region": "Tri-Cities",
+      "name": "Yoke's Fresh Market",
+      "address": "1401 Bombing Range Road",
+      "city": "West Richland",
+      "wins": 10,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12215"
+    },
+    {
+      "year": 2025,
+      "region": "Tri-Cities",
+      "name": "Fred Meyer",
+      "address": "2811 W 10th Avenue",
+      "city": "Kennewick",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12215"
+    },
+    {
+      "year": 2025,
+      "region": "Tri-Cities",
+      "name": "Maverik",
+      "address": "3520 Keene Road",
+      "city": "Richland",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12215"
+    },
+    {
+      "year": 2025,
+      "region": "Tri-Cities",
+      "name": "WinCo Foods",
+      "address": "4602 W Clearwater Avenue",
+      "city": "Kennewick",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12215"
+    },
+    {
+      "year": 2025,
+      "region": "Tri-Cities",
+      "name": "Fred Meyer",
+      "address": "101 Wellsian Way",
+      "city": "Richland",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12215"
+    },
+    {
+      "year": 2025,
+      "region": "Tri-Cities",
+      "name": "Yoke's Fresh Market",
+      "address": "4905 N Road 68",
+      "city": "Pasco",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12215"
+    },
+    {
+      "year": 2025,
+      "region": "Tri-Cities",
+      "name": "Rocket Mart",
+      "address": "5304 W Canal Drive",
+      "city": "Kennewick",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12215"
+    },
+    {
+      "year": 2025,
+      "region": "Tri-Cities",
+      "name": "Albertsons",
+      "address": "5204 W Clearwater Avenue",
+      "city": "Kennewick",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12215"
+    },
+    {
+      "year": 2025,
+      "region": "Tri-Cities",
+      "name": "Sunrise Food Mart",
+      "address": "620 N 28th Avenue",
+      "city": "Pasco",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12215"
+    },
+    {
+      "year": 2025,
+      "region": "Tri-Cities",
+      "name": "Yoke's Fresh Market",
+      "address": "1410 W 27th Avenue",
+      "city": "Kennewick",
+      "wins": 3,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12215"
+    },
+    {
+      "year": 2025,
+      "region": "Central",
+      "name": "Plaza Super Jet",
+      "address": "106 Okanogan Avenue",
+      "city": "Wenatchee",
+      "wins": 7,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12210"
+    },
+    {
+      "year": 2025,
+      "region": "Central",
+      "name": "Safeway",
+      "address": "601 Pioneer Way",
+      "city": "Moses Lake",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12210"
+    },
+    {
+      "year": 2025,
+      "region": "Central",
+      "name": "Selah Express",
+      "address": "777 N Park Center",
+      "city": "Selah",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12210"
+    },
+    {
+      "year": 2025,
+      "region": "Central",
+      "name": "Safeway",
+      "address": "711 W 1st Avenue",
+      "city": "Toppenish",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12210"
+    },
+    {
+      "year": 2025,
+      "region": "Central",
+      "name": "WinCo Foods",
+      "address": "960 N Stratford Road",
+      "city": "Moses Lake",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12210"
+    },
+    {
+      "year": 2025,
+      "region": "Central",
+      "name": "Albertsons",
+      "address": "1128 N Miller Street",
+      "city": "Wenatchee",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12210"
+    },
+    {
+      "year": 2025,
+      "region": "Central",
+      "name": "Walmart",
+      "address": "1005 N Stratford Road",
+      "city": "Moses Lake",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12210"
+    },
+    {
+      "year": 2025,
+      "region": "Central",
+      "name": "Safeway",
+      "address": "510 Grant Road",
+      "city": "East Wenatchee",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12210"
+    },
+    {
+      "year": 2025,
+      "region": "Central",
+      "name": "WinCo Foods",
+      "address": "2425 Longfibre Road",
+      "city": "Union Gap",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12210"
+    },
+    {
+      "year": 2025,
+      "region": "Central",
+      "name": "Safeway",
+      "address": "5702 Summitview Avenue",
+      "city": "Yakima",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12210"
+    },
+    {
+      "year": 2024,
+      "region": "South Puget Sound",
+      "name": "Fred Meyer",
+      "address": "801 Auburn Way N",
+      "city": "Auburn",
+      "wins": 20,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12176"
+    },
+    {
+      "year": 2024,
+      "region": "South Puget Sound",
+      "name": "Fred Meyer",
+      "address": "365 Renton Center Way SW",
+      "city": "Renton",
+      "wins": 19,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12176"
+    },
+    {
+      "year": 2024,
+      "region": "South Puget Sound",
+      "name": "Muckleshoot Casino Resort",
+      "address": "2402 Auburn Way S",
+      "city": "Auburn",
+      "wins": 16,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12176"
+    },
+    {
+      "year": 2024,
+      "region": "South Puget Sound",
+      "name": "Fred Meyer",
+      "address": "14300 1st Avenue S",
+      "city": "Burien",
+      "wins": 16,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12176"
+    },
+    {
+      "year": 2024,
+      "region": "South Puget Sound",
+      "name": "Safeway",
+      "address": "708 Shaw Road",
+      "city": "Puyallup",
+      "wins": 15,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12176"
+    },
+    {
+      "year": 2024,
+      "region": "South Puget Sound",
+      "name": "Fred Meyer",
+      "address": "1100 N Meridian Avenue",
+      "city": "Puyallup",
+      "wins": 14,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12176"
+    },
+    {
+      "year": 2024,
+      "region": "South Puget Sound",
+      "name": "Fred Meyer",
+      "address": "33702 21st Avenue SW",
+      "city": "Federal Way",
+      "wins": 13,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12176"
+    },
+    {
+      "year": 2024,
+      "region": "South Puget Sound",
+      "name": "Fred Meyer",
+      "address": "555 Trosper Road SW",
+      "city": "Tumwater",
+      "wins": 13,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12176"
+    },
+    {
+      "year": 2024,
+      "region": "South Puget Sound",
+      "name": "Safeway",
+      "address": "1207 S 320th Street",
+      "city": "Federal Way",
+      "wins": 13,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12176"
+    },
+    {
+      "year": 2024,
+      "region": "South Puget Sound",
+      "name": "Safeway",
+      "address": "900 Meridian Avenue E",
+      "city": "Milton",
+      "wins": 12,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12176"
+    },
+    {
+      "year": 2024,
+      "region": "North Puget Sound",
+      "name": "Safeway",
+      "address": "7601 Evergreen Way",
+      "city": "Everett",
+      "wins": 13,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12176"
+    },
+    {
+      "year": 2024,
+      "region": "North Puget Sound",
+      "name": "Fred Meyer",
+      "address": "12906 Bothell Everett Highway",
+      "city": "Everett",
+      "wins": 10,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12176"
+    },
+    {
+      "year": 2024,
+      "region": "North Puget Sound",
+      "name": "Fred Meyer",
+      "address": "4615 196th Street SW",
+      "city": "Lynnwood",
+      "wins": 10,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12176"
+    },
+    {
+      "year": 2024,
+      "region": "North Puget Sound",
+      "name": "WinCo Foods",
+      "address": "21900 Highway 99",
+      "city": "Edmonds",
+      "wins": 10,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12176"
+    },
+    {
+      "year": 2024,
+      "region": "North Puget Sound",
+      "name": "Safeway",
+      "address": "5802 134th Place SE",
+      "city": "Everett",
+      "wins": 10,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12176"
+    },
+    {
+      "year": 2024,
+      "region": "North Puget Sound",
+      "name": "QFC",
+      "address": "4919 Evergreen Way",
+      "city": "Everett",
+      "wins": 9,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12176"
+    },
+    {
+      "year": 2024,
+      "region": "North Puget Sound",
+      "name": "Safeway",
+      "address": "20500 Olympic Place NE",
+      "city": "Arlington",
+      "wins": 8,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12176"
+    },
+    {
+      "year": 2024,
+      "region": "North Puget Sound",
+      "name": "Haggen",
+      "address": "8915 Market Place",
+      "city": "Lake Stevens",
+      "wins": 8,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12176"
+    },
+    {
+      "year": 2024,
+      "region": "North Puget Sound",
+      "name": "Fred Meyer",
+      "address": "2902 164th Street SW",
+      "city": "Lynnwood",
+      "wins": 7,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12176"
+    },
+    {
+      "year": 2024,
+      "region": "North Puget Sound",
+      "name": "Fred Meyer",
+      "address": "2801 Bickford Avenue",
+      "city": "Snohomish",
+      "wins": 7,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12176"
+    },
+    {
+      "year": 2024,
+      "region": "Olympic Peninsula",
+      "name": "Safeway",
+      "address": "2890 NW Bucklin Hill Road",
+      "city": "Silverdale",
+      "wins": 9,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12175"
+    },
+    {
+      "year": 2024,
+      "region": "Olympic Peninsula",
+      "name": "Fred Meyer",
+      "address": "301 E Wallace Kneeland Boulevard",
+      "city": "Shelton",
+      "wins": 8,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12175"
+    },
+    {
+      "year": 2024,
+      "region": "Olympic Peninsula",
+      "name": "Safeway",
+      "address": "3215 Harrison Avenue NW",
+      "city": "Olympia",
+      "wins": 7,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12175"
+    },
+    {
+      "year": 2024,
+      "region": "Olympic Peninsula",
+      "name": "Fred Meyer",
+      "address": "5050 State Highway 303 NE",
+      "city": "Bremerton",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12175"
+    },
+    {
+      "year": 2024,
+      "region": "Olympic Peninsula",
+      "name": "Safeway",
+      "address": "3355 Bethel Road SE",
+      "city": "Port Orchard",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12175"
+    },
+    {
+      "year": 2024,
+      "region": "Olympic Peninsula",
+      "name": "Ocean Shores IGA",
+      "address": "101 E Chance A La Mer NE",
+      "city": "Ocean Shores",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12175"
+    },
+    {
+      "year": 2024,
+      "region": "Olympic Peninsula",
+      "name": "Safeway",
+      "address": "680 W Washington Street",
+      "city": "Sequim",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12175"
+    },
+    {
+      "year": 2024,
+      "region": "Olympic Peninsula",
+      "name": "Safeway",
+      "address": "4280 Martin Way E",
+      "city": "Olympia",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12175"
+    },
+    {
+      "year": 2024,
+      "region": "Olympic Peninsula",
+      "name": "Albertsons",
+      "address": "1434 Olney Street SE",
+      "city": "Port Orchard",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12175"
+    },
+    {
+      "year": 2024,
+      "region": "Olympic Peninsula",
+      "name": "WinCo Foods",
+      "address": "4969 Kitsap Way",
+      "city": "Bremerton",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12175"
+    },
+    {
+      "year": 2024,
+      "region": "Eastern",
+      "name": "Super Store",
+      "address": "13415 E 32nd Avenue",
+      "city": "Spokane Valley",
+      "wins": 14,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12174"
+    },
+    {
+      "year": 2024,
+      "region": "Eastern",
+      "name": "Yoke's Fresh Market",
+      "address": "14202 N Market Street",
+      "city": "Mead",
+      "wins": 12,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12174"
+    },
+    {
+      "year": 2024,
+      "region": "Eastern",
+      "name": "Rosauers Supermarket",
+      "address": "9414 N Division Street",
+      "city": "Spokane",
+      "wins": 12,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12174"
+    },
+    {
+      "year": 2024,
+      "region": "Eastern",
+      "name": "Yoke's Fresh Market",
+      "address": "4235 S Cheney Spokane Road",
+      "city": "Spokane",
+      "wins": 10,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12174"
+    },
+    {
+      "year": 2024,
+      "region": "Eastern",
+      "name": "Divine's Fasmart",
+      "address": "21804 E Mission Avenue",
+      "city": "Liberty Lake",
+      "wins": 10,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12174"
+    },
+    {
+      "year": 2024,
+      "region": "Eastern",
+      "name": "WinCo Foods",
+      "address": "9718 E Sprague Avenue",
+      "city": "Spokane Valley",
+      "wins": 8,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12174"
+    },
+    {
+      "year": 2024,
+      "region": "Eastern",
+      "name": "Yoke's Fresh Market",
+      "address": "210 E North Foothills Drive",
+      "city": "Spokane",
+      "wins": 7,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12174"
+    },
+    {
+      "year": 2024,
+      "region": "Eastern",
+      "name": "Rosauers Supermarket",
+      "address": "1724 W Francis Avenue",
+      "city": "Spokane",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12174"
+    },
+    {
+      "year": 2024,
+      "region": "Eastern",
+      "name": "Yoke's Fresh Market",
+      "address": "810 S Main Street",
+      "city": "Deer Park",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12174"
+    },
+    {
+      "year": 2024,
+      "region": "Eastern",
+      "name": "Safeway",
+      "address": "13606 E 32nd Avenue",
+      "city": "Spokane Valley",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12174"
+    },
+    {
+      "year": 2024,
+      "region": "Southwest",
+      "name": "Fred Meyer",
+      "address": "11325 SE Mill Plain Boulevard",
+      "city": "Vancouver",
+      "wins": 9,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12177"
+    },
+    {
+      "year": 2024,
+      "region": "Southwest",
+      "name": "Wind River Market & Gas",
+      "address": "11 Carson Frontage Road",
+      "city": "Carson",
+      "wins": 8,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12177"
+    },
+    {
+      "year": 2024,
+      "region": "Southwest",
+      "name": "WinCo Foods",
+      "address": "2101 NE Andresen Road",
+      "city": "Vancouver",
+      "wins": 7,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12177"
+    },
+    {
+      "year": 2024,
+      "region": "Southwest",
+      "name": "Safeway",
+      "address": "6711 NE 63rd Street",
+      "city": "Vancouver",
+      "wins": 7,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12177"
+    },
+    {
+      "year": 2024,
+      "region": "Southwest",
+      "name": "WinCo Foods",
+      "address": "11310 NE 119th Street",
+      "city": "Vancouver",
+      "wins": 7,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12177"
+    },
+    {
+      "year": 2024,
+      "region": "Southwest",
+      "name": "QFC",
+      "address": "3505 SE 192nd Avenue",
+      "city": "Vancouver",
+      "wins": 7,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12177"
+    },
+    {
+      "year": 2024,
+      "region": "Southwest",
+      "name": "Fred Meyer",
+      "address": "16600 SE McGillivray Boulevard",
+      "city": "Vancouver",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12177"
+    },
+    {
+      "year": 2024,
+      "region": "Southwest",
+      "name": "Safeway",
+      "address": "411 Three Rivers Drive",
+      "city": "Kelso",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12177"
+    },
+    {
+      "year": 2024,
+      "region": "Southwest",
+      "name": "Village Vendor",
+      "address": "16313 SE 1st Street",
+      "city": "Vancouver",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12177"
+    },
+    {
+      "year": 2024,
+      "region": "Southwest",
+      "name": "Fred Meyer",
+      "address": "7411 NE 117th Avenue",
+      "city": "Vancouver",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12177"
+    },
+    {
+      "year": 2024,
+      "region": "Tri-Cities",
+      "name": "Albertsons",
+      "address": "5204 W Clearwater Avenue",
+      "city": "Kennewick",
+      "wins": 7,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12178"
+    },
+    {
+      "year": 2024,
+      "region": "Tri-Cities",
+      "name": "Yoke's Fresh Market",
+      "address": "1410 W 27th Avenue",
+      "city": "Kennewick",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12178"
+    },
+    {
+      "year": 2024,
+      "region": "Tri-Cities",
+      "name": "Albertsons",
+      "address": "1330 N 20th Avenue",
+      "city": "Pasco",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12178"
+    },
+    {
+      "year": 2024,
+      "region": "Tri-Cities",
+      "name": "Yoke's Fresh Market",
+      "address": "1401 Bombing Range Road",
+      "city": "West Richland",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12178"
+    },
+    {
+      "year": 2024,
+      "region": "Tri-Cities",
+      "name": "Safeway",
+      "address": "1803 George Washington Way",
+      "city": "Richland",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12178"
+    },
+    {
+      "year": 2024,
+      "region": "Tri-Cities",
+      "name": "Shopping Spot",
+      "address": "148 S 28th Avenue",
+      "city": "Pasco",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12178"
+    },
+    {
+      "year": 2024,
+      "region": "Tri-Cities",
+      "name": "Fred Meyer",
+      "address": "2811 W 10th Avenue",
+      "city": "Kennewick",
+      "wins": 3,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12178"
+    },
+    {
+      "year": 2024,
+      "region": "Tri-Cities",
+      "name": "Fred Meyer",
+      "address": "101 Wellsian Way",
+      "city": "Richland",
+      "wins": 3,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12178"
+    },
+    {
+      "year": 2024,
+      "region": "Tri-Cities",
+      "name": "Lucky Food Mart",
+      "address": "22 Goethals Drive",
+      "city": "Richland",
+      "wins": 3,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12178"
+    },
+    {
+      "year": 2024,
+      "region": "Tri-Cities",
+      "name": "Ron's Food Mart",
+      "address": "1821 S Washington Street",
+      "city": "Kennewick",
+      "wins": 3,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12178"
+    },
+    {
+      "year": 2024,
+      "region": "Central",
+      "name": "Wray's Meadowbrook",
+      "address": "7200 W Nob Hill Boulevard",
+      "city": "Yakima",
+      "wins": 10,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12173"
+    },
+    {
+      "year": 2024,
+      "region": "Central",
+      "name": "Valley View Market",
+      "address": "618 E Toppenish Avenue",
+      "city": "Toppenish",
+      "wins": 9,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12173"
+    },
+    {
+      "year": 2024,
+      "region": "Central",
+      "name": "Fred Meyer",
+      "address": "1206 N 40th Avenue",
+      "city": "Yakima",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12173"
+    },
+    {
+      "year": 2024,
+      "region": "Central",
+      "name": "Safeway",
+      "address": "501 N Miller Street",
+      "city": "Wenatchee",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12173"
+    },
+    {
+      "year": 2024,
+      "region": "Central",
+      "name": "WinCo Foods",
+      "address": "2425 Longfibre Road",
+      "city": "Union Gap",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12173"
+    },
+    {
+      "year": 2024,
+      "region": "Central",
+      "name": "Safeway",
+      "address": "905 E Mead Avenue",
+      "city": "Yakima",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12173"
+    },
+    {
+      "year": 2024,
+      "region": "Central",
+      "name": "Safeway",
+      "address": "510 Grant Road",
+      "city": "East Wenatchee",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12173"
+    },
+    {
+      "year": 2024,
+      "region": "Central",
+      "name": "Wenatchee Valley Truck Stop",
+      "address": "3607 State Highway 97A",
+      "city": "Wenatchee",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12173"
+    },
+    {
+      "year": 2024,
+      "region": "Central",
+      "name": "Pik-A-Pop",
+      "address": "505 9th Street",
+      "city": "Benton City",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12173"
+    },
+    {
+      "year": 2024,
+      "region": "Central",
+      "name": "Conoco",
+      "address": "301 S 1st Street",
+      "city": "Selah",
+      "wins": 3,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12173"
+    },
+    {
+      "year": 2023,
+      "region": "South Puget Sound",
+      "name": "Safeway",
+      "address": "26916 Maple Valley Black Diamond Road SE",
+      "city": "Maple Valley",
+      "wins": 16,
+      "sourceUrl": "https://www.walottery.com/PressRoom/Details.aspx?id=12135"
+    },
+    {
+      "year": 2023,
+      "region": "South Puget Sound",
+      "name": "Fred Meyer",
+      "address": "33702 21st Avenue SW",
+      "city": "Federal Way",
+      "wins": 15,
+      "sourceUrl": "https://www.walottery.com/PressRoom/Details.aspx?id=12135"
+    },
+    {
+      "year": 2023,
+      "region": "South Puget Sound",
+      "name": "Safeway",
+      "address": "10223 Gravelly Lake Drive SW",
+      "city": "Lakewood",
+      "wins": 15,
+      "sourceUrl": "https://www.walottery.com/PressRoom/Details.aspx?id=12135"
+    },
+    {
+      "year": 2023,
+      "region": "South Puget Sound",
+      "name": "Fred Meyer",
+      "address": "801 Auburn Way N",
+      "city": "Auburn",
+      "wins": 14,
+      "sourceUrl": "https://www.walottery.com/PressRoom/Details.aspx?id=12135"
+    },
+    {
+      "year": 2023,
+      "region": "South Puget Sound",
+      "name": "Fred Meyer",
+      "address": "26520 Maple Valley Black Diamond Road SE",
+      "city": "Maple Valley",
+      "wins": 14,
+      "sourceUrl": "https://www.walottery.com/PressRoom/Details.aspx?id=12135"
+    },
+    {
+      "year": 2023,
+      "region": "South Puget Sound",
+      "name": "Muckleshoot Indian Casino",
+      "address": "2402 Auburn Way S",
+      "city": "Auburn",
+      "wins": 14,
+      "sourceUrl": "https://www.walottery.com/PressRoom/Details.aspx?id=12135"
+    },
+    {
+      "year": 2023,
+      "region": "South Puget Sound",
+      "name": "Safeway",
+      "address": "17230 140th Avenue SE",
+      "city": "Renton",
+      "wins": 13,
+      "sourceUrl": "https://www.walottery.com/PressRoom/Details.aspx?id=12135"
+    },
+    {
+      "year": 2023,
+      "region": "South Puget Sound",
+      "name": "Safeway",
+      "address": "200 S 3rd Street",
+      "city": "Renton",
+      "wins": 13,
+      "sourceUrl": "https://www.walottery.com/PressRoom/Details.aspx?id=12135"
+    },
+    {
+      "year": 2023,
+      "region": "South Puget Sound",
+      "name": "Fred Meyer",
+      "address": "365 Renton Center Way SW",
+      "city": "Renton",
+      "wins": 13,
+      "sourceUrl": "https://www.walottery.com/PressRoom/Details.aspx?id=12135"
+    },
+    {
+      "year": 2023,
+      "region": "South Puget Sound",
+      "name": "Fred Meyer",
+      "address": "1100 N Meridian Avenue",
+      "city": "Puyallup",
+      "wins": 12,
+      "sourceUrl": "https://www.walottery.com/PressRoom/Details.aspx?id=12135"
+    },
+    {
+      "year": 2023,
+      "region": "North Puget Sound",
+      "name": "WinCo Foods",
+      "address": "21900 Highway 99",
+      "city": "Edmonds",
+      "wins": 9,
+      "sourceUrl": "https://www.walottery.com/PressRoom/Details.aspx?id=12135"
+    },
+    {
+      "year": 2023,
+      "region": "North Puget Sound",
+      "name": "Safeway",
+      "address": "16304 Bothell-Everett Highway",
+      "city": "Mill Creek",
+      "wins": 9,
+      "sourceUrl": "https://www.walottery.com/PressRoom/Details.aspx?id=12135"
+    },
+    {
+      "year": 2023,
+      "region": "North Puget Sound",
+      "name": "Evergreen Food Store",
+      "address": "7306 Evergreen Way",
+      "city": "Everett",
+      "wins": 8,
+      "sourceUrl": "https://www.walottery.com/PressRoom/Details.aspx?id=12135"
+    },
+    {
+      "year": 2023,
+      "region": "North Puget Sound",
+      "name": "Safeway",
+      "address": "7601 Evergreen Way",
+      "city": "Everett",
+      "wins": 8,
+      "sourceUrl": "https://www.walottery.com/PressRoom/Details.aspx?id=12135"
+    },
+    {
+      "year": 2023,
+      "region": "North Puget Sound",
+      "name": "Fred Meyer",
+      "address": "2902 164th Street SW",
+      "city": "Lynnwood",
+      "wins": 8,
+      "sourceUrl": "https://www.walottery.com/PressRoom/Details.aspx?id=12135"
+    },
+    {
+      "year": 2023,
+      "region": "North Puget Sound",
+      "name": "Fred Meyer",
+      "address": "2801 Bickford Avenue",
+      "city": "Snohomish",
+      "wins": 8,
+      "sourceUrl": "https://www.walottery.com/PressRoom/Details.aspx?id=12135"
+    },
+    {
+      "year": 2023,
+      "region": "North Puget Sound",
+      "name": "Safeway",
+      "address": "11031 19th Avenue SE",
+      "city": "Everett",
+      "wins": 8,
+      "sourceUrl": "https://www.walottery.com/PressRoom/Details.aspx?id=12135"
+    },
+    {
+      "year": 2023,
+      "region": "North Puget Sound",
+      "name": "Safeway",
+      "address": "20500 Olympic Place NE",
+      "city": "Arlington",
+      "wins": 8,
+      "sourceUrl": "https://www.walottery.com/PressRoom/Details.aspx?id=12135"
+    },
+    {
+      "year": 2023,
+      "region": "North Puget Sound",
+      "name": "QFC",
+      "address": "4919 Evergreen Way",
+      "city": "Everett",
+      "wins": 8,
+      "sourceUrl": "https://www.walottery.com/PressRoom/Details.aspx?id=12135"
+    },
+    {
+      "year": 2023,
+      "region": "North Puget Sound",
+      "name": "Safeway",
+      "address": "19651 State Route 2",
+      "city": "Monroe",
+      "wins": 7,
+      "sourceUrl": "https://www.walottery.com/PressRoom/Details.aspx?id=12135"
+    },
+    {
+      "year": 2023,
+      "region": "Olympic Peninsula",
+      "name": "Fred Meyer",
+      "address": "1900 SE Sedgwick Road",
+      "city": "Port Orchard",
+      "wins": 12,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12134"
+    },
+    {
+      "year": 2023,
+      "region": "Olympic Peninsula",
+      "name": "Safeway",
+      "address": "680 W Washington Street",
+      "city": "Sequim",
+      "wins": 9,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12134"
+    },
+    {
+      "year": 2023,
+      "region": "Olympic Peninsula",
+      "name": "Safeway",
+      "address": "2890 NW Bucklin Hill Road",
+      "city": "Silverdale",
+      "wins": 8,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12134"
+    },
+    {
+      "year": 2023,
+      "region": "Olympic Peninsula",
+      "name": "Albertsons",
+      "address": "370 SW Sedgwick Road",
+      "city": "Port Orchard",
+      "wins": 7,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12134"
+    },
+    {
+      "year": 2023,
+      "region": "Olympic Peninsula",
+      "name": "Haggen",
+      "address": "1313 Cooper Point Road SW",
+      "city": "Olympia",
+      "wins": 7,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12134"
+    },
+    {
+      "year": 2023,
+      "region": "Olympic Peninsula",
+      "name": "Fred Meyer",
+      "address": "301 E Wallace Kneeland Boulevard",
+      "city": "Shelton",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12134"
+    },
+    {
+      "year": 2023,
+      "region": "Olympic Peninsula",
+      "name": "Longhouse Market and Deli",
+      "address": "271020 Highway 101",
+      "city": "Sequim",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12134"
+    },
+    {
+      "year": 2023,
+      "region": "Olympic Peninsula",
+      "name": "Safeway",
+      "address": "2709 E Highway 101",
+      "city": "Port Angeles",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12134"
+    },
+    {
+      "year": 2023,
+      "region": "Olympic Peninsula",
+      "name": "Safeway",
+      "address": "221 W Heron Street",
+      "city": "Aberdeen",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12134"
+    },
+    {
+      "year": 2023,
+      "region": "Olympic Peninsula",
+      "name": "Fred Meyer",
+      "address": "5050 State Highway 303 NE",
+      "city": "Bremerton",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/pressroom/Details.aspx?id=12134"
+    },
+    {
+      "year": 2023,
+      "region": "Eastern",
+      "name": "Yoke's Fresh Market",
+      "address": "4235 S Cheney Spokane Road",
+      "city": "Spokane",
+      "wins": 10,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12133"
+    },
+    {
+      "year": 2023,
+      "region": "Eastern",
+      "name": "Safeway",
+      "address": "430 SE Bishop Boulevard",
+      "city": "Pullman",
+      "wins": 8,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12133"
+    },
+    {
+      "year": 2023,
+      "region": "Eastern",
+      "name": "Safeway",
+      "address": "2507 W Wellesley Avenue",
+      "city": "Spokane",
+      "wins": 7,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12133"
+    },
+    {
+      "year": 2023,
+      "region": "Eastern",
+      "name": "Yoke's Fresh Market",
+      "address": "3321 W Indian Trail Road",
+      "city": "Spokane",
+      "wins": 7,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12133"
+    },
+    {
+      "year": 2023,
+      "region": "Eastern",
+      "name": "Fred Meyer",
+      "address": "12120 N Division Street",
+      "city": "Spokane",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12133"
+    },
+    {
+      "year": 2023,
+      "region": "Eastern",
+      "name": "Fred Meyer",
+      "address": "400 S Thor Street",
+      "city": "Spokane",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12133"
+    },
+    {
+      "year": 2023,
+      "region": "Eastern",
+      "name": "Yoke's Fresh Market",
+      "address": "12825 W Sunset Highway",
+      "city": "Airway Heights",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12133"
+    },
+    {
+      "year": 2023,
+      "region": "Eastern",
+      "name": "Rosauers Supermarket",
+      "address": "2610 E 29th Avenue",
+      "city": "Spokane",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12133"
+    },
+    {
+      "year": 2023,
+      "region": "Eastern",
+      "name": "Rosauers Supermarket",
+      "address": "9414 N Division Street",
+      "city": "Spokane",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12133"
+    },
+    {
+      "year": 2023,
+      "region": "Eastern",
+      "name": "Safeway",
+      "address": "14020 E Sprague Avenue",
+      "city": "Spokane Valley",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12133"
+    },
+    {
+      "year": 2023,
+      "region": "Southwest",
+      "name": "Fred Meyer",
+      "address": "7700 NE Highway 99",
+      "city": "Vancouver",
+      "wins": 12,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12136"
+    },
+    {
+      "year": 2023,
+      "region": "Southwest",
+      "name": "Fred Meyer",
+      "address": "11325 SE Mill Plain Boulevard",
+      "city": "Vancouver",
+      "wins": 7,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12136"
+    },
+    {
+      "year": 2023,
+      "region": "Southwest",
+      "name": "Village Vendor",
+      "address": "16313 SE 1st Street",
+      "city": "Vancouver",
+      "wins": 7,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12136"
+    },
+    {
+      "year": 2023,
+      "region": "Southwest",
+      "name": "Safeway",
+      "address": "6711 NE 63rd Street",
+      "city": "Vancouver",
+      "wins": 7,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12136"
+    },
+    {
+      "year": 2023,
+      "region": "Southwest",
+      "name": "Quickway Market",
+      "address": "13607 NE Fourth Plain Road",
+      "city": "Vancouver",
+      "wins": 7,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12136"
+    },
+    {
+      "year": 2023,
+      "region": "Southwest",
+      "name": "Fred Meyer",
+      "address": "16600 SE McGillivray Boulevard",
+      "city": "Vancouver",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12136"
+    },
+    {
+      "year": 2023,
+      "region": "Southwest",
+      "name": "Fred Meyer",
+      "address": "7411 NE 117th Avenue",
+      "city": "Vancouver",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12136"
+    },
+    {
+      "year": 2023,
+      "region": "Southwest",
+      "name": "Fred Meyer",
+      "address": "800 NE Tenney Road",
+      "city": "Vancouver",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12136"
+    },
+    {
+      "year": 2023,
+      "region": "Southwest",
+      "name": "Safeway",
+      "address": "6700 NE 162nd Avenue",
+      "city": "Vancouver",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12136"
+    },
+    {
+      "year": 2023,
+      "region": "Southwest",
+      "name": "WinCo Foods",
+      "address": "11310 NE 119th Street",
+      "city": "Vancouver",
+      "wins": 6,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12136"
+    },
+    {
+      "year": 2023,
+      "region": "Tri-Cities",
+      "name": "Mr. G's Bottle Works and Food Shop",
+      "address": "325 S Union Street",
+      "city": "Kennewick",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12137"
+    },
+    {
+      "year": 2023,
+      "region": "Tri-Cities",
+      "name": "Yoke's Fresh Market",
+      "address": "4905 N Road 68",
+      "city": "Pasco",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12137"
+    },
+    {
+      "year": 2023,
+      "region": "Tri-Cities",
+      "name": "WinCo Foods",
+      "address": "4602 W Clearwater Avenue",
+      "city": "Kennewick",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12137"
+    },
+    {
+      "year": 2023,
+      "region": "Tri-Cities",
+      "name": "Albertsons",
+      "address": "1330 N 20th Avenue",
+      "city": "Pasco",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12137"
+    },
+    {
+      "year": 2023,
+      "region": "Tri-Cities",
+      "name": "WinCo Foods",
+      "address": "101 Columbia Point Drive",
+      "city": "Richland",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12137"
+    },
+    {
+      "year": 2023,
+      "region": "Tri-Cities",
+      "name": "Yoke's Fresh Market",
+      "address": "454 Keene Road",
+      "city": "Richland",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12137"
+    },
+    {
+      "year": 2023,
+      "region": "Tri-Cities",
+      "name": "Circle K",
+      "address": "4823 Broadmoor Boulevard",
+      "city": "Pasco",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12137"
+    },
+    {
+      "year": 2023,
+      "region": "Tri-Cities",
+      "name": "Maverik",
+      "address": "3505 Road 68",
+      "city": "Pasco",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12137"
+    },
+    {
+      "year": 2023,
+      "region": "Tri-Cities",
+      "name": "7-Eleven",
+      "address": "1540 Jadwin Avenue",
+      "city": "Richland",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12137"
+    },
+    {
+      "year": 2023,
+      "region": "Tri-Cities",
+      "name": "Fred Meyer",
+      "address": "2811 W 10th Avenue",
+      "city": "Kennewick",
+      "wins": 3,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12137"
+    },
+    {
+      "year": 2023,
+      "region": "Central",
+      "name": "Valley View Market",
+      "address": "618 E Toppenish Avenue",
+      "city": "Toppenish",
+      "wins": 8,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12132"
+    },
+    {
+      "year": 2023,
+      "region": "Central",
+      "name": "Safeway",
+      "address": "601 S Pioneer Way",
+      "city": "Moses Lake",
+      "wins": 7,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12132"
+    },
+    {
+      "year": 2023,
+      "region": "Central",
+      "name": "WinCo Foods",
+      "address": "2425 Longfibre Road",
+      "city": "Union Gap",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12132"
+    },
+    {
+      "year": 2023,
+      "region": "Central",
+      "name": "Rosauers Supermarket",
+      "address": "410 S 72nd Avenue",
+      "city": "Yakima",
+      "wins": 5,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12132"
+    },
+    {
+      "year": 2023,
+      "region": "Central",
+      "name": "Wray's Meadowbrook",
+      "address": "7200 W Nob Hill Boulevard",
+      "city": "Yakima",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12132"
+    },
+    {
+      "year": 2023,
+      "region": "Central",
+      "name": "Safeway",
+      "address": "804 W 1st Street",
+      "city": "Cle Elum",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12132"
+    },
+    {
+      "year": 2023,
+      "region": "Central",
+      "name": "Moxee Market",
+      "address": "105 S Iler Street",
+      "city": "Moxee",
+      "wins": 4,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12132"
+    },
+    {
+      "year": 2023,
+      "region": "Central",
+      "name": "Nob Hill Market and Smoke Shop",
+      "address": "814 W Nob Hill Boulevard",
+      "city": "Yakima",
+      "wins": 3,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12132"
+    },
+    {
+      "year": 2023,
+      "region": "Central",
+      "name": "The Junction",
+      "address": "509 S Whitcomb Avenue",
+      "city": "Tonasket",
+      "wins": 3,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12132"
+    },
+    {
+      "year": 2023,
+      "region": "Central",
+      "name": "Fred Meyer",
+      "address": "1206 N 40th Avenue",
+      "city": "Yakima",
+      "wins": 3,
+      "sourceUrl": "https://walottery.com/PressRoom/Details.aspx?id=12132"
+    }
+  ]
+}

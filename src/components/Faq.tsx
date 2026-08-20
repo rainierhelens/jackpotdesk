@@ -17,6 +17,23 @@ export function Faq() {
       ),
     },
     {
+      q: "Where were winning Washington tickets sold?",
+      a: (
+        <>
+          Official listed claims only, at{" "}
+          <a href="/washington/claimed-prizes-by-store">
+            /washington/claimed-prizes-by-store
+          </a>
+          . Every licensed retailer has the same chance of selling a jackpot
+          ticket. The page counts claimed prizes Washington’s Lottery published
+          in the last year, by store. That is not sales volume, not every
+          winning ticket, and not a reason to drive to a store. A second layer
+          shows the annual Luckiest Retailers top 10s, which is a different
+          metric.
+        </>
+      ),
+    },
+    {
       q: "What is the recap?",
       a: (
         <>
@@ -53,7 +70,23 @@ export function Faq() {
     },
     {
       q: "Is the map a live feed of every lottery winner?",
-      a: "No. The US board is Powerball and Mega Millions jackpot tickets by the state where they were sold. That list refreshes from a Cloudflare Worker that caches public jackpot-location pages; if the feed is down, the last baked copy in the site is used. It is still jackpot tickets only, not every $4 winner. The Washington board’s store list is the Lottery’s 2023–2025 top stores for tickets worth $1,000 or more, all games mixed, and that mix is not live. Powerball / Mega Millions on that board are jackpot tickets sold in Washington, by city. Hit 5 and Lotto are published cashpot / jackpot tickets with a named store. That is not every drawing, and not a split of the $1,000+ mix. Busy stores sell more tickets. Neither board is store-lucky or a forecast.",
+      a: (
+        <>
+          No. The US board is Powerball and Mega Millions jackpot tickets by the
+          state where they were sold. That list refreshes from a Cloudflare
+          Worker that caches public jackpot-location pages; if the feed is down,
+          the last baked copy in the site is used. It is still jackpot tickets
+          only, not every $4 winner. The Washington board’s store list is the
+          Lottery’s 2023–2025 top stores for tickets worth $1,000 or more, all
+          games mixed, and that mix is not live. The same official lists are on{" "}
+          <a href="/washington/claimed-prizes-by-store">Claimed prizes by store</a>. Powerball /
+          Mega Millions on the desk map are jackpot tickets sold in Washington,
+          by city. Hit 5 and Lotto are published cashpot / jackpot tickets with
+          a named store. That is not every drawing, and not a split of the
+          $1,000+ mix. Busy stores sell more tickets. Neither board is
+          store-lucky or a forecast.
+        </>
+      ),
     },
   ];
 

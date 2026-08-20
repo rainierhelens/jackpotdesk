@@ -484,7 +484,10 @@ function WaMap({
             are jackpot tickets sold in Washington, by city. Hit 5 and Lotto
             are published cashpot / jackpot tickets with a named store. Busy
             stores sell more tickets. The $1,000+ mix list is not live. This is
-            not a lucky machine and not a forecast.
+            not a lucky machine and not a forecast.{" "}
+            <a href="/washington/claimed-prizes-by-store">Claimed prizes by store</a>{" "}
+            counts official listed claims from the last year. The Luckiest
+            Retailers top 10s are a separate sold-$1,000+ metric.
           </p>
         </div>
       </div>
