@@ -165,6 +165,11 @@ describe("recap page", () => {
   it("keeps Lottery Lab as the proof page and stays a desk page", () => {
     expect(html).toContain("/lottery-lab.html");
     expect(html).toContain("JackpotDesk");
+    expect(html).toContain('class="shell"');
+    expect(html).toContain('class="panel desk-page"');
+    expect(html).toContain("/desk-page.css");
+    expect(html).not.toContain("/legal.css");
+    expect(html).not.toContain("legal-nav");
     expect(html).not.toMatch(/Darren|founder|sign up|subscribe|paywall|account required/i);
     expect(html).not.toMatch(/winning numbers|AI picks|Beats Quick Pick|predict the next/i);
   });
@@ -184,7 +189,7 @@ describe("recap page", () => {
     expect(html).toContain('aria-label="Primary"');
     expect(html).toMatch(/<a href="\/recap" class="on" aria-current="page">Recap<\/a>/);
     expect(html).toContain("Last night vs The Ladder");
-    expect(html).toContain('classList.add("is-embed")');
+    expect(html).toContain('class="recap-main"');
   });
 
   it("keeps a dated archive URL under /recap", () => {

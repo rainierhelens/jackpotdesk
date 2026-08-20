@@ -12,9 +12,7 @@ export function recapPath(pathname = "/recap"): string {
   return dated ? `/recap/${dated[1]}` : "/recap";
 }
 
-export function recapEmbedSrc(pathname = "/recap"): string {
+export function recapJsonSrc(pathname = "/recap"): string {
   const dated = pathname.match(DATED);
-  return dated
-    ? `/recap/${dated[1]}/index.html?embed=1`
-    : "/recap/index.html?embed=1";
+  return dated ? `/recap/${dated[1]}.json` : "/recap/latest.json";
 }

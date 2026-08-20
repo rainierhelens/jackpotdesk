@@ -52,16 +52,23 @@ function rungHtml(rung: ReplayRung): string {
 
 function nationalHtml(block: RecapNational): string {
   const call = recapCallLine(block.tone);
-  return `<section class="recap-game">
-    <h2>${escapeHtml(block.label)}</h2>
+  return `<section class="panel recap-game">
+    <header class="panel-head">
+      <div>
+        <p class="kicker">Last official · ${escapeHtml(block.label)}</p>
+        <h2>${escapeHtml(block.label)}</h2>
+      </div>
+    </header>
     <p class="recap-official">Official ${escapeHtml(block.officialDate)} · <span class="recap-board">${escapeHtml(block.officialBoard)}</span></p>
+    <div class="recap-rungs">
     ${block.rungs.map(rungHtml).join("\n    ")}
+    </div>
     <div class="verdict ${callClass(block.tone)}">
       <strong>${escapeHtml(call)}</strong>
       <span>Tonight · unique-ticket EV ${escapeHtml(block.netEv)} after 37% federal, 0% WA state. Advertised $${escapeHtml(block.advertised)} · cash $${escapeHtml(block.cash)}${block.nextDraw ? ` · next draw ${escapeHtml(block.nextDraw)}` : ""}.</span>
       <span>${escapeHtml(block.advice)}</span>
     </div>
-    <a class="help" href="${escapeHtml(block.ladderHref)}">
+    <a class="recap-ladder" href="${escapeHtml(block.ladderHref)}">
       Open the live Ladder for tonight
       <span>${block.historyBefore} official draws sat under last night's ranking. Tonight's #1 is on the live desk, not on this page.</span>
     </a>
@@ -69,13 +76,19 @@ function nationalHtml(block: RecapNational): string {
 }
 
 function washingtonHtml(block: RecapWashington): string {
-  return `<section class="recap-game">
-    <h2>${escapeHtml(block.label)}</h2>
-    <p class="updated">${escapeHtml(block.when)}</p>
+  return `<section class="panel recap-game">
+    <header class="panel-head">
+      <div>
+        <p class="kicker">${escapeHtml(block.when)}</p>
+        <h2>${escapeHtml(block.label)}</h2>
+      </div>
+    </header>
     <p class="recap-official">Official ${escapeHtml(block.officialDate)} · <span class="recap-board">${escapeHtml(block.officialBoard)}</span></p>
-    <p>${escapeHtml(block.prizeLine)}</p>
+    <p class="fine">${escapeHtml(block.prizeLine)}</p>
+    <div class="recap-rungs">
     ${block.rungs.map(rungHtml).join("\n    ")}
-    <a class="help" href="${escapeHtml(block.ladderHref)}">
+    </div>
+    <a class="recap-ladder" href="${escapeHtml(block.ladderHref)}">
       Open the live Ladder for tonight
       <span>${block.historyBefore} official draws sat under last night's ranking. Tonight's #1 is on the live desk, not on this page.</span>
     </a>
@@ -93,8 +106,8 @@ export function formatRecapHtml(
     : "";
   const games =
     national || washington
-      ? `${national}\n  ${washington}`
-      : "<p>No official drawings were ready to score.</p>";
+      ? `${national}\n        ${washington}`
+      : '<section class="panel desk-page"><p>No official drawings were ready to score.</p></section>';
   const title =
     page.kind === "archive"
       ? `Recap · ${payload.asOf} | JackpotDesk`
@@ -121,12 +134,7 @@ export function formatRecapHtml(
     <link rel="canonical" href="${SITE}${page.path}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Geist+Mono:wght@400;700&family=Inter:wght@400;600;700&display=swap" />
-    <link rel="stylesheet" href="/legal.css" />
-    <script>
-      if (/[?&]embed=1(?:&|$)/.test(location.search)) {
-        document.documentElement.classList.add("is-embed");
-      }
-    </script>
+    <link rel="stylesheet" href="/desk-page.css" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="JackpotDesk" />
     <meta property="og:url" content="${SITE}${page.path}" />
@@ -148,67 +156,88 @@ export function formatRecapHtml(
       gtag('config', 'G-3HEMBNLM71');
     </script>
   </head>
-  <body class="recap-body">
-    <header class="recap-chrome">
-      <a class="legal-brand" href="/"><img src="/logo.png" alt="JackpotDesk" width="220" height="31" /></a>
-      <a class="masthead-recap" href="/recap">
-        Recap
-        <span>Last night vs The Ladder</span>
-      </a>
-      <nav class="tabs" aria-label="Primary">
-        <a href="/">Desk</a>
-        <a href="/recap"${recapCurrent}>Recap</a>
-        <a href="/?tab=tickets">Tickets</a>
-        <a href="/?tab=week"><span class="tab-full">This week</span><span class="tab-short">Week</span></a>
-        <a href="/?tab=map">Map</a>
-        <a href="/?tab=pool">Pool</a>
-        <a href="/?tab=why"><span class="tab-full">Why this</span><span class="tab-short">Why</span></a>
-        <a href="/?tab=write"><span class="tab-full">Write the desk</span><span class="tab-short">Write</span></a>
-      </nav>
-    </header>
-    <main class="legal recap">
-      <nav class="legal-nav" aria-label="Site">
-        <a href="/">Desk</a>
-        <a href="/recap"${page.kind === "latest" ? ' aria-current="page"' : ""}>Recap</a>
-        <a href="/about.html">About</a>
-        <a href="/tip.html">Tip the desk</a>
-        <a href="/contact.html">Write the desk</a>
-        <a href="/how-to-play.html">How to play</a>
-        <a href="/refer.html">Refer a friend</a>
-        <a href="/responsible.html">Responsible gaming</a>
-        <a href="/accessibility.html">Accessibility</a>
-        <a href="/terms.html">Terms</a>
-        <a href="/privacy.html">Privacy</a>
-      </nav>
-      <nav class="legal-nav" aria-label="Tools">
-        <a href="/recap"${page.kind === "latest" ? ' aria-current="page"' : ""}>Recap</a>
-        <a href="/expected-value.html">Expected value</a>
-        <a href="/unique-tickets.html">Unique tickets</a>
-        <a href="/office-pool.html">Office pool</a>
-        <a href="/lottery-lab.html">Lottery Lab</a>
-      </nav>
-      <p class="kicker">JackpotDesk · scored replay</p>
-      <h1>Recap</h1>
-      <p class="updated">${stamp}</p>
-      <p>${escapeHtml(LEAD)}</p>
-      ${games}
-      ${notes}
-      <h2>Desk pick</h2>
-      <p>
-        Desk pick is the least-crowded board on the live desk. It is not a forecast
-        and it is not tonight's #1. Open
-        <a href="/">the desk</a>
-        if you already planned to play and want the lonelier mint.
-      </p>
-      <p class="why-lab">
-        <a href="/lottery-lab.html">Lottery Lab</a> stays the proof page: models
-        cannot beat Quick Pick. The Ladder ranks the past.
-      </p>
-      <p class="fine">
-        Entertainment only. We do not sell tickets. Responsible gaming:
-        <a href="https://www.ncpgambling.org/">ncpgambling.org</a>
-      </p>
-    </main>
+  <body>
+    <div class="shell">
+      <div class="chrome">
+        <header class="masthead">
+          <div class="masthead-row">
+            <div class="masthead-brand">
+              <h1 class="brand">
+                <a class="brand-home" href="/" aria-label="JackpotDesk home">
+                  <img class="brand-logo" src="/logo.png" alt="" width="294" height="41" />
+                </a>
+              </h1>
+              <p class="tag">
+                The Ladder ranks every scanned board against measured history.
+                Same hit odds as Quick Pick.
+              </p>
+              <a class="masthead-recap" href="/recap">
+                Recap
+                <span>Last night vs The Ladder</span>
+              </a>
+            </div>
+          </div>
+        </header>
+        <nav class="tabs" aria-label="Primary">
+          <a href="/">Desk</a>
+          <a href="/recap"${recapCurrent}>Recap</a>
+          <a href="/?tab=tickets">Tickets</a>
+          <a href="/?tab=week"><span class="tab-full">This week</span><span class="tab-short">Week</span></a>
+          <a href="/?tab=map">Map</a>
+          <a href="/?tab=pool">Pool</a>
+          <a href="/?tab=why"><span class="tab-full">Why this</span><span class="tab-short">Why</span></a>
+          <a href="/?tab=write"><span class="tab-full">Write the desk</span><span class="tab-short">Write</span></a>
+        </nav>
+      </div>
+      <main class="recap-main">
+        <section class="panel desk-page">
+          <header class="panel-head">
+            <div>
+              <p class="kicker">Scored replay</p>
+              <h2>Recap</h2>
+            </div>
+            <p class="fine">${stamp}</p>
+          </header>
+          <p>${escapeHtml(LEAD)}</p>
+          ${notes}
+        </section>
+        ${games}
+        <section class="panel desk-page">
+          <header class="panel-head">
+            <div>
+              <p class="kicker">Live desk</p>
+              <h2>Desk pick</h2>
+            </div>
+          </header>
+          <p>
+            Desk pick is the least-crowded board on the live desk. It is not a forecast
+            and it is not tonight's #1. Open
+            <a href="/">the desk</a>
+            if you already planned to play and want the lonelier mint.
+          </p>
+          <p>
+            <a href="/lottery-lab.html">Lottery Lab</a> stays the proof page: models
+            cannot beat Quick Pick. The Ladder ranks the past.
+          </p>
+          <p class="fine">
+            Entertainment only. We do not sell tickets. Responsible gaming:
+            <a href="https://www.ncpgambling.org/">ncpgambling.org</a>
+          </p>
+        </section>
+      </main>
+      <footer class="site-footer">
+        <nav class="footer-links" aria-label="Site">
+          <a class="footer-btn" href="/">Desk</a>
+          <a class="footer-btn" href="/recap">Recap</a>
+          <a class="footer-btn" href="/expected-value.html">Expected value</a>
+          <a class="footer-btn" href="/unique-tickets.html">Unique tickets</a>
+          <a class="footer-btn" href="/office-pool.html">Office pool</a>
+          <a class="footer-btn" href="/lottery-lab.html">Lottery Lab</a>
+          <a class="footer-btn" href="/about.html">About</a>
+          <span class="footer-copy">© 2026 JackpotDesk</span>
+        </nav>
+      </footer>
+    </div>
   </body>
 </html>
 `;
@@ -228,6 +257,9 @@ export function writeRecapPages(payload: RecapPayload): string[] {
   mkdirSync(dirname(archiveFile), { recursive: true });
   writeFileSync(latestFile, latest);
   writeFileSync(archiveFile, archive);
+  const json = `${JSON.stringify(payload)}\n`;
+  writeFileSync(join(RECAP_DIR, "latest.json"), json);
+  writeFileSync(join(RECAP_DIR, `${payload.asOf}.json`), json);
   return [latestFile, archiveFile];
 }
 

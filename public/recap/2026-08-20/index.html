@@ -11,12 +11,7 @@
     <link rel="canonical" href="https://www.jackpotdesk.com/recap/2026-08-20" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Geist+Mono:wght@400;700&family=Inter:wght@400;600;700&display=swap" />
-    <link rel="stylesheet" href="/legal.css" />
-    <script>
-      if (/[?&]embed=1(?:&|$)/.test(location.search)) {
-        document.documentElement.classList.add("is-embed");
-      }
-    </script>
+    <link rel="stylesheet" href="/desk-page.css" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="JackpotDesk" />
     <meta property="og:url" content="https://www.jackpotdesk.com/recap/2026-08-20" />
@@ -38,52 +33,60 @@
       gtag('config', 'G-3HEMBNLM71');
     </script>
   </head>
-  <body class="recap-body">
-    <header class="recap-chrome">
-      <a class="legal-brand" href="/"><img src="/logo.png" alt="JackpotDesk" width="220" height="31" /></a>
-      <a class="masthead-recap" href="/recap">
-        Recap
-        <span>Last night vs The Ladder</span>
-      </a>
-      <nav class="tabs" aria-label="Primary">
-        <a href="/">Desk</a>
-        <a href="/recap" class="on">Recap</a>
-        <a href="/?tab=tickets">Tickets</a>
-        <a href="/?tab=week"><span class="tab-full">This week</span><span class="tab-short">Week</span></a>
-        <a href="/?tab=map">Map</a>
-        <a href="/?tab=pool">Pool</a>
-        <a href="/?tab=why"><span class="tab-full">Why this</span><span class="tab-short">Why</span></a>
-        <a href="/?tab=write"><span class="tab-full">Write the desk</span><span class="tab-short">Write</span></a>
-      </nav>
+  <body>
+    <div class="shell">
+      <div class="chrome">
+        <header class="masthead">
+          <div class="masthead-row">
+            <div class="masthead-brand">
+              <h1 class="brand">
+                <a class="brand-home" href="/" aria-label="JackpotDesk home">
+                  <img class="brand-logo" src="/logo.png" alt="" width="294" height="41" />
+                </a>
+              </h1>
+              <p class="tag">
+                The Ladder ranks every scanned board against measured history.
+                Same hit odds as Quick Pick.
+              </p>
+              <a class="masthead-recap" href="/recap">
+                Recap
+                <span>Last night vs The Ladder</span>
+              </a>
+            </div>
+          </div>
+        </header>
+        <nav class="tabs" aria-label="Primary">
+          <a href="/">Desk</a>
+          <a href="/recap" class="on">Recap</a>
+          <a href="/?tab=tickets">Tickets</a>
+          <a href="/?tab=week"><span class="tab-full">This week</span><span class="tab-short">Week</span></a>
+          <a href="/?tab=map">Map</a>
+          <a href="/?tab=pool">Pool</a>
+          <a href="/?tab=why"><span class="tab-full">Why this</span><span class="tab-short">Why</span></a>
+          <a href="/?tab=write"><span class="tab-full">Write the desk</span><span class="tab-short">Write</span></a>
+        </nav>
+      </div>
+      <main class="recap-main">
+        <section class="panel desk-page">
+          <header class="panel-head">
+            <div>
+              <p class="kicker">Scored replay</p>
+              <h2>Recap</h2>
+            </div>
+            <p class="fine">Recap for 2026-08-20. <a href="/recap">Latest recap</a></p>
+          </header>
+          <p>Same hit odds as Quick Pick. The Ladder ranks scanned boards against official draw history. This page is last night's official results against the Ladder that was live before those numbers landed. Entertainment, not prediction. Rank #1 is the strongest match to the past, never the winning pick.</p>
+          
+        </section>
+        <section class="panel recap-game">
+    <header class="panel-head">
+      <div>
+        <p class="kicker">Last official · Powerball</p>
+        <h2>Powerball</h2>
+      </div>
     </header>
-    <main class="legal recap">
-      <nav class="legal-nav" aria-label="Site">
-        <a href="/">Desk</a>
-        <a href="/recap">Recap</a>
-        <a href="/about.html">About</a>
-        <a href="/tip.html">Tip the desk</a>
-        <a href="/contact.html">Write the desk</a>
-        <a href="/how-to-play.html">How to play</a>
-        <a href="/refer.html">Refer a friend</a>
-        <a href="/responsible.html">Responsible gaming</a>
-        <a href="/accessibility.html">Accessibility</a>
-        <a href="/terms.html">Terms</a>
-        <a href="/privacy.html">Privacy</a>
-      </nav>
-      <nav class="legal-nav" aria-label="Tools">
-        <a href="/recap">Recap</a>
-        <a href="/expected-value.html">Expected value</a>
-        <a href="/unique-tickets.html">Unique tickets</a>
-        <a href="/office-pool.html">Office pool</a>
-        <a href="/lottery-lab.html">Lottery Lab</a>
-      </nav>
-      <p class="kicker">JackpotDesk · scored replay</p>
-      <h1>Recap</h1>
-      <p class="updated">Recap for 2026-08-20. <a href="/recap">Latest recap</a></p>
-      <p>Same hit odds as Quick Pick. The Ladder ranks scanned boards against official draw history. This page is last night's official results against the Ladder that was live before those numbers landed. Entertainment, not prediction. Rank #1 is the strongest match to the past, never the winning pick.</p>
-      <section class="recap-game">
-    <h2>Powerball</h2>
     <p class="recap-official">Official 2026-08-17 · <span class="recap-board">08  15  25  49  65  +  22 Powerball</span></p>
+    <div class="recap-rungs">
     <article class="recap-rung">
       <p class="recap-rank">#1</p>
       <p class="recap-board">02  12  44  50  61  +  04 Powerball</p>
@@ -105,19 +108,26 @@
       <p class="recap-meta">69 pts · 0.88x crowd · beats 74% of random boards</p>
       <p class="recap-why">carries the #6 pair 3-16 · 2 running hot over the last 30 draws · sum 168 inside the historical middle band · a frequently drawn special ball</p>
     </article>
+    </div>
     <div class="verdict is-skip">
       <strong>SKIP</strong>
       <span>Tonight · unique-ticket EV -$1.62 after 37% federal, 0% WA state. Advertised $68M · cash $29.5M · next draw 2026-08-22.</span>
       <span>Don't buy this as an investment. You are paying about two dollars for a story.</span>
     </div>
-    <a class="help" href="https://www.jackpotdesk.com/?desk=national&amp;game=powerball">
+    <a class="recap-ladder" href="https://www.jackpotdesk.com/?desk=national&amp;game=powerball">
       Open the live Ladder for tonight
       <span>1389 official draws sat under last night's ranking. Tonight's #1 is on the live desk, not on this page.</span>
     </a>
   </section>
-  <section class="recap-game">
-    <h2>Mega Millions</h2>
+  <section class="panel recap-game">
+    <header class="panel-head">
+      <div>
+        <p class="kicker">Last official · Mega Millions</p>
+        <h2>Mega Millions</h2>
+      </div>
+    </header>
     <p class="recap-official">Official 2026-08-18 · <span class="recap-board">05  19  30  38  59  +  12 Mega Ball</span></p>
+    <div class="recap-rungs">
     <article class="recap-rung">
       <p class="recap-rank">#1</p>
       <p class="recap-board">10  17  48  51  55  +  22 Mega Ball</p>
@@ -139,21 +149,27 @@
       <p class="recap-meta">68 pts · 1.12x crowd · beats 23% of random boards</p>
       <p class="recap-why">2 of the top-10 all-time numbers · carries the #1 pair 10-17 · 2 running hot over the last 30 draws · sum 166 inside the historical middle band · 2 odd / 3 even, the modal split · a frequently drawn special ball</p>
     </article>
+    </div>
     <div class="verdict is-skip">
       <strong>SKIP</strong>
       <span>Tonight · unique-ticket EV -$4.64 after 37% federal, 0% WA state. Advertised $113M · cash $48.3M · next draw 2026-08-21.</span>
       <span>Don't buy this as an investment. You are paying about two dollars for a story.</span>
     </div>
-    <a class="help" href="https://www.jackpotdesk.com/?desk=national&amp;game=megamillions">
+    <a class="recap-ladder" href="https://www.jackpotdesk.com/?desk=national&amp;game=megamillions">
       Open the live Ladder for tonight
       <span>918 official draws sat under last night's ranking. Tonight's #1 is on the live desk, not on this page.</span>
     </a>
   </section>
-  <section class="recap-game">
-    <h2>Hit 5</h2>
-    <p class="updated">Daily 8 p.m. PT</p>
+        <section class="panel recap-game">
+    <header class="panel-head">
+      <div>
+        <p class="kicker">Daily 8 p.m. PT</p>
+        <h2>Hit 5</h2>
+      </div>
+    </header>
     <p class="recap-official">Official 2026-08-16 · <span class="recap-board">05  08  19  28  41</span></p>
-    <p>Cashpot $230,000.00. About $0.27 of the $1 is the cashpot before lower prizes.</p>
+    <p class="fine">Cashpot $230,000.00. About $0.27 of the $1 is the cashpot before lower prizes.</p>
+    <div class="recap-rungs">
     <article class="recap-rung">
       <p class="recap-rank">#1</p>
       <p class="recap-board">11  14  16  27  39</p>
@@ -175,16 +191,22 @@
       <p class="recap-meta">72 pts · 0.98x crowd · beats 58% of random boards</p>
       <p class="recap-why">4 of the top-10 all-time numbers · carries the #1 pair 11-39 · 1 running hot over the last 30 draws · sum 95 inside the historical middle band</p>
     </article>
-    <a class="help" href="https://www.jackpotdesk.com/?desk=washington&amp;wa=hit5">
+    </div>
+    <a class="recap-ladder" href="https://www.jackpotdesk.com/?desk=washington&amp;wa=hit5">
       Open the live Ladder for tonight
       <span>179 official draws sat under last night's ranking. Tonight's #1 is on the live desk, not on this page.</span>
     </a>
   </section>
-  <section class="recap-game">
-    <h2>Lotto</h2>
-    <p class="updated">Mon / Wed / Sat 8 p.m. PT</p>
+  <section class="panel recap-game">
+    <header class="panel-head">
+      <div>
+        <p class="kicker">Mon / Wed / Sat 8 p.m. PT</p>
+        <h2>Lotto</h2>
+      </div>
+    </header>
     <p class="recap-official">Official 2026-08-15 · <span class="recap-board">01  10  23  27  28  49</span></p>
-    <p>Advertised $1,000,000.00 · cash $500,000.00. About $0.07 of the $1 is the cash jackpot (two boards per dollar).</p>
+    <p class="fine">Advertised $1,000,000.00 · cash $500,000.00. About $0.07 of the $1 is the cash jackpot (two boards per dollar).</p>
+    <div class="recap-rungs">
     <article class="recap-rung">
       <p class="recap-rank">#1</p>
       <p class="recap-board">12  17  20  23  37  40</p>
@@ -206,27 +228,47 @@
       <p class="recap-meta">84 pts · 1.03x crowd · beats 30% of random boards</p>
       <p class="recap-why">5 of the top-10 all-time numbers · carries the #4 pair 3-17 · 2 running hot over the last 30 draws · sum 129 inside the historical middle band · 3 odd / 3 even, the modal split</p>
     </article>
-    <a class="help" href="https://www.jackpotdesk.com/?desk=washington&amp;wa=lotto">
+    </div>
+    <a class="recap-ladder" href="https://www.jackpotdesk.com/?desk=washington&amp;wa=lotto">
       Open the live Ladder for tonight
       <span>76 official draws sat under last night's ranking. Tonight's #1 is on the live desk, not on this page.</span>
     </a>
   </section>
-      
-      <h2>Desk pick</h2>
-      <p>
-        Desk pick is the least-crowded board on the live desk. It is not a forecast
-        and it is not tonight's #1. Open
-        <a href="/">the desk</a>
-        if you already planned to play and want the lonelier mint.
-      </p>
-      <p class="why-lab">
-        <a href="/lottery-lab.html">Lottery Lab</a> stays the proof page: models
-        cannot beat Quick Pick. The Ladder ranks the past.
-      </p>
-      <p class="fine">
-        Entertainment only. We do not sell tickets. Responsible gaming:
-        <a href="https://www.ncpgambling.org/">ncpgambling.org</a>
-      </p>
-    </main>
+        <section class="panel desk-page">
+          <header class="panel-head">
+            <div>
+              <p class="kicker">Live desk</p>
+              <h2>Desk pick</h2>
+            </div>
+          </header>
+          <p>
+            Desk pick is the least-crowded board on the live desk. It is not a forecast
+            and it is not tonight's #1. Open
+            <a href="/">the desk</a>
+            if you already planned to play and want the lonelier mint.
+          </p>
+          <p>
+            <a href="/lottery-lab.html">Lottery Lab</a> stays the proof page: models
+            cannot beat Quick Pick. The Ladder ranks the past.
+          </p>
+          <p class="fine">
+            Entertainment only. We do not sell tickets. Responsible gaming:
+            <a href="https://www.ncpgambling.org/">ncpgambling.org</a>
+          </p>
+        </section>
+      </main>
+      <footer class="site-footer">
+        <nav class="footer-links" aria-label="Site">
+          <a class="footer-btn" href="/">Desk</a>
+          <a class="footer-btn" href="/recap">Recap</a>
+          <a class="footer-btn" href="/expected-value.html">Expected value</a>
+          <a class="footer-btn" href="/unique-tickets.html">Unique tickets</a>
+          <a class="footer-btn" href="/office-pool.html">Office pool</a>
+          <a class="footer-btn" href="/lottery-lab.html">Lottery Lab</a>
+          <a class="footer-btn" href="/about.html">About</a>
+          <span class="footer-copy">© 2026 JackpotDesk</span>
+        </nav>
+      </footer>
+    </div>
   </body>
 </html>
