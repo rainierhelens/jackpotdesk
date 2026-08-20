@@ -168,7 +168,9 @@ export default function App() {
   }, [tab]);
 
   useEffect(() => {
+    document.documentElement.classList.add("has-recap-tab");
     if (isRecapPath(window.location.pathname)) setTab("recap");
+    return () => document.documentElement.classList.remove("has-recap-tab");
   }, []);
 
   useEffect(() => {

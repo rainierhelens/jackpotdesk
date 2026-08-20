@@ -48,6 +48,26 @@ body {
   background: var(--bg);
 }
 
+.recap-jump {
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: 80;
+  padding: 0.45rem 1rem;
+  background: var(--gold);
+  color: #09090b;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+html.has-recap-tab .recap-jump {
+  display: none;
+}
+
 h1,
 h2,
 .brand {
