@@ -8,6 +8,7 @@ import {
   scoreReplay,
   type RecapPayload,
 } from "./lib/deskLetter.ts";
+import { recapExtraClass } from "../src/lib/recapPayload.ts";
 
 const FIXTURE: RecapPayload = {
   asOf: "2026-08-20",
@@ -25,12 +26,16 @@ const FIXTURE: RecapPayload = {
       tone: "no",
       officialDate: "2026-08-18",
       officialBoard: "05  12  23  44  61  +  09 Powerball",
+      officialWhites: [5, 12, 23, 44, 61],
+      officialExtra: 9,
       historyBefore: 1200,
       ladderHref: "https://www.jackpotdesk.com/?desk=national&game=powerball",
       rungs: [
         {
           rank: 1,
           board: "03  12  28  44  55  +  09 Powerball",
+          whites: [3, 12, 28, 44, 55],
+          extra: 9,
           points: 62,
           crowd: "0.91x crowd · beats 61% of random boards",
           why: "3 in the top-10 · #1 pair 12-44",
@@ -41,6 +46,8 @@ const FIXTURE: RecapPayload = {
         {
           rank: 2,
           board: "01  08  19  33  60  +  04 Powerball",
+          whites: [1, 8, 19, 33, 60],
+          extra: 4,
           points: 58,
           crowd: null,
           why: "2 in the top-10",
@@ -51,6 +58,8 @@ const FIXTURE: RecapPayload = {
         {
           rank: 3,
           board: "10  11  22  40  50  +  18 Powerball",
+          whites: [10, 11, 22, 40, 50],
+          extra: 18,
           points: 55,
           crowd: null,
           why: "sum in band",
@@ -69,12 +78,16 @@ const FIXTURE: RecapPayload = {
       prizeLine: "Cashpot $230,000.",
       officialDate: "2026-08-16",
       officialBoard: "05  08  19  28  41",
+      officialWhites: [5, 8, 19, 28, 41],
+      officialExtra: null,
       historyBefore: 180,
       ladderHref: "https://www.jackpotdesk.com/?desk=washington&wa=hit5",
       rungs: [
         {
           rank: 1,
           board: "05  11  19  30  40",
+          whites: [5, 11, 19, 30, 40],
+          extra: null,
           points: 54,
           crowd: null,
           why: "2 in the top-10",
@@ -119,6 +132,14 @@ describe("matchLine", () => {
   });
 });
 
+describe("recap ball colors", () => {
+  it("makes Powerball red and Mega Ball gold", () => {
+    expect(recapExtraClass("Powerball")).toBe("is-powerball");
+    expect(recapExtraClass("Mega Ball")).toBe("is-megaball");
+    expect(recapExtraClass(null)).toBe("");
+  });
+});
+
 describe("EV call labels", () => {
   it("uses SKIP / ENTERTAIN ONLY / RARE PLUS on the public recap", () => {
     expect(recapCallLine("no")).toBe("SKIP");
@@ -148,6 +169,14 @@ describe("recap page", () => {
     expect(html).toContain("2 of 5 whites · Powerball hit");
     expect(html).toContain("#1 is the strongest match to history before this drawing");
     expect(html).toContain("Not the winning pick");
+  });
+
+  it("paints official balls next to last night's #1 slip", () => {
+    expect(html).toContain('class="recap-compare"');
+    expect(html).toContain("Last night #1");
+    expect(html).toContain('class="recap-ball"');
+    expect(html).toContain('class="recap-ball is-powerball');
+    expect(html).toContain(">09</span>");
   });
 
   it("prints the public EV call and points at tonight's live Ladder", () => {

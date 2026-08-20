@@ -3,10 +3,13 @@ export type RecapTone = "no" | "entertain" | "rare";
 export type RecapRung = {
   rank: number;
   board: string;
+  whites: number[];
+  extra: number | null;
   points: number;
   crowd: string | null;
   why: string;
   matchLine: string;
+  extraHit: boolean | null;
 };
 
 export type RecapNational = {
@@ -20,6 +23,8 @@ export type RecapNational = {
   tone: RecapTone;
   officialDate: string;
   officialBoard: string;
+  officialWhites: number[];
+  officialExtra: number | null;
   historyBefore: number;
   rungs: RecapRung[];
   ladderHref: string;
@@ -27,10 +32,13 @@ export type RecapNational = {
 
 export type RecapWashington = {
   label: string;
+  extraLabel?: string | null;
   when: string;
   prizeLine: string;
   officialDate: string;
   officialBoard: string;
+  officialWhites: number[];
+  officialExtra: number | null;
   historyBefore: number;
   rungs: RecapRung[];
   ladderHref: string;
@@ -53,4 +61,16 @@ export function recapCallLabel(tone: RecapTone): string {
   if (tone === "rare") return "RARE PLUS";
   if (tone === "entertain") return "ENTERTAIN ONLY";
   return "SKIP";
+}
+
+export function recapExtraClass(extraLabel: string | null | undefined): string {
+  if (!extraLabel) return "";
+  const key = extraLabel.toLowerCase();
+  if (key.includes("power")) return "is-powerball";
+  if (key.includes("mega")) return "is-megaball";
+  return "is-extra";
+}
+
+export function padBall(n: number): string {
+  return String(n).padStart(2, "0");
 }

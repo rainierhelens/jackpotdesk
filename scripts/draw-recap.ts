@@ -19,6 +19,7 @@ import {
   type RecapWashington,
   type ReplayRung,
 } from "./lib/deskLetter.ts";
+import { padBall, recapExtraClass } from "../src/lib/recapPayload.ts";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const RECAP_DIR = join(ROOT, "public", "recap");
@@ -34,6 +35,55 @@ function callClass(tone: "no" | "entertain" | "rare"): string {
   if (tone === "rare") return "is-rare";
   if (tone === "entertain") return "is-entertain";
   return "is-skip";
+}
+
+function extraClass(extraLabel: string | null | undefined): string {
+  const cls = recapExtraClass(extraLabel);
+  return cls ? ` ${cls}` : "";
+}
+
+function ballsHtml(
+  whites: number[],
+  extra: number | null,
+  extraLabel: string | null | undefined,
+  hits?: Set<number>,
+  extraHit?: boolean,
+): string {
+  const whiteBalls = whites
+    .map((n) => {
+      const hit = hits?.has(n) ? " is-hit" : "";
+      return `<span class="recap-ball${hit}">${padBall(n)}</span>`;
+    })
+    .join("");
+  const extraBall =
+    extra == null || !extraLabel
+      ? ""
+      : `<span class="recap-ball${extraClass(extraLabel)}${extraHit ? " is-hit" : ""}">${padBall(extra)}</span>`;
+  return `<div class="recap-balls">${whiteBalls}${extraBall}</div>`;
+}
+
+function compareHtml(
+  officialDate: string,
+  officialWhites: number[],
+  officialExtra: number | null,
+  extraLabel: string | null | undefined,
+  officialBoard: string,
+  top: ReplayRung | undefined,
+): string {
+  const hits = new Set(officialWhites);
+  const official = `<div class="recap-slip">
+      <p class="recap-slip-label">Official ${escapeHtml(officialDate)}</p>
+      ${ballsHtml(officialWhites, officialExtra, extraLabel)}
+      <p class="recap-board">${escapeHtml(officialBoard)}</p>
+    </div>`;
+  const nightOne = top
+    ? `<div class="recap-slip">
+      <p class="recap-slip-label">Last night #1</p>
+      ${ballsHtml(top.whites, top.extra, extraLabel, hits, top.extraHit === true)}
+      <p class="recap-board">${escapeHtml(top.board)}</p>
+    </div>`
+    : "";
+  return `<div class="recap-compare">${official}${nightOne}</div>`;
 }
 
 function rungHtml(rung: ReplayRung): string {
@@ -59,7 +109,7 @@ function nationalHtml(block: RecapNational): string {
         <h2>${escapeHtml(block.label)}</h2>
       </div>
     </header>
-    <p class="recap-official">Official ${escapeHtml(block.officialDate)} · <span class="recap-board">${escapeHtml(block.officialBoard)}</span></p>
+    ${compareHtml(block.officialDate, block.officialWhites, block.officialExtra, block.extraLabel, block.officialBoard, block.rungs[0])}
     <div class="recap-rungs">
     ${block.rungs.map(rungHtml).join("\n    ")}
     </div>
@@ -83,8 +133,8 @@ function washingtonHtml(block: RecapWashington): string {
         <h2>${escapeHtml(block.label)}</h2>
       </div>
     </header>
-    <p class="recap-official">Official ${escapeHtml(block.officialDate)} · <span class="recap-board">${escapeHtml(block.officialBoard)}</span></p>
     <p class="fine">${escapeHtml(block.prizeLine)}</p>
+    ${compareHtml(block.officialDate, block.officialWhites, block.officialExtra, null, block.officialBoard, block.rungs[0])}
     <div class="recap-rungs">
     ${block.rungs.map(rungHtml).join("\n    ")}
     </div>

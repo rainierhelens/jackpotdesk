@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import {
+  padBall,
   recapCallLabel,
+  recapExtraClass,
   recapToneClass,
   type RecapNational,
   type RecapPayload,
@@ -11,6 +13,85 @@ import { recapJsonSrc } from "../lib/recapRoute";
 
 const SAME_ODDS =
   "Same hit odds as Quick Pick. The Ladder ranks scanned boards against official draw history.";
+
+function RecapBalls({
+  whites,
+  extra,
+  extraLabel,
+  hits,
+  extraHit,
+}: {
+  whites: number[];
+  extra: number | null;
+  extraLabel?: string | null;
+  hits?: Set<number>;
+  extraHit?: boolean;
+}) {
+  const extraCls = recapExtraClass(extraLabel);
+  return (
+    <div className="recap-balls">
+      {whites.map((n) => (
+        <span
+          key={`w-${n}`}
+          className={`recap-ball${hits?.has(n) ? " is-hit" : ""}`}
+        >
+          {padBall(n)}
+        </span>
+      ))}
+      {extra != null && extraLabel ? (
+        <span
+          className={`recap-ball${extraCls ? ` ${extraCls}` : ""}${extraHit ? " is-hit" : ""}`}
+        >
+          {padBall(extra)}
+        </span>
+      ) : null}
+    </div>
+  );
+}
+
+function RecapCompare({
+  officialDate,
+  officialWhites,
+  officialExtra,
+  extraLabel,
+  officialBoard,
+  top,
+}: {
+  officialDate: string;
+  officialWhites: number[];
+  officialExtra: number | null;
+  extraLabel?: string | null;
+  officialBoard: string;
+  top?: RecapRung;
+}) {
+  const hits = new Set(officialWhites);
+  return (
+    <div className="recap-compare">
+      <div className="recap-slip">
+        <p className="recap-slip-label">Official {officialDate}</p>
+        <RecapBalls
+          whites={officialWhites}
+          extra={officialExtra}
+          extraLabel={extraLabel}
+        />
+        <p className="recap-board">{officialBoard}</p>
+      </div>
+      {top ? (
+        <div className="recap-slip">
+          <p className="recap-slip-label">Last night #1</p>
+          <RecapBalls
+            whites={top.whites}
+            extra={top.extra}
+            extraLabel={extraLabel}
+            hits={hits}
+            extraHit={top.extraHit === true}
+          />
+          <p className="recap-board">{top.board}</p>
+        </div>
+      ) : null}
+    </div>
+  );
+}
 
 function RungCard({ rung }: { rung: RecapRung }) {
   const rankNote =
@@ -41,10 +122,14 @@ function NationalPanel({ block }: { block: RecapNational }) {
           <h2>{block.label}</h2>
         </div>
       </header>
-      <p className="recap-official">
-        Official {block.officialDate} ·{" "}
-        <span className="recap-board">{block.officialBoard}</span>
-      </p>
+      <RecapCompare
+        officialDate={block.officialDate}
+        officialWhites={block.officialWhites}
+        officialExtra={block.officialExtra}
+        extraLabel={block.extraLabel}
+        officialBoard={block.officialBoard}
+        top={block.rungs[0]}
+      />
       <div className="recap-rungs">
         {block.rungs.map((rung) => (
           <RungCard key={rung.rank} rung={rung} />
@@ -79,11 +164,15 @@ function WashingtonPanel({ block }: { block: RecapWashington }) {
           <h2>{block.label}</h2>
         </div>
       </header>
-      <p className="recap-official">
-        Official {block.officialDate} ·{" "}
-        <span className="recap-board">{block.officialBoard}</span>
-      </p>
       <p className="fine">{block.prizeLine}</p>
+      <RecapCompare
+        officialDate={block.officialDate}
+        officialWhites={block.officialWhites}
+        officialExtra={block.officialExtra}
+        extraLabel={block.extraLabel}
+        officialBoard={block.officialBoard}
+        top={block.rungs[0]}
+      />
       <div className="recap-rungs">
         {block.rungs.map((rung) => (
           <RungCard key={rung.rank} rung={rung} />

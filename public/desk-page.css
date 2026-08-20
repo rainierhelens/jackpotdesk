@@ -230,6 +230,78 @@ h2 {
   color: var(--muted);
 }
 
+.recap-compare {
+  display: grid;
+  gap: 0.85rem;
+  margin: 0.85rem 0 0;
+}
+
+@media (min-width: 800px) {
+  .recap-compare {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.recap-slip {
+  padding: 0.85rem 0.9rem;
+  background: #0c0c0e;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.recap-slip-label {
+  margin: 0 0 0.55rem;
+  color: var(--gold);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.recap-balls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.recap-ball {
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: #09090b;
+  border: 1px solid #d4d4d8;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 0.88rem;
+}
+
+.recap-ball.is-powerball {
+  background: #e31837;
+  color: #fff;
+  border-color: #e31837;
+}
+
+.recap-ball.is-megaball {
+  background: #f1b82d;
+  color: #09090b;
+  border-color: #0033a0;
+}
+
+.recap-ball.is-extra {
+  background: #ef4444;
+  color: #fff;
+  border-color: #ef4444;
+}
+
+.recap-ball.is-hit {
+  box-shadow: 0 0 0 2px var(--green);
+}
+
 .recap-official {
   margin: 0.85rem 0 0;
   padding: 0.7rem 0.85rem;

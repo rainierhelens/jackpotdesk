@@ -53,6 +53,8 @@ export type Rung = {
 };
 
 export type ReplayRung = Rung & {
+  whites: number[];
+  extra: number | null;
   whiteHits: number;
   extraHit: boolean | null;
   matchLine: string;
@@ -102,6 +104,8 @@ export type RecapNational = {
   tone: "no" | "entertain" | "rare";
   officialDate: string;
   officialBoard: string;
+  officialWhites: number[];
+  officialExtra: number | null;
   historyBefore: number;
   rungs: ReplayRung[];
   ladderHref: string;
@@ -114,6 +118,8 @@ export type RecapWashington = {
   prizeLine: string;
   officialDate: string;
   officialBoard: string;
+  officialWhites: number[];
+  officialExtra: number | null;
   historyBefore: number;
   rungs: ReplayRung[];
   ladderHref: string;
@@ -203,6 +209,8 @@ export function replayRungsFrom(
     );
     return {
       ...rung,
+      whites: entry.numbers,
+      extra: entry.extra && entry.extra > 0 ? entry.extra : null,
       whiteHits: scored.whiteHits,
       extraHit: scored.extraHit,
       matchLine: matchLine(
@@ -399,6 +407,10 @@ export async function recapNational(game: GameId): Promise<RecapNational> {
       replay.official.extra,
       spec.extraLabel,
     ),
+    officialWhites: replay.official.whites,
+    officialExtra: replay.official.extra && replay.official.extra > 0
+      ? replay.official.extra
+      : null,
     historyBefore: replay.historyBefore,
     rungs: replay.rungs,
     ladderHref: `${SITE}/?desk=national&game=${game}`,
@@ -430,6 +442,8 @@ export function recapWashington(
     prizeLine: waPrizeLine(book, id),
     officialDate: replay.official.date,
     officialBoard: boardLine(replay.official.whites, null, null),
+    officialWhites: replay.official.whites,
+    officialExtra: null,
     historyBefore: replay.historyBefore,
     rungs: replay.rungs,
     ladderHref: `${SITE}/?desk=washington&wa=${id}`,
