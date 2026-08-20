@@ -180,6 +180,12 @@ describe("recap page", () => {
     expect(html).not.toMatch(/[?&]tab=recap|[?&]page=recap/);
   });
 
+  it("shows Recap in the same primary tab bar as the desk", () => {
+    expect(html).toContain('aria-label="Primary"');
+    expect(html).toMatch(/<a href="\/recap" class="on" aria-current="page">Recap<\/a>/);
+    expect(html).toContain("Last night vs The Ladder");
+  });
+
   it("keeps a dated archive URL under /recap", () => {
     const archive = formatRecapHtml(FIXTURE, {
       path: "/recap/2026-08-20",

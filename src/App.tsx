@@ -317,6 +317,10 @@ export default function App() {
               The Ladder ranks every scanned board against measured history.
               Same hit odds as Quick Pick.
             </p>
+            <a className="masthead-recap" href="/recap">
+              Recap
+              <span>Last night vs The Ladder</span>
+            </a>
           </div>
           <div className="masthead-tools">
             <MarketPicker
@@ -340,7 +344,10 @@ export default function App() {
             <img src={iconTickets} alt="" className="tab-icon wide" />
             Desk
           </button>
-          <a href="/recap">Recap</a>
+          <a href="/recap">
+            <span className="tab-icon tab-icon-recap" aria-hidden="true" />
+            Recap
+          </a>
           <button
             type="button"
             className={tab === "tickets" ? "on" : ""}

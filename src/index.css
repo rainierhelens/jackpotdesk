@@ -224,6 +224,30 @@ main {
   flex: 1;
 }
 
+.masthead-recap {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  margin: 0.35rem 0 0;
+  padding: 0.32rem 0.7rem;
+  width: fit-content;
+  background: var(--gold);
+  color: #09090b;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.masthead-recap span {
+  color: #3f3f46;
+  letter-spacing: 0.03em;
+  text-transform: none;
+  font-weight: 600;
+}
+
 .masthead-tools {
   display: flex;
   flex-direction: row;
@@ -460,6 +484,32 @@ main {
   object-fit: contain;
   flex-shrink: 0;
   display: none;
+}
+
+.tab-icon-recap {
+  border: 2px solid currentColor;
+  border-radius: 4px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.tab-icon-recap::before,
+.tab-icon-recap::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 1px;
+}
+
+.tab-icon-recap::before {
+  top: 5px;
+}
+
+.tab-icon-recap::after {
+  top: 10px;
 }
 
 .tab-icon.wide {
@@ -3037,9 +3087,10 @@ input[type="checkbox"] {
     z-index: 30;
     margin: 0;
     gap: 3px;
-    overflow: visible;
+    overflow-x: auto;
+    overflow-y: hidden;
     flex-wrap: nowrap;
-    justify-content: space-around;
+    justify-content: flex-start;
     background: #0c0c0e;
     border: 0;
     border-top: 1px solid #ffffff18;
@@ -3051,11 +3102,12 @@ input[type="checkbox"] {
 
   .tabs button,
   .tabs a {
-    flex: 1;
+    flex: 1 0 auto;
     flex-direction: column;
     justify-content: center;
     gap: 0.18rem;
-    padding: 0.4rem 0.15rem 0.3rem;
+    padding: 0.4rem 0.35rem 0.3rem;
+    min-width: 3.4rem;
     min-height: 3.35rem;
     border-radius: calc(var(--radius) - 2px);
     font-size: 0.62rem;
@@ -3073,6 +3125,10 @@ input[type="checkbox"] {
   .tabs button.on .tab-icon,
   .tabs a.on .tab-icon {
     filter: invert(1);
+  }
+
+  .tabs a.on .tab-icon-recap {
+    filter: none;
   }
 
   .tab-full {

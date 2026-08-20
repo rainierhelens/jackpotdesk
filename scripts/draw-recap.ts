@@ -105,6 +105,9 @@ export function formatRecapHtml(
       ? `Recap for ${escapeHtml(payload.asOf)}. <a href="/recap">Latest recap</a>`
       : `Built ${escapeHtml(payload.asOf)} from the latest official draws. <a href="${escapeHtml(datedPath)}">Permalink ${escapeHtml(datedPath)}</a>`;
 
+  const recapCurrent =
+    page.kind === "latest" ? ' class="on" aria-current="page"' : ' class="on"';
+
   return `<!doctype html>
 <html lang="en">
   <head>
@@ -140,9 +143,25 @@ export function formatRecapHtml(
       gtag('config', 'G-3HEMBNLM71');
     </script>
   </head>
-  <body>
-    <main class="legal recap">
+  <body class="recap-body">
+    <header class="recap-chrome">
       <a class="legal-brand" href="/"><img src="/logo.png" alt="JackpotDesk" width="220" height="31" /></a>
+      <a class="masthead-recap" href="/recap">
+        Recap
+        <span>Last night vs The Ladder</span>
+      </a>
+      <nav class="tabs" aria-label="Primary">
+        <a href="/">Desk</a>
+        <a href="/recap"${recapCurrent}>Recap</a>
+        <a href="/?tab=tickets">Tickets</a>
+        <a href="/?tab=week"><span class="tab-full">This week</span><span class="tab-short">Week</span></a>
+        <a href="/?tab=map">Map</a>
+        <a href="/?tab=pool">Pool</a>
+        <a href="/?tab=why"><span class="tab-full">Why this</span><span class="tab-short">Why</span></a>
+        <a href="/?tab=write"><span class="tab-full">Write the desk</span><span class="tab-short">Write</span></a>
+      </nav>
+    </header>
+    <main class="legal recap">
       <nav class="legal-nav" aria-label="Site">
         <a href="/">Desk</a>
         <a href="/recap"${page.kind === "latest" ? ' aria-current="page"' : ""}>Recap</a>
