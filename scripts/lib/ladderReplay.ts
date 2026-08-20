@@ -37,8 +37,12 @@ export const REPLAY_GAMES = [
 
 export type ReplayGameId = (typeof REPLAY_GAMES)[number];
 
-/** Newest missing official dates to rank when a game is short of a seed. */
-export const SEED_PER_GAME = 40;
+/**
+ * Extra recent official dates to rank when a game is short of this many
+ * rows. Daily recap leaves this at 0 (last night from the recap payload is
+ * enough). Set LADDER_REPLAY_BACKFILL to fill a starter window.
+ */
+export const SEED_PER_GAME = 0;
 
 export const LEDGER_NOTE =
   "One row per game and official date. Existing rows are never overwritten. Rank #1 is the strongest match to history before that drawing, never the winning pick. Same hit odds as Quick Pick.";

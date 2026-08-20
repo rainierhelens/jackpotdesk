@@ -67,7 +67,7 @@ Lottery Heat ([`src/lib/lotteryHeat.ts`](../src/lib/lotteryHeat.ts)) is a **clie
 - Games: Powerball, Mega Millions, Hit 5, Lotto.
 - A row stores official whites / extra, history size under that ranking, #1–#3 boards, points, crowd, why, white hits, extra hit, overlap, official-only, and ladder-only numbers.
 - First write wins. Later recaps and ranking-formula changes do not rewrite an existing official date. That is what was first recorded for that night.
-- The first recap seeds up to 40 recent official dates per game so the book does not start at zero. After that, only new official dates append.
+- Each recap appends last night if that official date is new. Set `LADDER_REPLAY_BACKFILL` to also rank a short window of older missing dates. After that, only new official dates append.
 - This is a descriptive archive. It is not a holdout chart and it does not publish tonight's #1.
 - `npm run recap` writes the committed store and a public copy at `/recap/ladder-replay.json`.
 
