@@ -52,7 +52,7 @@ Default mode on Desk is Ladder ([`src/views/BoardView.tsx`](../src/views/BoardVi
 - **Pool**: members, shares, payouts in this browser.
 - **Why this**: method copy. Keep it aligned with [CLAIMS.md](CLAIMS.md).
 - **Recap** (desk tab, [`/recap`](../public/recap/index.html)): public scored replay. Latest at `/recap`. Dated copies at `/recap/YYYY-MM-DD`. Last official results versus the Ladder that was live before those numbers. EV call SKIP / ENTERTAIN ONLY / RARE PLUS. Link to the live Ladder for tonight. Does not publish tonight’s #1. Auto-built in the Pages job at 5:00 a.m. Pacific daily. Same primary tab bar as Desk. Each recap also appends that comparison to [`src/data/ladderReplay.json`](../src/data/ladderReplay.json) (public copy at `/recap/ladder-replay.json`). See [DIGEST.md](DIGEST.md) and [DATA_AND_MODELS.md](DATA_AND_MODELS.md).
-- **Private digest**: daily operator email of Ladder #1–#3 plus the EV call, 10:00 a.m. Pacific. Not a public list. Same libraries as the public recap, later clock. See [DIGEST.md](DIGEST.md).
+- **Private digest**: daily operator email of Ladder #1–#3 plus the EV call, 5:00 a.m. Pacific. Not a public list. Same libraries and clock as the public recap. See [DIGEST.md](DIGEST.md).
 - **Tip the desk**: optional gift for hosting and archives. Not a pass. See [DESK.md](DESK.md).
 - **Write the desk**: support form to the operator. No name required. Not a public list.
 
