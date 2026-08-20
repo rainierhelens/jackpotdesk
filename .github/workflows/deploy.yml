@@ -4,12 +4,13 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-  # After the 8 p.m. PT drawings, morning cashpot / jackpot pages, then 10:00 a.m.
-  # Pacific so the public recap siblings the private digest (draw-digest.yml).
+  # After the 8 p.m. PT drawings, morning cashpot / jackpot pages, and 5:00 a.m.
+  # Pacific daily for the public recap. 12:00 UTC is 5:00 a.m. PDT. All 7 days.
+  # Private digest stays on draw-digest.yml at 10:00 a.m. Pacific.
   schedule:
     - cron: "30 5 * * *"
+    - cron: "0 12 * * *"
     - cron: "0 16 * * *"
-    - cron: "0 17 * * *"
 
 permissions:
   contents: read

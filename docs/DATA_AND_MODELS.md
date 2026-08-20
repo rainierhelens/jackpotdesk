@@ -28,7 +28,7 @@ The Cloudflare Worker is a cache of the accumulating book, not the archive. Perm
 ## Jobs
 
 - [`.github/workflows/popularity.yml`](../.github/workflows/popularity.yml) — daily `45 16 * * *`: scrape national + WA winner counts, refit weights, commit if changed.
-- [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) — on push to `main` and three times daily (`30 5`, `0 16`, `0 17` UTC): `bake:wa`, `bake:map`, `bake:market`, `/recap` page, PUT books to the Worker, Pages build. The 10:00 a.m. Pacific run siblings the private digest.
+- [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) — on push to `main` and three times daily (`30 5`, `0 12`, `0 16` UTC): `bake:wa`, `bake:map`, `bake:market`, `/recap` page, PUT books to the Worker, Pages build. The 12:00 UTC run is 5:00 a.m. Pacific (PDT) and is the daily public recap publish, all 7 days. The private digest stays on `draw-digest.yml` at 10:00 a.m. Pacific.
 
 ## Popularity model (crowd)
 
