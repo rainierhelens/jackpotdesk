@@ -13,6 +13,7 @@ const TAB_PATH: Record<string, { title: string; path: string }> = {
   pool: { title: "Pool", path: "/pool" },
   why: { title: "Why this", path: "/why" },
   write: { title: "Write the desk", path: "/write" },
+  recap: { title: "Recap", path: "/recap" },
 };
 
 export function trackEvent(name: string, params: Record<string, unknown> = {}) {

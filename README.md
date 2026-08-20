@@ -8,7 +8,8 @@ Secondary tools:
 
 1. **This week:** expected value using cash jackpot, tax, and split risk.
 2. **Desk:** Ladder (default), Pattern lab, Desk pick (least-crowded), Quick mint, plus Heat and the number pool on one slip.
-3. **Pool:** members, shares, and payout splits in this browser.
+3. **Recap** ([`/recap`](https://www.jackpotdesk.com/recap)): public scored replay of the latest official draw versus that night’s Ladder #1–#3. Auto-published each morning. Does not list tonight’s #1.
+4. **Pool:** members, shares, and payout splits in this browser.
 
 This does **not** raise the chance of winning. Hit odds match Quick Pick. The live site is a free experiment; how we might charge later is in [`docs/BUSINESS.md`](docs/BUSINESS.md). How it looks and how copy is written: [`docs/STYLE.md`](docs/STYLE.md). Engines, claims, and the private digest: [`docs/`](docs/).
 

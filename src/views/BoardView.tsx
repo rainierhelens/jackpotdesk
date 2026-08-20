@@ -798,6 +798,10 @@ export function BoardView({
           <p className="kicker">All views</p>
           <h2>The desk</h2>
         </div>
+        <a className="masthead-recap" href="/recap">
+          Recap
+          <span>Last night vs The Ladder</span>
+        </a>
       </header>
       <details className="gen-fold is-hint">
         <summary>

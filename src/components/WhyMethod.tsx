@@ -44,6 +44,9 @@ export function WhyMethod() {
         ))}
       </div>
       <p className="why-lab">
+        <a href="/recap">Recap:</a> official results versus the
+        Ladder that was live before those numbers. A scored replay, not
+        tonight’s tip sheet.{" "}
         <a href="/lottery-lab.html">Lottery Lab:</a> models cannot beat Quick
         Pick. The Ladder ranks the past. It does not change the odds.
       </p>
