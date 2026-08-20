@@ -16,7 +16,8 @@
     "test": "vitest run",
     "preview": "vite preview",
     "digest": "tsx scripts/draw-digest.ts",
-    "digest:dry": "tsx scripts/draw-digest.ts --dry"
+    "digest:dry": "tsx scripts/draw-digest.ts --dry",
+    "recap": "tsx scripts/draw-recap.ts"
   },
   "dependencies": {
     "leaflet": "^1.9.4",

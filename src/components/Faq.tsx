@@ -17,6 +17,17 @@ export function Faq() {
       ),
     },
     {
+      q: "What is Last night?",
+      a: (
+        <>
+          A public scored replay. Last official results against the Ladder that
+          was live before those numbers. Same hit odds as Quick Pick.
+          Entertainment, not prediction. Tonight’s #1 stays on the live Ladder.{" "}
+          <a href="/last-night.html">Open last night</a>.
+        </>
+      ),
+    },
+    {
       q: "Then what is the benefit?",
       a: "The Ladder ranks scanned boards by how well they match official history. It is a scored replay of the past, not a forecast. It also prices the drawing using cash value, tax, and split risk, and can mint uncrowded tickets so a jackpot is less likely to be shared. Hit odds stay the published odds.",
     },

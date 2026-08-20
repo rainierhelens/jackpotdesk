@@ -4,10 +4,12 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-  # After the 8 p.m. PT drawings, then again in the morning for cashpot / jackpot pages.
+  # After the 8 p.m. PT drawings, morning cashpot / jackpot pages, then 10:00 a.m.
+  # Pacific so the public recap siblings the private digest (draw-digest.yml).
   schedule:
     - cron: "30 5 * * *"
     - cron: "0 16 * * *"
+    - cron: "0 17 * * *"
 
 permissions:
   contents: read
@@ -81,6 +83,8 @@ jobs:
             -H "Content-Type: application/json" \
             --data-binary @src/data/marketQuotes.json
         continue-on-error: true
+      - name: Build last-night recap
+        run: npm run recap
       - name: Build site
         run: npm run build
       - uses: actions/upload-pages-artifact@v5

@@ -7,247 +7,16 @@
  *   npm run digest           # print + send if secrets are set
  *   npm run digest:dry       # print only
  */
-import { readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
-import { fetchMarket, estimateTicketsSold } from "../src/lib/market.ts";
 import {
-  computeEv,
-  formatCompact,
-  moneyExact,
-  playAdvice,
-} from "../src/lib/ev.ts";
-import { crowdReading, waCrowdReading } from "../src/lib/popularity.ts";
-import {
-  buildPatternModel,
-  patternLadder,
-  type LadderEntry,
-} from "../src/lib/patternLab.ts";
-import { GAMES } from "../src/lib/prizes.ts";
-import { fetchOfficialDraws } from "../src/lib/winners.ts";
-import { WA_GAMES } from "../src/lib/waGames.ts";
-import type { GameId, WaGameId } from "../src/types.ts";
-
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const SITE = "https://www.jackpotdesk.com";
-const TAX = { federalTax: 0.37, stateTax: 0, humanTicketShare: 0.2 };
-const LADDER_TOP = 3;
-
-type WaBook = {
-  asOf?: string;
-  draws?: Record<string, { date: string; numbers: number[] }[]>;
-  prizes?: {
-    hit5?: { cashpot?: number };
-    lotto?: { advertised?: number; cash?: number };
-  };
-};
-
-type NationalBlock = {
-  id: GameId;
-  label: string;
-  extraLabel: string;
-  nextDraw: string | null;
-  advertised: string;
-  cash: string;
-  netEv: string;
-  advice: string;
-  tone: "no" | "entertain" | "rare";
-  lastDraw: string | null;
-  history: number;
-  rungs: Rung[];
-};
-
-type WaBlock = {
-  id: WaGameId;
-  label: string;
-  when: string;
-  prizeLine: string;
-  lastDraw: string | null;
-  history: number;
-  rungs: Rung[];
-};
-
-type Rung = {
-  rank: number;
-  board: string;
-  points: number;
-  crowd: string | null;
-  why: string;
-};
-
-type DigestPayload = {
-  asOf: string;
-  national: NationalBlock[];
-  washington: WaBlock[];
-  notes: string[];
-};
-
-function todayIso(now = new Date()): string {
-  return now.toISOString().slice(0, 10);
-}
-
-function boardLine(numbers: number[], extra: number | null, extraLabel: string | null): string {
-  const whites = numbers.map((n) => String(n).padStart(2, "0")).join("  ");
-  if (extra == null || !extraLabel) return whites;
-  return `${whites}  +  ${String(extra).padStart(2, "0")} ${extraLabel}`;
-}
-
-function crowdLabel(
-  reading: { index: number; beats: number } | null,
-): string | null {
-  if (!reading) return null;
-  return `${reading.index.toFixed(2)}x crowd · beats ${reading.beats}% of random boards`;
-}
-
-function rungsFrom(
-  entries: LadderEntry[],
-  extraLabel: string | null,
-  crowd: (entry: LadderEntry) => { index: number; beats: number } | null,
-): Rung[] {
-  return entries.slice(0, LADDER_TOP).map((entry) => ({
-    rank: entry.rank,
-    board: boardLine(entry.numbers, entry.extra, extraLabel),
-    points: entry.points,
-    crowd: crowdLabel(crowd(entry)),
-    why: entry.why,
-  }));
-}
-
-function loadWaBook(): WaBook {
-  return JSON.parse(
-    readFileSync(join(ROOT, "src/data/waDraws.json"), "utf8"),
-  ) as WaBook;
-}
-
-async function nationalBlock(game: GameId): Promise<NationalBlock> {
-  const spec = GAMES[game];
-  const [market, official] = await Promise.all([
-    fetchMarket(game),
-    fetchOfficialDraws(game),
-  ]);
-  const ticketsSold = estimateTicketsSold(market.advertised, spec.ticketCost);
-  const ev = computeEv(game, {
-    advertisedJackpot: market.advertised,
-    cashJackpot: market.cash,
-    ticketsSold,
-    ...TAX,
-  });
-  const advice = playAdvice(ev.unique.netEv);
-  const model = buildPatternModel(
-    official.draws.map((d) => ({ numbers: d.whites, extra: d.extra })),
-    spec.whiteMax,
-    spec.extraMax,
-  );
-  if (!model) {
-    throw new Error(`Not enough ${spec.label} history to rank`);
-  }
-  const ladder = patternLadder(model, 5, LADDER_TOP);
-  return {
-    id: game,
-    label: spec.label,
-    extraLabel: spec.extraLabel,
-    nextDraw: market.nextDraw,
-    advertised: formatCompact(market.advertised),
-    cash: formatCompact(market.cash),
-    netEv: moneyExact.format(ev.unique.netEv),
-    advice: advice.text,
-    tone: advice.tone,
-    lastDraw: official.asOf,
-    history: official.draws.length,
-    rungs: rungsFrom(ladder.entries, spec.extraLabel, (entry) =>
-      entry.extra == null
-        ? null
-        : crowdReading(game, entry.numbers, entry.extra),
-    ),
-  };
-}
-
-function waWhen(id: WaGameId): string {
-  if (id === "hit5") return "Daily 8 p.m. PT";
-  if (id === "lotto") return "Mon / Wed / Sat 8 p.m. PT";
-  return "See Washington's Lottery";
-}
-
-function waBlock(book: WaBook, id: "hit5" | "lotto"): WaBlock {
-  const spec = WA_GAMES[id];
-  const draws = book.draws?.[id] ?? [];
-  const model = buildPatternModel(
-    draws.map((d) => ({ numbers: d.numbers })),
-    spec.whiteMax,
-  );
-  if (!model) {
-    throw new Error(`Not enough ${spec.label} history to rank`);
-  }
-  const ladder = patternLadder(model, spec.whiteCount, LADDER_TOP);
-  let prizeLine: string;
-  if (id === "hit5") {
-    const cashpot = book.prizes?.hit5?.cashpot ?? 0;
-    const share = cashpot / spec.jackpotOdds;
-    prizeLine = `Cashpot ${moneyExact.format(cashpot)}. About ${moneyExact.format(share)} of the $1 is the cashpot before lower prizes.`;
-  } else {
-    const advertised = book.prizes?.lotto?.advertised ?? 0;
-    const cash = book.prizes?.lotto?.cash ?? 0;
-    const share = (2 * cash) / spec.jackpotOdds;
-    prizeLine = `Advertised ${moneyExact.format(advertised)} · cash ${moneyExact.format(cash)}. About ${moneyExact.format(share)} of the $1 is the cash jackpot (two boards per dollar).`;
-  }
-  return {
-    id,
-    label: spec.label,
-    when: waWhen(id),
-    prizeLine,
-    lastDraw: draws[0]?.date ?? book.asOf ?? null,
-    history: draws.length,
-    rungs: rungsFrom(ladder.entries, null, (entry) =>
-      waCrowdReading(id, entry.numbers),
-    ),
-  };
-}
-
-async function buildPayload(): Promise<DigestPayload> {
-  const notes: string[] = [];
-  const national: NationalBlock[] = [];
-  for (const game of ["powerball", "megamillions"] as const) {
-    try {
-      national.push(await nationalBlock(game));
-    } catch (err) {
-      notes.push(
-        `${GAMES[game].label} feed failed: ${err instanceof Error ? err.message : String(err)}`,
-      );
-    }
-  }
-  const washington: WaBlock[] = [];
-  try {
-    const book = loadWaBook();
-    for (const id of ["hit5", "lotto"] as const) {
-      try {
-        washington.push(waBlock(book, id));
-      } catch (err) {
-        notes.push(
-          `${WA_GAMES[id].label} ranking failed: ${err instanceof Error ? err.message : String(err)}`,
-        );
-      }
-    }
-  } catch (err) {
-    notes.push(
-      `Washington book failed: ${err instanceof Error ? err.message : String(err)}`,
-    );
-  }
-  return { asOf: todayIso(), national, washington, notes };
-}
-
-function callLine(block: NationalBlock): string {
-  if (block.tone === "rare") return "RARE PLUS";
-  if (block.tone === "entertain") return "ENTERTAIN ONLY";
-  return "SKIP AS AN INVESTMENT";
-}
-
-function escapeHtml(raw: string): string {
-  return raw
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
+  SITE,
+  assertNoEmDash,
+  buildDigestPayload,
+  digestCallLine,
+  escapeHtml,
+  type DigestPayload,
+  type NationalBlock,
+  type Rung,
+} from "./lib/deskLetter.ts";
 
 function rungHtml(rung: Rung): string {
   return `<tr>
@@ -267,7 +36,7 @@ function formatHtml(payload: DigestPayload): string {
         block.tone === "no" ? "#ef4444" : block.tone === "rare" ? "#00c758" : "#ffca16";
       return `<h2 style="font-family:Impact,Arial Black,sans-serif;text-transform:uppercase;letter-spacing:0.04em;font-size:22px;margin:28px 0 8px;">${escapeHtml(block.label)}</h2>
       <p style="margin:0 0 6px;color:#a1a1aa;font-size:13px;">Next draw ${escapeHtml(block.nextDraw ?? "unlisted")} · advertised $${escapeHtml(block.advertised)} · cash $${escapeHtml(block.cash)}</p>
-      <p style="margin:0 0 10px;font-size:14px;"><span style="color:${callColor};font-weight:700;">${callLine(block)}</span> · unique-ticket EV ${escapeHtml(block.netEv)} after 37% federal, 0% WA state.</p>
+      <p style="margin:0 0 10px;font-size:14px;"><span style="color:${callColor};font-weight:700;">${digestCallLine(block.tone)}</span> · unique-ticket EV ${escapeHtml(block.netEv)} after 37% federal, 0% WA state.</p>
       <p style="margin:0 0 12px;color:#a1a1aa;font-size:13px;">${escapeHtml(block.advice)}</p>
       <table width="100%" cellpadding="0" cellspacing="0">${block.rungs.map(rungHtml).join("")}</table>
       <p style="margin:10px 0 0;color:#71717a;font-size:12px;">Last official ${escapeHtml(block.lastDraw ?? "n/a")} · ${block.history} draws in the model. <a href="${SITE}/?desk=national&game=${block.id}" style="color:#3b9eff;">Open the ladder</a></p>`;
@@ -317,7 +86,7 @@ function formatText(payload: DigestPayload): string {
       `Next draw ${block.nextDraw ?? "unlisted"} · advertised $${block.advertised} · cash $${block.cash}`,
     );
     lines.push(
-      `${callLine(block)} · unique-ticket EV ${block.netEv} after 37% federal, 0% WA state.`,
+      `${digestCallLine(block.tone)} · unique-ticket EV ${block.netEv} after 37% federal, 0% WA state.`,
     );
     lines.push(block.advice);
     for (const rung of block.rungs) {
@@ -356,7 +125,7 @@ function formatText(payload: DigestPayload): string {
 }
 
 function subjectLine(payload: DigestPayload): string {
-  const bits = payload.national.map((block) => {
+  const bits = payload.national.map((block: NationalBlock) => {
     const short = block.id === "powerball" ? "PB" : "MM";
     const call =
       block.tone === "rare" ? "plus" : block.tone === "entertain" ? "play" : "skip";
@@ -364,12 +133,6 @@ function subjectLine(payload: DigestPayload): string {
   });
   const tail = bits.length ? bits.join(" · ") : "feeds down";
   return `Desk digest · ${payload.asOf} · ${tail}`;
-}
-
-function assertNoEmDash(label: string, raw: string): void {
-  if (raw.includes("\u2014") || raw.includes("—")) {
-    throw new Error(`${label} contains an em dash`);
-  }
 }
 
 async function sendResend(subject: string, html: string, text: string): Promise<void> {
@@ -404,7 +167,7 @@ async function sendResend(subject: string, html: string, text: string): Promise<
 
 async function main(): Promise<void> {
   const dry = process.argv.includes("--dry");
-  const payload = await buildPayload();
+  const payload = await buildDigestPayload();
   const subject = subjectLine(payload);
   const html = formatHtml(payload);
   const text = formatText(payload);
