@@ -85,6 +85,7 @@ export function parseClaimedPrizeCards(html) {
     (match) => match[1],
   );
   const claims = [];
+  const unlocatedByGame = Object.fromEntries(CLAIMED_GAMES.map((game) => [game, 0]));
   let unlocated = 0;
   let merchandise = 0;
   for (const table of tables) {
@@ -103,6 +104,7 @@ export function parseClaimedPrizeCards(html) {
     if (amount == null) merchandise += 1;
     if (!location) {
       unlocated += 1;
+      unlocatedByGame[game] += 1;
       continue;
     }
     const scratch = table.match(/<p>([^<]+)<\/p>/);
@@ -118,7 +120,7 @@ export function parseClaimedPrizeCards(html) {
       locationKey: location.locationKey,
     });
   }
-  return { claims, unlocated, merchandise, listed: tables.length };
+  return { claims, unlocated, unlocatedByGame, merchandise, listed: tables.length };
 }
 
 export function aggregateClaimedStores(claims) {
@@ -175,6 +177,7 @@ export function buildClaimedPrizeBook(html, fetchedAt = new Date().toISOString()
     listedCards: parsed.listed,
     locatedClaims: parsed.claims.length,
     unlocatedClaims: parsed.unlocated,
+    unlocatedByGame: parsed.unlocatedByGame,
     merchandiseClaims: parsed.merchandise,
     storeCount: stores.length,
     dateMin: dates[0] ?? null,

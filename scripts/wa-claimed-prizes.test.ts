@@ -60,6 +60,14 @@ describe("wa claimed prizes parser", () => {
     const parsed = parseClaimedPrizeCards(FIXTURE);
     expect(parsed.listed).toBe(4);
     expect(parsed.unlocated).toBe(1);
+    expect(parsed.unlocatedByGame).toEqual({
+      Powerball: 0,
+      "Mega Millions": 0,
+      Lotto: 1,
+      "Hit 5": 0,
+      "Match 4": 0,
+      Scratch: 0,
+    });
     expect(parsed.merchandise).toBe(1);
     expect(parsed.claims).toHaveLength(3);
     expect(parsed.claims.every((claim) => !("winner" in claim))).toBe(true);
@@ -76,6 +84,9 @@ describe("wa claimed prizes parser", () => {
     const book = buildClaimedPrizeBook(FIXTURE, "2026-08-20T00:00:00.000Z");
     expect(book.storeCount).toBe(2);
     expect(book.locatedClaims).toBe(3);
+    expect(book.unlocatedClaims).toBe(1);
+    expect(book.unlocatedByGame.Lotto).toBe(1);
+    expect(book.unlocatedByGame.Scratch).toBe(0);
     expect(bookHasWinnerNames(book)).toBe(false);
     expect(JSON.stringify(book)).not.toMatch(/ALEX M|RICHARD W|JANE D|PAT Q/);
   });
