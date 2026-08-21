@@ -192,8 +192,8 @@ export function overtimeHeadline(score: OvertimeScore): string {
 export function overtimeNetClass(score: OvertimeScore): string {
   if (score.net == null) return "is-unknown";
   if (score.net > 0) return "is-ahead";
-  if (score.net < 0) return "is-house";
-  return "is-cash";
+  if (score.net < 0) return "is-behind";
+  return "is-flat";
 }
 
 function paidBit(paid: number, base: boolean): string {

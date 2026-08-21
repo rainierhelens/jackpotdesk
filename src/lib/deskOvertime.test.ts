@@ -10,6 +10,7 @@ import {
   formatOvertimeNet,
   overtimeHeadline,
   overtimeNet,
+  overtimeNetClass,
   overtimeScore,
   overtimeWindowRange,
   recapJackpotCash,
@@ -407,7 +408,16 @@ describe("overtime net", () => {
     expect(formatOvertimeNet(-26)).toBe("-$26");
     expect(formatOvertimeNet(-11)).toBe("-$11");
     expect(formatOvertimeNet(15)).toBe("+$15");
+    expect(formatOvertimeNet(1_000_000)).toBe("+$1,000,000");
     expect(formatOvertimeNet(0)).toBe("$0");
+    expect(overtimeNetClass({ net: -26, score: "-$26" })).toBe("is-behind");
+    expect(overtimeNetClass({ net: 1_000_000, score: "+$1,000,000" })).toBe(
+      "is-ahead",
+    );
+    expect(overtimeNetClass({ net: 0, score: "$0" })).toBe("is-flat");
+    expect(overtimeNetClass({ net: null, score: JACKPOT_UNKNOWN })).toBe(
+      "is-unknown",
+    );
     expect(overtimeNet(0, 26, false)).toBe(-26);
     expect(overtimeNet(15, 26, false)).toBe(-11);
     expect(overtimeNet(40, 26, false)).toBe(14);

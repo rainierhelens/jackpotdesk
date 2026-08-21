@@ -372,7 +372,8 @@ describe("recap page", () => {
     expect(desk.all.mornings).toBe(2);
     expect(desk.all.spent).toBe(16);
     expect(desk.all.paid).toBe(20);
-    expect(index).toContain(desk.windows[0]!.headline);
+    expect(index).toContain("Ladder vs the house");
+    expect(index).toContain('class="recap-overtime-chip is-ahead"');
     expect(index).toContain(desk.windows[0]!.acrossLine);
     expect(index).toContain(
       `Last 7 days · 2 of 7 mornings · spent $16 · paid $20 · ${OVERTIME_FILLING}`,
@@ -385,12 +386,12 @@ describe("recap page", () => {
     const desk = scoreOvertimeWindows([FIXTURE]);
     expect(html).toContain('class="panel recap-overtime"');
     expect(html).toContain("Ladder #1–#3");
-    expect(html).toContain("Ladder vs the house · +$2");
-    expect(html).toContain('class="recap-overtime-headline');
+    expect(html).toContain("Ladder vs the house");
+    expect(html).toContain('class="recap-overtime-chip is-ahead"');
+    expect(html).toContain("+$2");
     expect(html).toContain('data-overtime-window="days7"');
     expect(html).toContain('data-overtime-window="month"');
     expect(html).toContain('data-overtime-window="quarter"');
-    expect(html).toContain(desk.windows[0]!.headline);
     expect(html).toContain(desk.windows[0]!.acrossLine);
     expect(html).toContain(desk.windows[1]!.acrossLine);
     expect(html).toContain(desk.windows[2]!.acrossLine);
@@ -403,8 +404,10 @@ describe("recap page", () => {
     expect(html).toContain("Hit 5 · 1 board · spent $1 · paid $0 · " + FREE_PLAY_LABEL + " · -$1");
     expect(html).toContain("Powerball · 3 boards · spent $6 · paid $7 · +$1");
     expect(html).toContain("Lotto · 1 board · spent $1 · paid $3 · +$2");
-    expect(html).toContain("Any revenue");
-    expect(html).toContain("Beat the house");
+    expect(html).not.toContain("Any revenue");
+    expect(html).not.toContain("Beat the house");
+    expect(html).not.toContain("no cash yet");
+    expect(html).not.toContain("cash on the board");
     expect(html).toContain(OVERTIME_NOTE);
     expect(html.indexOf("recap-overtime")).toBeLessThan(html.indexOf("recap-day"));
     const overtime = html.match(
