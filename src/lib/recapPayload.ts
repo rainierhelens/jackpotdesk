@@ -4,6 +4,7 @@ import {
   heatScale,
   type HeatCell,
 } from "./lotteryHeat";
+import { deskPayPhrase } from "./deskPrize";
 
 export type RecapTone = "no" | "entertain" | "rare";
 
@@ -67,6 +68,9 @@ export type RecapWashington = {
   rungs: RecapRung[];
   ladderHref: string;
   officialStore?: string | null;
+  cashpot?: number | null;
+  advertised?: string | number | null;
+  cash?: string | number | null;
 };
 
 export type RecapPayload = {
@@ -105,6 +109,7 @@ export const DESK_LINE_LEAD = "Same hit odds as Quick Pick.";
 export const DESK_LINE_LINK = "jackpotdesk.com/recap";
 
 export type DeskLineBlock = {
+  id?: string | null;
   label: string;
   officialDate: string;
   officialWhites: number[];
@@ -116,6 +121,9 @@ export type DeskLineBlock = {
     extraHit?: boolean | null;
   }>;
   tone?: RecapTone | null;
+  cashpot?: number | null;
+  advertised?: string | number | null;
+  cash?: string | number | null;
   /** Ignored. Desk line never prints a store, city, or winner name. */
   officialStore?: string | null;
 };
@@ -190,6 +198,30 @@ function overlapPhrase(
   return shared ? `${of} (${shared})` : of;
 }
 
+function payBit(
+  block: DeskLineBlock,
+  rung: DeskLineBlock["rungs"][number],
+  style: "full" | "short",
+): string {
+  return deskPayPhrase(block, rung, style);
+}
+
+function scoredBit(
+  block: DeskLineBlock,
+  rung: DeskLineBlock["rungs"][number],
+  opts: { shared: boolean; pay: "full" | "short" | "none" },
+): string {
+  const overlap = overlapPhrase(
+    block.label,
+    block.officialWhites,
+    block.officialExtra,
+    rung,
+    opts.shared,
+  );
+  if (opts.pay === "none") return overlap;
+  return `${overlap} · ${payBit(block, rung, opts.pay)}`;
+}
+
 function joinDesk(...parts: Array<string | null | undefined>): string {
   return parts
     .filter((part): part is string => Boolean(part && part.trim()))
@@ -205,15 +237,21 @@ function topRung(block: DeskLineBlock) {
 }
 
 function deskOrder(label: string): number {
-  if (/lotto/i.test(label)) return 0;
-  if (/hit\s*5/i.test(label)) return 1;
-  if (/powerball/i.test(label)) return 2;
+  if (/hit\s*5/i.test(label)) return 0;
+  if (/powerball/i.test(label)) return 1;
+  if (/lotto/i.test(label)) return 2;
   if (/mega/i.test(label)) return 3;
   return 4;
 }
 
+function stripName(label: string): string {
+  if (/powerball/i.test(label)) return "PB";
+  if (/mega/i.test(label)) return "MM";
+  return label;
+}
+
 /**
- * Per-game tweet. Official board plus last night #1–#3 overlap.
+ * Per-game tweet. Official board, last night #1–#3 overlap, prize-if-played.
  * Same-odds lives on the /recap header, not here. No store or tonight's #1.
  */
 export function deskLine(block: DeskLineBlock): string {
@@ -223,7 +261,7 @@ export function deskLine(block: DeskLineBlock): string {
   const call = block.tone ? recapCallLabel(block.tone) : null;
 
   const one = top
-    ? `Last night #1 ${overlapPhrase(block.label, block.officialWhites, block.officialExtra, top, true)}.`
+    ? `Last night #1 ${scoredBit(block, top, { shared: true, pay: "full" })}.`
     : "";
 
   const compose = (extras: string[], link: boolean) =>
@@ -231,9 +269,14 @@ export function deskLine(block: DeskLineBlock): string {
 
   const extras: string[] = [];
   for (const rung of rest) {
-    const full = `#${rung.rank} ${overlapPhrase(block.label, block.officialWhites, block.officialExtra, rung, true)}.`;
-    const bare = `#${rung.rank} ${overlapPhrase(block.label, block.officialWhites, block.officialExtra, rung, false)}.`;
-    const pick = [full, bare].find((variant) => deskFits(compose([...extras, variant], false)));
+    const variants = [
+      `#${rung.rank} ${scoredBit(block, rung, { shared: true, pay: "full" })}.`,
+      `#${rung.rank} ${scoredBit(block, rung, { shared: false, pay: "short" })}.`,
+      `#${rung.rank} ${payBit(block, rung, "short")}.`,
+    ];
+    const pick = variants.find((variant) =>
+      deskFits(compose([...extras, variant], false)),
+    );
     if (pick) extras.push(pick);
   }
   if (call && deskFits(compose([...extras, `${call}.`], false))) {
@@ -247,36 +290,32 @@ export function deskLine(block: DeskLineBlock): string {
 function stripGame(
   block: DeskLineBlock,
   withShared: boolean,
-): { label: string; sentence: string } | null {
+  withPay: boolean,
+): string | null {
   const top = topRung(block);
   if (!top) return null;
-  const of = overlapPhrase(
+  const overlap = overlapPhrase(
     block.label,
     block.officialWhites,
     block.officialExtra,
     top,
     withShared,
   );
-  if (/lotto/i.test(block.label)) {
-    const hits = sharedDeskWhites(block.officialWhites, top.whites).length;
-    return {
-      label: block.label,
-      sentence: `Lotto is 6 whites, so last night's #1 was ${of}, not ${hits} of 5.`,
-    };
-  }
-  return {
-    label: block.label,
-    sentence: `${block.label} was ${of}.`,
-  };
+  const name = stripName(block.label);
+  if (!withPay) return `${name} ${overlap}.`;
+  return `${name} ${overlap} · ${payBit(block, top, "full")}.`;
 }
 
-function joinStrip(parts: string[], link: boolean): string {
-  return joinDesk(...parts, link ? DESK_LINE_LINK : null);
+function allTopZero(blocks: DeskLineBlock[]): boolean {
+  return blocks.every((block) => {
+    const top = topRung(block);
+    return top ? deskPayPhrase(block, top, "short") === "$0" : true;
+  });
 }
 
 /**
- * One tweet for every last-night game. Lotto leads so N of 6 is not N of 5.
- * Returns null when fewer than two games, or when it cannot stay ≤280.
+ * One tweet for every last-night game. Returns null when fewer than two
+ * games, or when it cannot stay ≤280.
  */
 export function deskStrip(blocks: DeskLineBlock[]): string | null {
   const playable = [...blocks]
@@ -284,20 +323,29 @@ export function deskStrip(blocks: DeskLineBlock[]): string | null {
     .sort((a, b) => deskOrder(a.label) - deskOrder(b.label));
   if (playable.length < 2) return null;
 
-  const tryBuild = (withShared: boolean, link: boolean): string | null => {
-    const parts = playable
-      .map((block) => stripGame(block, withShared)?.sentence)
+  const zeros = allTopZero(playable);
+  const tryBuild = (
+    withShared: boolean,
+    withPay: boolean,
+    link: boolean,
+  ): string | null => {
+    const games = playable
+      .map((block) => stripGame(block, withShared, withPay && !zeros))
       .filter((part): part is string => Boolean(part));
-    if (parts.length < 2) return null;
-    const text = joinStrip(parts, link);
+    if (games.length < 2) return null;
+    const lead = zeros
+      ? "Last night #1 paid $0 across the board."
+      : "Last night #1.";
+    const text = joinDesk(lead, ...games, link ? DESK_LINE_LINK : null);
     return deskFits(text) ? text : null;
   };
 
   return (
-    tryBuild(true, true) ??
-    tryBuild(true, false) ??
-    tryBuild(false, true) ??
-    tryBuild(false, false)
+    tryBuild(true, true, true) ??
+    tryBuild(true, true, false) ??
+    tryBuild(true, false, true) ??
+    tryBuild(false, true, false) ??
+    tryBuild(false, false, false)
   );
 }
 

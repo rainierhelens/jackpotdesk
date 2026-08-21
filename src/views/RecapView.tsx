@@ -64,6 +64,9 @@ function asDeskBlock(
     officialExtra: block.officialExtra,
     rungs: block.rungs,
     tone: "tone" in block ? block.tone : null,
+    cashpot: "cashpot" in block ? block.cashpot : null,
+    advertised: "advertised" in block ? block.advertised : null,
+    cash: "cash" in block ? block.cash : null,
   };
 }
 

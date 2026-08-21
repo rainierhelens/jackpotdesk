@@ -142,18 +142,25 @@ export type RecapWashington = {
   rungs: ReplayRung[];
   ladderHref: string;
   officialStore?: string | null;
+  cashpot?: number | null;
+  advertised?: string | number | null;
+  cash?: string | number | null;
 };
 
 function asDeskBlock(
   block: RecapNational | RecapWashington,
 ): Parameters<typeof deskLine>[0] {
   return {
+    id: "id" in block ? block.id : null,
     label: block.label,
     officialDate: block.officialDate,
     officialWhites: block.officialWhites,
     officialExtra: block.officialExtra,
     rungs: block.rungs,
     tone: "tone" in block ? block.tone : null,
+    cashpot: "cashpot" in block ? block.cashpot : null,
+    advertised: "advertised" in block ? block.advertised : null,
+    cash: "cash" in block ? block.cash : null,
   };
 }
 
@@ -513,6 +520,15 @@ export function recapWashington(
     heat: slimHeat(draws.slice(1), waHeatSpec(spec), null),
     rungs: replay.rungs,
     ladderHref: `${SITE}/?desk=washington&wa=${id}`,
+    cashpot: id === "hit5" ? book.prizes?.hit5?.cashpot ?? null : null,
+    advertised:
+      id === "lotto" && book.prizes?.lotto?.advertised
+        ? formatCompact(book.prizes.lotto.advertised)
+        : null,
+    cash:
+      id === "lotto" && book.prizes?.lotto?.cash
+        ? formatCompact(book.prizes.lotto.cash)
+        : null,
   };
 }
 
