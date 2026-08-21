@@ -10,6 +10,7 @@ import type { DeskId, GameId, Ticket, WaGameId } from "./types";
 import { BackToTop } from "./components/BackToTop";
 import { Faq } from "./components/Faq";
 import { Footer } from "./components/Footer";
+import { LazyTabFallback } from "./components/LazyTabFallback";
 import { MarketPicker } from "./components/MarketPicker";
 import { MarketTicker } from "./components/MarketTicker";
 import { WhyMethod } from "./components/WhyMethod";
@@ -453,7 +454,7 @@ export default function App() {
       ) : null}
 
       <main>
-      <Suspense fallback={null}>
+      <Suspense fallback={<LazyTabFallback />}>
       {tab === "recap" ? (
         <RecapView pathname={window.location.pathname} />
       ) : null}
