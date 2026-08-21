@@ -189,6 +189,8 @@ a {
 .recap-main {
   display: grid;
   gap: 0.85rem;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .recap-overtime {
@@ -464,6 +466,13 @@ a {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 1.15rem 1.15rem 1.35rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.desk-page {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .panel-head {
@@ -472,6 +481,8 @@ a {
   gap: 1rem;
   align-items: flex-start;
   flex-wrap: wrap;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .kicker {
@@ -492,6 +503,7 @@ h2 {
 .desk-page > p {
   max-width: 46rem;
   color: var(--muted);
+  overflow-wrap: anywhere;
 }
 
 .desk-page > p {
@@ -1277,31 +1289,78 @@ h2 {
     display: inline;
   }
 
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
   .shell {
     padding-bottom: calc(5.75rem + var(--safe-bottom));
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: clip;
+  }
+
+  .recap-main {
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: clip;
+  }
+
+  .panel {
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: clip;
+  }
+
+  .desk-page {
+    max-width: 100%;
+    min-width: 0;
     overflow-x: clip;
   }
 
   .panel-head {
     flex-direction: column;
     align-items: stretch;
-  }
-
-  .panel-head .fine,
-  .hit-toolbar,
-  .hit-toolbar .segment {
+    flex-wrap: wrap;
     min-width: 0;
     max-width: 100%;
   }
 
+  .panel-head > *,
+  .panel-head h2,
+  .panel-head .fine,
+  .hit-lead,
+  .desk-page > p,
+  .hit-toolbar,
+  .hit-story,
+  .hit-walk-card {
+    min-width: 0;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .hit-asof {
+    min-width: 0;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
   .hit-toolbar .segment {
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    flex-wrap: wrap;
   }
 
   .hit-toolbar .segment button {
     flex: 1 1 auto;
     padding-left: 0.45rem;
     padding-right: 0.45rem;
+    white-space: normal;
   }
 
   .recap-rungs {
