@@ -417,6 +417,7 @@ export function formatRecapHtml(
               <h1 class="brand">
                 <a class="brand-home" href="/" aria-label="JackpotDesk home">
                   <img class="brand-logo" src="/logo.png" alt="" width="294" height="41" />
+                  <span class="brand-name">JackpotDesk</span>
                 </a>
               </h1>
               <p class="tag">

@@ -319,7 +319,7 @@ export default function App() {
 
   return (
     <div className="shell">
-      <div className="chrome">
+      <div className={tab === "board" ? "chrome is-desk" : "chrome"}>
       <header className="masthead">
         <div className="masthead-row">
           <div className="masthead-brand">
@@ -337,6 +337,7 @@ export default function App() {
                   width={294}
                   height={41}
                 />
+                <span className="brand-name">JackpotDesk</span>
               </a>
             </h1>
             <p className="tag">

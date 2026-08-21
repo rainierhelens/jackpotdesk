@@ -374,6 +374,10 @@ main {
   max-width: min(264px, 70vw);
 }
 
+.brand-name {
+  display: none;
+}
+
 .tag {
   margin: 0.15rem 0 0;
   color: var(--muted);
@@ -3373,6 +3377,10 @@ input[type="checkbox"] {
 }
 
 @media (max-width: 720px) {
+  .recap-jump {
+    display: none;
+  }
+
   .tag {
     display: none;
   }
@@ -3387,9 +3395,30 @@ input[type="checkbox"] {
     gap: 0.4rem;
   }
 
+  /* Phone chrome: no logo, no Recap pill. Recap is a tab. Keep in sync with public/desk-page.css. */
   .brand-logo {
-    height: 24px;
-    max-width: min(220px, 100%);
+    display: none;
+  }
+
+  .masthead-recap {
+    display: none;
+  }
+
+  .brand {
+    line-height: 1.1;
+  }
+
+  .brand-name {
+    display: inline;
+    font-family: var(--display);
+    font-size: 1.2rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .chrome:not(.is-desk) .masthead-tools {
+    display: none;
   }
 
   .masthead-tools {
@@ -3414,6 +3443,7 @@ input[type="checkbox"] {
     padding-right: 0.5rem;
   }
 
+  /* Phone dock: same contract as public/desk-page.css. */
   .tabs {
     position: fixed;
     left: 0;
@@ -3422,6 +3452,8 @@ input[type="checkbox"] {
     z-index: 30;
     margin: 0;
     gap: 3px;
+    width: auto;
+    max-width: none;
     overflow-x: auto;
     overflow-y: hidden;
     flex-wrap: nowrap;
@@ -3448,6 +3480,7 @@ input[type="checkbox"] {
     font-size: 0.62rem;
     letter-spacing: 0.02em;
     font-weight: 700;
+    white-space: nowrap;
   }
 
   .tabs button.on,

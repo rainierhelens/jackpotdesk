@@ -285,6 +285,9 @@ describe("recap page", () => {
     expect(html).toMatch(/<a href="\/recap" class="on" aria-current="page">Recap<\/a>/);
     expect(html).toContain("Last night vs The Ladder");
     expect(html).toContain('class="recap-main"');
+    expect(html).toContain('class="brand-logo"');
+    expect(html).toContain('class="brand-name"');
+    expect(html).toContain('class="tab-short"');
   });
 
   it("includes a copyable tweet-length desk line per game", () => {
