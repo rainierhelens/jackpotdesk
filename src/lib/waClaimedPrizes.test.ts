@@ -146,7 +146,7 @@ describe("claimed-prize stories", () => {
     expect(() =>
       parseClaimedPrizeBook({
         ...WA_CLAIMED,
-        unlocatedByGame: { Lotto: 31 },
+        unlocatedByGame: { Lotto: 1 },
       }),
     ).toThrow(/sum to unlocatedClaims/);
   });
