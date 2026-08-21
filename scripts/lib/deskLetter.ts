@@ -26,7 +26,19 @@ import { fetchOfficialDraws, type OfficialDraw } from "../../src/lib/winners.ts"
 import { WA_GAMES } from "../../src/lib/waGames.ts";
 import type { GameId, WaGameId } from "../../src/types.ts";
 import { heatBookFromDraws, waHeatSpec } from "../../src/lib/lotteryHeat.ts";
-import type { RecapHeat } from "../../src/lib/recapPayload.ts";
+import {
+  deskLine,
+  type RecapHeat,
+} from "../../src/lib/recapPayload.ts";
+
+export {
+  DESK_LINE_LEAD,
+  DESK_LINE_LINK,
+  DESK_LINE_MAX,
+  compactDeskBoard,
+  deskLine,
+  officialStoreNote,
+} from "../../src/lib/recapPayload.ts";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "../..");
 export const SITE = "https://www.jackpotdesk.com";
@@ -112,6 +124,12 @@ export type RecapNational = {
   heat: RecapHeat | null;
   rungs: ReplayRung[];
   ladderHref: string;
+  /**
+   * Selling store or claimed prize named by an official Washington's Lottery
+   * source (press or winners search) for this exact draw. Omit when none.
+   * Recap does not scrape unofficial blogs or invent a store.
+   */
+  officialStore?: string | null;
 };
 
 export type RecapWashington = {
@@ -127,7 +145,28 @@ export type RecapWashington = {
   heat: RecapHeat | null;
   rungs: ReplayRung[];
   ladderHref: string;
+  /**
+   * Selling store or claimed prize named by an official Washington's Lottery
+   * source (press or winners search) for this exact draw. Omit when none.
+   * Recap does not scrape unofficial blogs or invent a store.
+   */
+  officialStore?: string | null;
 };
+
+/** Tweet-length copy from the same recap block the public page already has. */
+export function recapDeskLine(
+  block: RecapNational | RecapWashington,
+): string {
+  return deskLine({
+    label: block.label,
+    officialDate: block.officialDate,
+    officialWhites: block.officialWhites,
+    officialExtra: block.officialExtra,
+    rungs: block.rungs,
+    tone: "tone" in block ? block.tone : null,
+    officialStore: block.officialStore,
+  });
+}
 
 export type RecapPayload = {
   asOf: string;

@@ -14,6 +14,7 @@ import {
   buildRecapPayload,
   escapeHtml,
   recapCallLine,
+  recapDeskLine,
   type RecapNational,
   type RecapPayload,
   type RecapWashington,
@@ -154,6 +155,46 @@ function rungHtml(
     </article>`;
 }
 
+function deskLineSlug(label: string): string {
+  return label
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function deskLineHtml(block: RecapNational | RecapWashington): string {
+  const line = recapDeskLine(block);
+  const id = `desk-line-${deskLineSlug(block.label)}`;
+  return `<aside class="recap-desk-line">
+    <div class="recap-desk-line-head">
+      <p class="recap-desk-line-label">Desk line</p>
+      <button type="button" class="recap-desk-line-copy" data-copy-target="${escapeHtml(id)}">Copy</button>
+    </div>
+    <p class="recap-desk-line-text" id="${escapeHtml(id)}">${escapeHtml(line)}</p>
+    <p class="recap-desk-line-meta">${line.length}/280 · Last night vs last night's Ladder. Not tonight's #1.</p>
+  </aside>`;
+}
+
+const DESK_LINE_COPY_SCRIPT = `
+    <script>
+      document.querySelectorAll("[data-copy-target]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var target = document.getElementById(btn.getAttribute("data-copy-target") || "");
+          var text = target ? (target.textContent || "").trim() : "";
+          if (!text) return;
+          function done(ok) {
+            btn.textContent = ok ? "Copied" : "Copy failed";
+            window.setTimeout(function () { btn.textContent = "Copy"; }, 1600);
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function () { done(true); }).catch(function () { done(false); });
+            return;
+          }
+          done(false);
+        });
+      });
+    </script>`;
+
 function nationalHtml(block: RecapNational): string {
   const call = recapCallLine(block.tone);
   return `<section class="panel recap-game">
@@ -163,6 +204,7 @@ function nationalHtml(block: RecapNational): string {
         <h2>${escapeHtml(block.label)}</h2>
       </div>
     </header>
+    ${deskLineHtml(block)}
     ${compareHtml(block.officialDate, block.officialWhites, block.officialExtra, block.extraLabel, block.officialBoard, block.rungs[0])}
     ${heatHtml(block.heat, block.officialWhites, block.officialExtra, block.rungs[0])}
     <div class="recap-rungs">
@@ -188,6 +230,7 @@ function washingtonHtml(block: RecapWashington): string {
         <h2>${escapeHtml(block.label)}</h2>
       </div>
     </header>
+    ${deskLineHtml(block)}
     <p class="fine">${escapeHtml(block.prizeLine)}</p>
     ${compareHtml(block.officialDate, block.officialWhites, block.officialExtra, null, block.officialBoard, block.rungs[0])}
     ${heatHtml(block.heat, block.officialWhites, block.officialExtra, block.rungs[0])}
@@ -345,6 +388,7 @@ export function formatRecapHtml(
         </nav>
       </footer>
     </div>
+    ${DESK_LINE_COPY_SCRIPT}
   </body>
 </html>
 `;

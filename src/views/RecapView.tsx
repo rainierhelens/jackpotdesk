@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  deskLine,
   padBall,
   recapCallLabel,
   recapExtraClass,
@@ -48,6 +49,45 @@ function RecapBalls({
         </span>
       ) : null}
     </div>
+  );
+}
+
+function DeskLine({
+  block,
+}: {
+  block: RecapNational | RecapWashington;
+}) {
+  const line = deskLine({
+    label: block.label,
+    officialDate: block.officialDate,
+    officialWhites: block.officialWhites,
+    officialExtra: block.officialExtra,
+    rungs: block.rungs,
+    tone: "tone" in block ? block.tone : null,
+    officialStore: block.officialStore,
+  });
+  const [copied, setCopied] = useState(false);
+
+  function copy() {
+    void navigator.clipboard.writeText(line).then(() => {
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1600);
+    });
+  }
+
+  return (
+    <aside className="recap-desk-line">
+      <div className="recap-desk-line-head">
+        <p className="recap-desk-line-label">Desk line</p>
+        <button type="button" className="recap-desk-line-copy" onClick={copy}>
+          {copied ? "Copied" : "Copy"}
+        </button>
+      </div>
+      <p className="recap-desk-line-text">{line}</p>
+      <p className="recap-desk-line-meta">
+        {line.length}/280 · Last night vs last night's Ladder. Not tonight's #1.
+      </p>
+    </aside>
   );
 }
 
@@ -196,6 +236,7 @@ function NationalPanel({ block }: { block: RecapNational }) {
           <h2>{block.label}</h2>
         </div>
       </header>
+      <DeskLine block={block} />
       <RecapCompare
         officialDate={block.officialDate}
         officialWhites={block.officialWhites}
@@ -249,6 +290,7 @@ function WashingtonPanel({ block }: { block: RecapWashington }) {
           <h2>{block.label}</h2>
         </div>
       </header>
+      <DeskLine block={block} />
       <p className="fine">{block.prizeLine}</p>
       <RecapCompare
         officialDate={block.officialDate}

@@ -1,10 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { formatRecapHtml } from "./draw-recap.ts";
 import {
+  DESK_LINE_LEAD,
+  DESK_LINE_LINK,
+  DESK_LINE_MAX,
   SAME_ODDS_LEAD,
   digestCallLine,
   matchLine,
   recapCallLine,
+  recapDeskLine,
   scoreReplay,
   type RecapPayload,
 } from "./lib/deskLetter.ts";
@@ -239,6 +243,23 @@ describe("recap page", () => {
     expect(html).toMatch(/<a href="\/recap" class="on" aria-current="page">Recap<\/a>/);
     expect(html).toContain("Last night vs The Ladder");
     expect(html).toContain('class="recap-main"');
+  });
+
+  it("includes a copyable tweet-length desk line per game", () => {
+    const power = recapDeskLine(FIXTURE.national[0]);
+    const hit5 = recapDeskLine(FIXTURE.washington[0]);
+    expect(power.startsWith(DESK_LINE_LEAD)).toBe(true);
+    expect(power.length).toBeLessThanOrEqual(DESK_LINE_MAX);
+    expect(power).toContain(DESK_LINE_LINK);
+    expect(html).toContain('class="recap-desk-line"');
+    expect(html).toContain(power);
+    expect(html).toContain(hit5);
+    expect(html).toContain('id="desk-line-powerball"');
+    expect(html).toContain('id="desk-line-hit-5"');
+    expect(html).toContain("Copy");
+    expect(html).toContain("data-copy-target");
+    expect(html).toContain("Not tonight's #1");
+    expect(html).not.toMatch(/winning numbers|beats Quick Pick|Fable|tip sheet/i);
   });
 
   it("keeps a dated archive URL under /recap", () => {
