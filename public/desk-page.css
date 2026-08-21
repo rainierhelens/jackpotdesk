@@ -187,6 +187,118 @@ a {
   gap: 0.85rem;
 }
 
+.recap-overtime {
+  position: sticky;
+  top: 0;
+  z-index: 21;
+  display: grid;
+  gap: 0.65rem;
+  max-height: min(80svh, 42rem);
+  overflow: auto;
+  background: var(--card);
+  border: 1px solid var(--line);
+}
+
+.recap-overtime h2 {
+  font-size: 1.45rem;
+}
+
+.recap-overtime-across,
+.recap-overtime-night {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.recap-overtime-games {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.recap-overtime-games li {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.recap-overtime-watches {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem;
+}
+
+.recap-overtime-watches div {
+  padding: 0.55rem 0.65rem;
+  background: #0c0c0e;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.recap-overtime-watches dt {
+  margin: 0;
+  color: var(--gold);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.recap-overtime-watches dd {
+  margin: 0.2rem 0 0;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+}
+
+.recap-overtime-watches dd.is-ahead {
+  color: var(--green);
+}
+
+.recap-overtime-watches dd.is-cash {
+  color: var(--gold);
+}
+
+.recap-overtime-watches dd.is-unknown {
+  color: var(--peach);
+}
+
+.recap-overtime-watches dd.is-house {
+  color: var(--muted);
+}
+
+.recap-overtime-window {
+  display: grid;
+  gap: 0.4rem;
+  padding: 0.7rem 0.75rem;
+  background: #0c0c0e;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.recap-overtime-window-label {
+  margin: 0;
+  color: var(--gold);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.recap-overtime-window.is-filling .recap-overtime-across {
+  color: var(--peach);
+}
+
+.recap-overtime-all,
+.recap-overtime-note {
+  margin: 0;
+}
+
 .panel {
   background: var(--card);
   border: 1px solid var(--line);
