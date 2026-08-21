@@ -243,6 +243,95 @@ h2 {
   }
 }
 
+.recap-desk-line {
+  margin: 0.85rem 0 0;
+  padding: 0.85rem 0.9rem;
+  background: #0c0c0e;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.recap-desk-line-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+}
+
+.recap-desk-line-label {
+  margin: 0;
+  color: var(--gold);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.recap-desk-line-copy {
+  flex-shrink: 0;
+  min-height: 2.4rem;
+  padding: 0.4rem 0.8rem;
+  background: var(--ink);
+  color: var(--bg);
+  border: 0;
+  border-radius: var(--radius);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .recap-desk-line-copy:hover {
+    filter: brightness(1.07);
+  }
+}
+
+.recap-desk-line-copy:active {
+  transform: translateY(1px);
+}
+
+.recap-desk-line-text {
+  margin: 0.55rem 0 0;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.recap-desk-line-meta {
+  margin: 0.4rem 0 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.recap-day {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.recap-day-head h2 {
+  margin: 0;
+}
+
+.recap-day-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.recap-day-link:hover {
+  color: var(--gold);
+}
+
+.recap-open {
+  margin: 0.25rem 0 0;
+}
+
+.recap-open a {
+  color: var(--gold);
+  font-weight: 700;
+}
+
 .recap-slip {
   padding: 0.85rem 0.9rem;
   background: #0c0c0e;

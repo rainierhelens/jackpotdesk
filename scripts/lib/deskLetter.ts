@@ -26,7 +26,20 @@ import { fetchOfficialDraws, type OfficialDraw } from "../../src/lib/winners.ts"
 import { WA_GAMES } from "../../src/lib/waGames.ts";
 import type { GameId, WaGameId } from "../../src/types.ts";
 import { heatBookFromDraws, waHeatSpec } from "../../src/lib/lotteryHeat.ts";
-import type { RecapHeat } from "../../src/lib/recapPayload.ts";
+import {
+  deskLine,
+  deskStrip,
+  type RecapHeat,
+} from "../../src/lib/recapPayload.ts";
+
+export {
+  DESK_LINE_LEAD,
+  DESK_LINE_LINK,
+  DESK_LINE_MAX,
+  compactDeskBoard,
+  deskLine,
+  deskStrip,
+} from "../../src/lib/recapPayload.ts";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "../..");
 export const SITE = "https://www.jackpotdesk.com";
@@ -112,6 +125,7 @@ export type RecapNational = {
   heat: RecapHeat | null;
   rungs: ReplayRung[];
   ladderHref: string;
+  officialStore?: string | null;
 };
 
 export type RecapWashington = {
@@ -127,7 +141,43 @@ export type RecapWashington = {
   heat: RecapHeat | null;
   rungs: ReplayRung[];
   ladderHref: string;
+  officialStore?: string | null;
+  cashpot?: number | null;
+  advertised?: string | number | null;
+  cash?: string | number | null;
 };
+
+function asDeskBlock(
+  block: RecapNational | RecapWashington,
+): Parameters<typeof deskLine>[0] {
+  return {
+    id: "id" in block ? block.id : null,
+    label: block.label,
+    officialDate: block.officialDate,
+    officialWhites: block.officialWhites,
+    officialExtra: block.officialExtra,
+    rungs: block.rungs,
+    tone: "tone" in block ? block.tone : null,
+    cashpot: "cashpot" in block ? block.cashpot : null,
+    advertised: "advertised" in block ? block.advertised : null,
+    cash: "cash" in block ? block.cash : null,
+  };
+}
+
+/** Tweet-length copy from the same recap block the public page already has. */
+export function recapDeskLine(
+  block: RecapNational | RecapWashington,
+): string {
+  return deskLine(asDeskBlock(block));
+}
+
+/** One tweet for every last-night game, or null if it cannot stay ≤280. */
+export function recapDeskStrip(payload: RecapPayload): string | null {
+  return deskStrip([
+    ...payload.national.map(asDeskBlock),
+    ...payload.washington.map(asDeskBlock),
+  ]);
+}
 
 export type RecapPayload = {
   asOf: string;
@@ -470,6 +520,15 @@ export function recapWashington(
     heat: slimHeat(draws.slice(1), waHeatSpec(spec), null),
     rungs: replay.rungs,
     ladderHref: `${SITE}/?desk=washington&wa=${id}`,
+    cashpot: id === "hit5" ? book.prizes?.hit5?.cashpot ?? null : null,
+    advertised:
+      id === "lotto" && book.prizes?.lotto?.advertised
+        ? formatCompact(book.prizes.lotto.advertised)
+        : null,
+    cash:
+      id === "lotto" && book.prizes?.lotto?.cash
+        ? formatCompact(book.prizes.lotto.cash)
+        : null,
   };
 }
 

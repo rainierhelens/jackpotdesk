@@ -1,10 +1,18 @@
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { formatRecapHtml } from "./draw-recap.ts";
+import { formatRecapHtml, writeRecapPages } from "./draw-recap.ts";
 import {
+  DESK_LINE_LEAD,
+  DESK_LINE_LINK,
+  DESK_LINE_MAX,
   SAME_ODDS_LEAD,
   digestCallLine,
   matchLine,
   recapCallLine,
+  recapDeskLine,
+  recapDeskStrip,
   scoreReplay,
   type RecapPayload,
 } from "./lib/deskLetter.ts";
@@ -109,6 +117,34 @@ const FIXTURE: RecapPayload = {
         },
       ],
     },
+    {
+      id: "lotto",
+      label: "Lotto",
+      when: "Mon / Wed / Sat 8 p.m. PT",
+      prizeLine: "Advertised $1,200,000.",
+      officialDate: "2026-08-16",
+      officialBoard: "05  08  19  28  32  41",
+      officialWhites: [5, 8, 19, 28, 32, 41],
+      officialExtra: null,
+      historyBefore: 220,
+      heat: null,
+      ladderHref: "https://www.jackpotdesk.com/?desk=washington&wa=lotto",
+      officialStore: "Buena Market, Burien",
+      rungs: [
+        {
+          rank: 1,
+          board: "05  11  19  30  32  40",
+          whites: [5, 11, 19, 30, 32, 40],
+          extra: null,
+          points: 54,
+          crowd: null,
+          why: "3 in the top-10",
+          whiteHits: 3,
+          extraHit: null,
+          matchLine: "3 of 6 whites",
+        },
+      ],
+    },
   ],
 };
 
@@ -167,10 +203,20 @@ describe("EV call labels", () => {
 describe("recap page", () => {
   const html = formatRecapHtml(FIXTURE);
 
-  it("opens with live-site same-odds copy", () => {
-    const firstBody = html.match(/<p>(Same hit odds[\s\S]*?)<\/p>/);
-    expect(firstBody?.[1]).toContain(SAME_ODDS_LEAD);
-    expect(html.indexOf(SAME_ODDS_LEAD)).toBeLessThan(
+  it("opens the daily entry with the desk strip, not the same-odds lecture", () => {
+    const article = html.match(
+      /<article class="panel recap-day"[\s\S]*?<\/article>/,
+    )?.[0];
+    expect(article).toBeTruthy();
+    expect(article).toContain("Thursday, Aug 20, 2026");
+    expect(article).toContain('id="desk-line-strip-2026-08-20"');
+    expect(article).toContain(recapDeskStrip(FIXTURE)!);
+    expect(article).not.toContain(SAME_ODDS_LEAD);
+    expect(html).toContain(SAME_ODDS_LEAD);
+    expect(html.indexOf('class="recap-day"')).toBeLessThan(
+      html.indexOf("Official 2026-08-18"),
+    );
+    expect(html.indexOf("desk-line-strip-2026-08-20")).toBeLessThan(
       html.indexOf("Official 2026-08-18"),
     );
   });
@@ -241,6 +287,40 @@ describe("recap page", () => {
     expect(html).toContain('class="recap-main"');
   });
 
+  it("includes a copyable tweet-length desk line per game", () => {
+    const power = recapDeskLine(FIXTURE.national[0]);
+    const hit5 = recapDeskLine(FIXTURE.washington[0]);
+    const lotto = recapDeskLine(FIXTURE.washington[1]);
+    const strip = recapDeskStrip(FIXTURE);
+    expect(power.startsWith("Powerball 2026-08-18")).toBe(true);
+    expect(power).not.toContain(DESK_LINE_LEAD);
+    expect(power.length).toBeLessThanOrEqual(DESK_LINE_MAX);
+    expect(power).toContain("Last night #1 2 of 5 (12 44 + 09) · paid $7");
+    expect(power).toContain("#2 0 of 5 · paid $0");
+    expect(power).toContain("#3 0 of 5 · paid $0");
+    expect(hit5).toContain("Last night #1 2 of 5 (05 19) · paid a free play");
+    expect(lotto).toContain("Last night #1 3 of 6 (05 19 32) · paid $3");
+    expect(lotto).not.toMatch(/\d of 5/);
+    expect(strip).toBeTruthy();
+    expect(strip!.startsWith("Last night #1.")).toBe(true);
+    expect(strip).toContain("Lotto 3 of 6 (05 19 32) · paid $3");
+    expect(html).toContain('class="recap-desk-line"');
+    expect(html).toContain(power);
+    expect(html).toContain(hit5);
+    expect(html).toContain(lotto);
+    expect(html).toContain(strip!);
+    expect(html).toContain('id="desk-line-strip-2026-08-20"');
+    expect(html).toContain('id="desk-line-powerball-2026-08-20"');
+    expect(html).toContain('id="desk-line-hit-5-2026-08-20"');
+    expect(html).toContain('id="desk-line-lotto-2026-08-20"');
+    expect(html).toContain("Copy");
+    expect(html).toContain("data-copy-target");
+    expect(html).toContain("Not tonight's #1");
+    expect(html).not.toMatch(/winning numbers|beats Quick Pick|Fable|tip sheet/i);
+    expect(html).not.toContain("Buena Market");
+    expect(html).not.toContain("Burien");
+  });
+
   it("keeps a dated archive URL under /recap", () => {
     const archive = formatRecapHtml(FIXTURE, {
       path: "/recap/2026-08-20",
@@ -252,5 +332,65 @@ describe("recap page", () => {
     expect(archive).toContain("Latest recap");
     expect(archive).toContain(SAME_ODDS_LEAD);
     expect(archive).toContain("Tonight's #1 is on the live desk, not on this page");
+    expect(archive).toContain("Thursday, Aug 20, 2026");
+    expect(archive).toContain('id="desk-line-strip-2026-08-20"');
+    expect(archive.indexOf("desk-line-strip-2026-08-20")).toBeLessThan(
+      archive.indexOf("Official 2026-08-18"),
+    );
+  });
+
+  it("lists more than one day on the index and keeps older heat off the log", () => {
+    const older: RecapPayload = { ...FIXTURE, asOf: "2026-08-19" };
+    const index = formatRecapHtml(
+      FIXTURE,
+      { path: "/recap", kind: "latest" },
+      [FIXTURE, older],
+    );
+    expect(index).toContain("Thursday, Aug 20, 2026");
+    expect(index).toContain("Wednesday, Aug 19, 2026");
+    expect(index.indexOf("Thursday, Aug 20, 2026")).toBeLessThan(
+      index.indexOf("Wednesday, Aug 19, 2026"),
+    );
+    expect(index).toContain('href="/recap/2026-08-20"');
+    expect(index).toContain('href="/recap/2026-08-19"');
+    expect(index).toContain("Open the slip");
+    expect(index.match(/class="recap-heat"/g)?.length).toBe(1);
+    const olderCard = index.match(
+      /data-recap-day="2026-08-19"[\s\S]*?<\/article>/,
+    )?.[0];
+    expect(olderCard).toContain(recapDeskStrip(older)!);
+    expect(olderCard).toContain("Open the slip");
+    expect(olderCard).not.toContain("recap-heat");
+    expect(olderCard).not.toContain("Official 2026-08-18");
+  });
+
+  it("rebuilds /recap from every dated json without deleting older days", () => {
+    const dir = mkdtempSync(join(tmpdir(), "recap-log-"));
+    try {
+      const older: RecapPayload = { ...FIXTURE, asOf: "2026-08-19" };
+      writeFileSync(join(dir, "2026-08-19.json"), `${JSON.stringify(older)}\n`);
+      writeRecapPages(FIXTURE, dir);
+      expect(existsSync(join(dir, "2026-08-19.json"))).toBe(true);
+      expect(existsSync(join(dir, "2026-08-20.json"))).toBe(true);
+      expect(existsSync(join(dir, "2026-08-20/index.html"))).toBe(true);
+      expect(existsSync(join(dir, "latest.json"))).toBe(true);
+      expect(existsSync(join(dir, "log.json"))).toBe(true);
+      const days = JSON.parse(readFileSync(join(dir, "log.json"), "utf8")) as {
+        days: string[];
+      };
+      expect(days.days).toEqual(["2026-08-20", "2026-08-19"]);
+      const index = readFileSync(join(dir, "index.html"), "utf8");
+      expect(index).toContain("Thursday, Aug 20, 2026");
+      expect(index).toContain("Wednesday, Aug 19, 2026");
+      expect(index).toContain("Open the slip");
+      expect(index.match(/class="recap-heat"/g)?.length).toBe(1);
+      const permalink = readFileSync(join(dir, "2026-08-20/index.html"), "utf8");
+      expect(permalink).toContain(
+        'rel="canonical" href="https://www.jackpotdesk.com/recap/2026-08-20"',
+      );
+      expect(permalink).toContain("Official 2026-08-18");
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
   });
 });
