@@ -13,6 +13,7 @@ import {
   overtimeNetClass,
   overtimeScore,
   overtimeWindowRange,
+  overtimeWindowTab,
   recapJackpotCash,
   recapMonthLabel,
   recapQuarterLabel,
@@ -311,6 +312,9 @@ describe("overtime windows", () => {
       to: "2026-08-20",
       target: 7,
     });
+    expect(overtimeWindowTab("days7")).toBe("7 days");
+    expect(overtimeWindowTab("month")).toBe("Month");
+    expect(overtimeWindowTab("quarter")).toBe("Quarter");
   });
 
   it("marks all three windows as filling when the log is one morning", () => {

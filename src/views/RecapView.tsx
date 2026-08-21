@@ -25,6 +25,7 @@ import {
   OVERTIME_VS,
   overtimeNetClass,
   overtimeNightRead,
+  overtimeWindowTab,
   scoreOvertimeWindows,
   type OvertimeScore,
   type OvertimeWindow,
@@ -466,15 +467,18 @@ function OvertimeWindowCard({ window }: { window: OvertimeWindow }) {
       className={`recap-overtime-window${window.filling ? " is-filling" : ""}`}
       data-overtime-window={window.id}
     >
-      <p className="recap-overtime-window-label">{window.label}</p>
-      <p className="recap-overtime-vs">{OVERTIME_VS}</p>
       <OvertimeNetChip score={window} />
       <p className="recap-overtime-across">{window.acrossLine}</p>
-      <ul className="recap-overtime-games">
-        {window.games.map((row) => (
-          <li key={row.game}>{row.line}</li>
-        ))}
-      </ul>
+      {window.games.length ? (
+        <details className="recap-overtime-by-game">
+          <summary>By game</summary>
+          <ul className="recap-overtime-games">
+            {window.games.map((row) => (
+              <li key={row.game}>{row.line}</li>
+            ))}
+          </ul>
+        </details>
+      ) : null}
     </section>
   );
 }
@@ -496,11 +500,39 @@ function OvertimePanel({ log }: { log: RecapPayload[] }) {
           <h2>{OVERTIME_VS}</h2>
         </div>
       </header>
-      {desk.lastNight ? <OvertimeNetChip score={desk.lastNight} /> : null}
+      {desk.windows.length ? (
+        <div className="recap-overtime-board">
+          {desk.windows.map((window, index) => (
+            <input
+              key={`pick-${window.id}`}
+              type="radio"
+              name="overtime-window"
+              id={`otw-${window.id}`}
+              className="recap-overtime-pick"
+              defaultChecked={index === 0}
+            />
+          ))}
+          <div
+            className="recap-overtime-tabs"
+            role="radiogroup"
+            aria-label="Overtime window"
+          >
+            {desk.windows.map((window) => (
+              <label
+                key={`tab-${window.id}`}
+                htmlFor={`otw-${window.id}`}
+                className="recap-overtime-tab"
+              >
+                {overtimeWindowTab(window.id)}
+              </label>
+            ))}
+          </div>
+          {desk.windows.map((window) => (
+            <OvertimeWindowCard key={window.id} window={window} />
+          ))}
+        </div>
+      ) : null}
       {night ? <p className="recap-overtime-night">{night}</p> : null}
-      {desk.windows.map((window) => (
-        <OvertimeWindowCard key={window.id} window={window} />
-      ))}
       {desk.all.mornings ? (
         <p className="fine recap-overtime-all">
           {desk.all.headline} · {desk.all.acrossLine}

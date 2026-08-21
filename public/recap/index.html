@@ -74,29 +74,41 @@
         <h2>Ladder vs the house</h2>
       </div>
     </header>
-    <p class="recap-overtime-chip is-behind">-$26</p>
-    <p class="recap-overtime-night">Last night · Thursday, Aug 20, 2026 · spent $26 · paid $0 · -$26</p>
-    <section class="recap-overtime-window is-filling" data-overtime-window="days7">
-      <p class="recap-overtime-window-label">Last 7 days</p>
-      <p class="recap-overtime-vs">Ladder vs the house</p>
+    <div class="recap-overtime-board">
+      <input type="radio" name="overtime-window" id="otw-days7" class="recap-overtime-pick" checked>
+      <input type="radio" name="overtime-window" id="otw-month" class="recap-overtime-pick">
+      <input type="radio" name="overtime-window" id="otw-quarter" class="recap-overtime-pick">
+      <div class="recap-overtime-tabs" role="radiogroup" aria-label="Overtime window">
+        <label for="otw-days7" class="recap-overtime-tab">7 days</label>
+        <label for="otw-month" class="recap-overtime-tab">Month</label>
+        <label for="otw-quarter" class="recap-overtime-tab">Quarter</label>
+      </div>
+      <section class="recap-overtime-window is-filling" data-overtime-window="days7">
       <p class="recap-overtime-chip is-behind">-$26</p>
       <p class="recap-overtime-across">Last 7 days · 1 of 7 mornings · spent $26 · paid $0 · window still filling</p>
-      <ul class="recap-overtime-games"><li>Hit 5 · 3 boards · spent $3 · paid $0 · -$3</li><li>Powerball · 3 boards · spent $6 · paid $0 · -$6</li><li>Lotto · 3 boards · spent $2 · paid $0 · -$2</li><li>Mega Millions · 3 boards · spent $15 · paid $0 · -$15</li></ul>
+      <details class="recap-overtime-by-game">
+        <summary>By game</summary>
+        <ul class="recap-overtime-games"><li>Hit 5 · 3 boards · spent $3 · paid $0 · -$3</li><li>Powerball · 3 boards · spent $6 · paid $0 · -$6</li><li>Lotto · 3 boards · spent $2 · paid $0 · -$2</li><li>Mega Millions · 3 boards · spent $15 · paid $0 · -$15</li></ul>
+      </details>
     </section>
-    <section class="recap-overtime-window is-filling" data-overtime-window="month">
-      <p class="recap-overtime-window-label">August 2026</p>
-      <p class="recap-overtime-vs">Ladder vs the house</p>
+      <section class="recap-overtime-window is-filling" data-overtime-window="month">
       <p class="recap-overtime-chip is-behind">-$26</p>
       <p class="recap-overtime-across">August 2026 · 1 of 30 mornings · spent $26 · paid $0 · window still filling</p>
-      <ul class="recap-overtime-games"><li>Hit 5 · 3 boards · spent $3 · paid $0 · -$3</li><li>Powerball · 3 boards · spent $6 · paid $0 · -$6</li><li>Lotto · 3 boards · spent $2 · paid $0 · -$2</li><li>Mega Millions · 3 boards · spent $15 · paid $0 · -$15</li></ul>
+      <details class="recap-overtime-by-game">
+        <summary>By game</summary>
+        <ul class="recap-overtime-games"><li>Hit 5 · 3 boards · spent $3 · paid $0 · -$3</li><li>Powerball · 3 boards · spent $6 · paid $0 · -$6</li><li>Lotto · 3 boards · spent $2 · paid $0 · -$2</li><li>Mega Millions · 3 boards · spent $15 · paid $0 · -$15</li></ul>
+      </details>
     </section>
-    <section class="recap-overtime-window is-filling" data-overtime-window="quarter">
-      <p class="recap-overtime-window-label">Q3 2026</p>
-      <p class="recap-overtime-vs">Ladder vs the house</p>
+      <section class="recap-overtime-window is-filling" data-overtime-window="quarter">
       <p class="recap-overtime-chip is-behind">-$26</p>
       <p class="recap-overtime-across">Q3 2026 · 1 of 90 mornings · spent $26 · paid $0 · window still filling</p>
-      <ul class="recap-overtime-games"><li>Hit 5 · 3 boards · spent $3 · paid $0 · -$3</li><li>Powerball · 3 boards · spent $6 · paid $0 · -$6</li><li>Lotto · 3 boards · spent $2 · paid $0 · -$2</li><li>Mega Millions · 3 boards · spent $15 · paid $0 · -$15</li></ul>
+      <details class="recap-overtime-by-game">
+        <summary>By game</summary>
+        <ul class="recap-overtime-games"><li>Hit 5 · 3 boards · spent $3 · paid $0 · -$3</li><li>Powerball · 3 boards · spent $6 · paid $0 · -$6</li><li>Lotto · 3 boards · spent $2 · paid $0 · -$2</li><li>Mega Millions · 3 boards · spent $15 · paid $0 · -$15</li></ul>
+      </details>
     </section>
+    </div>
+    <p class="recap-overtime-night">Last night · Thursday, Aug 20, 2026 · spent $26 · paid $0 · -$26</p>
     <p class="fine recap-overtime-all">Ladder vs the house · -$26 · All-time · 1 morning · spent $26 · paid $0</p>
     <p class="fine recap-overtime-note">Entertainment, not a forecast. Official prize tables only. $0 stays $0.</p>
   </aside>

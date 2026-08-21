@@ -382,13 +382,19 @@ describe("recap page", () => {
     expect(index).toContain("All-time · 2 mornings · spent $16 · paid $20");
   });
 
-  it("pins an overtime scoreboard above the newest-first log", () => {
+  it("places an overtime scoreboard above the newest-first log", () => {
     const desk = scoreOvertimeWindows([FIXTURE]);
     expect(html).toContain('class="panel recap-overtime"');
     expect(html).toContain("Ladder #1–#3");
     expect(html).toContain("Ladder vs the house");
     expect(html).toContain('class="recap-overtime-chip is-ahead"');
     expect(html).toContain("+$2");
+    expect(html).toContain('id="otw-days7" class="recap-overtime-pick" checked');
+    expect(html).toContain('id="otw-month" class="recap-overtime-pick"');
+    expect(html).toContain('id="otw-quarter" class="recap-overtime-pick"');
+    expect(html).toContain(">7 days</label>");
+    expect(html).toContain(">Month</label>");
+    expect(html).toContain(">Quarter</label>");
     expect(html).toContain('data-overtime-window="days7"');
     expect(html).toContain('data-overtime-window="month"');
     expect(html).toContain('data-overtime-window="quarter"');
@@ -414,9 +420,29 @@ describe("recap page", () => {
       /<aside class="panel recap-overtime"[\s\S]*?<\/aside>/,
     )?.[0];
     expect(overtime).toBeTruthy();
+    expect(overtime).toContain('<details class="recap-overtime-by-game">');
+    expect(overtime).toContain("<summary>By game</summary>");
+    expect(overtime).not.toContain("<details class=\"recap-overtime-by-game\" open");
     expect(overtime).not.toContain(SAME_ODDS_LEAD);
     expect(overtime).not.toContain("\u2014");
     expect(overtime).not.toMatch(/winning numbers|beats Quick Pick/i);
+    expect(overtime?.match(/id="otw-days7"[^>]*checked/)).toBeTruthy();
+    expect(overtime?.match(/id="otw-month"[^>]*checked/)).toBeNull();
+    expect(overtime?.match(/id="otw-quarter"[^>]*checked/)).toBeNull();
+  });
+
+  it("keeps the overtime board in document flow", () => {
+    const spa = readFileSync(new URL("../src/index.css", import.meta.url), "utf8");
+    const desk = readFileSync(
+      new URL("../public/desk-page.css", import.meta.url),
+      "utf8",
+    );
+    for (const css of [spa, desk]) {
+      const block = css.match(/\.recap-overtime \{[\s\S]*?\n\}/)?.[0];
+      expect(block).toBeTruthy();
+      expect(block).not.toMatch(/position:\s*(sticky|fixed)/);
+      expect(css).not.toMatch(/html\.has-recap-tab \.recap-overtime/);
+    }
   });
 
   it("rebuilds /recap from every dated json without deleting older days", () => {
