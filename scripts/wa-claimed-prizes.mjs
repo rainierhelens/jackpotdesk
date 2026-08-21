@@ -132,6 +132,7 @@ export function aggregateClaimedStores(claims) {
       sum: 0,
       games: {},
       gameSums: {},
+      gameLastDates: {},
       firstDate: claim.date,
       lastDate: claim.date,
     };
@@ -141,6 +142,10 @@ export function aggregateClaimedStores(claims) {
       row.gameSums[claim.game] = (row.gameSums[claim.game] ?? 0) + claim.amount;
     }
     row.games[claim.game] = (row.games[claim.game] ?? 0) + 1;
+    const priorGameLast = row.gameLastDates[claim.game];
+    if (!priorGameLast || claim.date > priorGameLast) {
+      row.gameLastDates[claim.game] = claim.date;
+    }
     if (claim.date < row.firstDate) row.firstDate = claim.date;
     if (claim.date > row.lastDate) row.lastDate = claim.date;
     map.set(claim.locationKey, row);

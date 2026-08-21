@@ -21,8 +21,12 @@ async function loadHtml() {
   return res.text();
 }
 
+const fetchedAtFlag = process.argv.find((arg) => arg.startsWith("--fetched-at="));
 const html = await loadHtml();
-const book = buildClaimedPrizeBook(html);
+const book = buildClaimedPrizeBook(
+  html,
+  fetchedAtFlag ? fetchedAtFlag.slice("--fetched-at=".length) : undefined,
+);
 if (bookHasWinnerNames(book)) {
   throw new Error("Refusing to bake a book that still contains winner names.");
 }

@@ -69,6 +69,10 @@ describe("wa claimed prizes parser", () => {
     expect(stores[0]?.sum).toBe(2000);
     expect(stores[0]?.games).toEqual({ Scratch: 1, Lotto: 1 });
     expect(stores[0]?.gameSums).toEqual({ Scratch: 1000, Lotto: 1000 });
+    expect(stores[0]?.gameLastDates).toEqual({
+      Scratch: "2026-08-19",
+      Lotto: "2026-08-18",
+    });
     const book = buildClaimedPrizeBook(FIXTURE, "2026-08-20T00:00:00.000Z");
     expect(book.storeCount).toBe(2);
     expect(book.locatedClaims).toBe(3);

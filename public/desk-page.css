@@ -8,6 +8,7 @@
   --on-green: #052e16;
   --red: #ef4444;
   --gold: #f1fd0e;
+  --peach: #ffa057;
   --warn: #ffca16;
   --radius: 0.75rem;
   --sans: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -515,6 +516,144 @@ h2 {
   color: var(--ink);
 }
 
+.hit-stories,
+.hit-walk {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin: 0.9rem 0 0;
+}
+
+.hit-story,
+.hit-walk-card {
+  margin: 0;
+  padding: 0.75rem 0.8rem;
+  background: #0c0c0e;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.hit-story[data-kind="busy"],
+.hit-walk-card[data-kind="busy"] {
+  border-color: color-mix(in srgb, var(--green) 45%, var(--line));
+}
+
+.hit-story[data-kind="fat"],
+.hit-walk-card[data-kind="fat"] {
+  border-color: color-mix(in srgb, var(--gold) 50%, var(--line));
+}
+
+.hit-story[data-kind="quiet"],
+.hit-walk-card[data-kind="quiet"] {
+  border-color: color-mix(in srgb, var(--peach) 50%, var(--line));
+}
+
+.hit-story h3,
+.hit-walk-card h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1.15rem;
+  letter-spacing: 0.03em;
+}
+
+.hit-story p,
+.hit-walk-card p {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.hit-story .hit-not,
+.hit-walk-card .hit-not {
+  color: var(--ink);
+}
+
+.hit-walk-card .hit-metric {
+  display: block;
+  margin-top: 0.45rem;
+  font-family: var(--mono);
+  font-size: 1.2rem;
+}
+
+.hit-walk-card[data-kind="busy"] .hit-metric {
+  color: var(--green);
+}
+
+.hit-walk-card[data-kind="fat"] .hit-metric {
+  color: var(--gold);
+}
+
+.hit-walk-card[data-kind="quiet"] .hit-metric {
+  color: var(--peach);
+}
+
+.hit-cities-wrap {
+  max-height: 18rem;
+  overflow: auto;
+  margin: 0.9rem 0 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.hit-cities button {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 0.6rem;
+  width: 100%;
+  margin: 0;
+  padding: 0.5rem 0.7rem;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: #0c0c0e;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.hit-cities button:last-child {
+  border-bottom: 0;
+}
+
+.hit-cities button.on {
+  background: #161618;
+  outline: 1px solid var(--ink);
+  outline-offset: -1px;
+}
+
+.hit-cities b {
+  font-weight: 700;
+}
+
+.hit-cities span {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+}
+
+.hit-cities .hit-city-claims {
+  color: var(--green);
+}
+
+.hit-cities .hit-city-stores {
+  color: var(--muted);
+}
+
+.hit-table .hit-num-claims {
+  font-family: var(--mono);
+  color: var(--green);
+  text-align: right;
+}
+
+.hit-table .hit-num-dollars {
+  font-family: var(--mono);
+  color: var(--gold);
+  text-align: right;
+}
+
+.hit-table th.hit-num-claims,
+.hit-table th.hit-num-dollars {
+  color: inherit;
+}
+
 .hit-stats {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -674,6 +813,10 @@ h2 {
   .hit-region:hover {
     border-color: #ffffff2a;
   }
+
+  .hit-cities button:hover:not(.on) {
+    background: #141416;
+  }
 }
 
 @media (max-width: 720px) {
@@ -734,7 +877,9 @@ h2 {
     grid-template-columns: 1fr 1fr;
   }
 
-  .hit-stats {
+  .hit-stats,
+  .hit-stories,
+  .hit-walk {
     grid-template-columns: 1fr;
   }
 }
