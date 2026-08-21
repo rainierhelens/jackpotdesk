@@ -113,6 +113,34 @@ const FIXTURE: RecapPayload = {
         },
       ],
     },
+    {
+      id: "lotto",
+      label: "Lotto",
+      when: "Mon / Wed / Sat 8 p.m. PT",
+      prizeLine: "Advertised $1,200,000.",
+      officialDate: "2026-08-16",
+      officialBoard: "05  08  19  28  32  41",
+      officialWhites: [5, 8, 19, 28, 32, 41],
+      officialExtra: null,
+      historyBefore: 220,
+      heat: null,
+      ladderHref: "https://www.jackpotdesk.com/?desk=washington&wa=lotto",
+      officialStore: "Buena Market, Burien",
+      rungs: [
+        {
+          rank: 1,
+          board: "05  11  19  30  32  40",
+          whites: [5, 11, 19, 30, 32, 40],
+          extra: null,
+          points: 54,
+          crowd: null,
+          why: "3 in the top-10",
+          whiteHits: 3,
+          extraHit: null,
+          matchLine: "3 of 6 whites",
+        },
+      ],
+    },
   ],
 };
 
@@ -248,18 +276,27 @@ describe("recap page", () => {
   it("includes a copyable tweet-length desk line per game", () => {
     const power = recapDeskLine(FIXTURE.national[0]);
     const hit5 = recapDeskLine(FIXTURE.washington[0]);
+    const lotto = recapDeskLine(FIXTURE.washington[1]);
     expect(power.startsWith(DESK_LINE_LEAD)).toBe(true);
     expect(power.length).toBeLessThanOrEqual(DESK_LINE_MAX);
     expect(power).toContain(DESK_LINE_LINK);
+    expect(power).toContain("2 of 5");
+    expect(hit5).toContain("2 of 5");
+    expect(lotto).toContain("3 of 6");
+    expect(lotto).not.toMatch(/\d of 5/);
     expect(html).toContain('class="recap-desk-line"');
     expect(html).toContain(power);
     expect(html).toContain(hit5);
+    expect(html).toContain(lotto);
     expect(html).toContain('id="desk-line-powerball"');
     expect(html).toContain('id="desk-line-hit-5"');
+    expect(html).toContain('id="desk-line-lotto"');
     expect(html).toContain("Copy");
     expect(html).toContain("data-copy-target");
     expect(html).toContain("Not tonight's #1");
     expect(html).not.toMatch(/winning numbers|beats Quick Pick|Fable|tip sheet/i);
+    expect(html).not.toContain("Buena Market");
+    expect(html).not.toContain("Burien");
   });
 
   it("keeps a dated archive URL under /recap", () => {

@@ -64,7 +64,6 @@ function DeskLine({
     officialExtra: block.officialExtra,
     rungs: block.rungs,
     tone: "tone" in block ? block.tone : null,
-    officialStore: block.officialStore,
   });
   const [copied, setCopied] = useState(false);
 

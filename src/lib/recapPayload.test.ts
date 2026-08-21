@@ -5,7 +5,7 @@ import {
   DESK_LINE_MAX,
   compactDeskBoard,
   deskLine,
-  officialStoreNote,
+  deskOfTotal,
   type DeskLineBlock,
 } from "./recapPayload";
 
@@ -84,39 +84,43 @@ describe("deskLine", () => {
     expect(line).not.toMatch(/winning numbers|beats Quick Pick|Fable|tip sheet/i);
   });
 
-  it("uses N of 6 on Lotto and omits EV when there is no tone", () => {
+  it("uses N of 6 on Lotto and never N of 5", () => {
     const lotto = deskLine(LOTTO);
     expect(lotto).toContain("Lotto 2026-08-16");
     expect(lotto).toContain("3 of 6");
     expect(lotto).toContain("shared 05 19 32");
+    expect(lotto).not.toMatch(/\d of 5/);
     expect(lotto).not.toMatch(/\bSKIP\b|ENTERTAIN ONLY|RARE PLUS/);
     expect(lotto.length).toBeLessThanOrEqual(DESK_LINE_MAX);
   });
 
-  it("names an official store only when the hook is present", () => {
-    expect(line).not.toContain("Buena Market");
+  it("keeps Hit 5 and Powerball as N of 5", () => {
+    expect(deskOfTotal("Powerball", [5, 12, 23, 44, 61])).toBe(5);
+    expect(deskOfTotal("Hit 5", [5, 8, 19, 28, 41])).toBe(5);
+    expect(deskOfTotal("Lotto", [5, 8, 19, 28, 32, 41])).toBe(6);
+    expect(deskLine({
+      label: "Hit 5",
+      officialDate: "2026-08-16",
+      officialWhites: [5, 8, 19, 28, 41],
+      officialExtra: null,
+      rungs: [{ rank: 1, whites: [5, 11, 19, 30, 40], extra: null }],
+    })).toContain("2 of 5");
+  });
+
+  it("never includes a store, city, or winner name, even if officialStore is set", () => {
     const withStore = deskLine({
       ...POWERBALL,
-      officialStore: officialStoreNote({ name: "Buena Market", city: "Burien" }),
+      officialStore: "Buena Market, Burien",
     });
-    expect(withStore).toContain("Buena Market, Burien");
-    expect(withStore.length).toBeLessThanOrEqual(DESK_LINE_MAX);
-  });
-
-  it("drops a store note that would blow the 280 cap", () => {
-    const long = deskLine({
-      ...POWERBALL,
-      officialStore: "A".repeat(200),
+    const lotto = deskLine({
+      ...LOTTO,
+      officialStore: "Fred Meyer, Lacey",
     });
-    expect(long).not.toContain("AAAA");
-    expect(long.length).toBeLessThanOrEqual(DESK_LINE_MAX);
-  });
-});
-
-describe("officialStoreNote", () => {
-  it("returns null when no official store was named", () => {
-    expect(officialStoreNote(null)).toBeNull();
-    expect(officialStoreNote("")).toBeNull();
-    expect(officialStoreNote({ name: "  " })).toBeNull();
+    for (const text of [line, withStore, lotto]) {
+      expect(text).not.toMatch(
+        /Buena Market|Fred Meyer|Burien|Lacey|\bstore\b|claimed-prize|winner name/i,
+      );
+    }
+    expect(withStore).toBe(line);
   });
 });

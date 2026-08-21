@@ -50,10 +50,6 @@ export type RecapNational = {
   heat: RecapHeat | null;
   rungs: RecapRung[];
   ladderHref: string;
-  /**
-   * Selling store or claimed prize named by an official Washington's Lottery
-   * source (press or winners search) for this exact draw. Omit when none.
-   */
   officialStore?: string | null;
 };
 
@@ -70,10 +66,6 @@ export type RecapWashington = {
   heat: RecapHeat | null;
   rungs: RecapRung[];
   ladderHref: string;
-  /**
-   * Selling store or claimed prize named by an official Washington's Lottery
-   * source (press or winners search) for this exact draw. Omit when none.
-   */
   officialStore?: string | null;
 };
 
@@ -124,10 +116,7 @@ export type DeskLineBlock = {
     extraHit?: boolean | null;
   }>;
   tone?: RecapTone | null;
-  /**
-   * Official Washington's Lottery named store or claimed prize for this draw.
-   * Never invent. Do not pass unofficial blogs.
-   */
+  /** Ignored. Desk line never prints a store, city, or winner name. */
   officialStore?: string | null;
 };
 
@@ -145,25 +134,6 @@ export function sharedDeskWhites(
 ): number[] {
   const held = new Set(board);
   return official.filter((n) => held.has(n));
-}
-
-/** Format a store only when an official WA Lottery source already named it. */
-export function officialStoreNote(
-  store:
-    | string
-    | { name?: string | null; city?: string | null }
-    | null
-    | undefined,
-): string | null {
-  if (!store) return null;
-  if (typeof store === "string") {
-    const line = store.trim();
-    return line || null;
-  }
-  const name = store.name?.trim();
-  if (!name) return null;
-  const city = store.city?.trim();
-  return city ? `${name}, ${city}` : name;
 }
 
 function extraHitOn(
@@ -194,16 +164,24 @@ function sharedPhrase(
   return `shared ${nums}`;
 }
 
+/** Lotto is 6 numbers. Hit 5 / Powerball / Mega Millions are 5. */
+export function deskOfTotal(label: string, official: number[]): number {
+  if (/lotto/i.test(label)) return 6;
+  if (/hit\s*5|powerball|mega\s*millions/i.test(label)) return 5;
+  return official.length || 5;
+}
+
 function ofPhrase(
+  label: string,
   official: number[],
   rung: DeskLineBlock["rungs"][number],
 ): string {
-  const total = official.length || rung.whites.length;
   const hits = sharedDeskWhites(official, rung.whites).length;
-  return `${hits} of ${total}`;
+  return `${hits} of ${deskOfTotal(label, official)}`;
 }
 
 function scoreBits(
+  label: string,
   official: number[],
   officialExtra: number | null,
   rung: DeskLineBlock["rungs"][number],
@@ -215,7 +193,7 @@ function scoreBits(
     const shared = sharedPhrase(official, officialExtra, rung);
     if (shared) bits.push(shared);
   }
-  bits.push(ofPhrase(official, rung));
+  bits.push(ofPhrase(label, official, rung));
   return bits.join(" · ");
 }
 
@@ -229,15 +207,10 @@ function deskFits(text: string): boolean {
   return text.length <= DESK_LINE_MAX && !text.includes("\u2014");
 }
 
-function withPeriod(raw: string): string {
-  const trimmed = raw.trim();
-  if (!trimmed) return "";
-  return /[.!?]$/.test(trimmed) ? trimmed : `${trimmed}.`;
-}
-
 /**
  * Tweet-length night-desk recap. Last official vs last night's Ladder.
- * Does not print tonight's #1. Winner / store only when officialStore is set.
+ * "What won" is the official board and the scored overlap. No store, city,
+ * or winner name. Does not print tonight's #1.
  */
 export function deskLine(block: DeskLineBlock): string {
   const official = `${block.label} ${block.officialDate} · ${compactDeskBoard(block.officialWhites, block.officialExtra)}.`;
@@ -245,14 +218,13 @@ export function deskLine(block: DeskLineBlock): string {
     block.rungs.find((rung) => rung.rank === 1) ?? block.rungs[0] ?? null;
   const rest = block.rungs.filter((rung) => rung !== top).slice(0, 2);
   const call = block.tone ? recapCallLabel(block.tone) : null;
-  const store = officialStoreNote(block.officialStore);
 
   const oneVariants = top
     ? [
-        `Last night #1 ${scoreBits(block.officialWhites, block.officialExtra, top, { board: true, shared: true })}.`,
-        `Last night #1 ${scoreBits(block.officialWhites, block.officialExtra, top, { board: true, shared: false })}.`,
-        `Last night #1 ${scoreBits(block.officialWhites, block.officialExtra, top, { board: false, shared: true })}.`,
-        `Last night #1 ${scoreBits(block.officialWhites, block.officialExtra, top, { board: false, shared: false })}.`,
+        `Last night #1 ${scoreBits(block.label, block.officialWhites, block.officialExtra, top, { board: true, shared: true })}.`,
+        `Last night #1 ${scoreBits(block.label, block.officialWhites, block.officialExtra, top, { board: true, shared: false })}.`,
+        `Last night #1 ${scoreBits(block.label, block.officialWhites, block.officialExtra, top, { board: false, shared: true })}.`,
+        `Last night #1 ${scoreBits(block.label, block.officialWhites, block.officialExtra, top, { board: false, shared: false })}.`,
       ]
     : [];
 
@@ -273,20 +245,15 @@ export function deskLine(block: DeskLineBlock): string {
 
   for (const rung of rest) {
     const variants = [
-      `#${rung.rank} ${scoreBits(block.officialWhites, block.officialExtra, rung, { board: true, shared: true })}.`,
-      `#${rung.rank} ${scoreBits(block.officialWhites, block.officialExtra, rung, { board: true, shared: false })}.`,
-      `#${rung.rank} ${scoreBits(block.officialWhites, block.officialExtra, rung, { board: false, shared: true })}.`,
-      `#${rung.rank} ${scoreBits(block.officialWhites, block.officialExtra, rung, { board: false, shared: false })}.`,
+      `#${rung.rank} ${scoreBits(block.label, block.officialWhites, block.officialExtra, rung, { board: true, shared: true })}.`,
+      `#${rung.rank} ${scoreBits(block.label, block.officialWhites, block.officialExtra, rung, { board: true, shared: false })}.`,
+      `#${rung.rank} ${scoreBits(block.label, block.officialWhites, block.officialExtra, rung, { board: false, shared: true })}.`,
+      `#${rung.rank} ${scoreBits(block.label, block.officialWhites, block.officialExtra, rung, { board: false, shared: false })}.`,
     ];
     const pick = variants.find((variant) =>
       deskFits(compose([...extras, variant])),
     );
     if (pick) extras.push(pick);
-  }
-
-  if (store) {
-    const note = withPeriod(store);
-    if (deskFits(compose([...extras, note]))) extras.push(note);
   }
 
   return compose(extras);

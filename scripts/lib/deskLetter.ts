@@ -37,7 +37,6 @@ export {
   DESK_LINE_MAX,
   compactDeskBoard,
   deskLine,
-  officialStoreNote,
 } from "../../src/lib/recapPayload.ts";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "../..");
@@ -124,11 +123,6 @@ export type RecapNational = {
   heat: RecapHeat | null;
   rungs: ReplayRung[];
   ladderHref: string;
-  /**
-   * Selling store or claimed prize named by an official Washington's Lottery
-   * source (press or winners search) for this exact draw. Omit when none.
-   * Recap does not scrape unofficial blogs or invent a store.
-   */
   officialStore?: string | null;
 };
 
@@ -145,11 +139,6 @@ export type RecapWashington = {
   heat: RecapHeat | null;
   rungs: ReplayRung[];
   ladderHref: string;
-  /**
-   * Selling store or claimed prize named by an official Washington's Lottery
-   * source (press or winners search) for this exact draw. Omit when none.
-   * Recap does not scrape unofficial blogs or invent a store.
-   */
   officialStore?: string | null;
 };
 
@@ -164,7 +153,6 @@ export function recapDeskLine(
     officialExtra: block.officialExtra,
     rungs: block.rungs,
     tone: "tone" in block ? block.tone : null,
-    officialStore: block.officialStore,
   });
 }
 
