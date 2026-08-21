@@ -84,6 +84,7 @@ export type ClaimedPrizeBook = {
   listedCards: number;
   locatedClaims: number;
   unlocatedClaims: number;
+  unlocatedByGame?: Partial<Record<ClaimedGame, number>>;
   merchandiseClaims: number;
   storeCount: number;
   dateMin: string | null;
@@ -144,6 +145,18 @@ export function parseClaimedPrizeBook(raw: unknown): ClaimedPrizeBook {
   }
   if (data.sourceUrl !== CLAIMED_SOURCE_URL) {
     throw new Error("Claimed-prize book must cite the official winners search.");
+  }
+  if (data.unlocatedByGame) {
+    let unlocatedSum = 0;
+    for (const count of Object.values(data.unlocatedByGame)) {
+      if (!Number.isInteger(count) || count < 0) {
+        throw new Error("Claimed-prize book has a bad unlocated-by-game count.");
+      }
+      unlocatedSum += count;
+    }
+    if (unlocatedSum !== data.unlocatedClaims) {
+      throw new Error("Unlocated-by-game counts must sum to unlocatedClaims.");
+    }
   }
   for (const store of data.stores) {
     if (
@@ -214,6 +227,36 @@ export function claimedCities(stores: ClaimedStore[]): ClaimedCity[] {
   return [...map.values()].sort(
     (a, b) => b.claims - a.claims || a.city.localeCompare(b.city),
   );
+}
+
+export function unlocatedClaimsFor(
+  data: Pick<ClaimedPrizeBook, "unlocatedClaims" | "unlocatedByGame">,
+  game: ClaimedGame | "all",
+): number | null {
+  if (game === "all") {
+    return Number.isInteger(data.unlocatedClaims) && data.unlocatedClaims >= 0
+      ? data.unlocatedClaims
+      : null;
+  }
+  const count = data.unlocatedByGame?.[game];
+  if (count == null || !Number.isInteger(count) || count < 0) return null;
+  return count;
+}
+
+export function claimedFilterNote(
+  stores: ClaimedStore[],
+  unlocated: number | null,
+): string {
+  const tail = claimedLongTail(stores);
+  const share = tail.totalClaims ? Math.round(tail.top10Share * 100) : 0;
+  const parts = [
+    `${tail.storeCount.toLocaleString("en-US")} stores. The top 10 are about ${share}% of listed claims.`,
+    `${tail.onceCount.toLocaleString("en-US")} stores appear once.`,
+  ];
+  if (unlocated != null) {
+    parts.push(`${unlocated.toLocaleString("en-US")} listed cards had no store.`);
+  }
+  return parts.join(" ");
 }
 
 export function claimedLongTail(stores: ClaimedStore[]): ClaimedLongTail {

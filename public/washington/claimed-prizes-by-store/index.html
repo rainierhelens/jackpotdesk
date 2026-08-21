@@ -350,17 +350,26 @@
           var top10 = rows.slice(0, 10).reduce(function (n, row) { return n + row.claims; }, 0);
           var once = rows.filter(function (store) { return store.claims === 1; }).length;
           var share = totalClaims ? Math.round((top10 / totalClaims) * 100) : 0;
-          document.getElementById("hit-asof").textContent =
-            "Washington’s Lottery · listed " + claimed.dateMin + "–" + claimed.dateMax;
-          document.getElementById("hit-map-note").textContent =
+          var unlocated =
+            game === "all"
+              ? claimed.unlocatedClaims
+              : claimed.unlocatedByGame
+                ? claimed.unlocatedByGame[game]
+                : null;
+          if (typeof unlocated !== "number" || unlocated < 0) unlocated = null;
+          var mapNote =
             rows.length.toLocaleString("en-US") +
             " stores. The top 10 are about " +
             share +
             "% of listed claims. " +
             once.toLocaleString("en-US") +
-            " stores appear once. " +
-            claimed.unlocatedClaims +
-            " listed cards had no store.";
+            " stores appear once.";
+          if (unlocated != null) {
+            mapNote += " " + unlocated.toLocaleString("en-US") + " listed cards had no store.";
+          }
+          document.getElementById("hit-asof").textContent =
+            "Washington’s Lottery · listed " + claimed.dateMin + "–" + claimed.dateMax;
+          document.getElementById("hit-map-note").textContent = mapNote;
           document.getElementById("hit-stats").innerHTML =
             "<article><p>Stores in this filter</p><strong>" + rows.length.toLocaleString("en-US") + "</strong></article>" +
             "<article><p>Listed claims</p><strong>" + totalClaims.toLocaleString("en-US") + "</strong></article>" +

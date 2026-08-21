@@ -7,6 +7,14 @@
   "listedCards": 5927,
   "locatedClaims": 5896,
   "unlocatedClaims": 31,
+  "unlocatedByGame": {
+    "Powerball": 1,
+    "Mega Millions": 4,
+    "Lotto": 11,
+    "Hit 5": 2,
+    "Match 4": 13,
+    "Scratch": 0
+  },
   "merchandiseClaims": 3,
   "storeCount": 2158,
   "dateMin": "2025-08-21",

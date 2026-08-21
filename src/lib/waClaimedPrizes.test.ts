@@ -13,6 +13,7 @@ import {
   WA_CLAIMED,
   bookHasWinnerNames,
   claimedCities,
+  claimedFilterNote,
   claimedLongTail,
   claimedPageLead,
   claimedTooltip,
@@ -24,6 +25,7 @@ import {
   pickClaimedWalk,
   pickFatTicket,
   pickQuietList,
+  unlocatedClaimsFor,
 } from "./waClaimedPrizes";
 
 describe("waClaimedPrizes book", () => {
@@ -33,6 +35,17 @@ describe("waClaimedPrizes book", () => {
     expect(parsed.locatedClaims).toBe(5896);
     expect(parsed.storeCount).toBe(2158);
     expect(parsed.unlocatedClaims).toBe(31);
+    expect(parsed.unlocatedByGame).toEqual({
+      Powerball: 1,
+      "Mega Millions": 4,
+      Lotto: 11,
+      "Hit 5": 2,
+      "Match 4": 13,
+      Scratch: 0,
+    });
+    expect(
+      Object.values(parsed.unlocatedByGame ?? {}).reduce((n, count) => n + count, 0),
+    ).toBe(31);
     expect(parsed.dateMin).toBe("2025-08-21");
     expect(parsed.dateMax).toBe("2026-08-19");
     expect(bookHasWinnerNames(parsed)).toBe(false);
@@ -110,6 +123,33 @@ describe("claimed-prize stories", () => {
     expect(pickBusyCounter(rows)?.name).toBe("FRED MEYER #459");
     expect(pickFatTicket(rows, [rows[0]])?.name).toBe("ARCO 7038");
   });
+
+  it("filters the unlocated count by game and omits it when the bake has no per-game split", () => {
+    expect(unlocatedClaimsFor(WA_CLAIMED, "all")).toBe(31);
+    expect(unlocatedClaimsFor(WA_CLAIMED, "Hit 5")).toBe(2);
+    expect(unlocatedClaimsFor(WA_CLAIMED, "Lotto")).toBe(11);
+    expect(unlocatedClaimsFor(WA_CLAIMED, "Scratch")).toBe(0);
+    const hit5 = filterClaimedStores(WA_CLAIMED, "Hit 5");
+    expect(hit5).toHaveLength(34);
+    expect(hit5.reduce((n, store) => n + store.claims, 0)).toBe(35);
+    const allNote = claimedFilterNote(filterClaimedStores(WA_CLAIMED, "all"), 31);
+    const hit5Note = claimedFilterNote(hit5, 2);
+    const scratchNote = claimedFilterNote(filterClaimedStores(WA_CLAIMED, "Scratch"), 0);
+    expect(allNote).toContain("31 listed cards had no store.");
+    expect(hit5Note).toContain("2 listed cards had no store.");
+    expect(hit5Note).not.toContain("31 listed cards");
+    expect(scratchNote).toContain("0 listed cards had no store.");
+    expect(claimedFilterNote(hit5, null)).not.toContain("listed cards had no store");
+    expect(
+      unlocatedClaimsFor({ unlocatedClaims: 31 }, "Hit 5"),
+    ).toBeNull();
+    expect(() =>
+      parseClaimedPrizeBook({
+        ...WA_CLAIMED,
+        unlocatedByGame: { Lotto: 1 },
+      }),
+    ).toThrow(/sum to unlocatedClaims/);
+  });
 });
 
 describe("claimed-prizes page contract", () => {
@@ -153,6 +193,10 @@ describe("claimed-prizes page contract", () => {
     expect(page).toMatch(/Keep it fun/);
     const chipOrder = [...page.matchAll(/data-game="([^"]+)"/g)].map((match) => match[1]);
     expect(chipOrder.slice(0, CLAIMED_CHIP_ORDER.length)).toEqual([...CLAIMED_CHIP_ORDER]);
+    expect(page).toContain("unlocatedByGame");
+    expect(page).not.toMatch(
+      /once\. " \+\s*claimed\.unlocatedClaims \+\s*" listed cards had no store\./,
+    );
     const labIdx = page.lastIndexOf("/lottery-lab.html");
     expect(labIdx).toBeGreaterThan(page.indexOf("luck-map"));
   });
