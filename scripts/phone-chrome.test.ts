@@ -1,22 +1,34 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
-function phoneBlock(css: string, file: string): string {
-  const start = css.indexOf("@media (max-width: 720px)");
-  expect(start, `${file} needs a max-width: 720px phone sheet`).toBeGreaterThan(
-    -1,
-  );
-  const open = css.indexOf("{", start);
-  let depth = 0;
-  for (let i = open; i < css.length; i++) {
-    const ch = css[i];
-    if (ch === "{") depth += 1;
-    else if (ch === "}") {
-      depth -= 1;
-      if (depth === 0) return css.slice(open, i + 1);
+function phoneBlocks(css: string, file: string): string {
+  const parts: string[] = [];
+  let from = 0;
+  while (from < css.length) {
+    const start = css.indexOf("@media (max-width: 720px)", from);
+    if (start === -1) break;
+    const open = css.indexOf("{", start);
+    let depth = 0;
+    let end = -1;
+    for (let i = open; i < css.length; i++) {
+      const ch = css[i];
+      if (ch === "{") depth += 1;
+      else if (ch === "}") {
+        depth -= 1;
+        if (depth === 0) {
+          end = i;
+          break;
+        }
+      }
     }
+    if (end === -1) throw new Error(`${file}: unclosed @media (max-width: 720px)`);
+    parts.push(css.slice(open, end + 1));
+    from = end + 1;
   }
-  throw new Error(`${file}: unclosed @media (max-width: 720px)`);
+  expect(parts.length, `${file} needs a max-width: 720px phone sheet`).toBeGreaterThan(
+    0,
+  );
+  return parts.join("\n");
 }
 
 function rule(block: string, selector: string): string {
@@ -29,7 +41,7 @@ function rule(block: string, selector: string): string {
 describe("phone chrome", () => {
   it("docks .tabs and hides .brand-logo / .masthead-recap on desk and recap sheets", () => {
     for (const file of ["src/index.css", "public/desk-page.css"]) {
-      const block = phoneBlock(readFileSync(file, "utf8"), file);
+      const block = phoneBlocks(readFileSync(file, "utf8"), file);
       expect(rule(block, ".tabs")).toMatch(/position:\s*fixed/);
       expect(rule(block, ".tabs")).toMatch(/bottom:\s*0/);
       expect(rule(block, ".tabs")).toMatch(/flex-wrap:\s*nowrap/);
@@ -40,7 +52,7 @@ describe("phone chrome", () => {
   });
 
   it("hides the recap jump bar on the SPA phone sheet", () => {
-    const block = phoneBlock(readFileSync("src/index.css", "utf8"), "src/index.css");
+    const block = phoneBlocks(readFileSync("src/index.css", "utf8"), "src/index.css");
     expect(rule(block, ".recap-jump")).toMatch(/display:\s*none/);
   });
 
