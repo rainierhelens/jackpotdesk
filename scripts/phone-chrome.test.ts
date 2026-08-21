@@ -144,3 +144,102 @@ describe("phone chrome", () => {
     expect(whereTickets).toContain('location.replace("/washington/claimed-prizes-by-store")');
   });
 });
+
+const PHONE_VIEWPORT = 390;
+
+function firstWidth(css: string, property: "min-width" | "max-width"): number | null {
+  const match = css.match(new RegExp(`${property}:\\s*([^;]+);`));
+  if (!match) return null;
+  const raw = match[1].trim();
+  if (raw === "0" || raw === "0px") return 0;
+  if (raw === "100%" || raw === "none") return raw === "none" ? null : PHONE_VIEWPORT;
+  const rem = raw.match(/^([\d.]+)rem$/);
+  if (rem) return Number(rem[1]) * 16;
+  const px = raw.match(/^([\d.]+)px$/);
+  if (px) return Number(px[1]);
+  return null;
+}
+
+describe("phone overflow at 390px", () => {
+  it("wraps claimed-prizes date, chips, and story cards so .desk-page cannot exceed the viewport", () => {
+    const css = readFileSync("public/desk-page.css", "utf8");
+    const block = phoneBlocks(css, "public/desk-page.css");
+    const page = readFileSync(
+      "public/washington/claimed-prizes-by-store/index.html",
+      "utf8",
+    );
+
+    expect(page).toContain('id="hit-asof"');
+    expect(page).toContain("hit-asof");
+    expect(page).toContain('class="panel desk-page"');
+    expect(page).toContain("hit-toolbar");
+    expect(page).toContain("hit-walk");
+
+    const date = rule(block, ".hit-asof");
+    expect(date).toMatch(/white-space:\s*normal/);
+    expect(date).toMatch(/overflow-wrap:\s*anywhere/);
+    expect(date).not.toMatch(/white-space:\s*nowrap/);
+    expect(firstWidth(date, "max-width")).toBe(PHONE_VIEWPORT);
+    expect(firstWidth(date, "min-width")).toBe(0);
+
+    const head = rule(block, ".panel-head");
+    expect(head).toMatch(/flex-wrap:\s*wrap/);
+    expect(firstWidth(head, "max-width")).toBe(PHONE_VIEWPORT);
+    expect(firstWidth(head, "min-width")).toBe(0);
+
+    const chips = rule(block, ".hit-toolbar .segment");
+    expect(chips).toMatch(/flex-wrap:\s*wrap/);
+    expect(firstWidth(chips, "max-width")).toBe(PHONE_VIEWPORT);
+
+    const walk = rule(block, ".hit-walk");
+    expect(walk).toMatch(/grid-template-columns:\s*1fr/);
+
+    const shell = rule(block, ".shell");
+    const panel = rule(block, ".panel");
+    const deskPage = rule(block, ".desk-page");
+    for (const [name, decl] of [
+      [".shell", shell],
+      [".panel", panel],
+      [".desk-page", deskPage],
+    ] as const) {
+      expect(decl, name).toMatch(/overflow-x:\s*clip/);
+      expect(firstWidth(decl, "max-width"), name).toBe(PHONE_VIEWPORT);
+      expect(firstWidth(decl, "min-width"), name).toBe(0);
+    }
+
+    expect(css).not.toMatch(/\.desk-page[^{]*\{[^}]*min-width:\s*(1[0-9]|[2-9][0-9])/);
+    expect(css).not.toMatch(/#hit-asof[^{]*\{[^}]*white-space:\s*nowrap/);
+  });
+
+  it("keeps desk ticker and game cards inside the 390px page, scrolling only inside the ticker", () => {
+    const css = readFileSync("src/index.css", "utf8");
+    const block = phoneBlocks(css, "src/index.css");
+    const tickerSrc = readFileSync("src/components/MarketTicker.tsx", "utf8");
+
+    expect(tickerSrc).toContain('className="ticker"');
+    expect(tickerSrc).toContain("className={`tick");
+
+    const ticker = rule(block, ".ticker");
+    expect(ticker).toMatch(/overflow-x:\s*auto/);
+    expect(ticker).toMatch(/flex-wrap:\s*nowrap/);
+    expect(firstWidth(ticker, "max-width")).toBe(PHONE_VIEWPORT);
+    expect(firstWidth(ticker, "min-width")).toBe(0);
+
+    const tick = rule(block, ".ticker .tick");
+    const tickMin = firstWidth(tick, "min-width");
+    expect(tickMin).toBeTruthy();
+    expect(tickMin!).toBeLessThan(PHONE_VIEWPORT);
+    expect(ticker).not.toMatch(/overflow-x:\s*visible/);
+
+    const board = rule(block, ".temp-board");
+    expect(board).toMatch(/grid-template-columns:\s*1fr/);
+
+    const shell = rule(block, ".shell");
+    expect(shell).toMatch(/overflow-x:\s*clip/);
+    expect(firstWidth(shell, "max-width")).toBe(PHONE_VIEWPORT);
+    expect(firstWidth(shell, "min-width")).toBe(0);
+
+    expect(block).toMatch(/html,\s*body,\s*#root/);
+    expect(ticker).not.toMatch(/min-width:\s*(1[0-9]|[2-9][0-9])/);
+  });
+});

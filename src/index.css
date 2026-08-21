@@ -683,11 +683,20 @@ main {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 1.15rem 1.15rem 1.35rem;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .recap-main {
   display: grid;
   gap: 0.85rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.desk-page {
+  min-width: 0;
+  max-width: 100%;
 }
 
 html.has-recap-tab main {
@@ -1308,6 +1317,8 @@ html.has-recap-tab main {
   gap: 1rem;
   align-items: flex-start;
   flex-wrap: wrap;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .kicker {
@@ -1351,6 +1362,7 @@ h3 {
 .desk-page > p {
   max-width: 46rem;
   color: var(--muted);
+  overflow-wrap: anywhere;
 }
 
 .desk-page .lede {
@@ -3799,8 +3811,43 @@ input[type="checkbox"] {
     height: 1.05rem;
   }
 
+  html,
+  body,
+  #root {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
   .shell {
     padding-bottom: calc(5.75rem + var(--safe-bottom));
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: clip;
+  }
+
+  .panel,
+  .desk-page {
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: clip;
+  }
+
+  .ticker {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+  }
+
+  .ticker .tick {
+    flex: 1 0 auto;
+    min-width: 9rem;
+  }
+
+  .temp-board {
+    grid-template-columns: 1fr;
   }
 
   .week-next {
@@ -4061,7 +4108,11 @@ input[type="checkbox"] {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: #0b0b0d;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 }
 
