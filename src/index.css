@@ -703,7 +703,37 @@ html.has-recap-tab main {
 }
 
 .recap-overtime h2 {
-  font-size: 1.45rem;
+  font-size: clamp(1.7rem, 4.5vw, 2.35rem);
+  line-height: 1.05;
+}
+
+.recap-overtime-headline {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(1.45rem, 3.6vw, 2rem);
+  line-height: 1.08;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.recap-overtime h2.is-ahead,
+.recap-overtime-headline.is-ahead {
+  color: var(--green);
+}
+
+.recap-overtime h2.is-unknown,
+.recap-overtime-headline.is-unknown {
+  color: var(--peach);
+}
+
+.recap-overtime h2.is-cash,
+.recap-overtime-headline.is-cash {
+  color: var(--gold);
+}
+
+.recap-overtime h2.is-house,
+.recap-overtime-headline.is-house {
+  color: var(--ink);
 }
 
 .recap-overtime-across,

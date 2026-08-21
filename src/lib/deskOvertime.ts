@@ -21,6 +21,7 @@ export const OVERTIME_NOTE =
 export const FREE_PLAY_LABEL = "free play counted at $1";
 export const JACKPOT_UNKNOWN = "jackpot, cash unknown";
 export const OVERTIME_FILLING = "window still filling";
+export const OVERTIME_VS = "Ladder vs the house";
 export const OVERTIME_WINDOW_TARGETS = {
   days7: 7,
   month: 30,
@@ -59,38 +60,50 @@ export type OvertimeFlags = {
   jackpotUnknown: boolean;
 };
 
-export type OvertimeGameRow = OvertimeFlags & {
-  game: DeskGameId;
-  label: string;
-  boards: number;
-  spent: number;
-  paid: number;
-  credit: number;
-  freePlays: number;
-  base: boolean;
-  line: string;
+export type OvertimeScore = {
+  /** paid − spent when cash is known. Null when a jackpot has no cash figure. */
+  net: number | null;
+  /** Signed sports score, or `jackpot, cash unknown`. */
+  score: string;
 };
 
-export type OvertimeNight = OvertimeFlags & {
-  asOf: string;
-  games: OvertimeGameRow[];
-  spent: number;
-  paid: number;
-  credit: number;
-  nightLine: string;
-};
+export type OvertimeGameRow = OvertimeFlags &
+  OvertimeScore & {
+    game: DeskGameId;
+    label: string;
+    boards: number;
+    spent: number;
+    paid: number;
+    credit: number;
+    freePlays: number;
+    base: boolean;
+    line: string;
+  };
 
-export type OvertimeBoard = OvertimeFlags & {
-  mornings: number;
-  lastNight: OvertimeNight | null;
-  games: OvertimeGameRow[];
-  spent: number;
-  paid: number;
-  credit: number;
-  acrossLine: string;
-  revenueWatch: string;
-  houseWatch: string;
-};
+export type OvertimeNight = OvertimeFlags &
+  OvertimeScore & {
+    asOf: string;
+    games: OvertimeGameRow[];
+    spent: number;
+    paid: number;
+    credit: number;
+    headline: string;
+    nightLine: string;
+  };
+
+export type OvertimeBoard = OvertimeFlags &
+  OvertimeScore & {
+    mornings: number;
+    lastNight: OvertimeNight | null;
+    games: OvertimeGameRow[];
+    spent: number;
+    paid: number;
+    credit: number;
+    headline: string;
+    acrossLine: string;
+    revenueWatch: string;
+    houseWatch: string;
+  };
 
 export type OvertimeWindow = OvertimeBoard & OvertimeWindowRange & {
   filling: boolean;
@@ -144,18 +157,43 @@ export function overtimeRungs(rungs: OvertimeRung[]): OvertimeRung[] {
     .slice(0, OVERTIME_RANKS.length);
 }
 
-function houseStatus(
+/** Lead number: paid − spent. Do not invent a net when a jackpot has no cash. */
+export function overtimeNet(
   paid: number,
-  credit: number,
   spent: number,
   jackpotUnknown: boolean,
-  style: "game" | "across",
-): string {
-  const ahead = spent > 0 && paid + credit >= spent;
-  if (ahead) return "ahead of the house";
-  if (jackpotUnknown && paid <= 0) return JACKPOT_UNKNOWN;
-  if (paid > 0) return "cash on the board";
-  return style === "game" ? "house" : "no cash yet";
+): number | null {
+  if (jackpotUnknown) return null;
+  return paid - spent;
+}
+
+export function formatOvertimeNet(net: number): string {
+  if (net > 0) return `+${formatDeskCash(net)}`;
+  if (net < 0) return `-${formatDeskCash(Math.abs(net))}`;
+  return formatDeskCash(0);
+}
+
+export function overtimeScore(
+  paid: number,
+  spent: number,
+  jackpotUnknown: boolean,
+): OvertimeScore {
+  const net = overtimeNet(paid, spent, jackpotUnknown);
+  return {
+    net,
+    score: net == null ? JACKPOT_UNKNOWN : formatOvertimeNet(net),
+  };
+}
+
+export function overtimeHeadline(score: OvertimeScore): string {
+  return `${OVERTIME_VS} · ${score.score}`;
+}
+
+export function overtimeNetClass(score: OvertimeScore): string {
+  if (score.net == null) return "is-unknown";
+  if (score.net > 0) return "is-ahead";
+  if (score.net < 0) return "is-house";
+  return "is-cash";
 }
 
 function paidBit(paid: number, base: boolean): string {
@@ -165,31 +203,21 @@ function paidBit(paid: number, base: boolean): string {
 
 function gameTails(row: {
   freePlays: number;
-  jackpotUnknown: boolean;
 }): string[] {
   const tails: string[] = [];
   if (row.freePlays > 0) tails.push(FREE_PLAY_LABEL);
-  if (row.jackpotUnknown) tails.push(JACKPOT_UNKNOWN);
   return tails;
 }
 
 export function overtimeGameLine(row: Omit<OvertimeGameRow, "line">): string {
-  const status = houseStatus(
-    row.paid,
-    row.credit,
-    row.spent,
-    row.jackpotUnknown,
-    "game",
-  );
   const boards = row.boards === 1 ? "1 board" : `${row.boards} boards`;
-  const tails = gameTails(row).filter((tail) => tail !== status);
   return [
     row.label,
     boards,
     `spent ${formatDeskCash(row.spent)}`,
     paidBit(row.paid, row.base),
-    ...tails,
-    `${status}.`,
+    ...gameTails(row),
+    row.score,
   ].join(" · ");
 }
 
@@ -299,8 +327,6 @@ export function overtimeAcrossLine(board: {
   mornings: number;
   spent: number;
   paid: number;
-  credit: number;
-  jackpotUnknown: boolean;
   label?: string;
   target?: number;
   filling?: boolean;
@@ -311,19 +337,11 @@ export function overtimeAcrossLine(board: {
       : board.mornings === 1
         ? "1 morning"
         : `${board.mornings} mornings`;
-  const status = houseStatus(
-    board.paid,
-    board.credit,
-    board.spent,
-    board.jackpotUnknown,
-    "across",
-  );
   const parts = [
     board.label ?? "Overtime",
     count,
     `spent ${formatDeskCash(board.spent)}`,
     `paid ${formatDeskCash(board.paid)}`,
-    status,
   ];
   if (board.filling) parts.push(OVERTIME_FILLING);
   return parts.join(" · ");
@@ -344,21 +362,13 @@ export function overtimeWatchClass(text: string): string {
 export function overtimeNightLine(night: {
   spent: number;
   paid: number;
-  credit: number;
-  jackpotUnknown: boolean;
+  score: string;
 }): string {
-  const status = houseStatus(
-    night.paid,
-    night.credit,
-    night.spent,
-    night.jackpotUnknown,
-    "across",
-  );
   return [
     "Last night",
     `spent ${formatDeskCash(night.spent)}`,
     `paid ${formatDeskCash(night.paid)}`,
-    status,
+    night.score,
   ].join(" · ");
 }
 
@@ -416,6 +426,7 @@ function scoreBlock(block: OvertimeBlock): OvertimeGameRow | null {
 
   const spent = deskSlipCost(game, rungs.length);
   const flags = flagsFor(paid, credit, spent, jackpotUnknown);
+  const score = overtimeScore(paid, spent, jackpotUnknown);
   const row = {
     game,
     label: overtimeGameLabel(game),
@@ -426,6 +437,7 @@ function scoreBlock(block: OvertimeBlock): OvertimeGameRow | null {
     freePlays,
     base: paid > 0 && basePaid === paid,
     ...flags,
+    ...score,
   };
   return { ...row, line: overtimeGameLine(row) };
 }
@@ -457,6 +469,7 @@ function boardFromNights(
   const credit = games.reduce((sum, row) => sum + row.credit, 0);
   const jackpotUnknown = games.some((row) => row.jackpotUnknown);
   const flags = flagsFor(paid, credit, spent, jackpotUnknown);
+  const score = overtimeScore(paid, spent, jackpotUnknown);
   const mornings = nights.length;
   const lastNight = nights[0] ?? null;
   const filling = Boolean(opts.target && mornings < opts.target);
@@ -468,12 +481,12 @@ function boardFromNights(
     paid,
     credit,
     ...flags,
+    ...score,
+    headline: overtimeHeadline(score),
     acrossLine: overtimeAcrossLine({
       mornings,
       spent,
       paid,
-      credit,
-      jackpotUnknown,
       label: opts.label,
       target: opts.target,
       filling,
@@ -489,6 +502,7 @@ function finishNight(asOf: string, games: OvertimeGameRow[]): OvertimeNight {
   const credit = games.reduce((sum, row) => sum + row.credit, 0);
   const jackpotUnknown = games.some((row) => row.jackpotUnknown);
   const flags = flagsFor(paid, credit, spent, jackpotUnknown);
+  const score = overtimeScore(paid, spent, jackpotUnknown);
   return {
     asOf,
     games,
@@ -496,7 +510,9 @@ function finishNight(asOf: string, games: OvertimeGameRow[]): OvertimeNight {
     paid,
     credit,
     ...flags,
-    nightLine: overtimeNightLine({ spent, paid, credit, jackpotUnknown }),
+    ...score,
+    headline: overtimeHeadline(score),
+    nightLine: overtimeNightLine({ spent, paid, score: score.score }),
   };
 }
 
@@ -521,6 +537,7 @@ function mergeGameRows(rows: OvertimeGameRow[]): OvertimeGameRow[] {
       0,
     );
     const flags = flagsFor(paid, credit, spent, jackpotUnknown);
+    const score = overtimeScore(paid, spent, jackpotUnknown);
     const merged = {
       game,
       label: overtimeGameLabel(game),
@@ -531,6 +548,7 @@ function mergeGameRows(rows: OvertimeGameRow[]): OvertimeGameRow[] {
       freePlays,
       base: paid > 0 && basePaid === paid,
       ...flags,
+      ...score,
     };
     return [{ ...merged, line: overtimeGameLine(merged) }];
   });

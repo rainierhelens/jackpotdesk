@@ -31,6 +31,7 @@ import {
 } from "../src/lib/recapPayload.ts";
 import {
   OVERTIME_NOTE,
+  overtimeNetClass,
   overtimeNightRead,
   overtimeWatchClass,
   scoreOvertimeWindows,
@@ -346,6 +347,7 @@ function overtimeWindowHtml(window: OvertimeWindow): string {
     .join("");
   return `<section class="recap-overtime-window${window.filling ? " is-filling" : ""}" data-overtime-window="${escapeHtml(window.id)}">
       <p class="recap-overtime-window-label">${escapeHtml(window.label)}</p>
+      <p class="recap-overtime-headline ${overtimeNetClass(window)}">${escapeHtml(window.headline)}</p>
       <p class="recap-overtime-across">${escapeHtml(window.acrossLine)}</p>
       <ul class="recap-overtime-games">${games}</ul>
       ${overtimeWatchesHtml(window)}
@@ -363,14 +365,15 @@ function overtimeHtml(log: RecapPayload[]): string {
         ),
       )}</p>`
     : "";
+  const lead = desk.windows[0] ?? desk.all;
   const all = desk.all.mornings
-    ? `<p class="fine recap-overtime-all">${escapeHtml(desk.all.acrossLine)}</p>`
+    ? `<p class="fine recap-overtime-all">${escapeHtml(`${desk.all.headline} · ${desk.all.acrossLine}`)}</p>`
     : "";
   return `<aside class="panel recap-overtime" aria-label="Overtime">
     <header class="panel-head">
       <div>
-        <p class="kicker">Overtime</p>
-        <h2>Ladder #1–#3</h2>
+        <p class="kicker">Overtime · Ladder #1–#3</p>
+        <h2 class="${overtimeNetClass(lead)}">${escapeHtml(lead.headline)}</h2>
       </div>
     </header>
     ${night}

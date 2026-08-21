@@ -22,6 +22,7 @@ import {
 } from "../lib/recapRoute";
 import {
   OVERTIME_NOTE,
+  overtimeNetClass,
   overtimeNightRead,
   overtimeWatchClass,
   scoreOvertimeWindows,
@@ -478,6 +479,9 @@ function OvertimeWindowCard({ window }: { window: OvertimeWindow }) {
       data-overtime-window={window.id}
     >
       <p className="recap-overtime-window-label">{window.label}</p>
+      <p className={`recap-overtime-headline ${overtimeNetClass(window)}`}>
+        {window.headline}
+      </p>
       <p className="recap-overtime-across">{window.acrossLine}</p>
       <ul className="recap-overtime-games">
         {window.games.map((row) => (
@@ -502,8 +506,10 @@ function OvertimePanel({ log }: { log: RecapPayload[] }) {
     <aside className="panel recap-overtime" aria-label="Overtime">
       <header className="panel-head">
         <div>
-          <p className="kicker">Overtime</p>
-          <h2>Ladder #1–#3</h2>
+          <p className="kicker">Overtime · Ladder #1–#3</p>
+          <h2 className={overtimeNetClass(desk.windows[0] ?? desk.all)}>
+            {(desk.windows[0] ?? desk.all).headline}
+          </h2>
         </div>
       </header>
       {night ? <p className="recap-overtime-night">{night}</p> : null}
@@ -511,7 +517,9 @@ function OvertimePanel({ log }: { log: RecapPayload[] }) {
         <OvertimeWindowCard key={window.id} window={window} />
       ))}
       {desk.all.mornings ? (
-        <p className="fine recap-overtime-all">{desk.all.acrossLine}</p>
+        <p className="fine recap-overtime-all">
+          {desk.all.headline} · {desk.all.acrossLine}
+        </p>
       ) : null}
       <p className="fine recap-overtime-note">{OVERTIME_NOTE}</p>
     </aside>
