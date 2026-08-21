@@ -3,11 +3,18 @@ import { deskPay } from "./deskPrize";
 import {
   FREE_PLAY_LABEL,
   JACKPOT_UNKNOWN,
+  OVERTIME_FILLING,
   OVERTIME_NOTE,
   deskSlipCost,
+  overtimeWindowRange,
   recapJackpotCash,
+  recapMonthLabel,
+  recapQuarterLabel,
+  recapQuarterStart,
   scoreOvertime,
   scoreOvertimeNight,
+  scoreOvertimeWindows,
+  shiftRecapIso,
   type OvertimeBlock,
   type OvertimeDay,
 } from "./deskOvertime";
@@ -273,5 +280,100 @@ describe("overtime running log", () => {
     ].join("\n");
     copyBanned(copy);
     expect(copy).not.toMatch(/Same hit odds as Quick Pick/);
+  });
+});
+
+describe("overtime windows", () => {
+  it("reads last 7 days, calendar month, and quarter from recap asOf dates", () => {
+    expect(shiftRecapIso("2026-08-20", -6)).toBe("2026-08-14");
+    expect(recapMonthLabel("2026-08-20")).toBe("August 2026");
+    expect(recapQuarterLabel("2026-08-20")).toBe("Q3 2026");
+    expect(recapQuarterStart("2026-08-20")).toBe("2026-07-01");
+    expect(overtimeWindowRange("days7", "2026-08-20")).toMatchObject({
+      from: "2026-08-14",
+      to: "2026-08-20",
+      target: 7,
+    });
+  });
+
+  it("marks all three windows as filling when the log is one morning", () => {
+    const desk = scoreOvertimeWindows([day("2026-08-20", [MEGA], [HIT5])]);
+    expect(desk.windows.map((window) => window.id)).toEqual([
+      "days7",
+      "month",
+      "quarter",
+    ]);
+    expect(desk.windows.every((window) => window.filling)).toBe(true);
+    expect(desk.windows.every((window) => window.mornings === 1)).toBe(true);
+    expect(desk.windows[0]?.acrossLine).toBe(
+      `Last 7 days · 1 of 7 mornings · spent $18 · paid $0 · no cash yet · ${OVERTIME_FILLING}`,
+    );
+    expect(desk.windows[1]?.acrossLine).toBe(
+      `August 2026 · 1 of 30 mornings · spent $18 · paid $0 · no cash yet · ${OVERTIME_FILLING}`,
+    );
+    expect(desk.windows[2]?.acrossLine).toBe(
+      `Q3 2026 · 1 of 90 mornings · spent $18 · paid $0 · no cash yet · ${OVERTIME_FILLING}`,
+    );
+    expect(desk.all.acrossLine).toBe(
+      "All-time · 1 morning · spent $18 · paid $0 · no cash yet",
+    );
+  });
+
+  it("keeps a July morning out of the 7-day and August windows, and a June morning out of Q3", () => {
+    const august = day("2026-08-20", [POWER], [HIT5]);
+    const july = day("2026-07-31", [MEGA]);
+    const june = day("2026-06-30", [MEGA]);
+    const desk = scoreOvertimeWindows([june, july, august]);
+    const days7 = desk.windows.find((window) => window.id === "days7");
+    const month = desk.windows.find((window) => window.id === "month");
+    const quarter = desk.windows.find((window) => window.id === "quarter");
+    expect(days7?.mornings).toBe(1);
+    expect(days7?.spent).toBe(9);
+    expect(month?.mornings).toBe(1);
+    expect(month?.label).toBe("August 2026");
+    expect(quarter?.mornings).toBe(2);
+    expect(quarter?.spent).toBe(9 + 15);
+    expect(desk.all.mornings).toBe(3);
+    expect(desk.lastNight?.asOf).toBe("2026-08-20");
+  });
+
+  it("closes the 7-day window at 7 recap mornings and still fills month and quarter", () => {
+    const days = [13, 14, 15, 16, 17, 18, 19, 20].map((dayNum) =>
+      day(`2026-08-${dayNum}`, [POWER], [HIT5]),
+    );
+    const desk = scoreOvertimeWindows(days);
+    const days7 = desk.windows.find((window) => window.id === "days7");
+    expect(days7?.mornings).toBe(7);
+    expect(days7?.filling).toBe(false);
+    expect(days7?.acrossLine).toBe(
+      "Last 7 days · 7 mornings · spent $63 · paid $0 · no cash yet",
+    );
+    expect(days7?.acrossLine).not.toContain(OVERTIME_FILLING);
+    expect(desk.windows.find((window) => window.id === "month")?.filling).toBe(
+      true,
+    );
+    expect(desk.windows.find((window) => window.id === "quarter")?.filling).toBe(
+      true,
+    );
+  });
+
+  it("keeps window copy free of em dashes, winning numbers, and beats Quick Pick", () => {
+    const desk = scoreOvertimeWindows([
+      day("2026-08-20", [POWER, MEGA], [HIT5, LOTTO]),
+    ]);
+    const copy = [
+      desk.lastNight?.nightLine ?? "",
+      desk.all.acrossLine,
+      OVERTIME_NOTE,
+      ...desk.windows.flatMap((window) => [
+        window.acrossLine,
+        window.revenueWatch,
+        window.houseWatch,
+        ...window.games.map((row) => row.line),
+      ]),
+    ].join("\n");
+    copyBanned(copy);
+    expect(copy).not.toMatch(/Same hit odds as Quick Pick/);
+    expect(copy).not.toMatch(/tonight'?s #1/i);
   });
 });

@@ -19,8 +19,9 @@ import {
 import { recapExtraClass } from "../src/lib/recapPayload.ts";
 import {
   FREE_PLAY_LABEL,
+  OVERTIME_FILLING,
   OVERTIME_NOTE,
-  scoreOvertime,
+  scoreOvertimeWindows,
 } from "../src/lib/deskOvertime.ts";
 
 const FIXTURE: RecapPayload = {
@@ -367,19 +368,32 @@ describe("recap page", () => {
     expect(olderCard).toContain("Open the slip");
     expect(olderCard).not.toContain("recap-heat");
     expect(olderCard).not.toContain("Official 2026-08-18");
-    const running = scoreOvertime([FIXTURE, older]);
-    expect(running.mornings).toBe(2);
-    expect(running.spent).toBe(16);
-    expect(running.paid).toBe(20);
-    expect(index).toContain(running.acrossLine);
-    expect(index).toContain("Overtime · 2 mornings · spent $16 · paid $20");
+    const desk = scoreOvertimeWindows([FIXTURE, older]);
+    expect(desk.all.mornings).toBe(2);
+    expect(desk.all.spent).toBe(16);
+    expect(desk.all.paid).toBe(20);
+    expect(index).toContain(desk.windows[0]!.acrossLine);
+    expect(index).toContain(
+      `Last 7 days · 2 of 7 mornings · spent $16 · paid $20 · ahead of the house · ${OVERTIME_FILLING}`,
+    );
+    expect(index).toContain("All-time · 2 mornings · spent $16 · paid $20");
   });
 
   it("pins an overtime scoreboard above the newest-first log", () => {
-    const board = scoreOvertime([FIXTURE]);
+    const desk = scoreOvertimeWindows([FIXTURE]);
     expect(html).toContain('class="panel recap-overtime"');
     expect(html).toContain("Ladder #1–#3");
-    expect(html).toContain(board.acrossLine);
+    expect(html).toContain('data-overtime-window="days7"');
+    expect(html).toContain('data-overtime-window="month"');
+    expect(html).toContain('data-overtime-window="quarter"');
+    expect(html).toContain(desk.windows[0]!.acrossLine);
+    expect(html).toContain(desk.windows[1]!.acrossLine);
+    expect(html).toContain(desk.windows[2]!.acrossLine);
+    expect(html).toContain("Last 7 days · 1 of 7 mornings");
+    expect(html).toContain("August 2026 · 1 of 30 mornings");
+    expect(html).toContain("Q3 2026 · 1 of 90 mornings");
+    expect(html).toContain(OVERTIME_FILLING);
+    expect(html).toContain("All-time · 1 morning · spent $8 · paid $10");
     expect(html).toContain("Last night · Thursday, Aug 20, 2026 · spent $8 · paid $10");
     expect(html).toContain("Hit 5 · 1 board · spent $1 · paid $0 · " + FREE_PLAY_LABEL);
     expect(html).toContain("Powerball · 3 boards · spent $6 · paid $7");

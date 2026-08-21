@@ -24,7 +24,8 @@ import {
   OVERTIME_NOTE,
   overtimeNightRead,
   overtimeWatchClass,
-  scoreOvertime,
+  scoreOvertimeWindows,
+  type OvertimeWindow,
 } from "../lib/deskOvertime";
 
 const SAME_ODDS =
@@ -376,35 +377,36 @@ async function fetchRecapJson(src: string): Promise<RecapPayload | null> {
 
 async function loadRecapLog(pathname: string): Promise<RecapPayload[]> {
   const dated = recapDayIso(pathname);
-  if (dated) {
-    const day = await fetchRecapJson(recapJsonSrc(pathname));
-    if (!day) throw new Error("missing");
-    return [day];
-  }
-
   const latest = await fetchRecapJson(recapJsonSrc("/recap"));
-  if (!latest) throw new Error("missing");
-
-  let dayIds = [latest.asOf];
+  let dayIds: string[] = latest?.asOf ? [latest.asOf] : [];
   try {
     const res = await fetch(recapLogSrc());
     if (res.ok) {
-      const log = (await res.json()) as RecapLogFile;
-      if (Array.isArray(log.days) && log.days.length) dayIds = log.days;
+      const file = (await res.json()) as RecapLogFile;
+      if (Array.isArray(file.days) && file.days.length) dayIds = file.days;
     }
   } catch {
     /* latest only */
   }
+  if (dated && !dayIds.includes(dated)) dayIds = [dated, ...dayIds];
 
-  const prior = await Promise.all(
-    dayIds
-      .filter((day) => day !== latest.asOf)
-      .map((day) => fetchRecapJson(`/recap/${day}.json`)),
+  const days = await Promise.all(
+    dayIds.map((day) =>
+      latest && day === latest.asOf
+        ? Promise.resolve(latest)
+        : fetchRecapJson(`/recap/${day}.json`),
+    ),
   );
-  return sortNewestFirst([
-    latest,
-    ...prior.filter((day): day is RecapPayload => day != null),
-  ]);
+  const found = sortNewestFirst(
+    days.filter((day): day is RecapPayload => day != null),
+  );
+  if (dated && !found.some((day) => day.asOf === dated)) {
+    const one = await fetchRecapJson(recapJsonSrc(pathname));
+    if (!one) throw new Error("missing");
+    return sortNewestFirst([one, ...found]);
+  }
+  if (!found.length) throw new Error("missing");
+  return found;
 }
 
 function DayArticle({
@@ -448,13 +450,52 @@ function DayArticle({
   );
 }
 
+function OvertimeWatches({
+  revenue,
+  house,
+}: {
+  revenue: string;
+  house: string;
+}) {
+  return (
+    <dl className="recap-overtime-watches">
+      <div>
+        <dt>Any revenue</dt>
+        <dd className={overtimeWatchClass(revenue)}>{revenue}</dd>
+      </div>
+      <div>
+        <dt>Beat the house</dt>
+        <dd className={overtimeWatchClass(house)}>{house}</dd>
+      </div>
+    </dl>
+  );
+}
+
+function OvertimeWindowCard({ window }: { window: OvertimeWindow }) {
+  return (
+    <section
+      className={`recap-overtime-window${window.filling ? " is-filling" : ""}`}
+      data-overtime-window={window.id}
+    >
+      <p className="recap-overtime-window-label">{window.label}</p>
+      <p className="recap-overtime-across">{window.acrossLine}</p>
+      <ul className="recap-overtime-games">
+        {window.games.map((row) => (
+          <li key={row.game}>{row.line}</li>
+        ))}
+      </ul>
+      <OvertimeWatches revenue={window.revenueWatch} house={window.houseWatch} />
+    </section>
+  );
+}
+
 function OvertimePanel({ log }: { log: RecapPayload[] }) {
-  const board = scoreOvertime(log);
-  if (!board.mornings) return null;
-  const night = board.lastNight
+  const desk = scoreOvertimeWindows(log);
+  if (!desk.windows.length && !desk.all.mornings) return null;
+  const night = desk.lastNight
     ? overtimeNightRead(
-        board.lastNight.nightLine,
-        formatRecapHeading(board.lastNight.asOf),
+        desk.lastNight.nightLine,
+        formatRecapHeading(desk.lastNight.asOf),
       )
     : null;
   return (
@@ -465,27 +506,13 @@ function OvertimePanel({ log }: { log: RecapPayload[] }) {
           <h2>Ladder #1–#3</h2>
         </div>
       </header>
-      <p className="recap-overtime-across">{board.acrossLine}</p>
-      <ul className="recap-overtime-games">
-        {board.games.map((row) => (
-          <li key={row.game}>{row.line}</li>
-        ))}
-      </ul>
       {night ? <p className="recap-overtime-night">{night}</p> : null}
-      <dl className="recap-overtime-watches">
-        <div>
-          <dt>Any revenue</dt>
-          <dd className={overtimeWatchClass(board.revenueWatch)}>
-            {board.revenueWatch}
-          </dd>
-        </div>
-        <div>
-          <dt>Beat the house</dt>
-          <dd className={overtimeWatchClass(board.houseWatch)}>
-            {board.houseWatch}
-          </dd>
-        </div>
-      </dl>
+      {desk.windows.map((window) => (
+        <OvertimeWindowCard key={window.id} window={window} />
+      ))}
+      {desk.all.mornings ? (
+        <p className="fine recap-overtime-all">{desk.all.acrossLine}</p>
+      ) : null}
       <p className="fine recap-overtime-note">{OVERTIME_NOTE}</p>
     </aside>
   );
@@ -571,10 +598,14 @@ export function RecapView({ pathname }: { pathname: string }) {
     );
   }
 
+  const dated = recapDayIso(pathname);
+  const scoreLog = dated ? log.filter((day) => day.asOf <= dated) : log;
+  const showLog = dated ? log.filter((day) => day.asOf === dated) : log;
+
   return (
     <div className="recap-main">
-      <OvertimePanel log={log} />
-      {log.map((day, index) => (
+      <OvertimePanel log={scoreLog} />
+      {showLog.map((day, index) => (
         <DayArticle
           key={day.asOf}
           payload={day}

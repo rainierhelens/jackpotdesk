@@ -193,7 +193,7 @@ a {
   z-index: 21;
   display: grid;
   gap: 0.65rem;
-  max-height: min(70svh, 28rem);
+  max-height: min(80svh, 42rem);
   overflow: auto;
   background: var(--card);
   border: 1px solid var(--line);
@@ -272,6 +272,29 @@ a {
   color: var(--muted);
 }
 
+.recap-overtime-window {
+  display: grid;
+  gap: 0.4rem;
+  padding: 0.7rem 0.75rem;
+  background: #0c0c0e;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.recap-overtime-window-label {
+  margin: 0;
+  color: var(--gold);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.recap-overtime-window.is-filling .recap-overtime-across {
+  color: var(--peach);
+}
+
+.recap-overtime-all,
 .recap-overtime-note {
   margin: 0;
 }

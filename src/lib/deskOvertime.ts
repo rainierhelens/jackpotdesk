@@ -20,10 +20,20 @@ export const OVERTIME_NOTE =
   "Entertainment, not a forecast. Official prize tables only. $0 stays $0.";
 export const FREE_PLAY_LABEL = "free play counted at $1";
 export const JACKPOT_UNKNOWN = "jackpot, cash unknown";
+export const OVERTIME_FILLING = "window still filling";
+export const OVERTIME_WINDOW_TARGETS = {
+  days7: 7,
+  month: 30,
+  quarter: 90,
+} as const;
+
+const ISO_DAY = /^(\d{4})-(\d{2})-(\d{2})$/;
+const PT = "America/Los_Angeles";
 
 export type OvertimeRung = DeskPayRung & { rank: number };
 
 export type OvertimeBlock = DeskPaySource & {
+  officialDate?: string | null;
   rungs: OvertimeRung[];
 };
 
@@ -31,6 +41,16 @@ export type OvertimeDay = {
   asOf: string;
   national: OvertimeBlock[];
   washington: OvertimeBlock[];
+};
+
+export type OvertimeWindowId = "days7" | "month" | "quarter";
+
+export type OvertimeWindowRange = {
+  id: OvertimeWindowId;
+  label: string;
+  from: string;
+  to: string;
+  target: number;
 };
 
 export type OvertimeFlags = {
@@ -70,6 +90,16 @@ export type OvertimeBoard = OvertimeFlags & {
   acrossLine: string;
   revenueWatch: string;
   houseWatch: string;
+};
+
+export type OvertimeWindow = OvertimeBoard & OvertimeWindowRange & {
+  filling: boolean;
+};
+
+export type OvertimeDesk = {
+  lastNight: OvertimeNight | null;
+  windows: OvertimeWindow[];
+  all: OvertimeBoard;
 };
 
 export function overtimeGameLabel(game: DeskGameId): string {
@@ -163,14 +193,124 @@ export function overtimeGameLine(row: Omit<OvertimeGameRow, "line">): string {
   ].join(" · ");
 }
 
+export function isRecapIso(iso: string | null | undefined): iso is string {
+  return Boolean(iso && ISO_DAY.test(iso));
+}
+
+/** Recap mornings are YYYY-MM-DD already on the PT calendar. No UTC "today". */
+export function overtimeDayIso(day: OvertimeDay): string {
+  if (isRecapIso(day.asOf)) return day.asOf;
+  const official = [...day.national, ...day.washington]
+    .map((block) => ("officialDate" in block ? String(block.officialDate ?? "") : ""))
+    .filter(isRecapIso)
+    .sort();
+  return official[official.length - 1] ?? "";
+}
+
+export function shiftRecapIso(iso: string, days: number): string {
+  const match = iso.match(ISO_DAY);
+  if (!match) return iso;
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const date = new Date(Date.UTC(year, month - 1, day, 12));
+  date.setUTCDate(date.getUTCDate() + days);
+  return date.toISOString().slice(0, 10);
+}
+
+function recapPtLabel(
+  iso: string,
+  options: Intl.DateTimeFormatOptions,
+): string {
+  const match = iso.match(ISO_DAY);
+  if (!match) return iso;
+  const date = new Date(
+    Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3]), 20),
+  );
+  return new Intl.DateTimeFormat("en-US", {
+    ...options,
+    timeZone: PT,
+  }).format(date);
+}
+
+export function recapMonthLabel(iso: string): string {
+  return recapPtLabel(iso, { month: "long", year: "numeric" });
+}
+
+export function recapQuarterLabel(iso: string): string {
+  const match = iso.match(ISO_DAY);
+  if (!match) return iso;
+  const month = Number(match[2]);
+  const year = match[1];
+  const quarter = Math.ceil(month / 3);
+  return `Q${quarter} ${year}`;
+}
+
+export function recapMonthStart(iso: string): string {
+  const match = iso.match(ISO_DAY);
+  if (!match) return iso;
+  return `${match[1]}-${match[2]}-01`;
+}
+
+export function recapQuarterStart(iso: string): string {
+  const match = iso.match(ISO_DAY);
+  if (!match) return iso;
+  const month = Number(match[2]);
+  const start = String(Math.floor((month - 1) / 3) * 3 + 1).padStart(2, "0");
+  return `${match[1]}-${start}-01`;
+}
+
+export function overtimeWindowRange(
+  id: OvertimeWindowId,
+  anchor: string,
+): OvertimeWindowRange {
+  if (id === "days7") {
+    return {
+      id,
+      label: "Last 7 days",
+      from: shiftRecapIso(anchor, 1 - OVERTIME_WINDOW_TARGETS.days7),
+      to: anchor,
+      target: OVERTIME_WINDOW_TARGETS.days7,
+    };
+  }
+  if (id === "month") {
+    return {
+      id,
+      label: recapMonthLabel(anchor),
+      from: recapMonthStart(anchor),
+      to: anchor,
+      target: OVERTIME_WINDOW_TARGETS.month,
+    };
+  }
+  return {
+    id,
+    label: recapQuarterLabel(anchor),
+    from: recapQuarterStart(anchor),
+    to: anchor,
+    target: OVERTIME_WINDOW_TARGETS.quarter,
+  };
+}
+
+export function inOvertimeWindow(iso: string, range: OvertimeWindowRange): boolean {
+  return isRecapIso(iso) && iso >= range.from && iso <= range.to;
+}
+
 export function overtimeAcrossLine(board: {
   mornings: number;
   spent: number;
   paid: number;
   credit: number;
   jackpotUnknown: boolean;
+  label?: string;
+  target?: number;
+  filling?: boolean;
 }): string {
-  const nights = board.mornings === 1 ? "1 morning" : `${board.mornings} mornings`;
+  const count =
+    board.target && board.filling
+      ? `${board.mornings} of ${board.target} mornings`
+      : board.mornings === 1
+        ? "1 morning"
+        : `${board.mornings} mornings`;
   const status = houseStatus(
     board.paid,
     board.credit,
@@ -178,13 +318,15 @@ export function overtimeAcrossLine(board: {
     board.jackpotUnknown,
     "across",
   );
-  return [
-    "Overtime",
-    nights,
+  const parts = [
+    board.label ?? "Overtime",
+    count,
     `spent ${formatDeskCash(board.spent)}`,
     `paid ${formatDeskCash(board.paid)}`,
     status,
-  ].join(" · ");
+  ];
+  if (board.filling) parts.push(OVERTIME_FILLING);
+  return parts.join(" · ");
 }
 
 export function overtimeNightRead(nightLine: string, heading: string): string {
@@ -288,6 +430,59 @@ function scoreBlock(block: OvertimeBlock): OvertimeGameRow | null {
   return { ...row, line: overtimeGameLine(row) };
 }
 
+function scoredNights(log: OvertimeDay[]): OvertimeNight[] {
+  return log
+    .map((day) => ({ day, asOf: overtimeDayIso(day) }))
+    .filter((entry) => isRecapIso(entry.asOf))
+    .sort((a, b) => (a.asOf < b.asOf ? 1 : a.asOf > b.asOf ? -1 : 0))
+    .map((entry) => {
+      const games = [...entry.day.washington, ...entry.day.national]
+        .map(scoreBlock)
+        .filter((row): row is OvertimeGameRow => row != null)
+        .sort(
+          (a, b) =>
+            OVERTIME_GAMES.indexOf(a.game) - OVERTIME_GAMES.indexOf(b.game),
+        );
+      return finishNight(entry.asOf, games);
+    });
+}
+
+function boardFromNights(
+  nights: OvertimeNight[],
+  opts: { label?: string; target?: number } = {},
+): OvertimeBoard {
+  const games = mergeGameRows(nights.flatMap((night) => night.games));
+  const spent = games.reduce((sum, row) => sum + row.spent, 0);
+  const paid = games.reduce((sum, row) => sum + row.paid, 0);
+  const credit = games.reduce((sum, row) => sum + row.credit, 0);
+  const jackpotUnknown = games.some((row) => row.jackpotUnknown);
+  const flags = flagsFor(paid, credit, spent, jackpotUnknown);
+  const mornings = nights.length;
+  const lastNight = nights[0] ?? null;
+  const filling = Boolean(opts.target && mornings < opts.target);
+  return {
+    mornings,
+    lastNight,
+    games,
+    spent,
+    paid,
+    credit,
+    ...flags,
+    acrossLine: overtimeAcrossLine({
+      mornings,
+      spent,
+      paid,
+      credit,
+      jackpotUnknown,
+      label: opts.label,
+      target: opts.target,
+      filling,
+    }),
+    revenueWatch: overtimeRevenueWatch(flags),
+    houseWatch: overtimeHouseWatch(flags),
+  };
+}
+
 function finishNight(asOf: string, games: OvertimeGameRow[]): OvertimeNight {
   const spent = games.reduce((sum, row) => sum + row.spent, 0);
   const paid = games.reduce((sum, row) => sum + row.paid, 0);
@@ -342,44 +537,39 @@ function mergeGameRows(rows: OvertimeGameRow[]): OvertimeGameRow[] {
 }
 
 export function scoreOvertimeNight(day: OvertimeDay): OvertimeNight {
-  const games = [...day.washington, ...day.national]
-    .map(scoreBlock)
-    .filter((row): row is OvertimeGameRow => row != null)
-    .sort(
-      (a, b) => OVERTIME_GAMES.indexOf(a.game) - OVERTIME_GAMES.indexOf(b.game),
-    );
-  return finishNight(day.asOf, games);
+  return scoredNights([day])[0] ?? finishNight(overtimeDayIso(day), []);
 }
 
 export function scoreOvertime(log: OvertimeDay[]): OvertimeBoard {
-  const nights = log
-    .filter((day) => day.asOf)
-    .sort((a, b) => (a.asOf < b.asOf ? 1 : a.asOf > b.asOf ? -1 : 0))
-    .map(scoreOvertimeNight);
-  const games = mergeGameRows(nights.flatMap((night) => night.games));
-  const spent = games.reduce((sum, row) => sum + row.spent, 0);
-  const paid = games.reduce((sum, row) => sum + row.paid, 0);
-  const credit = games.reduce((sum, row) => sum + row.credit, 0);
-  const jackpotUnknown = games.some((row) => row.jackpotUnknown);
-  const flags = flagsFor(paid, credit, spent, jackpotUnknown);
-  const mornings = nights.length;
-  const lastNight = nights[0] ?? null;
+  return boardFromNights(scoredNights(log));
+}
+
+export function scoreOvertimeWindow(
+  log: OvertimeDay[],
+  range: OvertimeWindowRange,
+): OvertimeWindow {
+  const nights = scoredNights(log).filter((night) =>
+    inOvertimeWindow(night.asOf, range),
+  );
   return {
-    mornings,
-    lastNight,
-    games,
-    spent,
-    paid,
-    credit,
-    ...flags,
-    acrossLine: overtimeAcrossLine({
-      mornings,
-      spent,
-      paid,
-      credit,
-      jackpotUnknown,
-    }),
-    revenueWatch: overtimeRevenueWatch(flags),
-    houseWatch: overtimeHouseWatch(flags),
+    ...boardFromNights(nights, { label: range.label, target: range.target }),
+    ...range,
+    filling: nights.length < range.target,
+  };
+}
+
+export function scoreOvertimeWindows(log: OvertimeDay[]): OvertimeDesk {
+  const nights = scoredNights(log);
+  const all = boardFromNights(nights, { label: "All-time" });
+  const anchor = nights[0]?.asOf ?? "";
+  if (!isRecapIso(anchor)) {
+    return { lastNight: null, windows: [], all };
+  }
+  return {
+    lastNight: nights[0] ?? null,
+    windows: (["days7", "month", "quarter"] as const).map((id) =>
+      scoreOvertimeWindow(log, overtimeWindowRange(id, anchor)),
+    ),
+    all,
   };
 }

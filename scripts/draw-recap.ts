@@ -33,7 +33,8 @@ import {
   OVERTIME_NOTE,
   overtimeNightRead,
   overtimeWatchClass,
-  scoreOvertime,
+  scoreOvertimeWindows,
+  type OvertimeWindow,
 } from "../src/lib/deskOvertime.ts";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -326,19 +327,44 @@ function dayArticleHtml(
   </article>`;
 }
 
-function overtimeHtml(log: RecapPayload[]): string {
-  const board = scoreOvertime(log);
-  if (!board.mornings) return "";
-  const games = board.games
+function overtimeWatchesHtml(window: OvertimeWindow): string {
+  return `<dl class="recap-overtime-watches">
+      <div>
+        <dt>Any revenue</dt>
+        <dd class="${overtimeWatchClass(window.revenueWatch)}">${escapeHtml(window.revenueWatch)}</dd>
+      </div>
+      <div>
+        <dt>Beat the house</dt>
+        <dd class="${overtimeWatchClass(window.houseWatch)}">${escapeHtml(window.houseWatch)}</dd>
+      </div>
+    </dl>`;
+}
+
+function overtimeWindowHtml(window: OvertimeWindow): string {
+  const games = window.games
     .map((row) => `<li>${escapeHtml(row.line)}</li>`)
     .join("");
-  const night = board.lastNight
+  return `<section class="recap-overtime-window${window.filling ? " is-filling" : ""}" data-overtime-window="${escapeHtml(window.id)}">
+      <p class="recap-overtime-window-label">${escapeHtml(window.label)}</p>
+      <p class="recap-overtime-across">${escapeHtml(window.acrossLine)}</p>
+      <ul class="recap-overtime-games">${games}</ul>
+      ${overtimeWatchesHtml(window)}
+    </section>`;
+}
+
+function overtimeHtml(log: RecapPayload[]): string {
+  const desk = scoreOvertimeWindows(log);
+  if (!desk.windows.length && !desk.all.mornings) return "";
+  const night = desk.lastNight
     ? `<p class="recap-overtime-night">${escapeHtml(
         overtimeNightRead(
-          board.lastNight.nightLine,
-          formatRecapHeading(board.lastNight.asOf),
+          desk.lastNight.nightLine,
+          formatRecapHeading(desk.lastNight.asOf),
         ),
       )}</p>`
+    : "";
+  const all = desk.all.mornings
+    ? `<p class="fine recap-overtime-all">${escapeHtml(desk.all.acrossLine)}</p>`
     : "";
   return `<aside class="panel recap-overtime" aria-label="Overtime">
     <header class="panel-head">
@@ -347,19 +373,9 @@ function overtimeHtml(log: RecapPayload[]): string {
         <h2>Ladder #1–#3</h2>
       </div>
     </header>
-    <p class="recap-overtime-across">${escapeHtml(board.acrossLine)}</p>
-    <ul class="recap-overtime-games">${games}</ul>
     ${night}
-    <dl class="recap-overtime-watches">
-      <div>
-        <dt>Any revenue</dt>
-        <dd class="${overtimeWatchClass(board.revenueWatch)}">${escapeHtml(board.revenueWatch)}</dd>
-      </div>
-      <div>
-        <dt>Beat the house</dt>
-        <dd class="${overtimeWatchClass(board.houseWatch)}">${escapeHtml(board.houseWatch)}</dd>
-      </div>
-    </dl>
+    ${desk.windows.map(overtimeWindowHtml).join("\n    ")}
+    ${all}
     <p class="fine recap-overtime-note">${escapeHtml(OVERTIME_NOTE)}</p>
   </aside>`;
 }
@@ -404,8 +420,11 @@ export function formatRecapHtml(
   log: RecapPayload[] = [payload],
 ): string {
   const days = (log.length ? log : [payload]).slice();
-  const scoreLog = page.kind === "archive" ? [payload] : days;
-  const overtime = overtimeHtml(scoreLog);
+  const scoreLog =
+    page.kind === "archive"
+      ? days.filter((day) => day.asOf <= payload.asOf)
+      : days;
+  const overtime = overtimeHtml(scoreLog.length ? scoreLog : [payload]);
   const main =
     page.kind === "archive"
       ? dayArticleHtml(payload, true)
@@ -518,20 +537,24 @@ export function writeRecapPages(payload: RecapPayload, dir = RECAP_DIR): string[
   writeFileSync(join(dir, `${payload.asOf}.json`), json);
   writeFileSync(join(dir, "latest.json"), json);
 
-  const archive = formatRecapHtml(payload, {
-    path: `/recap/${payload.asOf}`,
-    kind: "archive",
-  });
-  assertNoEmDash(`/recap/${payload.asOf}`, archive);
-  const archiveFile = join(dir, payload.asOf, "index.html");
-  mkdirSync(dirname(archiveFile), { recursive: true });
-  writeFileSync(archiveFile, archive);
-
   const log = loadRecapLog(dir);
   writeFileSync(
     join(dir, "log.json"),
     `${JSON.stringify({ days: log.map((day) => day.asOf) })}\n`,
   );
+
+  const archive = formatRecapHtml(
+    payload,
+    {
+      path: `/recap/${payload.asOf}`,
+      kind: "archive",
+    },
+    log,
+  );
+  assertNoEmDash(`/recap/${payload.asOf}`, archive);
+  const archiveFile = join(dir, payload.asOf, "index.html");
+  mkdirSync(dirname(archiveFile), { recursive: true });
+  writeFileSync(archiveFile, archive);
 
   const latest = formatRecapHtml(
     log[0] ?? payload,
