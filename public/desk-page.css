@@ -102,6 +102,10 @@ a {
   max-width: min(264px, 70vw);
 }
 
+.brand-name {
+  display: none;
+}
+
 .tag {
   margin: 0.15rem 0 0;
   color: var(--muted);
@@ -918,31 +922,85 @@ h2 {
     display: none;
   }
 
+  .brand-logo,
+  img.brand-logo {
+    display: none;
+  }
+
+  .masthead-recap,
+  a.masthead-recap {
+    display: none;
+  }
+
+  /* Thin text brand, not the wordmark. Recap is a tab. Keep in sync with src/index.css. */
+  .brand {
+    line-height: 1.15;
+  }
+
+  .brand-name {
+    display: inline;
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* backdrop-filter + sticky on .chrome traps position:fixed tabs in the header. */
+  .chrome {
+    position: static;
+    z-index: auto;
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    filter: none;
+    transform: none;
+    contain: none;
+    will-change: auto;
+    border-bottom: 0;
+    margin-bottom: 0.35rem;
+  }
+
+  /* Phone dock: same contract as src/index.css. Eight tabs must fit 375px. */
   .tabs {
     position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 30;
-    width: auto;
-    max-width: none;
+    z-index: 40;
     margin: 0;
-    overflow-x: auto;
+    gap: 0;
+    width: 100%;
+    max-width: none;
+    overflow-x: hidden;
+    overflow-y: hidden;
     flex-wrap: nowrap;
+    justify-content: stretch;
+    background: #0c0c0e;
     border: 0;
     border-top: 1px solid #ffffff18;
     border-radius: 0;
-    padding: 3px max(0.3rem, var(--safe-right))
-      calc(0.3rem + var(--safe-bottom)) max(0.3rem, var(--safe-left));
+    box-shadow: inset 0 1px 0 #ffffff08;
+    padding: 2px max(0.12rem, var(--safe-right))
+      calc(0.2rem + var(--safe-bottom)) max(0.12rem, var(--safe-left));
   }
 
+  .tabs button,
   .tabs a {
-    flex: 1 0 auto;
+    flex: 1 1 0;
     flex-direction: column;
-    padding: 0.4rem 0.35rem 0.3rem;
-    min-width: 3.4rem;
-    min-height: 3.35rem;
-    font-size: 0.62rem;
+    justify-content: center;
+    gap: 0.12rem;
+    padding: 0.28rem 0.04rem 0.18rem;
+    min-width: 0;
+    min-height: 2.85rem;
+    border-radius: calc(var(--radius) - 2px);
+    font-size: 0.55rem;
+    letter-spacing: 0;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
   .tab-full {
@@ -954,7 +1012,30 @@ h2 {
   }
 
   .shell {
-    padding-bottom: calc(6.5rem + var(--safe-bottom));
+    padding-bottom: calc(5.75rem + var(--safe-bottom));
+    overflow-x: clip;
+  }
+
+  .panel-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .panel-head .fine,
+  .hit-toolbar,
+  .hit-toolbar .segment {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .hit-toolbar .segment {
+    width: 100%;
+  }
+
+  .hit-toolbar .segment button {
+    flex: 1 1 auto;
+    padding-left: 0.45rem;
+    padding-right: 0.45rem;
   }
 
   .recap-rungs {
