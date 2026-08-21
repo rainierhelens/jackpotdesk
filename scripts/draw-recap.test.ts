@@ -283,7 +283,7 @@ describe("recap page", () => {
   it("shows Recap in the same primary tab bar as the desk", () => {
     expect(html).toContain('aria-label="Primary"');
     expect(html).toMatch(/<a href="\/recap" class="on" aria-current="page">Recap<\/a>/);
-    expect(html).toContain("Last night vs The Ladder");
+    expect(html).not.toContain('class="masthead-recap"');
     expect(html).toContain('class="recap-main"');
     expect(html).toContain('class="brand-logo"');
     expect(html).toContain('class="brand-name"');

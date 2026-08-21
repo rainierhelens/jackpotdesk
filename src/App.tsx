@@ -344,15 +344,6 @@ export default function App() {
               The Ladder ranks every scanned board against measured history.
               Same hit odds as Quick Pick.
             </p>
-            <button
-              type="button"
-              className="masthead-recap"
-              aria-current={tab === "recap" ? "page" : undefined}
-              onClick={() => setTab("recap")}
-            >
-              Recap
-              <span>Last night vs The Ladder</span>
-            </button>
           </div>
           <div className="masthead-tools">
             <MarketPicker

@@ -38,22 +38,53 @@ function rule(block: string, selector: string): string {
   return match![0];
 }
 
+const DESK_SHEETS = ["src/index.css", "public/desk-page.css"];
+const PHONE_SHEETS = [...DESK_SHEETS, "public/legal.css"];
+
 describe("phone chrome", () => {
   it("docks .tabs and hides .brand-logo / .masthead-recap on desk and recap sheets", () => {
-    for (const file of ["src/index.css", "public/desk-page.css"]) {
+    for (const file of DESK_SHEETS) {
       const block = phoneBlocks(readFileSync(file, "utf8"), file);
-      expect(rule(block, ".tabs")).toMatch(/position:\s*fixed/);
-      expect(rule(block, ".tabs")).toMatch(/bottom:\s*0/);
-      expect(rule(block, ".tabs")).toMatch(/flex-wrap:\s*nowrap/);
+      const tabs = rule(block, ".tabs");
+      expect(tabs).toMatch(/position:\s*fixed/);
+      expect(tabs).toMatch(/bottom:\s*0/);
+      expect(tabs).toMatch(/flex-wrap:\s*nowrap/);
+      expect(tabs).toMatch(/overflow-x:\s*hidden/);
       expect(rule(block, ".brand-logo")).toMatch(/display:\s*none/);
       expect(rule(block, ".masthead-recap")).toMatch(/display:\s*none/);
       expect(block).toMatch(/padding-bottom:\s*calc\(5\.75rem \+ var\(--safe-bottom\)\)/);
     }
   });
 
+  it("clears the .chrome containing block so the dock is not trapped in the header", () => {
+    for (const file of DESK_SHEETS) {
+      const block = phoneBlocks(readFileSync(file, "utf8"), file);
+      const chrome = rule(block, ".chrome");
+      expect(chrome).toMatch(/position:\s*static/);
+      expect(chrome).toMatch(/backdrop-filter:\s*none/);
+    }
+  });
+
   it("hides the recap jump bar on the SPA phone sheet", () => {
     const block = phoneBlocks(readFileSync("src/index.css", "utf8"), "src/index.css");
     expect(rule(block, ".recap-jump")).toMatch(/display:\s*none/);
+  });
+
+  it("hides the wrapped legal menu and docks the same primary tabs", () => {
+    const block = phoneBlocks(readFileSync("public/legal.css", "utf8"), "public/legal.css");
+    expect(rule(block, ".legal-nav")).toMatch(/display:\s*none/);
+    expect(rule(block, ".tabs")).toMatch(/position:\s*fixed/);
+    expect(rule(block, ".tabs")).toMatch(/bottom:\s*0/);
+    expect(rule(block, ".brand-logo")).toMatch(/display:\s*none/);
+  });
+
+  it("fits eight dock items instead of clipping Why/Write to W", () => {
+    for (const file of PHONE_SHEETS) {
+      const block = phoneBlocks(readFileSync(file, "utf8"), file);
+      expect(block).toMatch(/flex:\s*1 1 0/);
+      expect(block).toMatch(/min-width:\s*0/);
+      expect(block).toMatch(/font-size:\s*0\.55rem/);
+    }
   });
 
   it("keeps the same primary tab hrefs on static recap, claimed prizes, and listed desk pages", () => {
@@ -66,6 +97,11 @@ describe("phone chrome", () => {
       "public/expected-value.html",
       "public/unique-tickets.html",
       "public/office-pool.html",
+      "public/terms.html",
+      "public/privacy.html",
+      "public/responsible.html",
+      "public/accessibility.html",
+      "public/refer.html",
     ];
     for (const file of pages) {
       const html = readFileSync(file, "utf8");
@@ -80,6 +116,7 @@ describe("phone chrome", () => {
       expect(html, file).toContain('href="/?tab=write"');
       expect(html, file).toContain('class="tab-short"');
       expect(html, file).toContain("JackpotDesk");
+      expect(html, file).not.toContain('class="masthead-recap"');
       expect(html, file).not.toContain("\u2014");
     }
   });

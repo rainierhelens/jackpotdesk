@@ -424,10 +424,6 @@ export function formatRecapHtml(
                 The Ladder ranks every scanned board against measured history.
                 Same hit odds as Quick Pick.
               </p>
-              <a class="masthead-recap" href="/recap">
-                Recap
-                <span>Last night vs The Ladder</span>
-              </a>
             </div>
           </div>
         </header>
