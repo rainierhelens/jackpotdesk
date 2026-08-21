@@ -32,7 +32,7 @@ Goals:
 2. Keep archives appending (popularity Action + WA union). Every week live is more history.
 3. Do not take payment, accounts, or refunds yet.
 4. Private digest is live for the operator only ([DIGEST.md](DIGEST.md)). No public signup. It is the 5:00 a.m. Pacific letter (`scripts/draw-digest.ts`, `draw-digest.yml`), same clock as the public recap.
-5. Public daily recap on the live site, auto-published through GitHub at 5:00 a.m. Pacific every day, no per-recap approval. Same official data libraries as the private digest, a Pages deploy instead of an inbox. Package: same-odds in the first sentence (reuse live site copy); last night’s official results vs last night’s Ladder #1–#3 as a scored replay; EV call using SKIP / ENTERTAIN ONLY / RARE PLUS; link to the live Ladder for tonight. Do not publish tonight’s #1 as a tip sheet (it crowds the ticket). Desk pick may be mentioned as the least-crowded board, not a forecast. Rank #1 is the strongest match to history, never “the winning pick.”
+5. Public daily recap on the live site, auto-published through GitHub at 5:00 a.m. Pacific every day, no per-recap approval. Same official data libraries as the private digest, a Pages deploy instead of an inbox. Package: a newest-first night-desk log. Each day opens with the tweet-length desk strip (official vs last night #1, prize-if-played). Same-odds stays in the page chrome / Lab footer. The latest day and each `/recap/YYYY-MM-DD` permalink then show the scored replay of last night’s official vs last night’s Ladder #1–#3; EV call using SKIP / ENTERTAIN ONLY / RARE PLUS; link to the live Ladder for tonight. Do not publish tonight’s #1 as a tip sheet (it crowds the ticket). Desk pick may be mentioned as the least-crowded board, not a forecast. Rank #1 is the strongest match to history, never “the winning pick.”
 6. [Tip the desk](DESK.md) and [Write the desk](DESK.md) are the public-anonymous jar and inbox. No named founder page. The jar URL stays blank until you paste a Ko-fi or Stripe Payment Link.
 
 Copy on the site stays entertainment / same-odds. Optional later: a one-line “free experiment” note on Why this. Do not add a fake “coming soon / subscribe” gate.
@@ -104,7 +104,7 @@ Do not spend on ads that promise winners.
 ## Legal and brand
 
 - Educational / entertainment. We do not sell lottery tickets.
-- Same-odds in the first sentence of paid copy, and in the first sentence of the public recap.
+- Same-odds in the first sentence of paid copy, and in the recap page chrome / Lab footer (not the daily desk-strip lede).
 - Responsible gaming links stay in the footer.
 - No holdout charts that imply the model forecasts future draws.
 - JackpotDesk is the speaker. No founder page.

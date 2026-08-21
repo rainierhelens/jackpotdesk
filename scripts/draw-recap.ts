@@ -1,12 +1,14 @@
 /**
- * Public daily recap. Writes the latest page to /recap and a dated copy
- * to /recap/YYYY-MM-DD. No query-string route. No tonight #1. No signup.
+ * Public daily recap. Writes today's dated HTML + JSON, then rebuilds
+ * /recap as a newest-first log of every public/recap/YYYY-MM-DD.json.
+ * Does not delete older days. No query-string route. No tonight #1.
  *
  *   npm run recap
  */
-import { mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { formatRecapHeading } from "../src/lib/recapRoute.ts";
 import {
   SAME_ODDS_LEAD,
   SITE,
@@ -31,12 +33,27 @@ import {
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const RECAP_DIR = join(ROOT, "public", "recap");
 
-const LEAD = `${SAME_ODDS_LEAD} This page is last night's official results against the Ladder that was live before those numbers landed. Entertainment, not prediction. Rank #1 is the strongest match to the past, never the winning pick.`;
-
 export type RecapPage = {
   path: string;
   kind: "latest" | "archive";
 };
+
+const DAY_JSON = /^(\d{4}-\d{2}-\d{2})\.json$/;
+
+export function listRecapDayFiles(dir: string): string[] {
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir)
+    .map((name) => name.match(DAY_JSON)?.[1] ?? "")
+    .filter(Boolean)
+    .sort((a, b) => (a < b ? 1 : a > b ? -1 : 0));
+}
+
+export function loadRecapLog(dir: string): RecapPayload[] {
+  return listRecapDayFiles(dir).map(
+    (day) =>
+      JSON.parse(readFileSync(join(dir, `${day}.json`), "utf8")) as RecapPayload,
+  );
+}
 
 function callClass(tone: "no" | "entertain" | "rare"): string {
   if (tone === "rare") return "is-rare";
@@ -174,18 +191,29 @@ function deskLineBox(id: string, label: string, line: string): string {
   </aside>`;
 }
 
-function deskLineHtml(block: RecapNational | RecapWashington): string {
+function deskLineHtml(block: RecapNational | RecapWashington, day: string): string {
   return deskLineBox(
-    `desk-line-${deskLineSlug(block.label)}`,
+    `desk-line-${deskLineSlug(block.label)}-${day}`,
     "Desk line",
     recapDeskLine(block),
   );
 }
 
+function dayLede(payload: RecapPayload): string {
+  return (
+    recapDeskStrip(payload) ??
+    (payload.national[0]
+      ? recapDeskLine(payload.national[0])
+      : payload.washington[0]
+        ? recapDeskLine(payload.washington[0])
+        : "")
+  );
+}
+
 function deskStripHtml(payload: RecapPayload): string {
-  const strip = recapDeskStrip(payload);
-  if (!strip) return "";
-  return deskLineBox("desk-line-strip", "Desk strip", strip);
+  const line = dayLede(payload);
+  if (!line) return "";
+  return deskLineBox(`desk-line-strip-${payload.asOf}`, "Desk strip", line);
 }
 
 const DESK_LINE_COPY_SCRIPT = `
@@ -208,7 +236,7 @@ const DESK_LINE_COPY_SCRIPT = `
       });
     </script>`;
 
-function nationalHtml(block: RecapNational): string {
+function nationalHtml(block: RecapNational, day: string): string {
   const call = recapCallLine(block.tone);
   return `<section class="panel recap-game">
     <header class="panel-head">
@@ -217,7 +245,7 @@ function nationalHtml(block: RecapNational): string {
         <h2>${escapeHtml(block.label)}</h2>
       </div>
     </header>
-    ${deskLineHtml(block)}
+    ${deskLineHtml(block, day)}
     ${compareHtml(block.officialDate, block.officialWhites, block.officialExtra, block.extraLabel, block.officialBoard, block.rungs[0])}
     ${heatHtml(block.heat, block.officialWhites, block.officialExtra, block.rungs[0])}
     <div class="recap-rungs">
@@ -235,7 +263,7 @@ function nationalHtml(block: RecapNational): string {
   </section>`;
 }
 
-function washingtonHtml(block: RecapWashington): string {
+function washingtonHtml(block: RecapWashington, day: string): string {
   return `<section class="panel recap-game">
     <header class="panel-head">
       <div>
@@ -243,7 +271,7 @@ function washingtonHtml(block: RecapWashington): string {
         <h2>${escapeHtml(block.label)}</h2>
       </div>
     </header>
-    ${deskLineHtml(block)}
+    ${deskLineHtml(block, day)}
     <p class="fine">${escapeHtml(block.prizeLine)}</p>
     ${compareHtml(block.officialDate, block.officialWhites, block.officialExtra, null, block.officialBoard, block.rungs[0])}
     ${heatHtml(block.heat, block.officialWhites, block.officialExtra, block.rungs[0])}
@@ -257,29 +285,91 @@ function washingtonHtml(block: RecapWashington): string {
   </section>`;
 }
 
+function slipsHtml(payload: RecapPayload): string {
+  const national = payload.national
+    .map((block) => nationalHtml(block, payload.asOf))
+    .join("\n  ");
+  const washington = payload.washington
+    .map((block) => washingtonHtml(block, payload.asOf))
+    .join("\n  ");
+  if (national || washington) return `${national}\n        ${washington}`;
+  return '<section class="panel desk-page"><p>No official drawings were ready to score.</p></section>';
+}
+
+function dayArticleHtml(
+  payload: RecapPayload,
+  expand: boolean,
+): string {
+  const heading = formatRecapHeading(payload.asOf);
+  const notes =
+    expand && payload.notes.length
+      ? `<p class="desk-status is-err">${payload.notes.map(escapeHtml).join("<br>")}</p>`
+      : "";
+  const body = expand
+    ? `${notes}\n    ${slipsHtml(payload)}`
+    : `<p class="recap-open"><a href="/recap/${escapeHtml(payload.asOf)}">Open the slip</a></p>`;
+  return `<article class="panel recap-day" data-recap-day="${escapeHtml(payload.asOf)}">
+    <header class="recap-day-head">
+      <p class="kicker">Night desk</p>
+      <h2>
+        <a class="recap-day-link" href="/recap/${escapeHtml(payload.asOf)}">${escapeHtml(heading)}</a>
+      </h2>
+    </header>
+    ${deskStripHtml(payload)}
+    ${body}
+  </article>`;
+}
+
+function labFooterHtml(archive: boolean): string {
+  const back = archive
+    ? `<p class="fine"><a href="/recap">Latest recap</a></p>`
+    : "";
+  return `<section class="panel desk-page">
+          <header class="panel-head">
+            <div>
+              <p class="kicker">Live desk</p>
+              <h2>Desk pick</h2>
+            </div>
+          </header>
+          <p>
+            Same hit odds as Quick Pick. The Ladder ranks scanned boards against
+            official draw history. This log is last night versus last night's Ladder.
+            Entertainment, not prediction.
+          </p>
+          <p>
+            Desk pick is the least-crowded board on the live desk. It is not a forecast
+            and it is not tonight's #1. Open
+            <a href="/">the desk</a>
+            if you already planned to play and want the lonelier mint.
+          </p>
+          <p>
+            <a href="/lottery-lab.html">Lottery Lab</a> stays the proof page: models
+            cannot beat Quick Pick. The Ladder ranks the past.
+          </p>
+          ${back}
+          <p class="fine">
+            Entertainment only. We do not sell tickets. Responsible gaming:
+            <a href="https://www.ncpgambling.org/">ncpgambling.org</a>
+          </p>
+        </section>`;
+}
+
 export function formatRecapHtml(
   payload: RecapPayload,
   page: RecapPage = { path: "/recap", kind: "latest" },
+  log: RecapPayload[] = [payload],
 ): string {
-  const national = payload.national.map(nationalHtml).join("\n  ");
-  const washington = payload.washington.map(washingtonHtml).join("\n  ");
-  const notes = payload.notes.length
-    ? `<p class="desk-status is-err">${payload.notes.map(escapeHtml).join("<br>")}</p>`
-    : "";
-  const games =
-    national || washington
-      ? `${national}\n        ${washington}`
-      : '<section class="panel desk-page"><p>No official drawings were ready to score.</p></section>';
+  const days = (log.length ? log : [payload]).slice();
+  const main =
+    page.kind === "archive"
+      ? dayArticleHtml(payload, true)
+      : days
+          .map((day, index) => dayArticleHtml(day, index === 0))
+          .join("\n        ");
   const title =
     page.kind === "archive"
-      ? `Recap · ${payload.asOf} | JackpotDesk`
+      ? `Recap · ${formatRecapHeading(payload.asOf)} | JackpotDesk`
       : "Recap | JackpotDesk";
-  const datedPath = `/recap/${payload.asOf}`;
-  const stamp =
-    page.kind === "archive"
-      ? `Recap for ${escapeHtml(payload.asOf)}. <a href="/recap">Latest recap</a>`
-      : `Built ${escapeHtml(payload.asOf)} from the latest official draws. <a href="${escapeHtml(datedPath)}">Permalink ${escapeHtml(datedPath)}</a>`;
-
   const recapCurrent =
     page.kind === "latest" ? ' class="on" aria-current="page"' : ' class="on"';
 
@@ -352,41 +442,8 @@ export function formatRecapHtml(
         </nav>
       </div>
       <main class="recap-main">
-        <section class="panel desk-page">
-          <header class="panel-head">
-            <div>
-              <p class="kicker">Scored replay</p>
-              <h2>Recap</h2>
-            </div>
-            <p class="fine">${stamp}</p>
-          </header>
-          <p>${escapeHtml(LEAD)}</p>
-          ${notes}
-        </section>
-        ${deskStripHtml(payload)}
-        ${games}
-        <section class="panel desk-page">
-          <header class="panel-head">
-            <div>
-              <p class="kicker">Live desk</p>
-              <h2>Desk pick</h2>
-            </div>
-          </header>
-          <p>
-            Desk pick is the least-crowded board on the live desk. It is not a forecast
-            and it is not tonight's #1. Open
-            <a href="/">the desk</a>
-            if you already planned to play and want the lonelier mint.
-          </p>
-          <p>
-            <a href="/lottery-lab.html">Lottery Lab</a> stays the proof page: models
-            cannot beat Quick Pick. The Ladder ranks the past.
-          </p>
-          <p class="fine">
-            Entertainment only. We do not sell tickets. Responsible gaming:
-            <a href="https://www.ncpgambling.org/">ncpgambling.org</a>
-          </p>
-        </section>
+        ${main}
+        ${labFooterHtml(page.kind === "archive")}
       </main>
       <footer class="site-footer">
         <nav class="footer-links" aria-label="Site">
@@ -408,23 +465,35 @@ export function formatRecapHtml(
 `;
 }
 
-export function writeRecapPages(payload: RecapPayload): string[] {
-  const latest = formatRecapHtml(payload, { path: "/recap", kind: "latest" });
+export function writeRecapPages(payload: RecapPayload, dir = RECAP_DIR): string[] {
+  mkdirSync(dir, { recursive: true });
+  const json = `${JSON.stringify(payload)}\n`;
+  writeFileSync(join(dir, `${payload.asOf}.json`), json);
+  writeFileSync(join(dir, "latest.json"), json);
+
   const archive = formatRecapHtml(payload, {
     path: `/recap/${payload.asOf}`,
     kind: "archive",
   });
-  assertNoEmDash("/recap", latest);
   assertNoEmDash(`/recap/${payload.asOf}`, archive);
-  const latestFile = join(RECAP_DIR, "index.html");
-  const archiveFile = join(RECAP_DIR, payload.asOf, "index.html");
-  mkdirSync(dirname(latestFile), { recursive: true });
+  const archiveFile = join(dir, payload.asOf, "index.html");
   mkdirSync(dirname(archiveFile), { recursive: true });
-  writeFileSync(latestFile, latest);
   writeFileSync(archiveFile, archive);
-  const json = `${JSON.stringify(payload)}\n`;
-  writeFileSync(join(RECAP_DIR, "latest.json"), json);
-  writeFileSync(join(RECAP_DIR, `${payload.asOf}.json`), json);
+
+  const log = loadRecapLog(dir);
+  writeFileSync(
+    join(dir, "log.json"),
+    `${JSON.stringify({ days: log.map((day) => day.asOf) })}\n`,
+  );
+
+  const latest = formatRecapHtml(
+    log[0] ?? payload,
+    { path: "/recap", kind: "latest" },
+    log,
+  );
+  assertNoEmDash("/recap", latest);
+  const latestFile = join(dir, "index.html");
+  writeFileSync(latestFile, latest);
   return [latestFile, archiveFile];
 }
 

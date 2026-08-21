@@ -14,7 +14,12 @@ import {
   type RecapRung,
   type RecapWashington,
 } from "../lib/recapPayload";
-import { recapJsonSrc } from "../lib/recapRoute";
+import {
+  formatRecapHeading,
+  recapDayIso,
+  recapJsonSrc,
+  recapLogSrc,
+} from "../lib/recapRoute";
 
 const SAME_ODDS =
   "Same hit odds as Quick Pick. The Ladder ranks scanned boards against official draw history.";
@@ -349,19 +354,137 @@ function WashingtonPanel({ block }: { block: RecapWashington }) {
   );
 }
 
+type RecapLogFile = { days?: string[] };
+
+function sortNewestFirst(days: RecapPayload[]): RecapPayload[] {
+  return [...days].sort((a, b) =>
+    a.asOf < b.asOf ? 1 : a.asOf > b.asOf ? -1 : 0,
+  );
+}
+
+async function fetchRecapJson(src: string): Promise<RecapPayload | null> {
+  const res = await fetch(src);
+  if (!res.ok) return null;
+  return res.json() as Promise<RecapPayload>;
+}
+
+async function loadRecapLog(pathname: string): Promise<RecapPayload[]> {
+  const dated = recapDayIso(pathname);
+  if (dated) {
+    const day = await fetchRecapJson(recapJsonSrc(pathname));
+    if (!day) throw new Error("missing");
+    return [day];
+  }
+
+  const latest = await fetchRecapJson(recapJsonSrc("/recap"));
+  if (!latest) throw new Error("missing");
+
+  let dayIds = [latest.asOf];
+  try {
+    const res = await fetch(recapLogSrc());
+    if (res.ok) {
+      const log = (await res.json()) as RecapLogFile;
+      if (Array.isArray(log.days) && log.days.length) dayIds = log.days;
+    }
+  } catch {
+    /* latest only */
+  }
+
+  const prior = await Promise.all(
+    dayIds
+      .filter((day) => day !== latest.asOf)
+      .map((day) => fetchRecapJson(`/recap/${day}.json`)),
+  );
+  return sortNewestFirst([
+    latest,
+    ...prior.filter((day): day is RecapPayload => day != null),
+  ]);
+}
+
+function DayArticle({
+  payload,
+  expand,
+}: {
+  payload: RecapPayload;
+  expand: boolean;
+}) {
+  const heading = formatRecapHeading(payload.asOf);
+  const href = `/recap/${payload.asOf}`;
+  return (
+    <article className="panel recap-day" data-recap-day={payload.asOf}>
+      <header className="recap-day-head">
+        <p className="kicker">Night desk</p>
+        <h2>
+          <a className="recap-day-link" href={href}>
+            {heading}
+          </a>
+        </h2>
+      </header>
+      <DeskStrip payload={payload} />
+      {expand ? (
+        <>
+          {payload.notes.length ? (
+            <p className="desk-status is-err">{payload.notes.join(" ")}</p>
+          ) : null}
+          {payload.national.map((block) => (
+            <NationalPanel key={block.label} block={block} />
+          ))}
+          {payload.washington.map((block) => (
+            <WashingtonPanel key={block.label} block={block} />
+          ))}
+        </>
+      ) : (
+        <p className="recap-open">
+          <a href={href}>Open the slip</a>
+        </p>
+      )}
+    </article>
+  );
+}
+
+function RecapLabFooter({ archive }: { archive: boolean }) {
+  return (
+    <section className="panel desk-page">
+      <header className="panel-head">
+        <div>
+          <p className="kicker">Live desk</p>
+          <h2>Desk pick</h2>
+        </div>
+      </header>
+      <p>
+        {SAME_ODDS} This log is last night versus last night's Ladder.
+        Entertainment, not prediction.
+      </p>
+      <p>
+        Desk pick is the least-crowded board on the live desk. It is not a
+        forecast and it is not tonight's #1. Stay on the desk if you already
+        planned to play and want the lonelier mint.
+      </p>
+      <p>
+        <a href="/lottery-lab.html">Lottery Lab</a> stays the proof page:
+        models cannot beat Quick Pick. The Ladder ranks the past.
+      </p>
+      {archive ? (
+        <p className="fine">
+          <a href="/recap">Latest recap</a>
+        </p>
+      ) : null}
+    </section>
+  );
+}
+
 export function RecapView({ pathname }: { pathname: string }) {
-  const [payload, setPayload] = useState<RecapPayload | null>(null);
+  const [log, setLog] = useState<RecapPayload[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const archive = recapDayIso(pathname) != null;
 
   useEffect(() => {
     let live = true;
-    fetch(recapJsonSrc(pathname))
-      .then((res) => {
-        if (!res.ok) throw new Error("missing");
-        return res.json() as Promise<RecapPayload>;
-      })
-      .then((data) => {
-        if (live) setPayload(data);
+    setLog(null);
+    setError(null);
+    loadRecapLog(pathname)
+      .then((days) => {
+        if (live) setLog(days);
       })
       .catch(() => {
         if (live) setError("The recap is not ready on this desk yet.");
@@ -376,7 +499,7 @@ export function RecapView({ pathname }: { pathname: string }) {
       <section className="panel desk-page">
         <header className="panel-head">
           <div>
-            <p className="kicker">Scored replay</p>
+            <p className="kicker">Night desk</p>
             <h2>Recap</h2>
           </div>
         </header>
@@ -385,12 +508,12 @@ export function RecapView({ pathname }: { pathname: string }) {
     );
   }
 
-  if (!payload) {
+  if (!log) {
     return (
       <section className="panel desk-page">
         <header className="panel-head">
           <div>
-            <p className="kicker">Scored replay</p>
+            <p className="kicker">Night desk</p>
             <h2>Recap</h2>
           </div>
         </header>
@@ -401,48 +524,14 @@ export function RecapView({ pathname }: { pathname: string }) {
 
   return (
     <div className="recap-main">
-      <section className="panel desk-page">
-        <header className="panel-head">
-          <div>
-            <p className="kicker">Scored replay</p>
-            <h2>Recap</h2>
-          </div>
-          <p className="fine">Built {payload.asOf} from the latest official draws.</p>
-        </header>
-        <p>
-          {SAME_ODDS} This page is last night's official results against the
-          Ladder that was live before those numbers landed. Entertainment, not
-          prediction. Rank #1 is the strongest match to the past, never the
-          winning pick.
-        </p>
-        {payload.notes.length ? (
-          <p className="desk-status is-err">{payload.notes.join(" ")}</p>
-        ) : null}
-      </section>
-      <DeskStrip payload={payload} />
-      {payload.national.map((block) => (
-        <NationalPanel key={block.label} block={block} />
+      {log.map((day, index) => (
+        <DayArticle
+          key={day.asOf}
+          payload={day}
+          expand={archive || index === 0}
+        />
       ))}
-      {payload.washington.map((block) => (
-        <WashingtonPanel key={block.label} block={block} />
-      ))}
-      <section className="panel desk-page">
-        <header className="panel-head">
-          <div>
-            <p className="kicker">Live desk</p>
-            <h2>Desk pick</h2>
-          </div>
-        </header>
-        <p>
-          Desk pick is the least-crowded board on the live desk. It is not a
-          forecast and it is not tonight's #1. Stay on the desk if you already
-          planned to play and want the lonelier mint.
-        </p>
-        <p>
-          <a href="/lottery-lab.html">Lottery Lab</a> stays the proof page:
-          models cannot beat Quick Pick. The Ladder ranks the past.
-        </p>
-      </section>
+      <RecapLabFooter archive={archive} />
     </div>
   );
 }
