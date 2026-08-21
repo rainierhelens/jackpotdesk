@@ -34,6 +34,7 @@ import {
   OVERTIME_VS,
   overtimeNetClass,
   overtimeNightRead,
+  overtimeWindowTab,
   scoreOvertimeWindows,
   type OvertimeScore,
   type OvertimeWindow,
@@ -337,21 +338,47 @@ function overtimeWindowHtml(window: OvertimeWindow): string {
   const games = window.games
     .map((row) => `<li>${escapeHtml(row.line)}</li>`)
     .join("");
+  const byGame = window.games.length
+    ? `<details class="recap-overtime-by-game">
+        <summary>By game</summary>
+        <ul class="recap-overtime-games">${games}</ul>
+      </details>`
+    : "";
   return `<section class="recap-overtime-window${window.filling ? " is-filling" : ""}" data-overtime-window="${escapeHtml(window.id)}">
-      <p class="recap-overtime-window-label">${escapeHtml(window.label)}</p>
-      <p class="recap-overtime-vs">${escapeHtml(OVERTIME_VS)}</p>
       ${overtimeChipHtml(window)}
       <p class="recap-overtime-across">${escapeHtml(window.acrossLine)}</p>
-      <ul class="recap-overtime-games">${games}</ul>
+      ${byGame}
     </section>`;
+}
+
+function overtimeBoardHtml(windows: OvertimeWindow[]): string {
+  if (!windows.length) return "";
+  const picks = windows
+    .map(
+      (window, index) =>
+        `<input type="radio" name="overtime-window" id="otw-${escapeHtml(window.id)}" class="recap-overtime-pick"${index === 0 ? " checked" : ""}>`,
+    )
+    .join("\n      ");
+  const tabs = windows
+    .map(
+      (window) =>
+        `<label for="otw-${escapeHtml(window.id)}" class="recap-overtime-tab">${escapeHtml(overtimeWindowTab(window.id))}</label>`,
+    )
+    .join("\n        ");
+  return `<div class="recap-overtime-board">
+      ${picks}
+      <div class="recap-overtime-tabs" role="radiogroup" aria-label="Overtime window">
+        ${tabs}
+      </div>
+      ${windows.map(overtimeWindowHtml).join("\n      ")}
+    </div>`;
 }
 
 function overtimeHtml(log: RecapPayload[]): string {
   const desk = scoreOvertimeWindows(log);
   if (!desk.windows.length && !desk.all.mornings) return "";
   const night = desk.lastNight
-    ? `${overtimeChipHtml(desk.lastNight)}
-    <p class="recap-overtime-night">${escapeHtml(
+    ? `<p class="recap-overtime-night">${escapeHtml(
         overtimeNightRead(
           desk.lastNight.nightLine,
           formatRecapHeading(desk.lastNight.asOf),
@@ -368,8 +395,8 @@ function overtimeHtml(log: RecapPayload[]): string {
         <h2>${escapeHtml(OVERTIME_VS)}</h2>
       </div>
     </header>
+    ${overtimeBoardHtml(desk.windows)}
     ${night}
-    ${desk.windows.map(overtimeWindowHtml).join("\n    ")}
     ${all}
     <p class="fine recap-overtime-note">${escapeHtml(OVERTIME_NOTE)}</p>
   </aside>`;

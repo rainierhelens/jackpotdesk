@@ -27,6 +27,11 @@ export const OVERTIME_WINDOW_TARGETS = {
   month: 30,
   quarter: 90,
 } as const;
+export const OVERTIME_WINDOW_TABS: Record<OvertimeWindowId, string> = {
+  days7: "7 days",
+  month: "Month",
+  quarter: "Quarter",
+};
 
 const ISO_DAY = /^(\d{4})-(\d{2})-(\d{2})$/;
 const PT = "America/Los_Angeles";
@@ -286,6 +291,10 @@ export function recapQuarterStart(iso: string): string {
   const month = Number(match[2]);
   const start = String(Math.floor((month - 1) / 3) * 3 + 1).padStart(2, "0");
   return `${match[1]}-${start}-01`;
+}
+
+export function overtimeWindowTab(id: OvertimeWindowId): string {
+  return OVERTIME_WINDOW_TABS[id];
 }
 
 export function overtimeWindowRange(
