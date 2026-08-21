@@ -17,6 +17,11 @@ import {
   type RecapPayload,
 } from "./lib/deskLetter.ts";
 import { recapExtraClass } from "../src/lib/recapPayload.ts";
+import {
+  FREE_PLAY_LABEL,
+  OVERTIME_NOTE,
+  scoreOvertime,
+} from "../src/lib/deskOvertime.ts";
 
 const FIXTURE: RecapPayload = {
   asOf: "2026-08-20",
@@ -362,6 +367,34 @@ describe("recap page", () => {
     expect(olderCard).toContain("Open the slip");
     expect(olderCard).not.toContain("recap-heat");
     expect(olderCard).not.toContain("Official 2026-08-18");
+    const running = scoreOvertime([FIXTURE, older]);
+    expect(running.mornings).toBe(2);
+    expect(running.spent).toBe(16);
+    expect(running.paid).toBe(20);
+    expect(index).toContain(running.acrossLine);
+    expect(index).toContain("Overtime · 2 mornings · spent $16 · paid $20");
+  });
+
+  it("pins an overtime scoreboard above the newest-first log", () => {
+    const board = scoreOvertime([FIXTURE]);
+    expect(html).toContain('class="panel recap-overtime"');
+    expect(html).toContain("Ladder #1–#3");
+    expect(html).toContain(board.acrossLine);
+    expect(html).toContain("Last night · Thursday, Aug 20, 2026 · spent $8 · paid $10");
+    expect(html).toContain("Hit 5 · 1 board · spent $1 · paid $0 · " + FREE_PLAY_LABEL);
+    expect(html).toContain("Powerball · 3 boards · spent $6 · paid $7");
+    expect(html).toContain("Lotto · 1 board · spent $1 · paid $3");
+    expect(html).toContain("Any revenue");
+    expect(html).toContain("Beat the house");
+    expect(html).toContain(OVERTIME_NOTE);
+    expect(html.indexOf("recap-overtime")).toBeLessThan(html.indexOf("recap-day"));
+    const overtime = html.match(
+      /<aside class="panel recap-overtime"[\s\S]*?<\/aside>/,
+    )?.[0];
+    expect(overtime).toBeTruthy();
+    expect(overtime).not.toContain(SAME_ODDS_LEAD);
+    expect(overtime).not.toContain("\u2014");
+    expect(overtime).not.toMatch(/winning numbers|beats Quick Pick/i);
   });
 
   it("rebuilds /recap from every dated json without deleting older days", () => {

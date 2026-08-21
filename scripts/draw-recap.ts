@@ -29,6 +29,12 @@ import {
   recapHeatPaint,
   type RecapHeat,
 } from "../src/lib/recapPayload.ts";
+import {
+  OVERTIME_NOTE,
+  overtimeNightRead,
+  overtimeWatchClass,
+  scoreOvertime,
+} from "../src/lib/deskOvertime.ts";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const RECAP_DIR = join(ROOT, "public", "recap");
@@ -320,6 +326,44 @@ function dayArticleHtml(
   </article>`;
 }
 
+function overtimeHtml(log: RecapPayload[]): string {
+  const board = scoreOvertime(log);
+  if (!board.mornings) return "";
+  const games = board.games
+    .map((row) => `<li>${escapeHtml(row.line)}</li>`)
+    .join("");
+  const night = board.lastNight
+    ? `<p class="recap-overtime-night">${escapeHtml(
+        overtimeNightRead(
+          board.lastNight.nightLine,
+          formatRecapHeading(board.lastNight.asOf),
+        ),
+      )}</p>`
+    : "";
+  return `<aside class="panel recap-overtime" aria-label="Overtime">
+    <header class="panel-head">
+      <div>
+        <p class="kicker">Overtime</p>
+        <h2>Ladder #1–#3</h2>
+      </div>
+    </header>
+    <p class="recap-overtime-across">${escapeHtml(board.acrossLine)}</p>
+    <ul class="recap-overtime-games">${games}</ul>
+    ${night}
+    <dl class="recap-overtime-watches">
+      <div>
+        <dt>Any revenue</dt>
+        <dd class="${overtimeWatchClass(board.revenueWatch)}">${escapeHtml(board.revenueWatch)}</dd>
+      </div>
+      <div>
+        <dt>Beat the house</dt>
+        <dd class="${overtimeWatchClass(board.houseWatch)}">${escapeHtml(board.houseWatch)}</dd>
+      </div>
+    </dl>
+    <p class="fine recap-overtime-note">${escapeHtml(OVERTIME_NOTE)}</p>
+  </aside>`;
+}
+
 function labFooterHtml(archive: boolean): string {
   const back = archive
     ? `<p class="fine"><a href="/recap">Latest recap</a></p>`
@@ -360,6 +404,8 @@ export function formatRecapHtml(
   log: RecapPayload[] = [payload],
 ): string {
   const days = (log.length ? log : [payload]).slice();
+  const scoreLog = page.kind === "archive" ? [payload] : days;
+  const overtime = overtimeHtml(scoreLog);
   const main =
     page.kind === "archive"
       ? dayArticleHtml(payload, true)
@@ -442,6 +488,7 @@ export function formatRecapHtml(
         </nav>
       </div>
       <main class="recap-main">
+        ${overtime}
         ${main}
         ${labFooterHtml(page.kind === "archive")}
       </main>

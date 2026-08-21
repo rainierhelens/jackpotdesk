@@ -20,6 +20,12 @@ import {
   recapJsonSrc,
   recapLogSrc,
 } from "../lib/recapRoute";
+import {
+  OVERTIME_NOTE,
+  overtimeNightRead,
+  overtimeWatchClass,
+  scoreOvertime,
+} from "../lib/deskOvertime";
 
 const SAME_ODDS =
   "Same hit odds as Quick Pick. The Ladder ranks scanned boards against official draw history.";
@@ -442,6 +448,49 @@ function DayArticle({
   );
 }
 
+function OvertimePanel({ log }: { log: RecapPayload[] }) {
+  const board = scoreOvertime(log);
+  if (!board.mornings) return null;
+  const night = board.lastNight
+    ? overtimeNightRead(
+        board.lastNight.nightLine,
+        formatRecapHeading(board.lastNight.asOf),
+      )
+    : null;
+  return (
+    <aside className="panel recap-overtime" aria-label="Overtime">
+      <header className="panel-head">
+        <div>
+          <p className="kicker">Overtime</p>
+          <h2>Ladder #1–#3</h2>
+        </div>
+      </header>
+      <p className="recap-overtime-across">{board.acrossLine}</p>
+      <ul className="recap-overtime-games">
+        {board.games.map((row) => (
+          <li key={row.game}>{row.line}</li>
+        ))}
+      </ul>
+      {night ? <p className="recap-overtime-night">{night}</p> : null}
+      <dl className="recap-overtime-watches">
+        <div>
+          <dt>Any revenue</dt>
+          <dd className={overtimeWatchClass(board.revenueWatch)}>
+            {board.revenueWatch}
+          </dd>
+        </div>
+        <div>
+          <dt>Beat the house</dt>
+          <dd className={overtimeWatchClass(board.houseWatch)}>
+            {board.houseWatch}
+          </dd>
+        </div>
+      </dl>
+      <p className="fine recap-overtime-note">{OVERTIME_NOTE}</p>
+    </aside>
+  );
+}
+
 function RecapLabFooter({ archive }: { archive: boolean }) {
   return (
     <section className="panel desk-page">
@@ -524,6 +573,7 @@ export function RecapView({ pathname }: { pathname: string }) {
 
   return (
     <div className="recap-main">
+      <OvertimePanel log={log} />
       {log.map((day, index) => (
         <DayArticle
           key={day.asOf}
