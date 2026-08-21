@@ -6,7 +6,7 @@
     <title>Washington claimed lottery prizes by store | JackpotDesk</title>
     <meta
       name="description"
-      content="Every licensed retailer has the same chance of selling a jackpot ticket. Official Washington’s Lottery claimed prizes listed in the last year, counted by store. Not luck. Not a forecast."
+      content="Every licensed retailer has the same chance of selling a jackpot ticket. Where listed $600+ claims landed last year, by store."
     />
     <link rel="canonical" href="https://www.jackpotdesk.com/washington/claimed-prizes-by-store" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -18,7 +18,7 @@
     <meta property="og:title" content="Washington claimed lottery prizes by store" />
     <meta
       property="og:description"
-      content="Official listed claims from the last year, counted by store. Same hit odds. Entertainment, not prediction."
+      content="Every licensed retailer has the same chance of selling a jackpot ticket. Where listed $600+ claims landed last year, by store."
     />
     <meta property="og:image" content="https://www.jackpotdesk.com/og-image.png" />
     <meta property="og:image:width" content="1200" />
@@ -78,18 +78,11 @@
           <p class="hit-lead">
             Every licensed retailer has the same chance of selling a jackpot ticket.
             Where did listed $600+ claims land in the last 365 days?
-            Location does not change hit odds. This page counts claimed prizes
-            Washington's Lottery listed in the last year, by the store on that row.
-            Rank and count are a fit to the past. Entertainment, not prediction.
           </p>
           <p>
-            The official
-            <a href="https://www.walottery.com/winners/Search.aspx" rel="noopener noreferrer">Winners By Game search</a>
-            publishes claimed prizes, usually $600 and up, with a retailer name,
-            street, and city. This is that list, rolled up by store. It is not every
-            winning ticket sold, not sales volume, and not a reason to drive to a
-            store. Winner names stay on walottery.com. ZIP is not on the official
-            row, so there is no ZIP map.
+            Washington’s Lottery
+            <a href="https://www.walottery.com/winners/Search.aspx" rel="noopener noreferrer">winners search</a>,
+            last year, about $600 and up, rolled up by store. Names stay on their site.
           </p>
           <div class="hit-toolbar">
             <div class="segment" role="group" aria-label="Game">
@@ -102,44 +95,21 @@
               <button type="button" data-game="Scratch">Scratch</button>
             </div>
           </div>
-          <div class="hit-stories">
-            <article class="hit-story" data-kind="busy">
-              <h3>Busy counter</h3>
-              <p>Most listed claims in this window.</p>
-              <p class="hit-not">A crowded grocery line, not a hotter machine.</p>
-            </article>
-            <article class="hit-story" data-kind="fat">
-              <h3>Fat ticket</h3>
-              <p>Most listed dollars, especially from few claims.</p>
-              <p class="hit-not">One scratch, not a streak.</p>
-            </article>
-            <article class="hit-story" data-kind="quiet">
-              <h3>Quiet list</h3>
-              <p>Longest gap since the last date on the official list.</p>
-              <p class="hit-not">A hole in the Lottery's page, not a store waiting its turn.</p>
-            </article>
-          </div>
           <p class="hit-lead" id="hit-walk-copy">
-            If you already planned to play, here's a busy counter, a fat-ticket shop, and a quiet list. Hit odds stay Quick Pick.
-          </p>
-          <p class="fine">
-            Three stories. Not one recommended stop. A win is not more likely at any of them.
+            If you already planned to play, here's a busy counter, a fat-ticket shop, and a quiet list.
           </p>
           <div class="hit-walk" id="hit-walk"></div>
           <p class="fine" id="hit-map-note">
-            Counts are listed claims, not luck and not a forecast.
+            2,158 stores on the list. The long tail is the story.
           </p>
           <div class="hit-stats" id="hit-stats"></div>
           <header class="panel-head">
             <div>
               <p class="kicker">Place</p>
-              <h2>Cities, then stores</h2>
+              <h2>Cities</h2>
             </div>
           </header>
-          <p>
-            City first, sorted by listed-claim count. Open a city to see its stores.
-            This is not a heat map and not a sales-normalized score.
-          </p>
+          <p>Sorted by listed claims. Open one.</p>
           <div class="hit-cities-wrap">
             <div class="hit-cities" id="hit-cities" role="list"></div>
           </div>
@@ -169,15 +139,13 @@
         <section class="panel desk-page">
           <header class="panel-head">
             <div>
-              <p class="kicker">Secondary layer · different metric</p>
-              <h2>Luckiest Retailers top 10s</h2>
+              <p class="kicker">Another official list</p>
+              <h2>Luckiest Retailers</h2>
             </div>
           </header>
           <p>
-            Separate from claimed-prize counts: Washington’s Lottery also publishes
-            annual Luckiest Retailers lists. Those are stores that sold the most
-            $1,000+ winning tickets in the published year, regional top 10s only.
-            That is not this table, not every store, and not sales volume.
+            Regional top 10s for $1,000+ tickets sold. A different score than the walk.
+            Tap a region.
           </p>
           <div class="hit-toolbar">
             <div class="segment" role="group" aria-label="Luckiest year">
@@ -190,7 +158,7 @@
           <div class="hit-table-wrap">
             <table class="hit-table">
               <caption class="fine" id="luck-caption">
-                Published top 10 by $1,000+ tickets sold, not claimed-prize counts.
+                Published top 10 by $1,000+ tickets sold.
               </caption>
               <thead>
                 <tr>
@@ -204,47 +172,17 @@
             </table>
           </div>
         </section>
-        <section class="panel desk-page">
-          <header class="panel-head">
-            <div>
-              <p class="kicker">How to read this</p>
-              <h2>History, not a tip</h2>
-            </div>
-          </header>
-          <p>
-            A high claim count means the Lottery listed more claimed prizes at that
-            address in this window. Busy stores sell more tickets. A fat-ticket shop
-            can show a huge dollar figure from one claim. That is not a luckiest-store
-            crown. Same hit odds at every licensed retailer.
-          </p>
-          <p>
-            <a href="/lottery-lab.html">Lottery Lab</a> stays the proof page: models
-            cannot beat Quick Pick. The live
-            <a href="/?desk=washington">Ladder</a>
-            ranks scanned boards against official draw history. Same hit odds as
-            Quick Pick.
-          </p>
-          <a class="help" href="/?desk=washington">
-            Open the live Ladder
-            <span>A scored replay of the past, best first. Not a store tip.</span>
-          </a>
-          <a class="help" href="/lottery-lab.html">
-            Lottery Lab
-            <span>Models cannot beat Quick Pick. Here is an uncrowded slip instead.</span>
-          </a>
-          <p class="fine">
-            Source:
-            <a href="https://www.walottery.com/winners/Search.aspx" rel="noopener noreferrer">Washington’s Lottery Winners By Game</a>
-            · Luckiest Retailers press lists 2023–2025 ·
-            <a href="https://www.walottery.com/Privacy/" rel="noopener noreferrer">Lottery privacy</a>.
-            JackpotDesk does not copy their map, logos, or winner-name list.
-            Entertainment only. We do not sell tickets. Keep it fun. Know your limit.
-            Responsible gaming:
-            <a href="https://www.ncpgambling.org/">ncpgambling.org</a>
-            ·
-            <a href="/responsible.html">JackpotDesk responsible gaming</a>
-          </p>
-        </section>
+        <p class="fine hit-proof">
+          Source:
+          <a href="https://www.walottery.com/winners/Search.aspx" rel="noopener noreferrer">Washington’s Lottery Winners By Game</a>
+          · Luckiest Retailers 2023–2025.
+          Proof:
+          <a href="/lottery-lab.html">Lottery Lab</a>.
+          We do not sell tickets. Keep it fun. Know your limit.
+          <a href="https://www.ncpgambling.org/">ncpgambling.org</a>
+          ·
+          <a href="/responsible.html">JackpotDesk responsible gaming</a>
+        </p>
       </main>
       <footer class="site-footer">
         <nav class="footer-links" aria-label="Site">
@@ -383,15 +321,16 @@
           });
         }
 
-        function walkCard(kind, title, store, metric, detail) {
+        function walkCard(kind, title, wry, store, metric, fact) {
           if (!store) {
             return '<article class="hit-walk-card" data-kind="' + kind + '"><h3>' + title +
-              "</h3><p>No shop in this filter.</p></article>";
+              "</h3><p class=\"hit-not\">" + wry + "</p><p>Nobody in this filter.</p></article>";
           }
           return '<article class="hit-walk-card" data-kind="' + kind + '"><h3>' + title +
-            "</h3><strong class=\"hit-metric\">" + metric + "</strong><p>" +
+            "</h3><p class=\"hit-not\">" + wry + "</p><strong class=\"hit-metric\">" +
+            metric + "</strong><p>" +
             esc(titleCase(store.name)) + "<br>" + esc(titleCase(store.address)) + ", " +
-            esc(titleCase(store.city)) + "</p><p class=\"fine\">" + detail + "</p></article>";
+            esc(titleCase(store.city)) + "</p><p class=\"fine\">" + fact + "</p></article>";
         }
 
         function renderClaimed() {
@@ -430,23 +369,26 @@
             walkCard(
               "busy",
               "Busy counter",
+              "A crowded grocery line, not a hotter machine.",
               busy,
               busy ? busy.claims.toLocaleString("en-US") + " listed claims" : "",
-              busy ? dollars(busy.sum) + " listed. A count leader, not a hotter shop." : ""
+              busy ? dollars(busy.sum) + " on the list" : ""
             ) +
             walkCard(
               "fat",
               "Fat ticket",
+              "One scratch, not a streak.",
               fat,
               fat ? dollars(fat.sum) + " listed" : "",
-              fat ? "From " + fat.claims + " listed claim" + (fat.claims === 1 ? "" : "s") + ". Dollars, not a streak." : ""
+              fat ? "From " + fat.claims + " listed claim" + (fat.claims === 1 ? "" : "s") : ""
             ) +
             walkCard(
               "quiet",
               "Quiet list",
+              "A hole in the Lottery's page, not a store waiting its turn.",
               quiet,
               quietGap == null ? "" : quietGap + " days since last listed date",
-              quiet ? "Last listed " + quiet.lastDate + ". A hole on the Lottery page, not a hint." : ""
+              quiet ? "Last on the page " + quiet.lastDate : ""
             );
           document.getElementById("hit-cities").innerHTML =
             '<button type="button" data-city="" class="' + (city ? "" : "on") +
@@ -469,9 +411,9 @@
             (city ? " · " + titleCase(city) : " · statewide") +
             " · " +
             view.length +
-            " stores, sorted by listed claims. Count and dollars are different stories. Not a forecast.";
+            " stores. Green is count. Gold is the dollar story.";
           document.getElementById("hit-table-body").innerHTML = view.map(function (store) {
-            var tip = "Listed " + store.claims + " claimed prizes at this store per Washington's Lottery winners search. Not a forecast.";
+            var tip = "Listed " + store.claims + " claimed prizes at this store per Washington's Lottery winners search.";
             return "<tr title=\"" + esc(tip) + "\"><td>" + esc(titleCase(store.name)) +
               "<div class=\"fine\">" + esc(titleCase(store.address)) + "</div></td><td>" +
               esc(titleCase(store.city)) + '</td><td class="hit-num-claims">' + store.claims +
@@ -490,7 +432,7 @@
           AREAS.forEach(function (item) { max = Math.max(max, totals[item.region] || 0); });
           document.getElementById("luck-map").innerHTML = AREAS.map(function (item) {
             var wins = totals[item.region] || 0;
-            var title = "Published top-10 total: " + wins + " tickets of $1,000+ in " + luckYear + " per Washington's Lottery. Different metric than claimed prizes.";
+            var title = wins + " tickets of $1,000+ in the " + luckYear + " top 10 · " + item.label;
             var on = luckRegion === item.region ? " on" : "";
             return '<button type="button" class="hit-region' + on + '" data-area="' + item.area +
               '" data-region="' + esc(item.region) + '" title="' + esc(title) +
@@ -504,8 +446,7 @@
           }).sort(function (a, b) { return b.wins - a.wins || a.name.localeCompare(b.name); });
           document.getElementById("luck-caption").textContent =
             luckYear + " · published top 10 by $1,000+ tickets sold" +
-            (luckRegion === "all" ? "" : " · " + luckRegion) +
-            ". Different metric than claimed prizes.";
+            (luckRegion === "all" ? "" : " · " + luckRegion);
           document.getElementById("luck-table-body").innerHTML = rows.map(function (store) {
             var tip = "Sold " + store.wins + " tickets of $1,000+ in " + store.year + " per Washington's Lottery.";
             return "<tr title=\"" + esc(tip) + "\"><td>" + esc(store.name) +

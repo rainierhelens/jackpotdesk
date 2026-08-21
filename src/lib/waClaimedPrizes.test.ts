@@ -4,10 +4,6 @@ import page from "../../public/washington/claimed-prizes-by-store/index.html?raw
 import {
   BUSY_STORY,
   CLAIMED_CHIP_ORDER,
-  CLAIMED_ENTERTAIN,
-  CLAIMED_FIT_LINE,
-  CLAIMED_FIT_PAST,
-  CLAIMED_LOCATION_LINE,
   CLAIMED_QUESTION,
   CLAIMED_SAME_ODDS,
   CLAIMED_SOURCE_URL,
@@ -117,14 +113,9 @@ describe("claimed-prize stories", () => {
 });
 
 describe("claimed-prizes page contract", () => {
-  it("leads with same-odds and points at the official search", () => {
+  it("leads with same-odds, then the question", () => {
     const lead = claimedPageLead();
-    expect(lead.startsWith(CLAIMED_SAME_ODDS)).toBe(true);
-    expect(lead).toContain(CLAIMED_QUESTION);
-    expect(lead).toContain(CLAIMED_LOCATION_LINE);
-    expect(lead).toContain(CLAIMED_FIT_LINE);
-    expect(lead).toContain(CLAIMED_FIT_PAST);
-    expect(lead).toContain(CLAIMED_ENTERTAIN);
+    expect(lead).toBe(`${CLAIMED_SAME_ODDS} ${CLAIMED_QUESTION}`);
     expect(copyHasBannedPhrase(lead)).toBeNull();
     expect(copyHasBannedPhrase(claimedTooltip(WA_CLAIMED.stores[0]))).toBeNull();
     expect(copyHasBannedPhrase(CLAIMED_WALK_LINE)).toBeNull();
@@ -133,7 +124,10 @@ describe("claimed-prizes page contract", () => {
     expect(copyHasBannedPhrase(QUIET_STORY.notLine)).toBeNull();
   });
 
-  it("ships a night-desk walk that is history, not a forecast", () => {
+  it("keeps the walk fun and parks Lab in the footer", () => {
+    expect(page).toMatch(
+      /<p class="hit-lead">\s*Every licensed retailer has the same chance of selling a jackpot ticket\./,
+    );
     expect(page).toContain(CLAIMED_SAME_ODDS);
     expect(page).toContain(CLAIMED_QUESTION);
     expect(page).toContain(CLAIMED_WALK_LINE);
@@ -145,17 +139,21 @@ describe("claimed-prizes page contract", () => {
     expect(page).toContain(QUIET_STORY.notLine);
     expect(page).toContain(CLAIMED_SOURCE_URL);
     expect(page).toContain("/lottery-lab.html");
-    expect(page).toContain("/?desk=washington");
     expect(page).toContain("Luckiest Retailers");
+    expect(page).not.toMatch(/not a forecast/i);
+    expect(page).not.toContain("History, not a tip");
     expect(page).not.toContain("tonight");
     expect(page).not.toContain("Ladder #1");
     expect(page).not.toContain("Fable");
     expect(page).not.toContain("route-to-win");
+    expect(page).not.toContain("high confidence");
     expect(page).not.toContain("\u2014");
     expect(copyHasBannedPhrase(page)).toBeNull();
     expect(page).toContain("JackpotDesk");
     expect(page).toMatch(/Keep it fun/);
     const chipOrder = [...page.matchAll(/data-game="([^"]+)"/g)].map((match) => match[1]);
     expect(chipOrder.slice(0, CLAIMED_CHIP_ORDER.length)).toEqual([...CLAIMED_CHIP_ORDER]);
+    const labIdx = page.lastIndexOf("/lottery-lab.html");
+    expect(labIdx).toBeGreaterThan(page.indexOf("luck-map"));
   });
 });

@@ -516,6 +516,11 @@ h2 {
   color: var(--ink);
 }
 
+.hit-proof {
+  max-width: 46rem;
+  margin: 1rem 0 0;
+}
+
 .hit-stories,
 .hit-walk {
   display: grid;

@@ -16,7 +16,7 @@ export const CLAIMED_FIT_PAST = "Rank and count are a fit to the past.";
 export const CLAIMED_ENTERTAIN = "Entertainment, not prediction.";
 
 export const CLAIMED_WALK_LINE =
-  "If you already planned to play, here's a busy counter, a fat-ticket shop, and a quiet list. Hit odds stay Quick Pick.";
+  "If you already planned to play, here's a busy counter, a fat-ticket shop, and a quiet list.";
 
 export const CLAIMED_SOURCE_URL = "https://www.walottery.com/winners/Search.aspx";
 
@@ -317,11 +317,11 @@ export function pickClaimedWalk(
 }
 
 export function claimedTooltip(store: ClaimedStore): string {
-  return `Listed ${store.claims} claimed prizes at ${store.name}, ${store.city} per Washington's Lottery winners search. Not a forecast.`;
+  return `Listed ${store.claims} claimed prizes at ${store.name}, ${store.city} per Washington's Lottery winners search.`;
 }
 
 export function claimedPageLead(): string {
-  return `${CLAIMED_SAME_ODDS} ${CLAIMED_QUESTION} ${CLAIMED_LOCATION_LINE} ${CLAIMED_FIT_LINE} ${CLAIMED_FIT_PAST} ${CLAIMED_ENTERTAIN}`;
+  return `${CLAIMED_SAME_ODDS} ${CLAIMED_QUESTION}`;
 }
 
 export function copyHasBannedPhrase(text: string): string | null {
