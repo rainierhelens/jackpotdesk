@@ -6,6 +6,7 @@ const LINKS = [
   { href: "/?tab=write", label: "Write", tab: "write" as const },
   { href: "/", label: "Desk", tab: "board" as const },
   { href: "/recap", label: "Recap", tab: "recap" as const },
+  { href: "/washington/claimed-prizes-by-store", label: "Claimed prizes" },
   { href: "/expected-value.html", label: "Expected value" },
   { href: "/unique-tickets.html", label: "Unique tickets" },
   { href: "/office-pool.html", label: "Office pool" },
