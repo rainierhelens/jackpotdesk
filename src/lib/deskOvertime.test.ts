@@ -3,9 +3,13 @@ import { deskPay } from "./deskPrize";
 import {
   FREE_PLAY_LABEL,
   JACKPOT_UNKNOWN,
+  LADDER_VS_HOUSE,
   OVERTIME_FILLING,
   OVERTIME_NOTE,
   deskSlipCost,
+  formatOvertimeNet,
+  overtimeHeadline,
+  overtimeNetAmount,
   overtimeWindowRange,
   recapJackpotCash,
   recapMonthLabel,
@@ -112,13 +116,13 @@ describe("overtime official pay", () => {
     expect(night.paid).toBe(0);
     expect(night.games.map((row) => row.paid)).toEqual([0, 0, 0]);
     expect(night.games.find((row) => row.game === "hit5")?.line).toBe(
-      "Hit 5 · 3 boards · spent $3 · paid $0 · house.",
+      "Hit 5 · 3 boards · spent $3 · paid $0 · -$3",
     );
     expect(night.games.find((row) => row.game === "lotto")?.line).toBe(
-      "Lotto · 3 boards · spent $2 · paid $0 · house.",
+      "Lotto · 3 boards · spent $2 · paid $0 · -$2",
     );
     expect(night.games.find((row) => row.game === "powerball")?.line).toBe(
-      "Powerball · 3 boards · spent $6 · paid $0 · house.",
+      "Powerball · 3 boards · spent $6 · paid $0 · -$6",
     );
   });
 
@@ -140,7 +144,7 @@ describe("overtime official pay", () => {
     expect(row.beatHouse).toBe(false);
     expect(row.line).toContain(FREE_PLAY_LABEL);
     expect(row.line).toBe(
-      `Hit 5 · 3 boards · spent $3 · paid $0 · ${FREE_PLAY_LABEL} · house.`,
+      `Hit 5 · 3 boards · spent $3 · paid $0 · ${FREE_PLAY_LABEL} · -$3`,
     );
     copyBanned(row.line);
   });
@@ -161,8 +165,12 @@ describe("overtime official pay", () => {
     const night = scoreOvertimeNight(day("2026-08-20", [], [jackpot]));
     expect(night.paid).toBe(0);
     expect(night.jackpotUnknown).toBe(true);
+    expect(night.net).toBeNull();
+    expect(night.headline).toBe(`${LADDER_VS_HOUSE} · ${JACKPOT_UNKNOWN}`);
     expect(night.nightLine).toContain(JACKPOT_UNKNOWN);
     expect(night.games[0].line).toContain(JACKPOT_UNKNOWN);
+    expect(night.games[0].line).not.toMatch(/-\$1\b/);
+    expect(night.games[0].net).toBeNull();
   });
 
   it("keeps Mega Millions prize cash on the base ticket", () => {
@@ -180,7 +188,7 @@ describe("overtime official pay", () => {
     expect(row.paid).toBe(5);
     expect(row.base).toBe(true);
     expect(row.line).toBe(
-      "Mega Millions · 3 boards · spent $15 · paid base $5 · cash on the board.",
+      "Mega Millions · 3 boards · spent $15 · paid base $5 · -$10",
     );
   });
 
@@ -235,14 +243,16 @@ describe("overtime running log", () => {
     expect(board.paid).toBe(157);
     expect(board.anyRevenue).toBe(true);
     expect(board.beatHouse).toBe(true);
+    expect(board.headline).toBe(`${LADDER_VS_HOUSE} · +$122`);
     expect(board.acrossLine).toBe(
-      "Overtime · 2 mornings · spent $35 · paid $157 · ahead of the house",
+      "Overtime · 2 mornings · spent $35 · paid $157 · +$122",
     );
+    expect(board.lastNight?.headline).toBe(`${LADDER_VS_HOUSE} · +$148`);
     expect(board.lastNight?.nightLine).toBe(
-      "Last night · spent $9 · paid $157 · ahead of the house",
+      "Last night · spent $9 · paid $157",
     );
     expect(board.games.find((row) => row.game === "hit5")?.line).toBe(
-      "Hit 5 · 6 boards · spent $6 · paid $150 · ahead of the house.",
+      "Hit 5 · 6 boards · spent $6 · paid $150 · +$144",
     );
     expect(board.revenueWatch).toBe("cash on the board");
     expect(board.houseWatch).toBe("ahead of the house");
@@ -253,16 +263,17 @@ describe("overtime running log", () => {
     expect(board.mornings).toBe(1);
     expect(board.spent).toBe(18);
     expect(board.paid).toBe(0);
+    expect(board.headline).toBe(`${LADDER_VS_HOUSE} · -$18`);
     expect(board.acrossLine).toBe(
-      "Overtime · 1 morning · spent $18 · paid $0 · no cash yet",
+      "Overtime · 1 morning · spent $18 · paid $0 · -$18",
     );
     expect(board.lastNight?.nightLine).toBe(
-      "Last night · spent $18 · paid $0 · no cash yet",
+      "Last night · spent $18 · paid $0",
     );
     expect(board.revenueWatch).toBe("no cash yet");
     expect(board.houseWatch).toBe("house");
     expect(board.games.find((row) => row.game === "megamillions")?.line).toBe(
-      "Mega Millions · 3 boards · spent $15 · paid $0 · house.",
+      "Mega Millions · 3 boards · spent $15 · paid $0 · -$15",
     );
   });
 
@@ -271,7 +282,9 @@ describe("overtime running log", () => {
       day("2026-08-20", [POWER, MEGA], [HIT5, LOTTO]),
     ]);
     const copy = [
+      board.headline,
       board.acrossLine,
+      board.lastNight?.headline ?? "",
       board.lastNight?.nightLine ?? "",
       board.revenueWatch,
       board.houseWatch,
@@ -305,17 +318,18 @@ describe("overtime windows", () => {
     ]);
     expect(desk.windows.every((window) => window.filling)).toBe(true);
     expect(desk.windows.every((window) => window.mornings === 1)).toBe(true);
+    expect(desk.windows[0]?.headline).toBe(`${LADDER_VS_HOUSE} · -$18`);
     expect(desk.windows[0]?.acrossLine).toBe(
-      `Last 7 days · 1 of 7 mornings · spent $18 · paid $0 · no cash yet · ${OVERTIME_FILLING}`,
+      `Last 7 days · 1 of 7 mornings · spent $18 · paid $0 · ${OVERTIME_FILLING}`,
     );
     expect(desk.windows[1]?.acrossLine).toBe(
-      `August 2026 · 1 of 30 mornings · spent $18 · paid $0 · no cash yet · ${OVERTIME_FILLING}`,
+      `August 2026 · 1 of 30 mornings · spent $18 · paid $0 · ${OVERTIME_FILLING}`,
     );
     expect(desk.windows[2]?.acrossLine).toBe(
-      `Q3 2026 · 1 of 90 mornings · spent $18 · paid $0 · no cash yet · ${OVERTIME_FILLING}`,
+      `Q3 2026 · 1 of 90 mornings · spent $18 · paid $0 · ${OVERTIME_FILLING}`,
     );
     expect(desk.all.acrossLine).toBe(
-      "All-time · 1 morning · spent $18 · paid $0 · no cash yet",
+      "All-time · 1 morning · spent $18 · paid $0 · -$18",
     );
   });
 
@@ -345,8 +359,9 @@ describe("overtime windows", () => {
     const days7 = desk.windows.find((window) => window.id === "days7");
     expect(days7?.mornings).toBe(7);
     expect(days7?.filling).toBe(false);
+    expect(days7?.headline).toBe(`${LADDER_VS_HOUSE} · -$63`);
     expect(days7?.acrossLine).toBe(
-      "Last 7 days · 7 mornings · spent $63 · paid $0 · no cash yet",
+      "Last 7 days · 7 mornings · spent $63 · paid $0",
     );
     expect(days7?.acrossLine).not.toContain(OVERTIME_FILLING);
     expect(desk.windows.find((window) => window.id === "month")?.filling).toBe(
@@ -362,10 +377,13 @@ describe("overtime windows", () => {
       day("2026-08-20", [POWER, MEGA], [HIT5, LOTTO]),
     ]);
     const copy = [
+      desk.lastNight?.headline ?? "",
       desk.lastNight?.nightLine ?? "",
+      desk.all.headline,
       desk.all.acrossLine,
       OVERTIME_NOTE,
       ...desk.windows.flatMap((window) => [
+        window.headline,
         window.acrossLine,
         window.revenueWatch,
         window.houseWatch,
@@ -375,5 +393,39 @@ describe("overtime windows", () => {
     copyBanned(copy);
     expect(copy).not.toMatch(/Same hit odds as Quick Pick/);
     expect(copy).not.toMatch(/tonight'?s #1/i);
+  });
+
+  it("leads with paid minus spent and does not invent a jackpot net", () => {
+    expect(overtimeNetAmount(0, 26, false)).toBe(-26);
+    expect(overtimeNetAmount(15, 26, false)).toBe(-11);
+    expect(overtimeNetAmount(30, 26, false)).toBe(4);
+    expect(formatOvertimeNet(-26)).toBe("-$26");
+    expect(formatOvertimeNet(-11)).toBe("-$11");
+    expect(formatOvertimeNet(4)).toBe("+$4");
+    expect(overtimeHeadline(0, 26, false)).toBe(`${LADDER_VS_HOUSE} · -$26`);
+    expect(overtimeHeadline(15, 26, false)).toBe(`${LADDER_VS_HOUSE} · -$11`);
+    expect(overtimeHeadline(30, 26, false)).toBe(`${LADDER_VS_HOUSE} · +$4`);
+    expect(overtimeNetAmount(0, 26, true)).toBeNull();
+    expect(overtimeHeadline(0, 26, true)).toBe(
+      `${LADDER_VS_HOUSE} · ${JACKPOT_UNKNOWN}`,
+    );
+
+    const desk = scoreOvertimeWindows([
+      day("2026-08-20", [POWER], [
+        {
+          ...HIT5,
+          cashpot: undefined,
+          rungs: [{ rank: 1, whites: [8, 14, 19, 26, 37], extra: null }],
+        },
+      ]),
+    ]);
+    expect(desk.windows[0]?.headline).toBe(
+      `${LADDER_VS_HOUSE} · ${JACKPOT_UNKNOWN}`,
+    );
+    expect(desk.windows[0]?.net).toBeNull();
+    expect(desk.windows[0]?.games.find((row) => row.game === "hit5")?.net).toBeNull();
+    expect(
+      desk.windows[0]?.games.find((row) => row.game === "powerball")?.netText,
+    ).toBe("-$6");
   });
 });

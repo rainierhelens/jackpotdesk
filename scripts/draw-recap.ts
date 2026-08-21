@@ -31,6 +31,7 @@ import {
 } from "../src/lib/recapPayload.ts";
 import {
   OVERTIME_NOTE,
+  overtimeNetClass,
   overtimeNightRead,
   overtimeWatchClass,
   scoreOvertimeWindows,
@@ -346,6 +347,7 @@ function overtimeWindowHtml(window: OvertimeWindow): string {
     .join("");
   return `<section class="recap-overtime-window${window.filling ? " is-filling" : ""}" data-overtime-window="${escapeHtml(window.id)}">
       <p class="recap-overtime-window-label">${escapeHtml(window.label)}</p>
+      <p class="recap-overtime-headline ${overtimeNetClass(window.netText)}">${escapeHtml(window.headline)}</p>
       <p class="recap-overtime-across">${escapeHtml(window.acrossLine)}</p>
       <ul class="recap-overtime-games">${games}</ul>
       ${overtimeWatchesHtml(window)}
@@ -356,12 +358,15 @@ function overtimeHtml(log: RecapPayload[]): string {
   const desk = scoreOvertimeWindows(log);
   if (!desk.windows.length && !desk.all.mornings) return "";
   const night = desk.lastNight
-    ? `<p class="recap-overtime-night">${escapeHtml(
+    ? `<div class="recap-overtime-night-block">
+      <p class="recap-overtime-headline ${overtimeNetClass(desk.lastNight.netText)}">${escapeHtml(desk.lastNight.headline)}</p>
+      <p class="recap-overtime-night">${escapeHtml(
         overtimeNightRead(
           desk.lastNight.nightLine,
           formatRecapHeading(desk.lastNight.asOf),
         ),
-      )}</p>`
+      )}</p>
+    </div>`
     : "";
   const all = desk.all.mornings
     ? `<p class="fine recap-overtime-all">${escapeHtml(desk.all.acrossLine)}</p>`

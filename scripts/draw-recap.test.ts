@@ -372,11 +372,13 @@ describe("recap page", () => {
     expect(desk.all.mornings).toBe(2);
     expect(desk.all.spent).toBe(16);
     expect(desk.all.paid).toBe(20);
+    expect(index).toContain(desk.windows[0]!.headline);
     expect(index).toContain(desk.windows[0]!.acrossLine);
+    expect(index).toContain("Ladder vs the house · +$4");
     expect(index).toContain(
-      `Last 7 days · 2 of 7 mornings · spent $16 · paid $20 · ahead of the house · ${OVERTIME_FILLING}`,
+      `Last 7 days · 2 of 7 mornings · spent $16 · paid $20 · ${OVERTIME_FILLING}`,
     );
-    expect(index).toContain("All-time · 2 mornings · spent $16 · paid $20");
+    expect(index).toContain("All-time · 2 mornings · spent $16 · paid $20 · +$4");
   });
 
   it("pins an overtime scoreboard above the newest-first log", () => {
@@ -386,14 +388,16 @@ describe("recap page", () => {
     expect(html).toContain('data-overtime-window="days7"');
     expect(html).toContain('data-overtime-window="month"');
     expect(html).toContain('data-overtime-window="quarter"');
+    expect(html).toContain(desk.windows[0]!.headline);
     expect(html).toContain(desk.windows[0]!.acrossLine);
     expect(html).toContain(desk.windows[1]!.acrossLine);
     expect(html).toContain(desk.windows[2]!.acrossLine);
+    expect(html).toContain("Ladder vs the house · +$2");
     expect(html).toContain("Last 7 days · 1 of 7 mornings");
     expect(html).toContain("August 2026 · 1 of 30 mornings");
     expect(html).toContain("Q3 2026 · 1 of 90 mornings");
     expect(html).toContain(OVERTIME_FILLING);
-    expect(html).toContain("All-time · 1 morning · spent $8 · paid $10");
+    expect(html).toContain("All-time · 1 morning · spent $8 · paid $10 · +$2");
     expect(html).toContain("Last night · Thursday, Aug 20, 2026 · spent $8 · paid $10");
     expect(html).toContain("Hit 5 · 1 board · spent $1 · paid $0 · " + FREE_PLAY_LABEL);
     expect(html).toContain("Powerball · 3 boards · spent $6 · paid $7");

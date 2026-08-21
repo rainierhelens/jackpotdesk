@@ -22,6 +22,7 @@ import {
 } from "../lib/recapRoute";
 import {
   OVERTIME_NOTE,
+  overtimeNetClass,
   overtimeNightRead,
   overtimeWatchClass,
   scoreOvertimeWindows,
@@ -478,6 +479,9 @@ function OvertimeWindowCard({ window }: { window: OvertimeWindow }) {
       data-overtime-window={window.id}
     >
       <p className="recap-overtime-window-label">{window.label}</p>
+      <p className={`recap-overtime-headline ${overtimeNetClass(window.netText)}`}>
+        {window.headline}
+      </p>
       <p className="recap-overtime-across">{window.acrossLine}</p>
       <ul className="recap-overtime-games">
         {window.games.map((row) => (
@@ -506,7 +510,16 @@ function OvertimePanel({ log }: { log: RecapPayload[] }) {
           <h2>Ladder #1–#3</h2>
         </div>
       </header>
-      {night ? <p className="recap-overtime-night">{night}</p> : null}
+      {desk.lastNight ? (
+        <div className="recap-overtime-night-block">
+          <p
+            className={`recap-overtime-headline ${overtimeNetClass(desk.lastNight.netText)}`}
+          >
+            {desk.lastNight.headline}
+          </p>
+          {night ? <p className="recap-overtime-night">{night}</p> : null}
+        </div>
+      ) : null}
       {desk.windows.map((window) => (
         <OvertimeWindowCard key={window.id} window={window} />
       ))}
