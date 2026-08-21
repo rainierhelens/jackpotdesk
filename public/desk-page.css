@@ -200,7 +200,56 @@ a {
 }
 
 .recap-overtime h2 {
-  font-size: 1.45rem;
+  font-size: clamp(1.45rem, 3.8vw, 2rem);
+  line-height: 1.08;
+}
+
+.recap-overtime-vs {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.recap-overtime-chip {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.4rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: var(--radius);
+  font-family: var(--display);
+  font-size: clamp(2rem, 8vw, 2.85rem);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+.recap-overtime-chip.is-ahead {
+  background: var(--green);
+  color: var(--on-green);
+}
+
+.recap-overtime-chip.is-behind {
+  background: var(--red);
+  color: var(--ink);
+}
+
+.recap-overtime-chip.is-flat {
+  background: #1f1f22;
+  color: var(--ink);
+}
+
+.recap-overtime-chip.is-unknown {
+  background: #1f1f22;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: clamp(1rem, 3.4vw, 1.2rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: none;
 }
 
 .recap-overtime-across,

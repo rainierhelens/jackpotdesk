@@ -22,9 +22,11 @@ import {
 } from "../lib/recapRoute";
 import {
   OVERTIME_NOTE,
+  OVERTIME_VS,
+  overtimeNetClass,
   overtimeNightRead,
-  overtimeWatchClass,
   scoreOvertimeWindows,
+  type OvertimeScore,
   type OvertimeWindow,
 } from "../lib/deskOvertime";
 
@@ -450,24 +452,11 @@ function DayArticle({
   );
 }
 
-function OvertimeWatches({
-  revenue,
-  house,
-}: {
-  revenue: string;
-  house: string;
-}) {
+function OvertimeNetChip({ score }: { score: OvertimeScore }) {
   return (
-    <dl className="recap-overtime-watches">
-      <div>
-        <dt>Any revenue</dt>
-        <dd className={overtimeWatchClass(revenue)}>{revenue}</dd>
-      </div>
-      <div>
-        <dt>Beat the house</dt>
-        <dd className={overtimeWatchClass(house)}>{house}</dd>
-      </div>
-    </dl>
+    <p className={`recap-overtime-chip ${overtimeNetClass(score)}`}>
+      {score.score}
+    </p>
   );
 }
 
@@ -478,13 +467,14 @@ function OvertimeWindowCard({ window }: { window: OvertimeWindow }) {
       data-overtime-window={window.id}
     >
       <p className="recap-overtime-window-label">{window.label}</p>
+      <p className="recap-overtime-vs">{OVERTIME_VS}</p>
+      <OvertimeNetChip score={window} />
       <p className="recap-overtime-across">{window.acrossLine}</p>
       <ul className="recap-overtime-games">
         {window.games.map((row) => (
           <li key={row.game}>{row.line}</li>
         ))}
       </ul>
-      <OvertimeWatches revenue={window.revenueWatch} house={window.houseWatch} />
     </section>
   );
 }
@@ -502,16 +492,19 @@ function OvertimePanel({ log }: { log: RecapPayload[] }) {
     <aside className="panel recap-overtime" aria-label="Overtime">
       <header className="panel-head">
         <div>
-          <p className="kicker">Overtime</p>
-          <h2>Ladder #1–#3</h2>
+          <p className="kicker">Overtime · Ladder #1–#3</p>
+          <h2>{OVERTIME_VS}</h2>
         </div>
       </header>
+      {desk.lastNight ? <OvertimeNetChip score={desk.lastNight} /> : null}
       {night ? <p className="recap-overtime-night">{night}</p> : null}
       {desk.windows.map((window) => (
         <OvertimeWindowCard key={window.id} window={window} />
       ))}
       {desk.all.mornings ? (
-        <p className="fine recap-overtime-all">{desk.all.acrossLine}</p>
+        <p className="fine recap-overtime-all">
+          {desk.all.headline} · {desk.all.acrossLine}
+        </p>
       ) : null}
       <p className="fine recap-overtime-note">{OVERTIME_NOTE}</p>
     </aside>

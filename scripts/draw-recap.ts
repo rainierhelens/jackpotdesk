@@ -31,9 +31,11 @@ import {
 } from "../src/lib/recapPayload.ts";
 import {
   OVERTIME_NOTE,
+  OVERTIME_VS,
+  overtimeNetClass,
   overtimeNightRead,
-  overtimeWatchClass,
   scoreOvertimeWindows,
+  type OvertimeScore,
   type OvertimeWindow,
 } from "../src/lib/deskOvertime.ts";
 
@@ -327,17 +329,8 @@ function dayArticleHtml(
   </article>`;
 }
 
-function overtimeWatchesHtml(window: OvertimeWindow): string {
-  return `<dl class="recap-overtime-watches">
-      <div>
-        <dt>Any revenue</dt>
-        <dd class="${overtimeWatchClass(window.revenueWatch)}">${escapeHtml(window.revenueWatch)}</dd>
-      </div>
-      <div>
-        <dt>Beat the house</dt>
-        <dd class="${overtimeWatchClass(window.houseWatch)}">${escapeHtml(window.houseWatch)}</dd>
-      </div>
-    </dl>`;
+function overtimeChipHtml(score: OvertimeScore): string {
+  return `<p class="recap-overtime-chip ${overtimeNetClass(score)}">${escapeHtml(score.score)}</p>`;
 }
 
 function overtimeWindowHtml(window: OvertimeWindow): string {
@@ -346,9 +339,10 @@ function overtimeWindowHtml(window: OvertimeWindow): string {
     .join("");
   return `<section class="recap-overtime-window${window.filling ? " is-filling" : ""}" data-overtime-window="${escapeHtml(window.id)}">
       <p class="recap-overtime-window-label">${escapeHtml(window.label)}</p>
+      <p class="recap-overtime-vs">${escapeHtml(OVERTIME_VS)}</p>
+      ${overtimeChipHtml(window)}
       <p class="recap-overtime-across">${escapeHtml(window.acrossLine)}</p>
       <ul class="recap-overtime-games">${games}</ul>
-      ${overtimeWatchesHtml(window)}
     </section>`;
 }
 
@@ -356,7 +350,8 @@ function overtimeHtml(log: RecapPayload[]): string {
   const desk = scoreOvertimeWindows(log);
   if (!desk.windows.length && !desk.all.mornings) return "";
   const night = desk.lastNight
-    ? `<p class="recap-overtime-night">${escapeHtml(
+    ? `${overtimeChipHtml(desk.lastNight)}
+    <p class="recap-overtime-night">${escapeHtml(
         overtimeNightRead(
           desk.lastNight.nightLine,
           formatRecapHeading(desk.lastNight.asOf),
@@ -364,13 +359,13 @@ function overtimeHtml(log: RecapPayload[]): string {
       )}</p>`
     : "";
   const all = desk.all.mornings
-    ? `<p class="fine recap-overtime-all">${escapeHtml(desk.all.acrossLine)}</p>`
+    ? `<p class="fine recap-overtime-all">${escapeHtml(`${desk.all.headline} · ${desk.all.acrossLine}`)}</p>`
     : "";
   return `<aside class="panel recap-overtime" aria-label="Overtime">
     <header class="panel-head">
       <div>
-        <p class="kicker">Overtime</p>
-        <h2>Ladder #1–#3</h2>
+        <p class="kicker">Overtime · Ladder #1–#3</p>
+        <h2>${escapeHtml(OVERTIME_VS)}</h2>
       </div>
     </header>
     ${night}
