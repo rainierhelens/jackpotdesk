@@ -239,7 +239,7 @@ export function unlocatedClaimsFor(
       : null;
   }
   const count = data.unlocatedByGame?.[game];
-  if (!Number.isInteger(count) || count < 0) return null;
+  if (count == null || !Number.isInteger(count) || count < 0) return null;
   return count;
 }
 
