@@ -6,6 +6,7 @@ import {
   compactDeskBoard,
   deskLine,
   deskOfTotal,
+  deskStrip,
   type DeskLineBlock,
 } from "./recapPayload";
 
@@ -37,6 +38,25 @@ const POWERBALL: DeskLineBlock = {
   ],
 };
 
+const MEGA: DeskLineBlock = {
+  label: "Mega Millions",
+  officialDate: "2026-08-19",
+  officialWhites: [2, 9, 18, 30, 50],
+  officialExtra: 4,
+  tone: "entertain",
+  rungs: [
+    { rank: 1, whites: [1, 3, 7, 11, 22], extra: 8, extraHit: false },
+  ],
+};
+
+const HIT5: DeskLineBlock = {
+  label: "Hit 5",
+  officialDate: "2026-08-16",
+  officialWhites: [5, 8, 19, 28, 41],
+  officialExtra: null,
+  rungs: [{ rank: 1, whites: [5, 11, 19, 30, 40], extra: null }],
+};
+
 const LOTTO: DeskLineBlock = {
   label: "Lotto",
   officialDate: "2026-08-16",
@@ -54,27 +74,23 @@ const LOTTO: DeskLineBlock = {
 describe("deskLine", () => {
   const line = deskLine(POWERBALL);
 
-  it("opens with same-odds and stays tweet length", () => {
-    expect(line.startsWith(DESK_LINE_LEAD)).toBe(true);
+  it("leads with official vs last night overlap, not same-odds", () => {
+    expect(line.startsWith("Powerball 2026-08-18")).toBe(true);
+    expect(line).not.toContain(DESK_LINE_LEAD);
+    expect(line).not.toMatch(/Same hit odds as Quick Pick/);
     expect(line.length).toBeLessThanOrEqual(DESK_LINE_MAX);
     expect(line).not.toContain("\u2014");
   });
 
-  it("prints the official board and last night #1 as a scored replay", () => {
-    expect(line).toContain("Powerball 2026-08-18");
+  it("prints the official board and #1–#3 as N of 5 with shared numbers in parens", () => {
     expect(line).toContain(compactDeskBoard([5, 12, 23, 44, 61], 9));
-    expect(line).toContain("Last night #1");
-    expect(line).toContain(compactDeskBoard([3, 12, 28, 44, 55], 9));
-    expect(line).toContain("shared 12 44 + 09");
-    expect(line).toContain("2 of 5");
+    expect(line).toContain("Last night #1 2 of 5 (12 44 + 09)");
+    expect(line).toContain("#2 0 of 5");
+    expect(line).toContain("#3 1 of 5 (23)");
+    expect(line).not.toContain(compactDeskBoard([3, 12, 28, 44, 55], 9));
   });
 
-  it("adds #2/#3, the EV call, and the recap link when they fit", () => {
-    expect(line).toContain("#2");
-    expect(line).toContain("0 of 5");
-    expect(line).toContain("#3");
-    expect(line).toContain("shared 23");
-    expect(line).toContain("1 of 5");
+  it("adds the EV call and recap link when they fit", () => {
     expect(line).toContain("SKIP.");
     expect(line).toContain(DESK_LINE_LINK);
   });
@@ -87,24 +103,20 @@ describe("deskLine", () => {
   it("uses N of 6 on Lotto and never N of 5", () => {
     const lotto = deskLine(LOTTO);
     expect(lotto).toContain("Lotto 2026-08-16");
-    expect(lotto).toContain("3 of 6");
-    expect(lotto).toContain("shared 05 19 32");
+    expect(lotto).toContain(compactDeskBoard([5, 8, 19, 28, 32, 41], null));
+    expect(lotto).toContain("Last night #1 3 of 6 (05 19 32)");
     expect(lotto).not.toMatch(/\d of 5/);
     expect(lotto).not.toMatch(/\bSKIP\b|ENTERTAIN ONLY|RARE PLUS/);
     expect(lotto.length).toBeLessThanOrEqual(DESK_LINE_MAX);
   });
 
-  it("keeps Hit 5 and Powerball as N of 5", () => {
+  it("keeps Hit 5, Powerball, and Mega Millions as N of 5", () => {
     expect(deskOfTotal("Powerball", [5, 12, 23, 44, 61])).toBe(5);
     expect(deskOfTotal("Hit 5", [5, 8, 19, 28, 41])).toBe(5);
+    expect(deskOfTotal("Mega Millions", [2, 9, 18, 30, 50])).toBe(5);
     expect(deskOfTotal("Lotto", [5, 8, 19, 28, 32, 41])).toBe(6);
-    expect(deskLine({
-      label: "Hit 5",
-      officialDate: "2026-08-16",
-      officialWhites: [5, 8, 19, 28, 41],
-      officialExtra: null,
-      rungs: [{ rank: 1, whites: [5, 11, 19, 30, 40], extra: null }],
-    })).toContain("2 of 5");
+    expect(deskLine(HIT5)).toContain("Last night #1 2 of 5 (05 19)");
+    expect(deskLine(MEGA)).toContain("Last night #1 0 of 5");
   });
 
   it("never includes a store, city, or winner name, even if officialStore is set", () => {
@@ -122,5 +134,27 @@ describe("deskLine", () => {
       );
     }
     expect(withStore).toBe(line);
+  });
+});
+
+describe("deskStrip", () => {
+  const strip = deskStrip([POWERBALL, MEGA, HIT5, LOTTO]);
+
+  it("fits all four games in one tweet and leads with Lotto as 6 whites", () => {
+    expect(strip).toBeTruthy();
+    expect(strip!.length).toBeLessThanOrEqual(DESK_LINE_MAX);
+    expect(strip!.startsWith("Lotto is 6 whites")).toBe(true);
+    expect(strip).toContain("last night's #1 was 3 of 6 (05 19 32), not 3 of 5");
+    expect(strip).toContain("Hit 5 was 2 of 5 (05 19)");
+    expect(strip).toContain("Powerball was 2 of 5 (12 44 + 09)");
+    expect(strip).toContain("Mega Millions was 0 of 5");
+    expect(strip).toContain(DESK_LINE_LINK);
+    expect(strip).not.toContain(DESK_LINE_LEAD);
+    expect(strip).not.toMatch(/winning numbers|beats Quick Pick|tonight'?s #1/i);
+    expect(strip).not.toMatch(/Buena Market|\bstore\b/);
+  });
+
+  it("returns null when there is only one game", () => {
+    expect(deskStrip([LOTTO])).toBeNull();
   });
 });

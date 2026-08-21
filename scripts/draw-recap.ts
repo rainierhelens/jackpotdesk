@@ -15,6 +15,7 @@ import {
   escapeHtml,
   recapCallLine,
   recapDeskLine,
+  recapDeskStrip,
   type RecapNational,
   type RecapPayload,
   type RecapWashington,
@@ -162,17 +163,29 @@ function deskLineSlug(label: string): string {
     .replace(/^-|-$/g, "");
 }
 
-function deskLineHtml(block: RecapNational | RecapWashington): string {
-  const line = recapDeskLine(block);
-  const id = `desk-line-${deskLineSlug(block.label)}`;
+function deskLineBox(id: string, label: string, line: string): string {
   return `<aside class="recap-desk-line">
     <div class="recap-desk-line-head">
-      <p class="recap-desk-line-label">Desk line</p>
+      <p class="recap-desk-line-label">${escapeHtml(label)}</p>
       <button type="button" class="recap-desk-line-copy" data-copy-target="${escapeHtml(id)}">Copy</button>
     </div>
     <p class="recap-desk-line-text" id="${escapeHtml(id)}">${escapeHtml(line)}</p>
     <p class="recap-desk-line-meta">${line.length}/280 · Last night vs last night's Ladder. Not tonight's #1.</p>
   </aside>`;
+}
+
+function deskLineHtml(block: RecapNational | RecapWashington): string {
+  return deskLineBox(
+    `desk-line-${deskLineSlug(block.label)}`,
+    "Desk line",
+    recapDeskLine(block),
+  );
+}
+
+function deskStripHtml(payload: RecapPayload): string {
+  const strip = recapDeskStrip(payload);
+  if (!strip) return "";
+  return deskLineBox("desk-line-strip", "Desk strip", strip);
 }
 
 const DESK_LINE_COPY_SCRIPT = `
@@ -350,6 +363,7 @@ export function formatRecapHtml(
           <p>${escapeHtml(LEAD)}</p>
           ${notes}
         </section>
+        ${deskStripHtml(payload)}
         ${games}
         <section class="panel desk-page">
           <header class="panel-head">

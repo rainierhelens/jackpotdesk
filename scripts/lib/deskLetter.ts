@@ -28,6 +28,7 @@ import type { GameId, WaGameId } from "../../src/types.ts";
 import { heatBookFromDraws, waHeatSpec } from "../../src/lib/lotteryHeat.ts";
 import {
   deskLine,
+  deskStrip,
   type RecapHeat,
 } from "../../src/lib/recapPayload.ts";
 
@@ -37,6 +38,7 @@ export {
   DESK_LINE_MAX,
   compactDeskBoard,
   deskLine,
+  deskStrip,
 } from "../../src/lib/recapPayload.ts";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "../..");
@@ -142,18 +144,32 @@ export type RecapWashington = {
   officialStore?: string | null;
 };
 
-/** Tweet-length copy from the same recap block the public page already has. */
-export function recapDeskLine(
+function asDeskBlock(
   block: RecapNational | RecapWashington,
-): string {
-  return deskLine({
+): Parameters<typeof deskLine>[0] {
+  return {
     label: block.label,
     officialDate: block.officialDate,
     officialWhites: block.officialWhites,
     officialExtra: block.officialExtra,
     rungs: block.rungs,
     tone: "tone" in block ? block.tone : null,
-  });
+  };
+}
+
+/** Tweet-length copy from the same recap block the public page already has. */
+export function recapDeskLine(
+  block: RecapNational | RecapWashington,
+): string {
+  return deskLine(asDeskBlock(block));
+}
+
+/** One tweet for every last-night game, or null if it cannot stay ≤280. */
+export function recapDeskStrip(payload: RecapPayload): string | null {
+  return deskStrip([
+    ...payload.national.map(asDeskBlock),
+    ...payload.washington.map(asDeskBlock),
+  ]);
 }
 
 export type RecapPayload = {

@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import {
   deskLine,
+  deskStrip,
   padBall,
   recapCallLabel,
   recapExtraClass,
   recapHeatPaint,
   recapToneClass,
+  type DeskLineBlock,
   type RecapHeat,
   type RecapNational,
   type RecapPayload,
@@ -52,19 +54,20 @@ function RecapBalls({
   );
 }
 
-function DeskLine({
-  block,
-}: {
-  block: RecapNational | RecapWashington;
-}) {
-  const line = deskLine({
+function asDeskBlock(
+  block: RecapNational | RecapWashington,
+): DeskLineBlock {
+  return {
     label: block.label,
     officialDate: block.officialDate,
     officialWhites: block.officialWhites,
     officialExtra: block.officialExtra,
     rungs: block.rungs,
     tone: "tone" in block ? block.tone : null,
-  });
+  };
+}
+
+function DeskCopy({ label, line }: { label: string; line: string }) {
   const [copied, setCopied] = useState(false);
 
   function copy() {
@@ -77,7 +80,7 @@ function DeskLine({
   return (
     <aside className="recap-desk-line">
       <div className="recap-desk-line-head">
-        <p className="recap-desk-line-label">Desk line</p>
+        <p className="recap-desk-line-label">{label}</p>
         <button type="button" className="recap-desk-line-copy" onClick={copy}>
           {copied ? "Copied" : "Copy"}
         </button>
@@ -88,6 +91,23 @@ function DeskLine({
       </p>
     </aside>
   );
+}
+
+function DeskLine({
+  block,
+}: {
+  block: RecapNational | RecapWashington;
+}) {
+  return <DeskCopy label="Desk line" line={deskLine(asDeskBlock(block))} />;
+}
+
+function DeskStrip({ payload }: { payload: RecapPayload }) {
+  const strip = deskStrip([
+    ...payload.national.map(asDeskBlock),
+    ...payload.washington.map(asDeskBlock),
+  ]);
+  if (!strip) return null;
+  return <DeskCopy label="Desk strip" line={strip} />;
 }
 
 function RecapCompare({
@@ -396,6 +416,7 @@ export function RecapView({ pathname }: { pathname: string }) {
           <p className="desk-status is-err">{payload.notes.join(" ")}</p>
         ) : null}
       </section>
+      <DeskStrip payload={payload} />
       {payload.national.map((block) => (
         <NationalPanel key={block.label} block={block} />
       ))}

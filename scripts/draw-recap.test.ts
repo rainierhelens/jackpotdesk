@@ -9,6 +9,7 @@ import {
   matchLine,
   recapCallLine,
   recapDeskLine,
+  recapDeskStrip,
   scoreReplay,
   type RecapPayload,
 } from "./lib/deskLetter.ts";
@@ -277,17 +278,25 @@ describe("recap page", () => {
     const power = recapDeskLine(FIXTURE.national[0]);
     const hit5 = recapDeskLine(FIXTURE.washington[0]);
     const lotto = recapDeskLine(FIXTURE.washington[1]);
-    expect(power.startsWith(DESK_LINE_LEAD)).toBe(true);
+    const strip = recapDeskStrip(FIXTURE);
+    expect(power.startsWith("Powerball 2026-08-18")).toBe(true);
+    expect(power).not.toContain(DESK_LINE_LEAD);
     expect(power.length).toBeLessThanOrEqual(DESK_LINE_MAX);
-    expect(power).toContain(DESK_LINE_LINK);
-    expect(power).toContain("2 of 5");
-    expect(hit5).toContain("2 of 5");
-    expect(lotto).toContain("3 of 6");
+    expect(power).toContain("Last night #1 2 of 5 (12 44 + 09)");
+    expect(power).toContain("#2 0 of 5");
+    expect(power).toContain("#3 0 of 5");
+    expect(hit5).toContain("Last night #1 2 of 5 (05 19)");
+    expect(lotto).toContain("Last night #1 3 of 6 (05 19 32)");
     expect(lotto).not.toMatch(/\d of 5/);
+    expect(strip).toBeTruthy();
+    expect(strip!.startsWith("Lotto is 6 whites")).toBe(true);
+    expect(strip).toContain("not 3 of 5");
     expect(html).toContain('class="recap-desk-line"');
     expect(html).toContain(power);
     expect(html).toContain(hit5);
     expect(html).toContain(lotto);
+    expect(html).toContain(strip!);
+    expect(html).toContain('id="desk-line-strip"');
     expect(html).toContain('id="desk-line-powerball"');
     expect(html).toContain('id="desk-line-hit-5"');
     expect(html).toContain('id="desk-line-lotto"');
