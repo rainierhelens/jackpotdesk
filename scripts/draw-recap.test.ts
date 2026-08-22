@@ -14,6 +14,7 @@ import {
   recapDeskLine,
   recapDeskStrip,
   scoreReplay,
+  todayIso,
   type RecapPayload,
 } from "./lib/deskLetter.ts";
 import { recapExtraClass } from "../src/lib/recapPayload.ts";
@@ -448,6 +449,11 @@ describe("recap page", () => {
     }
   });
 
+  it("stamps recap mornings on the America/Los_Angeles calendar", () => {
+    expect(todayIso(new Date("2026-08-22T05:55:15Z"))).toBe("2026-08-21");
+    expect(todayIso(new Date("2026-08-22T12:00:00Z"))).toBe("2026-08-22");
+  });
+
   it("rebuilds /recap from every dated json without deleting older days", () => {
     const dir = mkdtempSync(join(tmpdir(), "recap-log-"));
     try {
@@ -456,6 +462,7 @@ describe("recap page", () => {
       writeRecapPages(FIXTURE, dir);
       expect(existsSync(join(dir, "2026-08-19.json"))).toBe(true);
       expect(existsSync(join(dir, "2026-08-20.json"))).toBe(true);
+      expect(existsSync(join(dir, "2026-08-19/index.html"))).toBe(true);
       expect(existsSync(join(dir, "2026-08-20/index.html"))).toBe(true);
       expect(existsSync(join(dir, "latest.json"))).toBe(true);
       expect(existsSync(join(dir, "log.json"))).toBe(true);
@@ -473,6 +480,10 @@ describe("recap page", () => {
         'rel="canonical" href="https://www.jackpotdesk.com/recap/2026-08-20"',
       );
       expect(permalink).toContain("Official 2026-08-18");
+      const olderPage = readFileSync(join(dir, "2026-08-19/index.html"), "utf8");
+      expect(olderPage).toContain(
+        'rel="canonical" href="https://www.jackpotdesk.com/recap/2026-08-19"',
+      );
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }

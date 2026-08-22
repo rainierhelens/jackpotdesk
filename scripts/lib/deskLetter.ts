@@ -186,8 +186,21 @@ export type RecapPayload = {
   notes: string[];
 };
 
+const PT = "America/Los_Angeles";
+
+/** Recap / digest morning on the Pacific calendar. Not UTC. */
 export function todayIso(now = new Date()): string {
-  return now.toISOString().slice(0, 10);
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: PT,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(now);
+  const year = parts.find((part) => part.type === "year")?.value;
+  const month = parts.find((part) => part.type === "month")?.value;
+  const day = parts.find((part) => part.type === "day")?.value;
+  if (!year || !month || !day) return now.toISOString().slice(0, 10);
+  return `${year}-${month}-${day}`;
 }
 
 export function boardLine(

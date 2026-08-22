@@ -562,18 +562,22 @@ export function writeRecapPages(payload: RecapPayload, dir = RECAP_DIR): string[
     `${JSON.stringify({ days: log.map((day) => day.asOf) })}\n`,
   );
 
-  const archive = formatRecapHtml(
-    payload,
-    {
-      path: `/recap/${payload.asOf}`,
-      kind: "archive",
-    },
-    log,
-  );
-  assertNoEmDash(`/recap/${payload.asOf}`, archive);
-  const archiveFile = join(dir, payload.asOf, "index.html");
-  mkdirSync(dirname(archiveFile), { recursive: true });
-  writeFileSync(archiveFile, archive);
+  const written: string[] = [];
+  for (const day of log) {
+    const archive = formatRecapHtml(
+      day,
+      {
+        path: `/recap/${day.asOf}`,
+        kind: "archive",
+      },
+      log,
+    );
+    assertNoEmDash(`/recap/${day.asOf}`, archive);
+    const archiveFile = join(dir, day.asOf, "index.html");
+    mkdirSync(dirname(archiveFile), { recursive: true });
+    writeFileSync(archiveFile, archive);
+    written.push(archiveFile);
+  }
 
   const latest = formatRecapHtml(
     log[0] ?? payload,
@@ -583,7 +587,7 @@ export function writeRecapPages(payload: RecapPayload, dir = RECAP_DIR): string[
   assertNoEmDash("/recap", latest);
   const latestFile = join(dir, "index.html");
   writeFileSync(latestFile, latest);
-  return [latestFile, archiveFile];
+  return [latestFile, ...written];
 }
 
 async function main(): Promise<void> {
