@@ -15,7 +15,7 @@ More history does not make the next drawing more likely to match the past. It ma
 
 | Dataset | Source limit | Our store | Accumulates? |
 | --- | --- | --- | --- |
-| National official draws | None — NY Open Data has the full modern era | Runtime fetch in [`src/lib/winners.ts`](../src/lib/winners.ts) | Already full (Powerball 2015–, Mega Millions 2017–). Mega Ball shrank to 24 on 2025-04-08; special-ball stats use only in-range extras. |
+| National official draws | None — NY Open Data has the full modern era | Runtime fetch in [`src/lib/winners.ts`](../src/lib/winners.ts) | Already full (Powerball 2015–, Mega Millions 2017–). Mega Ball shrank to 24 on 2025-04-08; special-ball stats use only in-range extras. Recap / digest bake also reads California's latest official board from the same DrawGameApi the jackpot quotes use, and prepends it when NY Open Data is behind. The browser stays on NY (CORS). |
 | National winner counts | CA API ~9 months | [`src/data/winnerCounts.json`](../src/data/winnerCounts.json) | **Yes.** Daily append. |
 | WA winner counts | walottery.com 180 days | [`src/data/waWinnerCounts.json`](../src/data/waWinnerCounts.json) | **Yes.** Daily append. |
 | WA draw numbers | walottery.com 180 days | [`src/data/waDraws.json`](../src/data/waDraws.json) + Worker cache | **Yes.** Scrape merges prior draws; bake also folds the winner-count archive. |
@@ -28,7 +28,7 @@ The Cloudflare Worker is a cache of the accumulating book, not the archive. Perm
 ## Jobs
 
 - [`.github/workflows/popularity.yml`](../.github/workflows/popularity.yml) — daily `45 16 * * *`: scrape national + WA winner counts, refit weights, commit if changed.
-- [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) — on push to `main` and three times daily (`30 5`, `0 12`, `0 16` UTC): `bake:wa`, `bake:map`, `bake:market`, `/recap` page, PUT books to the Worker, Pages build. The 12:00 UTC run is 5:00 a.m. Pacific (PDT) and is the daily public recap publish, all 7 days.
+- [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) — on push to `main` and three times daily (`30 5`, `0 12`, `0 16` UTC): `bake:wa`, `bake:map`, `bake:market`, `/recap` page, persist `public/recap/*.json` so dated mornings survive the next checkout, PUT books to the Worker, Pages build. Recap `asOf` is the America/Los_Angeles calendar, not UTC. The 12:00 UTC run is 5:00 a.m. Pacific (PDT) and is the daily public recap publish, all 7 days.
 - [`.github/workflows/draw-digest.yml`](../.github/workflows/draw-digest.yml) — private operator letter at the same 5:00 a.m. Pacific clock (`0 12 * * *`). Same official data libraries as `/recap`. Not a public list.
 
 ## Popularity model (crowd)
