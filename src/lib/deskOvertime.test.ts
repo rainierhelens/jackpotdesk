@@ -526,3 +526,142 @@ describe("overtime net", () => {
     expect(days7?.games.find((row) => row.game === "hit5")?.net).toBeNull();
   });
 });
+
+function withOfficial(block: OvertimeBlock, officialDate: string): OvertimeBlock {
+  return { ...block, officialDate };
+}
+
+const HIT15: OvertimeBlock = {
+  ...HIT5,
+  officialDate: "2026-08-22",
+  officialWhites: [8, 14, 15, 33, 38],
+  rungs: [
+    { rank: 1, whites: [8, 14, 15, 28, 39], extra: null },
+    { rank: 2, whites: [8, 11, 14, 28, 39], extra: null },
+    { rank: 3, whites: [8, 14, 20, 27, 39], extra: null },
+  ],
+};
+
+function satSlip(asOf: string): OvertimeDay {
+  return day(
+    asOf,
+    [
+      withOfficial(POWER, "2026-08-22"),
+      withOfficial(MEGA, "2026-08-21"),
+    ],
+    [HIT15, withOfficial(LOTTO, "2026-08-22")],
+  );
+}
+
+describe("overtime officialDate once", () => {
+  it("does not double spend or the Hit 5 $15 when two recap days share officialDates", () => {
+    const sat = satSlip("2026-08-22");
+    const sun = satSlip("2026-08-23");
+
+    const satNight = scoreOvertimeNight(sat);
+    expect(satNight.spent).toBe(26);
+    expect(satNight.paid).toBe(15);
+    expect(satNight.net).toBe(-11);
+    expect(satNight.games.find((row) => row.game === "hit5")?.paid).toBe(15);
+
+    const alone = scoreOvertimeNight(sun);
+    expect(alone.spent).toBe(26);
+    expect(alone.paid).toBe(15);
+
+    const desk = scoreOvertimeWindows([sat, sun]);
+    expect(desk.all.mornings).toBe(1);
+    expect(desk.all.spent).toBe(26);
+    expect(desk.all.paid).toBe(15);
+    expect(desk.all.net).toBe(-11);
+    expect(desk.all.games.find((row) => row.game === "hit5")?.paid).toBe(15);
+    expect(desk.all.games.find((row) => row.game === "hit5")?.boards).toBe(3);
+    expect(desk.lastNight?.asOf).toBe("2026-08-22");
+    expect(desk.lastNight?.spent).toBe(26);
+    expect(desk.lastNight?.paid).toBe(15);
+    expect(desk.lastNight?.nightLine).toBe(
+      "Last night · spent $26 · paid $15 · -$11",
+    );
+    expect(desk.lastNight?.asOf).not.toBe("2026-08-23");
+    expect(desk.windows[0]?.to).toBe("2026-08-23");
+    expect(desk.windows[0]?.from).toBe("2026-08-17");
+    expect(desk.windows[0]?.mornings).toBe(1);
+    expect(desk.windows[0]?.spent).toBe(26);
+    expect(desk.windows[0]?.paid).toBe(15);
+    expect(desk.windows[0]?.acrossLine).toBe(
+      `Last 7 days · 1 of 7 mornings · spent $26 · paid $15 · ${OVERTIME_FILLING}`,
+    );
+    expect(desk.all.acrossLine).toBe("All-time · 1 morning · spent $26 · paid $15");
+    copyBanned(desk.all.acrossLine);
+    copyBanned(desk.lastNight?.nightLine ?? "");
+  });
+
+  it("counts a morning only when that asOf day has a newly drawn official board", () => {
+    const thu = day(
+      "2026-08-20",
+      [withOfficial(POWER, "2026-08-17"), withOfficial(MEGA, "2026-08-18")],
+      [withOfficial(HIT5, "2026-08-16"), withOfficial(LOTTO, "2026-08-15")],
+    );
+    const fri = day(
+      "2026-08-21",
+      [withOfficial(POWER, "2026-08-19"), withOfficial(MEGA, "2026-08-20")],
+      [withOfficial(HIT5, "2026-08-20"), withOfficial(LOTTO, "2026-08-19")],
+    );
+    const sat = satSlip("2026-08-22");
+    const sun = satSlip("2026-08-23");
+
+    const satBake = scoreOvertimeWindows([thu, fri, sat]);
+    expect(satBake.all.mornings).toBe(3);
+    expect(satBake.all.spent).toBe(78);
+    expect(satBake.all.paid).toBe(15);
+    expect(satBake.all.net).toBe(-63);
+    expect(satBake.lastNight?.asOf).toBe("2026-08-22");
+    expect(satBake.lastNight?.nightLine).toBe(
+      "Last night · spent $26 · paid $15 · -$11",
+    );
+
+    const live = scoreOvertimeWindows([thu, fri, sat, sun]);
+    expect(live.all.mornings).toBe(3);
+    expect(live.all.spent).toBe(78);
+    expect(live.all.paid).toBe(15);
+    expect(live.all.net).toBe(-63);
+    expect(live.lastNight?.asOf).toBe("2026-08-22");
+    expect(live.lastNight?.spent).toBe(26);
+    expect(live.lastNight?.paid).toBe(15);
+    expect(live.windows.every((window) => window.mornings === 3)).toBe(true);
+    expect(live.windows[0]?.acrossLine).toBe(
+      `Last 7 days · 3 of 7 mornings · spent $78 · paid $15 · ${OVERTIME_FILLING}`,
+    );
+    expect(live.all.acrossLine).toBe("All-time · 3 mornings · spent $78 · paid $15");
+    expect(live.windows[0]?.to).toBe("2026-08-23");
+  });
+
+  it("scores only the newly drawn game when later recap days reuse other officialDates", () => {
+    const sat = satSlip("2026-08-22");
+    const monHit = {
+      ...HIT5,
+      officialDate: "2026-08-23",
+      officialWhites: [1, 2, 3, 4, 5],
+    };
+    const mon = day(
+      "2026-08-24",
+      [
+        withOfficial(POWER, "2026-08-22"),
+        withOfficial(MEGA, "2026-08-21"),
+      ],
+      [monHit, withOfficial(LOTTO, "2026-08-22")],
+    );
+
+    const board = scoreOvertime([sat, mon]);
+    expect(board.mornings).toBe(2);
+    expect(board.spent).toBe(29);
+    expect(board.paid).toBe(15);
+    expect(board.lastNight?.asOf).toBe("2026-08-24");
+    expect(board.lastNight?.spent).toBe(3);
+    expect(board.lastNight?.paid).toBe(0);
+    expect(board.lastNight?.games.map((row) => row.game)).toEqual(["hit5"]);
+    expect(board.games.find((row) => row.game === "hit5")?.spent).toBe(6);
+    expect(board.games.find((row) => row.game === "powerball")?.spent).toBe(6);
+    expect(board.games.find((row) => row.game === "megamillions")?.spent).toBe(15);
+    expect(board.games.find((row) => row.game === "lotto")?.spent).toBe(2);
+  });
+});
