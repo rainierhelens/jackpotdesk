@@ -640,7 +640,6 @@ describe("overtime officialDate once", () => {
     const monHit = {
       ...HIT5,
       officialDate: "2026-08-23",
-      officialWhites: [1, 2, 3, 4, 5],
     };
     const mon = day(
       "2026-08-24",
