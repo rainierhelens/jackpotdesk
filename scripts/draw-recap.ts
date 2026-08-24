@@ -18,6 +18,7 @@ import {
   recapPageHeading,
 } from "../src/lib/recapRoute.ts";
 import {
+  SAME_ODDS_LEAD,
   SITE,
   assertNoEmDash,
   buildRecapPayload,
@@ -517,8 +518,7 @@ function labFooterHtml(archive: boolean): string {
             </div>
           </header>
           <p>
-            Same hit odds as Quick Pick. The Ladder ranks scanned boards against
-            official draw history. This log is last night versus last night's Ladder.
+            ${SAME_ODDS_LEAD} This log is last night versus last night's Ladder.
             Entertainment, not prediction.
           </p>
           <p>
