@@ -350,7 +350,18 @@ describe("recap page", () => {
   });
 
   it("lists more than one day on the index and keeps older heat off the log", () => {
-    const older: RecapPayload = { ...FIXTURE, asOf: "2026-08-19" };
+    const older: RecapPayload = {
+      ...FIXTURE,
+      asOf: "2026-08-19",
+      national: FIXTURE.national.map((block) => ({
+        ...block,
+        officialDate: "2026-08-17",
+      })),
+      washington: FIXTURE.washington.map((block) => ({
+        ...block,
+        officialDate: "2026-08-15",
+      })),
+    };
     const index = formatRecapHtml(
       FIXTURE,
       { path: "/recap", kind: "latest" },
@@ -384,6 +395,32 @@ describe("recap page", () => {
     );
     expect(index).toContain("Ladder vs the house · +$4");
     expect(index).toContain("All-time · 2 mornings · spent $16 · paid $20");
+  });
+
+  it("does not double overtime when a later recap repeats the same officialDates", () => {
+    const repeat: RecapPayload = { ...FIXTURE, asOf: "2026-08-21" };
+    const index = formatRecapHtml(
+      repeat,
+      { path: "/recap", kind: "latest" },
+      [repeat, FIXTURE],
+    );
+    const desk = scoreOvertimeWindows([repeat, FIXTURE]);
+    expect(desk.all.mornings).toBe(1);
+    expect(desk.all.spent).toBe(8);
+    expect(desk.all.paid).toBe(10);
+    expect(desk.lastNight?.asOf).toBe("2026-08-20");
+    expect(desk.lastNight?.spent).toBe(8);
+    expect(desk.lastNight?.paid).toBe(10);
+    expect(index).toContain(
+      `Last 7 days · 1 of 7 mornings · spent $8 · paid $10 · ${OVERTIME_FILLING}`,
+    );
+    expect(index).toContain("All-time · 1 morning · spent $8 · paid $10");
+    expect(index).toContain(
+      "Last night · Thursday, Aug 20, 2026 · spent $8 · paid $10 · +$2",
+    );
+    expect(index).not.toContain(
+      "Last night · Friday, Aug 21, 2026 · spent $8 · paid $10",
+    );
   });
 
   it("places an overtime scoreboard above the newest-first log", () => {

@@ -401,6 +401,25 @@ function flagsFor(paid: number, credit: number, spent: number, jackpotUnknown: b
   };
 }
 
+function blockOfficialDate(block: OvertimeBlock): string | null {
+  return isRecapIso(block.officialDate) ? block.officialDate : null;
+}
+
+function overtimeBlocks(day: OvertimeDay): OvertimeBlock[] {
+  return [...day.washington, ...day.national];
+}
+
+function sortGameRows(rows: OvertimeGameRow[]): OvertimeGameRow[] {
+  return rows.sort(
+    (a, b) => OVERTIME_GAMES.indexOf(a.game) - OVERTIME_GAMES.indexOf(b.game),
+  );
+}
+
+/** A recap morning counts only when it has a newly drawn official board. */
+export function isOvertimeSlip(night: OvertimeNight): boolean {
+  return night.games.length > 0;
+}
+
 function scoreBlock(block: OvertimeBlock): OvertimeGameRow | null {
   const game = deskGameId(block);
   if (!game || !OVERTIME_GAMES.includes(game)) return null;
@@ -452,35 +471,49 @@ function scoreBlock(block: OvertimeBlock): OvertimeGameRow | null {
 }
 
 function scoredNights(log: OvertimeDay[]): OvertimeNight[] {
+  const seen = new Map<DeskGameId, Set<string>>();
   return log
     .map((day) => ({ day, asOf: overtimeDayIso(day) }))
     .filter((entry) => isRecapIso(entry.asOf))
-    .sort((a, b) => (a.asOf < b.asOf ? 1 : a.asOf > b.asOf ? -1 : 0))
+    .sort((a, b) => (a.asOf < b.asOf ? -1 : a.asOf > b.asOf ? 1 : 0))
     .map((entry) => {
-      const games = [...entry.day.washington, ...entry.day.national]
-        .map(scoreBlock)
-        .filter((row): row is OvertimeGameRow => row != null)
-        .sort(
-          (a, b) =>
-            OVERTIME_GAMES.indexOf(a.game) - OVERTIME_GAMES.indexOf(b.game),
-        );
-      return finishNight(entry.asOf, games);
-    });
+      const games: OvertimeGameRow[] = [];
+      for (const block of overtimeBlocks(entry.day)) {
+        const game = deskGameId(block);
+        if (!game || !OVERTIME_GAMES.includes(game)) continue;
+        const official = blockOfficialDate(block);
+        if (official) {
+          const prior = seen.get(game) ?? new Set<string>();
+          if (prior.has(official)) continue;
+          prior.add(official);
+          seen.set(game, prior);
+        }
+        const row = scoreBlock(block);
+        if (row) games.push(row);
+      }
+      return finishNight(entry.asOf, sortGameRows(games));
+    })
+    .sort((a, b) => (a.asOf < b.asOf ? 1 : a.asOf > b.asOf ? -1 : 0));
+}
+
+function slipNights(nights: OvertimeNight[]): OvertimeNight[] {
+  return nights.filter(isOvertimeSlip);
 }
 
 function boardFromNights(
   nights: OvertimeNight[],
   opts: { label?: string; target?: number } = {},
 ): OvertimeBoard {
-  const games = mergeGameRows(nights.flatMap((night) => night.games));
+  const slips = slipNights(nights);
+  const games = mergeGameRows(slips.flatMap((night) => night.games));
   const spent = games.reduce((sum, row) => sum + row.spent, 0);
   const paid = games.reduce((sum, row) => sum + row.paid, 0);
   const credit = games.reduce((sum, row) => sum + row.credit, 0);
   const jackpotUnknown = games.some((row) => row.jackpotUnknown);
   const flags = flagsFor(paid, credit, spent, jackpotUnknown);
   const score = overtimeScore(paid, spent, jackpotUnknown);
-  const mornings = nights.length;
-  const lastNight = nights[0] ?? null;
+  const mornings = slips.length;
+  const lastNight = slips[0] ?? null;
   const filling = Boolean(opts.target && mornings < opts.target);
   return {
     mornings,
@@ -578,10 +611,14 @@ export function scoreOvertimeWindow(
   const nights = scoredNights(log).filter((night) =>
     inOvertimeWindow(night.asOf, range),
   );
+  const board = boardFromNights(nights, {
+    label: range.label,
+    target: range.target,
+  });
   return {
-    ...boardFromNights(nights, { label: range.label, target: range.target }),
+    ...board,
     ...range,
-    filling: nights.length < range.target,
+    filling: board.mornings < range.target,
   };
 }
 
@@ -593,7 +630,7 @@ export function scoreOvertimeWindows(log: OvertimeDay[]): OvertimeDesk {
     return { lastNight: null, windows: [], all };
   }
   return {
-    lastNight: nights[0] ?? null,
+    lastNight: all.lastNight,
     windows: (["days7", "month", "quarter"] as const).map((id) =>
       scoreOvertimeWindow(log, overtimeWindowRange(id, anchor)),
     ),
