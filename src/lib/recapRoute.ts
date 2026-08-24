@@ -38,3 +38,42 @@ export function formatRecapHeading(iso: string): string {
     timeZone: "America/Los_Angeles",
   }).format(date);
 }
+
+/** Document title for /recap and /recap/YYYY-MM-DD. */
+export function recapDocumentTitle(iso: string): string {
+  return `Recap · ${formatRecapHeading(iso)} | JackpotDesk`;
+}
+
+/** Visible H1. Latest names the ritual; archives name the morning. */
+export function recapPageHeading(
+  kind: "latest" | "archive",
+  iso: string,
+): string {
+  return kind === "archive"
+    ? `Recap · ${formatRecapHeading(iso)}`
+    : "Last night vs the Ladder";
+}
+
+export function recapGameLabels(payload: {
+  national: { label: string }[];
+  washington: { label: string }[];
+}): string[] {
+  return [...payload.national, ...payload.washington]
+    .map((block) => block.label.trim())
+    .filter(Boolean);
+}
+
+export function joinRecapGames(labels: string[]): string {
+  const names = labels.map((label) => label.trim()).filter(Boolean);
+  if (names.length === 0) return "official games";
+  if (names.length === 1) return names[0]!;
+  if (names.length === 2) return `${names[0]} and ${names[1]}`;
+  return `${names.slice(0, -1).join(", ")}, and ${names[names.length - 1]}`;
+}
+
+/** Day-specific crawl text. Names the games, not official boards. */
+export function recapMetaDescription(iso: string, labels: string[]): string {
+  const heading = formatRecapHeading(iso);
+  const games = joinRecapGames(labels);
+  return `${heading}: last night's ${games} versus last night's Ladder #1 to #3. Entertainment, not prediction. Same hit odds as Quick Pick.`;
+}

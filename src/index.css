@@ -694,6 +694,17 @@ main {
   max-width: 100%;
 }
 
+.recap-page-head {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.recap-page-head h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 4.2vw, 2.35rem);
+  line-height: 1.08;
+}
+
 .desk-page {
   min-width: 0;
   max-width: 100%;

@@ -91,7 +91,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add public/recap/*.json
+          git add public/recap/*.json public/sitemap.xml
           if git diff --cached --quiet; then
             echo "Recap archive unchanged."
             exit 0

@@ -317,13 +317,15 @@ export default function App() {
     window.location.reload();
   }
 
+  const BrandMark = tab === "recap" ? "p" : "h1";
+
   return (
     <div className="shell">
       <div className={tab === "board" ? "chrome is-desk" : "chrome"}>
       <header className="masthead">
         <div className="masthead-row">
           <div className="masthead-brand">
-            <h1 className="brand">
+            <BrandMark className="brand">
               <a
                 className="brand-home"
                 href="/"
@@ -339,7 +341,7 @@ export default function App() {
                 />
                 <span className="brand-name">JackpotDesk</span>
               </a>
-            </h1>
+            </BrandMark>
             <p className="tag">
               The Ladder ranks every scanned board against measured history.
               Same hit odds as Quick Pick.
