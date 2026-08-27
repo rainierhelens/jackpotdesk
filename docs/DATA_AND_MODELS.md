@@ -15,10 +15,10 @@ More history does not make the next drawing more likely to match the past. It ma
 
 | Dataset | Source limit | Our store | Accumulates? |
 | --- | --- | --- | --- |
-| National official draws | None — NY Open Data has the full modern era | Runtime fetch in [`src/lib/winners.ts`](../src/lib/winners.ts) | Already full (Powerball 2015–, Mega Millions 2017–). Mega Ball shrank to 24 on 2025-04-08; special-ball stats use only in-range extras. Recap / digest bake also reads California's latest official board from the same DrawGameApi the jackpot quotes use, and prepends it when NY Open Data is behind. The browser stays on NY (CORS). |
+| National official draws | None — NY Open Data has the full modern era | Runtime fetch in [`src/lib/winners.ts`](../src/lib/winners.ts) | Already full (Powerball 2015–, Mega Millions 2017–). Mega Ball shrank to 24 on 2025-04-08; special-ball stats use only in-range extras. Recap / digest bake prepends California's latest official board, then Washington's game-page Latest Draw, when NY Open Data is behind. The browser stays on NY (CORS). |
 | National winner counts | CA API ~9 months | [`src/data/winnerCounts.json`](../src/data/winnerCounts.json) | **Yes.** Daily append. |
 | WA winner counts | walottery.com 180 days | [`src/data/waWinnerCounts.json`](../src/data/waWinnerCounts.json) | **Yes.** Daily append. |
-| WA draw numbers | walottery.com 180 days | [`src/data/waDraws.json`](../src/data/waDraws.json) + Worker cache | **Yes.** Scrape merges prior draws; bake also folds the winner-count archive. |
+| WA draw numbers | walottery.com 180 days | [`src/data/waDraws.json`](../src/data/waDraws.json) + Worker cache | **Yes.** Scrape merges prior draws and the Hit 5 / Lotto game-page Latest Draw when past drawings lag; bake also folds the winner-count archive. Recap reads that live Latest Draw itself so a failed `bake:wa` cannot ship Monday/Tuesday officialDates the morning after a Mon/Wed/Sat draw. |
 | Fitted crowd weights | n/a | [`src/data/popularity.json`](../src/data/popularity.json) | Re-fit from the full archive after each append. |
 | Pattern model | n/a | Built in the browser from the draw list | Grows as the draw list grows. No separate bake. |
 | National advertised jackpots | California Lottery (CORS blocks the browser) | [`src/data/marketQuotes.json`](../src/data/marketQuotes.json) + Worker `/market` | Refreshed on each Pages bake. Not a history. |
@@ -28,7 +28,7 @@ The Cloudflare Worker is a cache of the accumulating book, not the archive. Perm
 ## Jobs
 
 - [`.github/workflows/popularity.yml`](../.github/workflows/popularity.yml) — daily `45 16 * * *`: scrape national + WA winner counts, refit weights, commit if changed.
-- [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) — on push to `main` and three times daily (`30 5`, `0 12`, `0 16` UTC): `bake:wa`, `bake:map`, `bake:market`, `/recap` page, persist `public/recap/*.json` so dated mornings survive the next checkout, PUT books to the Worker, Pages build. Recap `asOf` is the America/Los_Angeles calendar, not UTC. The 12:00 UTC run is 5:00 a.m. Pacific (PDT) and is the daily public recap publish, all 7 days.
+- [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) — on push to `main` and three times daily (`30 5`, `0 12`, `0 16` UTC): `bake:wa`, `bake:map`, `bake:market`, `/recap` page, persist `public/recap/*.json` so dated mornings survive the next checkout, PUT books to the Worker, Pages build. Recap `asOf` is last night on the America/Los_Angeles calendar until 9:00 p.m. PT (so 5:00 a.m. does not stamp tonight before the 8 p.m. draws). After 9:00 p.m. PT it is tonight. The bake refuses to persist that night when last night's officialDate is still missing after the CA / WA fallbacks. The 12:00 UTC run is 5:00 a.m. Pacific (PDT) and is the daily public recap publish, all 7 days.
 - [`.github/workflows/draw-digest.yml`](../.github/workflows/draw-digest.yml) — private operator letter at the same 5:00 a.m. Pacific clock (`0 12 * * *`). Same official data libraries as `/recap`. Not a public list.
 
 ## Popularity model (crowd)

@@ -32,6 +32,89 @@ function isoDate(label) {
   return new Date(Date.UTC(+m[3], MONTHS[m[1]], +m[2])).toISOString().slice(0, 10);
 }
 
+const SHORT_MONTHS = {
+  JAN: 1,
+  FEB: 2,
+  MAR: 3,
+  APR: 4,
+  MAY: 5,
+  JUN: 6,
+  JUL: 7,
+  AUG: 8,
+  SEP: 9,
+  OCT: 10,
+  NOV: 11,
+  DEC: 12,
+};
+
+function ptToday(now = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Los_Angeles",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(now);
+  const year = parts.find((part) => part.type === "year")?.value;
+  const month = parts.find((part) => part.type === "month")?.value;
+  const day = parts.find((part) => part.type === "day")?.value;
+  if (!year || !month || !day) return now.toISOString().slice(0, 10);
+  return `${year}-${month}-${day}`;
+}
+
+/** `WED/AUG 26` from a Washington game-page Latest Draw label. */
+export function parseWaLatestLabel(label, now = new Date()) {
+  const m = String(label)
+    .trim()
+    .match(/^([A-Z]{3})\/([A-Z]{3})\s+(\d{1,2})(?:,\s*(\d{4}))?$/i);
+  if (!m) return null;
+  const month = SHORT_MONTHS[m[2].toUpperCase()];
+  if (!month) return null;
+  const day = Number(m[3]);
+  if (!Number.isInteger(day) || day < 1 || day > 31) return null;
+  const today = ptToday(now);
+  const year = m[4] ? Number(m[4]) : Number(today.slice(0, 4));
+  const iso = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+  if (!m[4] && iso > today) {
+    return `${year - 1}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+  }
+  return iso;
+}
+
+/** Latest board on Hit 5 / Lotto / Powerball game pages. Past drawings can lag. */
+export function parseWaGameLatest(html, whiteCount, extra = false) {
+  const label = String(html).match(/Latest Draw:\s*<strong>([^<]+)<\/strong>/i)?.[1];
+  const date = parseWaLatestLabel(label);
+  if (!date) return null;
+  const chunk = extra
+    ? String(html).match(/game-balls_powerball[\s\S]*?<ul>([\s\S]*?)<\/ul>/)?.[1]
+    : String(html).match(/<div class="game-balls">\s*<ul>([\s\S]*?)<\/ul>/)?.[1];
+  const numbers = [...String(chunk ?? "").matchAll(/<li[^>]*>(\d+)<\/li>/g)].map(
+    (row) => Number(row[1]),
+  );
+  const need = extra ? whiteCount + 1 : whiteCount;
+  if (numbers.length < need) return null;
+  return { date, numbers: numbers.slice(0, need) };
+}
+
+const WA_JACKPOT_PAGES = {
+  hit5: ["https://walottery.com/JackpotGames/Hit5.aspx", 5],
+  lotto: ["https://walottery.com/JackpotGames/Lotto.aspx", 6],
+};
+
+/** Live Latest Draw from the jackpot game pages. */
+export async function fetchWaJackpotLatest() {
+  const out = { hit5: null, lotto: null };
+  for (const [id, [url, whiteCount]] of Object.entries(WA_JACKPOT_PAGES)) {
+    try {
+      const html = await fetchHtml(url);
+      out[id] = parseWaGameLatest(html, whiteCount);
+    } catch {
+      out[id] = null;
+    }
+  }
+  return out;
+}
+
 function drawKey(row) {
   return `${row.date}|${row.numbers.join(",")}`;
 }
@@ -112,17 +195,28 @@ export async function scrapeWaLottery(previous = {}) {
   const draws = {};
   for (const [id, slug] of WA_GAMES) {
     const url = `https://walottery.com/winningnumbers/pastdrawings.aspx?gamename=${slug}&unittype=day&unitcount=180`;
-    const html = await fetchHtml(url);
-    const fresh = parseDraws(html);
-    if (fresh.length < 10) {
-      throw new Error(`${id}: expected at least 10 drawings, got ${fresh.length}`);
+    try {
+      const html = await fetchHtml(url);
+      const fresh = parseDraws(html);
+      if (fresh.length < 10) {
+        throw new Error(`${id}: expected at least 10 drawings, got ${fresh.length}`);
+      }
+      // walottery.com only serves 180 days. Keep every draw we have already seen.
+      draws[id] = mergeDraws(fresh, prevDraws[id] ?? []);
+    } catch (err) {
+      if (!Array.isArray(prevDraws[id]) || prevDraws[id].length < 10) {
+        throw err;
+      }
+      draws[id] = mergeDraws([], prevDraws[id]);
     }
-    // walottery.com only serves 180 days. Keep every draw we have already seen.
-    draws[id] = mergeDraws(fresh, prevDraws[id] ?? []);
   }
 
   const hit5Html = await fetchHtml("https://walottery.com/JackpotGames/Hit5.aspx");
   const lottoHtml = await fetchHtml("https://walottery.com/JackpotGames/Lotto.aspx");
+  const hit5Latest = parseWaGameLatest(hit5Html, 5);
+  const lottoLatest = parseWaGameLatest(lottoHtml, 6);
+  if (hit5Latest) draws.hit5 = mergeDraws([hit5Latest], draws.hit5 ?? []);
+  if (lottoLatest) draws.lotto = mergeDraws([lottoLatest], draws.lotto ?? []);
 
   const payload = {
     asOf: new Date().toISOString().slice(0, 10),
