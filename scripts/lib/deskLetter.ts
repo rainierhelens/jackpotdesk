@@ -25,6 +25,7 @@ import { GAMES } from "../../src/lib/prizes.ts";
 import { fetchOfficialDraws, type OfficialDraw } from "../../src/lib/winners.ts";
 import { WA_GAMES } from "../../src/lib/waGames.ts";
 import type { GameId, WaGameId } from "../../src/types.ts";
+import { fetchWaJackpotLatest, mergeDraws } from "../wa-lottery.mjs";
 import { heatBookFromDraws, waHeatSpec } from "../../src/lib/lotteryHeat.ts";
 import {
   deskLine,
@@ -203,6 +204,77 @@ export function todayIso(now = new Date()): string {
   return `${year}-${month}-${day}`;
 }
 
+export function shiftIso(iso: string, days: number): string {
+  const [year, month, day] = iso.split("-").map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day + days, 12));
+  return date.toISOString().slice(0, 10);
+}
+
+/** After 9 p.m. PT the current calendar night is the recap night. */
+export const RECAP_NIGHT_ROLL_HOUR = 21;
+
+/**
+ * Night the public recap is scoring. 5:00 a.m. Pacific is still last night.
+ * 10:30 p.m. Pacific (after the 8 p.m. draws) is tonight.
+ */
+export function recapNightIso(now = new Date()): string {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: PT,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(now);
+  const year = parts.find((part) => part.type === "year")?.value;
+  const month = parts.find((part) => part.type === "month")?.value;
+  const day = parts.find((part) => part.type === "day")?.value;
+  const hour = Number(parts.find((part) => part.type === "hour")?.value ?? "0");
+  if (!year || !month || !day) return todayIso(now);
+  const today = `${year}-${month}-${day}`;
+  return hour >= RECAP_NIGHT_ROLL_HOUR ? today : shiftIso(today, -1);
+}
+
+export const DRAW_WEEKDAYS = {
+  powerball: [1, 3, 6],
+  megamillions: [2, 5],
+  lotto: [1, 3, 6],
+  hit5: null,
+} as const;
+
+export function weekdayUtc(iso: string): number {
+  const [year, month, day] = iso.split("-").map(Number);
+  return new Date(Date.UTC(year, month - 1, day, 12)).getUTCDay();
+}
+
+export function lastScheduledDrawOnOrBefore(
+  iso: string,
+  weekdays: readonly number[],
+): string {
+  let cursor = iso;
+  for (let i = 0; i < 8; i += 1) {
+    if (weekdays.includes(weekdayUtc(cursor))) return cursor;
+    cursor = shiftIso(cursor, -1);
+  }
+  return iso;
+}
+
+export function expectedOfficialDate(
+  asOf: string,
+  weekdays: readonly number[] | null,
+): string {
+  if (!weekdays) return asOf;
+  return lastScheduledDrawOnOrBefore(asOf, weekdays);
+}
+
+export function officialCaughtUp(
+  officialDate: string,
+  asOf: string,
+  weekdays: readonly number[] | null,
+): boolean {
+  return officialDate >= expectedOfficialDate(asOf, weekdays);
+}
+
 export function boardLine(
   numbers: number[],
   extra: number | null,
@@ -323,6 +395,24 @@ export function loadWaBook(): WaBook {
   return JSON.parse(
     readFileSync(join(ROOT, "src/data/waDraws.json"), "utf8"),
   ) as WaBook;
+}
+
+/** Baked book plus the game-page Latest Draw when past drawings lag. */
+export async function waBookForRecap(): Promise<WaBook> {
+  const book = loadWaBook();
+  book.draws = book.draws ?? {};
+  try {
+    const live = await fetchWaJackpotLatest();
+    if (live.hit5) {
+      book.draws.hit5 = mergeDraws([live.hit5], book.draws.hit5 ?? []);
+    }
+    if (live.lotto) {
+      book.draws.lotto = mergeDraws([live.lotto], book.draws.lotto ?? []);
+    }
+  } catch {
+    // Baked book stands when Washington game pages are down.
+  }
+  return book;
 }
 
 export function waWhen(id: WaGameId): string {
@@ -559,7 +649,7 @@ export async function buildDigestPayload(): Promise<DigestPayload> {
   }
   const washington: WaBlock[] = [];
   try {
-    const book = loadWaBook();
+    const book = await waBookForRecap();
     for (const id of ["hit5", "lotto"] as const) {
       try {
         washington.push(waBlock(book, id));
@@ -577,12 +667,30 @@ export async function buildDigestPayload(): Promise<DigestPayload> {
   return { asOf: todayIso(), national, washington, notes };
 }
 
+function recapStaleLine(
+  label: string,
+  officialDate: string,
+  asOf: string,
+  weekdays: readonly number[] | null,
+): string {
+  const expected = expectedOfficialDate(asOf, weekdays);
+  return `${label} officialDate ${officialDate} (need ${expected} for ${asOf})`;
+}
+
 export async function buildRecapPayload(): Promise<RecapPayload> {
+  const asOf = recapNightIso();
   const notes: string[] = [];
+  const stale: string[] = [];
   const national: RecapNational[] = [];
   for (const game of ["powerball", "megamillions"] as const) {
     try {
-      national.push(await recapNational(game));
+      const block = await recapNational(game);
+      if (!officialCaughtUp(block.officialDate, asOf, DRAW_WEEKDAYS[game])) {
+        stale.push(
+          recapStaleLine(block.label, block.officialDate, asOf, DRAW_WEEKDAYS[game]),
+        );
+      }
+      national.push(block);
     } catch (err) {
       notes.push(
         `${GAMES[game].label} replay failed: ${err instanceof Error ? err.message : String(err)}`,
@@ -591,10 +699,16 @@ export async function buildRecapPayload(): Promise<RecapPayload> {
   }
   const washington: RecapWashington[] = [];
   try {
-    const book = loadWaBook();
+    const book = await waBookForRecap();
     for (const id of ["hit5", "lotto"] as const) {
       try {
-        washington.push(recapWashington(book, id));
+        const block = recapWashington(book, id);
+        if (!officialCaughtUp(block.officialDate, asOf, DRAW_WEEKDAYS[id])) {
+          stale.push(
+            recapStaleLine(block.label, block.officialDate, asOf, DRAW_WEEKDAYS[id]),
+          );
+        }
+        washington.push(block);
       } catch (err) {
         notes.push(
           `${WA_GAMES[id].label} replay failed: ${err instanceof Error ? err.message : String(err)}`,
@@ -606,12 +720,17 @@ export async function buildRecapPayload(): Promise<RecapPayload> {
       `Washington book failed: ${err instanceof Error ? err.message : String(err)}`,
     );
   }
+  if (stale.length) {
+    throw new Error(
+      `Recap refused to publish a ${asOf} night with stale officialDates: ${stale.join("; ")}`,
+    );
+  }
   if (national.length + washington.length === 0) {
     throw new Error(
       `Recap had no official games to publish. ${notes.join(" ")}`.trim(),
     );
   }
-  return { asOf: todayIso(), national, washington, notes };
+  return { asOf, national, washington, notes };
 }
 
 export function escapeHtml(raw: string): string {

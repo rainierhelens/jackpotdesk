@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import {
   officialDrawFrom,
   parseCaLatestDraw,
+  parseWaBoardDate,
+  parseWaLatestDraw,
   withNewerOfficial,
 } from "./winners.ts";
 
@@ -42,6 +44,52 @@ describe("parseCaLatestDraw", () => {
       date: "2026-08-21",
       whites: [1, 25, 34, 48, 57],
       extra: 24,
+    });
+  });
+});
+
+describe("parseWaLatestDraw", () => {
+  const now = new Date("2026-08-27T12:30:00Z");
+
+  it("reads WED/AUG 26 as the current Pacific year", () => {
+    expect(parseWaBoardDate("WED/AUG 26", now)).toBe("2026-08-26");
+  });
+
+  it("reads Washington Powerball when NY and CA still lag", () => {
+    const html = `
+      <p class="powerball-latest-draw">Latest Draw: <strong>WED/AUG 26</strong></p>
+      <div class="game-balls game-balls_powerball">
+        <ul>
+          <li>12</li><li>32</li><li>45</li><li>50</li><li>58</li>
+          <li class="game-ball-powerball">02</li>
+        </ul>
+      </div>
+      <div class="game-balls game-balls_double-play">
+        <ul>
+          <li>06</li><li>11</li><li>15</li><li>32</li><li>58</li>
+          <li class="game-ball-powerball">18</li>
+        </ul>
+      </div>`;
+    expect(parseWaLatestDraw("powerball", html, now)).toEqual({
+      date: "2026-08-26",
+      whites: [12, 32, 45, 50, 58],
+      extra: 2,
+    });
+  });
+
+  it("reads Washington Mega Millions from the first game-balls list", () => {
+    const html = `
+      <p>Latest Draw: <strong>TUE/AUG 25</strong></p>
+      <div class="game-balls">
+        <ul>
+          <li>07</li><li>10</li><li>47</li><li>48</li><li>50</li>
+          <li class="game-ball-megamillions">14</li>
+        </ul>
+      </div>`;
+    expect(parseWaLatestDraw("megamillions", html, now)).toEqual({
+      date: "2026-08-25",
+      whites: [7, 10, 47, 48, 50],
+      extra: 14,
     });
   });
 });

@@ -15,6 +15,8 @@ import {
   recapDeskStrip,
   scoreReplay,
   todayIso,
+  officialCaughtUp,
+  recapNightIso,
   type RecapPayload,
 } from "./lib/deskLetter.ts";
 import { recapExtraClass } from "../src/lib/recapPayload.ts";
@@ -489,6 +491,21 @@ describe("recap page", () => {
   it("stamps recap mornings on the America/Los_Angeles calendar", () => {
     expect(todayIso(new Date("2026-08-22T05:55:15Z"))).toBe("2026-08-21");
     expect(todayIso(new Date("2026-08-22T12:00:00Z"))).toBe("2026-08-22");
+  });
+
+  it("dates the recap as last night until 9 p.m. Pacific", () => {
+    expect(recapNightIso(new Date("2026-08-22T05:55:15Z"))).toBe("2026-08-21");
+    expect(recapNightIso(new Date("2026-08-22T12:00:00Z"))).toBe("2026-08-21");
+    expect(recapNightIso(new Date("2026-08-27T12:00:00Z"))).toBe("2026-08-26");
+    expect(recapNightIso(new Date("2026-08-27T05:30:00Z"))).toBe("2026-08-26");
+  });
+
+  it("refuses a Wednesday-dated recap that still has Monday officialDates", () => {
+    expect(officialCaughtUp("2026-08-24", "2026-08-26", [1, 3, 6])).toBe(false);
+    expect(officialCaughtUp("2026-08-26", "2026-08-26", [1, 3, 6])).toBe(true);
+    expect(officialCaughtUp("2026-08-25", "2026-08-26", [2, 5])).toBe(true);
+    expect(officialCaughtUp("2026-08-25", "2026-08-26", null)).toBe(false);
+    expect(officialCaughtUp("2026-08-26", "2026-08-26", null)).toBe(true);
   });
 
   it("rebuilds /recap from every dated json without deleting older days", () => {
