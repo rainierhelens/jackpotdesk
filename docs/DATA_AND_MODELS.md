@@ -28,7 +28,7 @@ The Cloudflare Worker is a cache of the accumulating book, not the archive. Perm
 ## Jobs
 
 - [`.github/workflows/popularity.yml`](../.github/workflows/popularity.yml) — daily `45 16 * * *`: scrape national + WA winner counts, refit weights, commit if changed.
-- [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) — on push to `main` and three times daily (`30 5`, `0 12`, `0 16` UTC): `bake:wa`, `bake:map`, `bake:market`, `/recap` page, persist `public/recap/*.json` so dated mornings survive the next checkout, PUT books to the Worker, Pages build. Recap `asOf` is the America/Los_Angeles calendar, not UTC. The 12:00 UTC run is 5:00 a.m. Pacific (PDT) and is the daily public recap publish, all 7 days.
+- [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) — on push to `main` and three times daily (`30 5`, `0 12`, `0 16` UTC): `bake:wa`, `bake:map`, `bake:market`, `/recap` page, persist `public/recap/*.json` and `public/sitemap.xml` so dated mornings and crawl lastmods survive the next checkout, PUT books to the Worker, Pages build. Recap `asOf` is the America/Los_Angeles calendar, not UTC. The 12:00 UTC run is 5:00 a.m. Pacific (PDT) and is the daily public recap publish, all 7 days. The recap bake rewrites `public/sitemap.xml` so `/`, `/recap`, and every `/recap/YYYY-MM-DD` stay current.
 - [`.github/workflows/draw-digest.yml`](../.github/workflows/draw-digest.yml) — private operator letter at the same 5:00 a.m. Pacific clock (`0 12 * * *`). Same official data libraries as `/recap`. Not a public list.
 
 ## Popularity model (crowd)

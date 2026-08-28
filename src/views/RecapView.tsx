@@ -17,8 +17,10 @@ import {
 import {
   formatRecapHeading,
   recapDayIso,
+  recapDocumentTitle,
   recapJsonSrc,
   recapLogSrc,
+  recapPageHeading,
 } from "../lib/recapRoute";
 import {
   OVERTIME_NOTE,
@@ -595,40 +597,53 @@ export function RecapView({ pathname }: { pathname: string }) {
     };
   }, [pathname]);
 
+  const dated = recapDayIso(pathname);
+  const headingAsOf = dated ?? log?.[0]?.asOf ?? "";
+
+  useEffect(() => {
+    if (!headingAsOf) return;
+    const previous = document.title;
+    document.title = recapDocumentTitle(headingAsOf);
+    return () => {
+      document.title = previous;
+    };
+  }, [headingAsOf]);
+
+  const pageHead = (
+    <header className="recap-page-head">
+      <p className="kicker">Night desk</p>
+      <h1>{recapPageHeading(dated ? "archive" : "latest", headingAsOf)}</h1>
+    </header>
+  );
+
   if (error) {
     return (
-      <section className="panel desk-page">
-        <header className="panel-head">
-          <div>
-            <p className="kicker">Night desk</p>
-            <h2>Recap</h2>
-          </div>
-        </header>
-        <p className="desk-status is-err">{error}</p>
-      </section>
+      <div className="recap-main">
+        {pageHead}
+        <section className="panel desk-page">
+          <p className="desk-status is-err">{error}</p>
+        </section>
+      </div>
     );
   }
 
   if (!log) {
     return (
-      <section className="panel desk-page">
-        <header className="panel-head">
-          <div>
-            <p className="kicker">Night desk</p>
-            <h2>Recap</h2>
-          </div>
-        </header>
-        <p className="fine">Loading last night's boards…</p>
-      </section>
+      <div className="recap-main">
+        {pageHead}
+        <section className="panel desk-page">
+          <p className="fine">Loading last night's boards…</p>
+        </section>
+      </div>
     );
   }
 
-  const dated = recapDayIso(pathname);
   const scoreLog = dated ? log.filter((day) => day.asOf <= dated) : log;
   const showLog = dated ? log.filter((day) => day.asOf === dated) : log;
 
   return (
     <div className="recap-main">
+      {pageHead}
       <OvertimePanel log={scoreLog} />
       {showLog.map((day, index) => (
         <DayArticle

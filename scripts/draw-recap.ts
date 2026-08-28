@@ -1,14 +1,22 @@
 /**
  * Public daily recap. Writes today's dated HTML + JSON, then rebuilds
  * /recap as a newest-first log of every public/recap/YYYY-MM-DD.json.
- * Does not delete older days. No query-string route. No tonight #1.
+ * Rewrites public/sitemap.xml so home, /recap, and every dated archive
+ * lastmod follow the newest morning. Does not delete older days.
+ * No query-string route. No tonight #1.
  *
  *   npm run recap
  */
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { formatRecapHeading } from "../src/lib/recapRoute.ts";
+import {
+  formatRecapHeading,
+  recapDocumentTitle,
+  recapGameLabels,
+  recapMetaDescription,
+  recapPageHeading,
+} from "../src/lib/recapRoute.ts";
 import {
   SAME_ODDS_LEAD,
   SITE,
@@ -42,6 +50,9 @@ import {
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const RECAP_DIR = join(ROOT, "public", "recap");
+const SITEMAP_FILE = join(ROOT, "public", "sitemap.xml");
+const SITE_HOME = `${SITE}/`;
+const SITE_RECAP = `${SITE}/recap`;
 
 export type RecapPage = {
   path: string;
@@ -374,6 +385,99 @@ function overtimeBoardHtml(windows: OvertimeWindow[]): string {
     </div>`;
 }
 
+type SitemapUrl = {
+  loc: string;
+  lastmod?: string;
+  changefreq?: string;
+  priority?: string;
+};
+
+function parseSitemapUrls(xml: string): SitemapUrl[] {
+  return (xml.match(/<url>[\s\S]*?<\/url>/g) ?? [])
+    .map((block) => {
+      const loc = block.match(/<loc>([^<]+)<\/loc>/)?.[1]?.trim();
+      if (!loc) return null;
+      return {
+        loc,
+        lastmod: block.match(/<lastmod>([^<]+)<\/lastmod>/)?.[1]?.trim(),
+        changefreq: block.match(/<changefreq>([^<]+)<\/changefreq>/)?.[1]?.trim(),
+        priority: block.match(/<priority>([^<]+)<\/priority>/)?.[1]?.trim(),
+      } satisfies SitemapUrl;
+    })
+    .filter((entry): entry is SitemapUrl => entry != null);
+}
+
+function sitemapUrlXml(entry: SitemapUrl): string {
+  const lines = [`    <loc>${entry.loc}</loc>`];
+  if (entry.lastmod) lines.push(`    <lastmod>${entry.lastmod}</lastmod>`);
+  if (entry.changefreq) {
+    lines.push(`    <changefreq>${entry.changefreq}</changefreq>`);
+  }
+  if (entry.priority) lines.push(`    <priority>${entry.priority}</priority>`);
+  return `  <url>\n${lines.join("\n")}\n  </url>`;
+}
+
+function isRecapArchiveLoc(loc: string): boolean {
+  if (!loc.startsWith(`${SITE_RECAP}/`)) return false;
+  return /^\d{4}-\d{2}-\d{2}$/.test(loc.slice(SITE_RECAP.length + 1));
+}
+
+/** Home + /recap lastmod follow the newest recap morning. Lists every dated archive. */
+export function formatRecapSitemap(
+  days: string[],
+  existingXml = "",
+): string {
+  const newest = days[0];
+  const existing = existingXml ? parseSitemapUrls(existingXml) : [];
+  const keep = existing.filter(
+    (entry) => entry.loc !== SITE_RECAP && !isRecapArchiveLoc(entry.loc),
+  );
+  const home = keep.find((entry) => entry.loc === SITE_HOME);
+  if (home && newest) home.lastmod = newest;
+  const homeEntry: SitemapUrl = home ?? {
+    loc: SITE_HOME,
+    lastmod: newest,
+    changefreq: "daily",
+    priority: "1.0",
+  };
+  const rest = keep.filter((entry) => entry.loc !== SITE_HOME);
+  const recap: SitemapUrl = {
+    loc: SITE_RECAP,
+    lastmod: newest,
+    changefreq: "daily",
+    priority: "0.9",
+  };
+  const archives = days.map((day) => ({
+    loc: `${SITE_RECAP}/${day}`,
+    lastmod: day,
+    changefreq: "never",
+    priority: "0.5",
+  }));
+  const urls = [homeEntry, recap, ...archives, ...rest];
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(sitemapUrlXml).join("\n")}\n</urlset>\n`;
+}
+
+export function writeRecapSitemap(
+  days: string[],
+  sitemapPath = SITEMAP_FILE,
+): string {
+  const existing = existsSync(sitemapPath)
+    ? readFileSync(sitemapPath, "utf8")
+    : "";
+  writeFileSync(sitemapPath, formatRecapSitemap(days, existing));
+  return sitemapPath;
+}
+
+function recapPageHeadHtml(
+  page: RecapPage,
+  asOf: string,
+): string {
+  return `<header class="recap-page-head">
+          <p class="kicker">Night desk</p>
+          <h1>${escapeHtml(recapPageHeading(page.kind, asOf))}</h1>
+        </header>`;
+}
+
 function overtimeHtml(log: RecapPayload[]): string {
   const desk = scoreOvertimeWindows(log);
   if (!desk.windows.length && !desk.all.mornings) return "";
@@ -414,8 +518,7 @@ function labFooterHtml(archive: boolean): string {
             </div>
           </header>
           <p>
-            Same hit odds as Quick Pick. The Ladder ranks scanned boards against
-            official draw history. This log is last night versus last night's Ladder.
+            ${SAME_ODDS_LEAD} This log is last night versus last night's Ladder.
             Entertainment, not prediction.
           </p>
           <p>
@@ -453,10 +556,12 @@ export function formatRecapHtml(
       : days
           .map((day, index) => dayArticleHtml(day, index === 0))
           .join("\n        ");
-  const title =
-    page.kind === "archive"
-      ? `Recap · ${formatRecapHeading(payload.asOf)} | JackpotDesk`
-      : "Recap | JackpotDesk";
+  const newest = page.kind === "archive" ? payload : days[0] ?? payload;
+  const title = recapDocumentTitle(newest.asOf);
+  const description = recapMetaDescription(
+    newest.asOf,
+    recapGameLabels(newest),
+  );
   const recapCurrent =
     page.kind === "latest" ? ' class="on" aria-current="page"' : ' class="on"';
 
@@ -468,7 +573,7 @@ export function formatRecapHtml(
     <title>${escapeHtml(title)}</title>
     <meta
       name="description"
-      content="${SAME_ODDS_LEAD} Last official results versus last night's Ladder #1 to #3. Entertainment, not prediction."
+      content="${escapeHtml(description)}"
     />
     <link rel="canonical" href="${SITE}${page.path}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -480,7 +585,7 @@ export function formatRecapHtml(
     <meta property="og:title" content="${escapeHtml(title)}" />
     <meta
       property="og:description"
-      content="${SAME_ODDS_LEAD} A scored replay of the past, not a forecast."
+      content="${escapeHtml(description)}"
     />
     <meta property="og:image" content="${SITE}/og-image.png" />
     <meta property="og:image:width" content="1200" />
@@ -501,12 +606,12 @@ export function formatRecapHtml(
         <header class="masthead">
           <div class="masthead-row">
             <div class="masthead-brand">
-              <h1 class="brand">
+              <p class="brand">
                 <a class="brand-home" href="/" aria-label="JackpotDesk home">
                   <img class="brand-logo" src="/logo.png" alt="" width="294" height="41" />
                   <span class="brand-name">JackpotDesk</span>
                 </a>
-              </h1>
+              </p>
               <p class="tag">
                 The Ladder ranks every scanned board against measured history.
                 Same hit odds as Quick Pick.
@@ -526,6 +631,7 @@ export function formatRecapHtml(
         </nav>
       </div>
       <main class="recap-main">
+        ${recapPageHeadHtml(page, newest.asOf)}
         ${overtime}
         ${main}
         ${labFooterHtml(page.kind === "archive")}
@@ -550,7 +656,11 @@ export function formatRecapHtml(
 `;
 }
 
-export function writeRecapPages(payload: RecapPayload, dir = RECAP_DIR): string[] {
+export function writeRecapPages(
+  payload: RecapPayload,
+  dir = RECAP_DIR,
+  sitemapPath = dir === RECAP_DIR ? SITEMAP_FILE : join(dir, "sitemap.xml"),
+): string[] {
   mkdirSync(dir, { recursive: true });
   const json = `${JSON.stringify(payload)}\n`;
   writeFileSync(join(dir, `${payload.asOf}.json`), json);
@@ -587,7 +697,11 @@ export function writeRecapPages(payload: RecapPayload, dir = RECAP_DIR): string[
   assertNoEmDash("/recap", latest);
   const latestFile = join(dir, "index.html");
   writeFileSync(latestFile, latest);
-  return [latestFile, ...written];
+  const sitemapFile = writeRecapSitemap(
+    log.map((day) => day.asOf),
+    sitemapPath,
+  );
+  return [latestFile, ...written, sitemapFile];
 }
 
 async function main(): Promise<void> {

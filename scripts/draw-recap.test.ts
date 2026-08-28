@@ -2,7 +2,11 @@ import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "no
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { formatRecapHtml, writeRecapPages } from "./draw-recap.ts";
+import {
+  formatRecapHtml,
+  formatRecapSitemap,
+  writeRecapPages,
+} from "./draw-recap.ts";
 import {
   DESK_LINE_LEAD,
   DESK_LINE_LINK,
@@ -24,6 +28,11 @@ import {
   OVERTIME_NOTE,
   scoreOvertimeWindows,
 } from "../src/lib/deskOvertime.ts";
+import {
+  recapDocumentTitle,
+  recapMetaDescription,
+  recapPageHeading,
+} from "../src/lib/recapRoute.ts";
 
 const FIXTURE: RecapPayload = {
   asOf: "2026-08-20",
@@ -287,6 +296,32 @@ describe("recap page", () => {
     expect(html).not.toMatch(/[?&]tab=recap|[?&]page=recap/);
   });
 
+  it("dates /recap like the archives and writes a day-specific description", () => {
+    const title = recapDocumentTitle(FIXTURE.asOf);
+    const description = recapMetaDescription(FIXTURE.asOf, [
+      "Powerball",
+      "Hit 5",
+      "Lotto",
+    ]);
+    expect(html).toContain(`<title>${title}</title>`);
+    expect(html).toContain(`property="og:title" content="${title}"`);
+    expect(html).toContain(`name="description"`);
+    expect(html).toContain(description);
+    expect(html).toContain(`property="og:description"`);
+    expect(html).toContain("<h1>Last night vs the Ladder</h1>");
+    expect(html).toContain('class="recap-page-head"');
+    expect(html).not.toContain("<h1 class=\"brand\"");
+    expect(html).toContain('class="brand"');
+    expect(description).toContain("Thursday, Aug 20, 2026");
+    expect(description).toContain("Powerball, Hit 5, and Lotto");
+    expect(description).not.toMatch(/winning numbers/i);
+    expect(description).not.toContain("05  12  23  44  61");
+    const meta = html.match(
+      /name="description"\s+content="([^"]+)"/,
+    )?.[1];
+    expect(meta).toBe(description);
+  });
+
   it("shows Recap in the same primary tab bar as the desk", () => {
     expect(html).toContain('aria-label="Primary"');
     expect(html).toMatch(/<a href="\/recap" class="on" aria-current="page">Recap<\/a>/);
@@ -343,6 +378,15 @@ describe("recap page", () => {
     expect(archive).toContain(SAME_ODDS_LEAD);
     expect(archive).toContain("Tonight's #1 is on the live desk, not on this page");
     expect(archive).toContain("Thursday, Aug 20, 2026");
+    expect(archive).toContain(
+      `<title>${recapDocumentTitle("2026-08-20")}</title>`,
+    );
+    expect(archive).toContain(
+      `<h1>${recapPageHeading("archive", "2026-08-20")}</h1>`,
+    );
+    expect(archive).toContain(
+      recapMetaDescription("2026-08-20", ["Powerball", "Hit 5", "Lotto"]),
+    );
     expect(archive).toContain('id="desk-line-strip-2026-08-20"');
     expect(archive.indexOf("desk-line-strip-2026-08-20")).toBeLessThan(
       archive.indexOf("Official 2026-08-18"),
@@ -369,6 +413,8 @@ describe("recap page", () => {
     );
     expect(index).toContain("Thursday, Aug 20, 2026");
     expect(index).toContain("Wednesday, Aug 19, 2026");
+    expect(index).toContain(`<title>${recapDocumentTitle("2026-08-20")}</title>`);
+    expect(index).not.toContain(`<title>${recapDocumentTitle("2026-08-19")}</title>`);
     expect(index.indexOf("Thursday, Aug 20, 2026")).toBeLessThan(
       index.indexOf("Wednesday, Aug 19, 2026"),
     );
@@ -521,8 +567,78 @@ describe("recap page", () => {
       expect(olderPage).toContain(
         'rel="canonical" href="https://www.jackpotdesk.com/recap/2026-08-19"',
       );
+      const sitemap = readFileSync(join(dir, "sitemap.xml"), "utf8");
+      expect(sitemap).toContain("<loc>https://www.jackpotdesk.com/recap</loc>");
+      expect(sitemap).toContain(
+        "<loc>https://www.jackpotdesk.com/recap/2026-08-20</loc>",
+      );
+      expect(sitemap).toContain(
+        "<loc>https://www.jackpotdesk.com/recap/2026-08-19</loc>",
+      );
+      expect(sitemap).toMatch(
+        /<loc>https:\/\/www\.jackpotdesk\.com\/recap<\/loc>\s*<lastmod>2026-08-20<\/lastmod>/,
+      );
+      expect(sitemap).toMatch(
+        /<loc>https:\/\/www\.jackpotdesk\.com\/<\/loc>\s*<lastmod>2026-08-20<\/lastmod>/,
+      );
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }
+  });
+
+  it("rewrites sitemap.xml with every dated archive and bumps home plus /recap", () => {
+    const seed = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.jackpotdesk.com/</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.jackpotdesk.com/recap</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.jackpotdesk.com/recap/2026-08-20</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>never</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://www.jackpotdesk.com/washington/claimed-prizes-by-store</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.jackpotdesk.com/refer.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+</urlset>
+`;
+    const xml = formatRecapSitemap(["2026-08-23", "2026-08-22", "2026-08-21", "2026-08-20"], seed);
+    expect(xml).toContain("<loc>https://www.jackpotdesk.com/recap/2026-08-23</loc>");
+    expect(xml).toContain("<loc>https://www.jackpotdesk.com/recap/2026-08-22</loc>");
+    expect(xml).toContain("<loc>https://www.jackpotdesk.com/recap/2026-08-21</loc>");
+    expect(xml).toContain("<loc>https://www.jackpotdesk.com/recap/2026-08-20</loc>");
+    expect(xml).toMatch(
+      /<loc>https:\/\/www\.jackpotdesk\.com\/<\/loc>\s*<lastmod>2026-08-23<\/lastmod>/,
+    );
+    expect(xml).toMatch(
+      /<loc>https:\/\/www\.jackpotdesk\.com\/recap<\/loc>\s*<lastmod>2026-08-23<\/lastmod>/,
+    );
+    expect(xml).toContain(
+      "<loc>https://www.jackpotdesk.com/washington/claimed-prizes-by-store</loc>",
+    );
+    expect(xml).toMatch(
+      /<loc>https:\/\/www\.jackpotdesk\.com\/washington\/claimed-prizes-by-store<\/loc>\s*<lastmod>2026-08-20<\/lastmod>/,
+    );
+    expect(xml).toContain("<loc>https://www.jackpotdesk.com/refer.html</loc>");
+    expect(xml.match(/<loc>https:\/\/www\.jackpotdesk\.com\/recap\/2026-08-20<\/loc>/g)?.length).toBe(1);
+    expect(xml).not.toContain("sitemap.html");
   });
 });
